@@ -1,6 +1,8 @@
 
 
+using CommunityToolkit.Maui.Extensions;
 using IMS_Mobile.MVVM.ViewModels;
+using IMS_Mobile.Popups;
 
 namespace IMS_Mobile.MVVM.Views;
 
@@ -41,4 +43,13 @@ public partial class HomePage : ContentPage
 		Filter22.StyleClass = InActiveFilter;
 		Filter33.StyleClass = InActiveFilter;
 	}
+
+    private void Button_Clicked_1(object sender, EventArgs e)
+    {
+		if(BindingContext is  HomeVM vm)
+		{
+            AppShell.Current.ShowPopupAsync(new DatePickerPopup(vm));
+        }
+			
+    }
 }

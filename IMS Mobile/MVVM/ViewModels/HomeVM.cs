@@ -17,6 +17,7 @@ namespace IMS_Mobile.MVVM.ViewModels
     [AddINotifyPropertyChangedInterface]
     public class HomeVM : INotifyPropertyChanged
     {
+       
         public HomeVM()
         {
             GenerateTestData();
@@ -26,7 +27,7 @@ namespace IMS_Mobile.MVVM.ViewModels
         #region Properties
         public ObservableCollection<Transaction> Transactions { get; set; } = new ObservableCollection<Transaction>();
         public ObservableCollection<Transaction> FilteredTransactions { get; set; } = new ObservableCollection<Transaction>();
-        
+
         public int PageIndex
         {
             get => _pageIndex;
@@ -38,12 +39,12 @@ namespace IMS_Mobile.MVVM.ViewModels
         }
         #region fields
         private int _pageIndex = 1;
-     
-        #endregion
 
         #endregion
 
-      
+        #endregion
+
+
 
         #region Methods
 
@@ -100,7 +101,38 @@ namespace IMS_Mobile.MVVM.ViewModels
                 OnPropertyChanged(nameof(PageIndex));
             }
         }
-       public void BackToFirstPage()
+
+        public void FilterByDateRange(DateTime startDate, DateTime endDate)
+        {
+            var filtered = Transactions.Where(t => t.CreatedDate.Date >= startDate.Date && t.CreatedDate.Date <= endDate.Date).ToList();
+            FilteredTransactions = new ObservableCollection<Transaction>(filtered);
+            FilteredTransactions.OrderByDescending(t => t.CreatedDate).ToList();
+            PageIndex = 1;
+            OnPropertyChanged(nameof(FilteredTransactions));
+            OnPropertyChanged(nameof(PageIndex));
+        }
+        public void FilterBuy()
+        {
+            var filtered = Transactions.Where(t => t.Type == "buy").ToList();
+            FilteredTransactions = new ObservableCollection<Transaction>(filtered);
+            FilteredTransactions.OrderByDescending(t => t.CreatedDate).ToList();
+            PageIndex = 1;
+            OnPropertyChanged(nameof(FilteredTransactions));
+            OnPropertyChanged(nameof(PageIndex));
+        }
+        public void FilterSell()
+        {
+            var filtered = Transactions.Where(t => t.Type == "sell").ToList();
+            FilteredTransactions = new ObservableCollection<Transaction>(filtered);
+            FilteredTransactions.OrderByDescending(t => t.CreatedDate).ToList();
+            PageIndex = 1;
+            OnPropertyChanged(nameof(FilteredTransactions));
+            OnPropertyChanged(nameof(PageIndex));
+        }
+
+
+
+        public void BackToFirstPage()
         {
             PageIndex = 1;
             Pagination();
@@ -130,10 +162,19 @@ namespace IMS_Mobile.MVVM.ViewModels
         {
             BackToLastPage();
         });
+        public ICommand BuyFilterCommand => new Command(() =>
+        {
+            FilterBuy();
+        });
+        public ICommand SellFilterCommand => new Command(() =>
+        {
+            FilterSell();
+        });
         #endregion
 
         #region Tasks
         #endregion
+
         #region INotifyPropertyChanged Implementation
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

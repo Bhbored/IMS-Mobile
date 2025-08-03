@@ -31,8 +31,9 @@
                 <VerticalStackLayout
                     Grid.Column="1"
                     Margin="15,0,0,0"
-                    Spacing="2">
+                    Spacing="0">
                     <Label StyleClass="RegularTextStyle" Text="{Binding Id, StringFormat='Transaction #{0}'}" />
+                    <Label StyleClass="SmallTextStyle" Text="{Binding FormattedDate}" />
                     <Label StyleClass="SmallTextStyle" Text="{Binding Type}" />
                 </VerticalStackLayout>
 
@@ -62,8 +63,9 @@
                 <VerticalStackLayout
                     Grid.Column="1"
                     Margin="15,0,0,0"
-                    Spacing="2">
+                    Spacing="0">
                     <Label StyleClass="RegularTextStyle" Text="{Binding Id, StringFormat='Transaction #{0}'}" />
+                    <Label StyleClass="SmallTextStyle" Text="{Binding FormattedDate}" />
                     <Label StyleClass="SmallTextStyle" Text="{Binding Type}" />
                 </VerticalStackLayout>
 

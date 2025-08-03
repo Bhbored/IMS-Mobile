@@ -1,4 +1,6 @@
-﻿using IMS_Mobile.DB;
+﻿using CommunityToolkit.Maui;
+using CommunityToolkit.Maui.Core;
+using IMS_Mobile.DB;
 using IMS_Mobile.MVVM.Models;
 using IMS_Mobile.MVVM.ViewModels;
 using Microsoft.Extensions.Logging;
@@ -16,6 +18,8 @@ namespace IMS_Mobile
             builder
                 .UseMauiApp<App>()
                 .ConfigureSyncfusionCore()
+                .UseMauiCommunityToolkitCore()
+                .UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
                 {
                     //fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

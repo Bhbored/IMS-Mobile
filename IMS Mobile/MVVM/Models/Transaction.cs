@@ -40,7 +40,8 @@ namespace IMS_Mobile.MVVM.Models
                 return CreatedDate.Humanize();
             }
         }
-
+        [NotMapped]
+        public string FormattedDate => CreatedDate.ToString("dd/MM/yyyy");
         public List<TransactionProductItem> Products { get; set; } = new();
     }
 
