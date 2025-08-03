@@ -2,6 +2,7 @@
 using IMS_Mobile.MVVM.Models;
 using IMS_Mobile.MVVM.ViewModels;
 using Microsoft.Extensions.Logging;
+using Syncfusion.Maui.Core.Hosting;
 using Contact = IMS_Mobile.MVVM.Models.Contact;
 
 namespace IMS_Mobile
@@ -14,6 +15,7 @@ namespace IMS_Mobile
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .ConfigureSyncfusionCore()
                 .ConfigureFonts(fonts =>
                 {
                     //fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

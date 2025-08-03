@@ -73,6 +73,7 @@
 		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.90" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.7" />
 		<PackageReference Include="PropertyChanged.Fody" Version="4.1.0" />
+		<PackageReference Include="Syncfusion.Maui.Core" Version="30.1.42" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -112,6 +113,10 @@
 	  <Compile Update="MVVM\Views\ReportsPage.xaml.cs">
 	    <DependentUpon>ReportsPage.xaml</DependentUpon>
 	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Popups\" />
 	</ItemGroup>
 
 </Project>
