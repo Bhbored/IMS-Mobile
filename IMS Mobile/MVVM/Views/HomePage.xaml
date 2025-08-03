@@ -62,18 +62,48 @@
         </VerticalStackLayout>
 
         <!--  Transaction List  -->
-        <CollectionView
-            Grid.Row="2"
-            Margin="20,0,20,20"
-            ItemTemplate="{StaticResource DTSelector}"
-            ItemsSource="{Binding Transactions}"
-            VerticalScrollBarVisibility="Always">
-            <CollectionView.ItemsLayout>
-                <GridItemsLayout Orientation="Vertical" Span="1" />
-            </CollectionView.ItemsLayout>
+        <Grid Grid.Row="2" RowDefinitions="*,Auto">
+            <CollectionView
+                Grid.Row="0"
+                Margin="20,0,20,10"
+                ItemTemplate="{StaticResource DTSelector}"
+                ItemsSource="{Binding Transactions}"
+                VerticalScrollBarVisibility="Always">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" Span="1" />
+                </CollectionView.ItemsLayout>
+            </CollectionView>
+            <HorizontalStackLayout
+                Grid.Row="1"
+                Margin="0,10,0,20"
+                HorizontalOptions="Center"
+                Spacing="10">
+                <Button
+                    Padding="0"
+                    HeightRequest="30"
+                    StyleClass="FilterButtonStyle"
+                    Text="&lt;"
+                    WidthRequest="40" />
+                <Border
+                    Margin="0"
+                    Padding="12,8"
+                    StyleClass="ActiveFilterButtonStyle">
+                    <Label
+                        FontFamily="poppinbold"
+                        FontSize="12"
+                        HorizontalOptions="Center"
+                        Text="2"
+                        TextColor="Black" />
+                </Border>
+                <Button
+                    Padding="0"
+                    HeightRequest="30"
+                    StyleClass="FilterButtonStyle"
+                    Text="&gt;"
+                    WidthRequest="40" />
+            </HorizontalStackLayout>
+        </Grid>
 
-
-        </CollectionView>
 
     </Grid>
 </ContentPage>

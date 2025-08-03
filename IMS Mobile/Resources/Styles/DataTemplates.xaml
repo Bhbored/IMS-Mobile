@@ -8,10 +8,14 @@
 
     <Converters:BuyTConv x:Key="BuyingConverter" />
     <Converters:SellTConv x:Key="SellingConverter" />
+    <Converters:TransactionColorConv x:Key="TransactionColorConverter" />
 
     <!--  buy transaction  -->
     <DataTemplate x:Key="buyTransactions" x:DataType="Models:Transaction">
-        <Border Margin="0,0,0,5" StyleClass="TransactionCardStyle">
+        <Border
+            Margin="0,0,0,5"
+            Background="#f1fca4"
+            StyleClass="TransactionCardStyle">
             <Grid ColumnDefinitions="Auto,*,Auto">
                 <Border Grid.Column="0" StyleClass="TransactionIconStyle">
                     <Label
@@ -26,7 +30,7 @@
                     Grid.Column="1"
                     Margin="15,0,0,0"
                     Spacing="2">
-                    <Label StyleClass="RegularTextStyle" Text="{Binding Id}" />
+                    <Label StyleClass="RegularTextStyle" Text="{Binding Id, StringFormat='Transaction #{0}'}" />
                     <Label StyleClass="SmallTextStyle" Text="{Binding Type}" />
                 </VerticalStackLayout>
 
@@ -35,7 +39,7 @@
                     FontFamily="poppinbold"
                     FontSize="16"
                     Text="{Binding totalamount, Converter={StaticResource BuyingConverter}}"
-                    TextColor="Black"
+                    TextColor="{Binding Type, Converter={StaticResource TransactionColorConverter}}"
                     VerticalOptions="Center" />
             </Grid>
         </Border>
@@ -57,7 +61,7 @@
                     Grid.Column="1"
                     Margin="15,0,0,0"
                     Spacing="2">
-                    <Label StyleClass="RegularTextStyle" Text="{Binding Id}" />
+                    <Label StyleClass="RegularTextStyle" Text="{Binding Id, StringFormat='Transaction #{0}'}" />
                     <Label StyleClass="SmallTextStyle" Text="{Binding Type}" />
                 </VerticalStackLayout>
 
@@ -66,7 +70,7 @@
                     FontFamily="poppinbold"
                     FontSize="16"
                     Text="{Binding totalamount, Converter={StaticResource SellingConverter}}"
-                    TextColor="Black"
+                    TextColor="{Binding Type, Converter={StaticResource TransactionColorConverter}}"
                     VerticalOptions="Center" />
             </Grid>
         </Border>

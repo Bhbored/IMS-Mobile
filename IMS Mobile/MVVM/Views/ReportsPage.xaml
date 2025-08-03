@@ -4,19 +4,294 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:Controls="clr-namespace:IMS_Mobile.Controls"
+    xmlns:Converters="clr-namespace:IMS_Mobile.Converters"
+    xmlns:Models="clr-namespace:IMS_Mobile.MVVM.Models"
+    xmlns:ViewModels="clr-namespace:IMS_Mobile.MVVM.ViewModels"
+    x:DataType="ViewModels:ReportsVM"
     BackgroundColor="White"
     Shell.NavBarIsVisible="False">
-    <Grid RowDefinitions="*,Auto">
 
-        <!--  Page Content  -->
-        <ScrollView Grid.Row="0">
-            <VerticalStackLayout Padding="16" Spacing="12">
-                <Label StyleClass="TitleLabel" Text="Inventory" />
-                <!--  Your content here  -->
+    <ContentPage.Resources>
+        <Converters:CurrencyConverter x:Key="CurrencyConverter" />
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto,*">
+        <!--  Header  -->
+        <Grid
+            Grid.Row="0"
+            Margin="20,0,20,10"
+            ColumnDefinitions="*,Auto">
+            <Label
+                Grid.Column="0"
+                HorizontalOptions="Center"
+                StyleClass="TitleStyle"
+                Text="Reports" />
+            <Border
+                Grid.Column="1"
+                Background="#F5F5F5"
+                HeightRequest="40"
+                HorizontalOptions="End"
+                StrokeShape="RoundRectangle 8"
+                VerticalOptions="End"
+                WidthRequest="40">
+                <Label
+                    FontSize="20"
+                    HorizontalOptions="Center"
+                    Text="📊"
+                    VerticalOptions="Center" />
+            </Border>
+        </Grid>
+
+        <!--  Content  -->
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="20" Spacing="20">
+
+                <!--  Summary Cards Grid  -->
+                <Grid
+                    ColumnDefinitions="*,*"
+                    ColumnSpacing="15"
+                    HeightRequest="300"
+                    RowDefinitions="*,*"
+                    RowSpacing="15">
+
+                    <!--  Cash Flow Card  -->
+                    <Border
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        StyleClass="CashFlowCardStyle">
+                        <VerticalStackLayout Spacing="8">
+                            <Label
+                                FontFamily="poppinbold"
+                                FontSize="16"
+                                HorizontalOptions="Center"
+                                Text="Cash Flow"
+                                TextColor="White" />
+                            <Label
+                                FontFamily="poppinbold"
+                                FontSize="24"
+                                HorizontalOptions="Center"
+                                Text="{Binding CashRegisterData.CashFlow, Converter={StaticResource CurrencyConverter}}"
+                                TextColor="White" />
+                            <Label
+                                FontFamily="poppinregular"
+                                FontSize="12"
+                                HorizontalOptions="Center"
+                                Opacity="0.8"
+                                Text="Available cash"
+                                TextColor="White" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!--  Total Sales Card  -->
+                    <Border
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        StyleClass="SalesCardStyle">
+                        <VerticalStackLayout Spacing="8">
+                            <Label
+                                FontFamily="poppinbold"
+                                FontSize="16"
+                                HorizontalOptions="Center"
+                                Text="Total Sales"
+                                TextColor="White" />
+                            <Label
+                                FontFamily="poppinbold"
+                                FontSize="24"
+                                HorizontalOptions="Center"
+                                Text="{Binding CashRegisterData.TotalSales, Converter={StaticResource CurrencyConverter}}"
+                                TextColor="White" />
+                            <Label
+                                FontFamily="poppinregular"
+                                FontSize="12"
+                                HorizontalOptions="Center"
+                                Opacity="0.8"
+                                Text="Revenue generated"
+                                TextColor="White" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!--  Inventory Value Card  -->
+                    <Border
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        StyleClass="InventoryCardStyle">
+                        <VerticalStackLayout Spacing="8">
+                            <Label
+                                FontFamily="poppinbold"
+                                FontSize="16"
+                                HorizontalOptions="Center"
+                                Text="Inventory Value"
+                                TextColor="White" />
+                            <Label
+                                FontFamily="poppinbold"
+                                FontSize="24"
+                                HorizontalOptions="Center"
+                                Text="{Binding CashRegisterData.InventoryValue, Converter={StaticResource CurrencyConverter}}"
+                                TextColor="White" />
+                            <Label
+                                FontFamily="poppinregular"
+                                FontSize="12"
+                                HorizontalOptions="Center"
+                                Opacity="0.8"
+                                Text="Current stock value"
+                                TextColor="White" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!--  Total Credit Card  -->
+                    <Border
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        StyleClass="CreditCardStyle">
+                        <VerticalStackLayout Spacing="8">
+                            <Label
+                                FontFamily="poppinbold"
+                                FontSize="16"
+                                HorizontalOptions="Center"
+                                Text="Total Credit"
+                                TextColor="White" />
+                            <Label
+                                FontFamily="poppinbold"
+                                FontSize="24"
+                                HorizontalOptions="Center"
+                                Text="{Binding CashRegisterData.TotalCredit, Converter={StaticResource CurrencyConverter}}"
+                                TextColor="White" />
+                            <Label
+                                FontFamily="poppinregular"
+                                FontSize="12"
+                                HorizontalOptions="Center"
+                                Opacity="0.8"
+                                Text="Outstanding credit"
+                                TextColor="White" />
+                        </VerticalStackLayout>
+                    </Border>
+                </Grid>
+
+                <!--  Financial Summary Section  -->
+                <VerticalStackLayout Spacing="15">
+                    <Label
+                        Margin="0,10,0,0"
+                        StyleClass="SectionTitleStyle"
+                        Text="Financial Summary" />
+
+                    <!--  Net Profit Calculation  -->
+                    <Border StyleClass="TransactionCardStyle">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <VerticalStackLayout Spacing="4">
+                                <Label
+                                    FontFamily="poppinbold"
+                                    FontSize="16"
+                                    Text="Net Profit"
+                                    TextColor="Black" />
+                                <Label
+                                    FontFamily="poppinregular"
+                                    FontSize="14"
+                                    Text="Sales - Credit - Inventory"
+                                    TextColor="#666666" />
+                            </VerticalStackLayout>
+                            <Label
+                                Grid.Column="1"
+                                FontFamily="poppinbold"
+                                FontSize="20"
+                                Text="{Binding CashRegisterData.TotalSales, StringFormat='${0:N2}'}"
+                                TextColor="#4CAF50"
+                                VerticalOptions="Center" />
+                        </Grid>
+                    </Border>
+
+                    <!--  Cash Position  -->
+                    <Border StyleClass="TransactionCardStyle">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <VerticalStackLayout Spacing="4">
+                                <Label
+                                    FontFamily="poppinbold"
+                                    FontSize="16"
+                                    Text="Cash Position"
+                                    TextColor="Black" />
+                                <Label
+                                    FontFamily="poppinregular"
+                                    FontSize="14"
+                                    Text="Available cash balance"
+                                    TextColor="#666666" />
+                            </VerticalStackLayout>
+                            <Label
+                                Grid.Column="1"
+                                FontFamily="poppinbold"
+                                FontSize="20"
+                                Text="{Binding CashRegisterData.CashFlow, Converter={StaticResource CurrencyConverter}}"
+                                TextColor="#2196F3"
+                                VerticalOptions="Center" />
+                        </Grid>
+                    </Border>
+
+                    <!--  Credit Exposure  -->
+                    <Border StyleClass="TransactionCardStyle">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <VerticalStackLayout Spacing="4">
+                                <Label
+                                    FontFamily="poppinbold"
+                                    FontSize="16"
+                                    Text="Credit Exposure"
+                                    TextColor="Black" />
+                                <Label
+                                    FontFamily="poppinregular"
+                                    FontSize="14"
+                                    Text="Outstanding credit amount"
+                                    TextColor="#666666" />
+                            </VerticalStackLayout>
+                            <Label
+                                Grid.Column="1"
+                                FontFamily="poppinbold"
+                                FontSize="20"
+                                Text="{Binding CashRegisterData.TotalCredit, Converter={StaticResource CurrencyConverter}}"
+                                TextColor="#FF9800"
+                                VerticalOptions="Center" />
+                        </Grid>
+                    </Border>
+                </VerticalStackLayout>
+
+                <!--  Quick Actions  -->
+                <VerticalStackLayout Spacing="15">
+                    <Label
+                        Margin="0,10,0,0"
+                        StyleClass="SectionTitleStyle"
+                        Text="Quick Actions" />
+
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="15">
+                        <Border StyleClass="ActionCardStyle">
+                            <VerticalStackLayout HorizontalOptions="Center" Spacing="8">
+                                <Label
+                                    FontSize="24"
+                                    HorizontalOptions="Center"
+                                    Text="📈"
+                                    TextColor="White" />
+                                <Label
+                                    FontFamily="poppinbold"
+                                    FontSize="14"
+                                    HorizontalOptions="Center"
+                                    Text="Generate Report"
+                                    TextColor="White" />
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <Border StyleClass="ActionCardStyle">
+                            <VerticalStackLayout HorizontalOptions="Center" Spacing="8">
+                                <Label
+                                    FontSize="24"
+                                    HorizontalOptions="Center"
+                                    Text="📊"
+                                    TextColor="White" />
+                                <Label
+                                    FontFamily="poppinbold"
+                                    FontSize="14"
+                                    HorizontalOptions="Center"
+                                    Text="View Analytics"
+                                    TextColor="White" />
+                            </VerticalStackLayout>
+                        </Border>
+                    </Grid>
+                </VerticalStackLayout>
             </VerticalStackLayout>
         </ScrollView>
-
-
-
     </Grid>
 </ContentPage>

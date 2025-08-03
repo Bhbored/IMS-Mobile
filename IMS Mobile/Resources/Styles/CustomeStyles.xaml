@@ -80,6 +80,148 @@
         </Setter>
     </Style>
 
+    <!--  Modern Gradient Card Styles  -->
+    <Style Class="SalesCardStyle" TargetType="Border">
+        <Setter Property="Background">
+            <Setter.Value>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Offset="0" Color="#4CAF50" />
+                    <GradientStop Offset="1" Color="#66BB6A" />
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Stroke" Value="Transparent" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="StrokeShape">
+            <Setter.Value>
+                <RoundRectangle CornerRadius="16" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Padding" Value="20" />
+        <Setter Property="Shadow">
+            <Setter.Value>
+                <Shadow
+                    Brush="#40000000"
+                    Radius="8"
+                    Offset="0,4" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style Class="InventoryCardStyle" TargetType="Border">
+        <Setter Property="Background">
+            <Setter.Value>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Offset="0" Color="#2196F3" />
+                    <GradientStop Offset="1" Color="#42A5F5" />
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Stroke" Value="Transparent" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="StrokeShape">
+            <Setter.Value>
+                <RoundRectangle CornerRadius="16" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Padding" Value="20" />
+        <Setter Property="Shadow">
+            <Setter.Value>
+                <Shadow
+                    Brush="#40000000"
+                    Radius="8"
+                    Offset="0,4" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style Class="CreditCardStyle" TargetType="Border">
+        <Setter Property="Background">
+            <Setter.Value>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Offset="0" Color="#FF9800" />
+                    <GradientStop Offset="1" Color="#FFB74D" />
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Stroke" Value="Transparent" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="StrokeShape">
+            <Setter.Value>
+                <RoundRectangle CornerRadius="16" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Padding" Value="20" />
+        <Setter Property="Shadow">
+            <Setter.Value>
+                <Shadow
+                    Brush="#40000000"
+                    Radius="8"
+                    Offset="0,4" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style Class="ActionCardStyle" TargetType="Border">
+        <Setter Property="Background">
+            <Setter.Value>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Offset="0" Color="#9C27B0" />
+                    <GradientStop Offset="1" Color="#BA68C8" />
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Stroke" Value="Transparent" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="StrokeShape">
+            <Setter.Value>
+                <RoundRectangle CornerRadius="16" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Padding" Value="20" />
+        <Setter Property="Shadow">
+            <Setter.Value>
+                <Shadow
+                    Brush="#40000000"
+                    Radius="8"
+                    Offset="0,4" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--  Cash Flow Card Style (Different Color)  -->
+    <Style Class="CashFlowCardStyle" TargetType="Border">
+        <Setter Property="Background">
+            <Setter.Value>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Offset="0" Color="#FF5722" />
+                    <GradientStop Offset="1" Color="#FF7043" />
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Stroke" Value="Transparent" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="StrokeShape">
+            <Setter.Value>
+                <RoundRectangle CornerRadius="16" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Padding" Value="20" />
+        <Setter Property="Shadow">
+            <Setter.Value>
+                <Shadow
+                    Brush="#40000000"
+                    Radius="8"
+                    Offset="0,4" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <!--  Button Styles  -->
     <Style Class="FilterButtonStyle" TargetType="Button">
         <Setter Property="FontFamily" Value="poppinregular" />

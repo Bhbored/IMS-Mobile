@@ -4,19 +4,143 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:Controls="clr-namespace:IMS_Mobile.Controls"
+    xmlns:Converters="clr-namespace:IMS_Mobile.Converters"
+    xmlns:Models="clr-namespace:IMS_Mobile.MVVM.Models"
+    xmlns:ViewModels="clr-namespace:IMS_Mobile.MVVM.ViewModels"
+    x:DataType="ViewModels:InventoryVM"
     BackgroundColor="White"
     Shell.NavBarIsVisible="False">
-    <Grid RowDefinitions="*,Auto">
 
-        <!--  Page Content  -->
-        <ScrollView Grid.Row="0">
-            <VerticalStackLayout Padding="16" Spacing="12">
-                <Label StyleClass="TitleLabel" Text="Inventory" />
-                <!--  Your content here  -->
-            </VerticalStackLayout>
-        </ScrollView>
+    <ContentPage.Resources>
+        <Converters:PriceCostConverter x:Key="PriceCostConverter" />
+        <!--  Data Template for Inventory Items  -->
+        <DataTemplate x:Key="InventoryItemTemplate" x:DataType="Models:Product">
+            <Border StyleClass="TransactionCardStyle">
+                <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto,Auto">
+                    <!--  Product Image  -->
+                    <Border
+                        Grid.RowSpan="2"
+                        Grid.Column="0"
+                        Margin="0,0,12,0"
+                        Background="#F5F5F5"
+                        HeightRequest="60"
+                        StrokeShape="RoundRectangle 8"
+                        WidthRequest="60">
+                        <Image
+                            Aspect="AspectFill"
+                            HorizontalOptions="Center"
+                            Source="products.png"
+                            VerticalOptions="Center" />
+                    </Border>
 
+                    <!--  Product Details  -->
+                    <VerticalStackLayout
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Spacing="4">
+                        <Label
+                            FontFamily="poppinbold"
+                            FontSize="16"
+                            Text="{Binding Name}"
+                            TextColor="Black" />
+                        <Label
+                            FontFamily="poppinregular"
+                            FontSize="14"
+                            Text="{Binding Converter={StaticResource PriceCostConverter}}"
+                            TextColor="#666666" />
+                    </VerticalStackLayout>
 
+                    <!--  Stock Count  -->
+                    <Label
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        FontFamily="poppinregular"
+                        FontSize="14"
+                        Text="{Binding stock, StringFormat='{0} units'}"
+                        TextColor="#666666"
+                        VerticalOptions="End" />
 
+                    <!--  Edit Icon  -->
+                    <Border
+                        Grid.RowSpan="2"
+                        Grid.Column="2"
+                        Background="Transparent"
+                        HeightRequest="24"
+                        HorizontalOptions="End"
+                        VerticalOptions="Center"
+                        WidthRequest="24">
+                        <Label
+                            FontSize="16"
+                            HorizontalOptions="Center"
+                            Text="✏️"
+                            VerticalOptions="Center" />
+                    </Border>
+                </Grid>
+            </Border>
+        </DataTemplate>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto,Auto,*">
+        <!--  Header  -->
+        <Grid
+            Grid.Row="0"
+            Margin="20,0,20,10"
+            ColumnDefinitions="*,Auto">
+            <Label
+                Grid.Column="0"
+                HorizontalOptions="Center"
+                StyleClass="TitleStyle"
+                Text="Inventory" />
+            <Border
+                Grid.Column="1"
+                Background="#F5F5F5"
+                HeightRequest="40"
+                HorizontalOptions="End"
+                StrokeShape="RoundRectangle 8"
+                VerticalOptions="End"
+                WidthRequest="40">
+                <Label
+                    FontSize="20"
+                    HorizontalOptions="Center"
+                    Text="+"
+                    VerticalOptions="Center" />
+            </Border>
+        </Grid>
+
+        <!--  Search Bar  -->
+        <Border
+            Grid.Row="1"
+            Margin="20,10,20,20"
+            Padding="16,12"
+            Background="#F0F8F0"
+            StrokeShape="RoundRectangle 12">
+            <Grid ColumnDefinitions="Auto,*">
+                <Label
+                    Grid.Column="0"
+                    Margin="0,0,8,0"
+                    FontSize="16"
+                    Text="🔍"
+                    VerticalOptions="Center" />
+                <Label
+                    Grid.Column="1"
+                    FontFamily="poppinregular"
+                    FontSize="14"
+                    Text="Search inventory"
+                    TextColor="#999999"
+                    VerticalOptions="Center" />
+            </Grid>
+        </Border>
+
+        <!--  Inventory List  -->
+        <CollectionView
+            Grid.Row="2"
+            Margin="0,0,0,10"
+            ItemTemplate="{StaticResource InventoryItemTemplate}"
+            ItemsSource="{Binding Products}"
+            VerticalScrollBarVisibility="Always">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical" Span="1" />
+            </CollectionView.ItemsLayout>
+        </CollectionView>
     </Grid>
 </ContentPage>
