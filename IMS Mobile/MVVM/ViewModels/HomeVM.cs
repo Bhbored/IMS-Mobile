@@ -12,8 +12,7 @@ namespace IMS_Mobile.MVVM.ViewModels
     [AddINotifyPropertyChangedInterface]
     public class HomeVM
     {
-       
-
+     
         #region fields
         #endregion
 
