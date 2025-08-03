@@ -11,13 +11,16 @@ using System.Transactions;
 using System.Windows.Input;
 using Microsoft.Maui.Controls;
 using Transaction = IMS_Mobile.MVVM.Models.Transaction;
+using IMS_Mobile.MVVM.Models;
+using IMS_Mobile.Popups;
+using CommunityToolkit.Maui.Extensions;
 
 namespace IMS_Mobile.MVVM.ViewModels
 {
     [AddINotifyPropertyChangedInterface]
     public class HomeVM : INotifyPropertyChanged
     {
-       
+
         public HomeVM()
         {
             GenerateTestData();
@@ -52,17 +55,35 @@ namespace IMS_Mobile.MVVM.ViewModels
         {
             var random = new Random();
             var types = new[] { "buy", "sell" };
+            var productNames = new[] { "Laptop", "Phone", "Tablet", "Headphones", "Mouse", "Keyboard", "Monitor", "Speaker", "Camera", "Printer" };
+            var categories = new[] { "Electronics", "Computers", "Accessories", "Audio", "Office" };
 
             for (int i = 1; i <= 50; i++)
             {
-                Transactions.Add(new Transaction
+
+                var transaction = new Transaction
                 {
                     Id = i,
                     totalamount = Math.Round(random.NextDouble() * 1000 + 50, 2),
                     Type = types[random.Next(types.Length)],
                     IsPaid = random.Next(2) == 1,
                     CreatedDate = DateTime.Now.AddDays(-random.Next(30))
-                });
+                };
+
+                var productCount = random.Next(1, 6);
+                for (int j = 0; j < productCount; j++)
+                {
+                    transaction.Products.Add(new TransactionProductItem
+                    {
+                        Name = productNames[random.Next(productNames.Length)],
+                        Price = Math.Round(random.NextDouble() * 200 + 20, 2),
+                        Quantity = random.Next(1, 10),
+                        CategoryName = categories[random.Next(categories.Length)],
+                        Cost = Math.Round(random.NextDouble() * 150 + 10, 2)
+                    });
+                }
+
+                Transactions.Add(transaction);
             }
         }
 
@@ -169,6 +190,13 @@ namespace IMS_Mobile.MVVM.ViewModels
         public ICommand SellFilterCommand => new Command(() =>
         {
             FilterSell();
+        });
+        public ICommand DetailsPopup => new Command<Transaction>((transaction) =>
+        {
+            var products = transaction.Products;
+            var items = new List<TransactionProductItem>(products);
+            AppShell.Current.ShowPopupAsync(new TransactionDetails(items));
+
         });
         #endregion
 

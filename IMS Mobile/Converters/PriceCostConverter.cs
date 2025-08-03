@@ -10,6 +10,8 @@ namespace IMS_Mobile.Converters
             {
                 return $"Price: ${product.Price:F2} | Cost: ${product.Cost:F2}";
             }
+            else if(value is IMS_Mobile.MVVM.Models.TransactionProductItem item)
+                return $"Price: ${item.Price:F2} | Cost: ${item.Cost:F2}";
             return string.Empty;
         }
 

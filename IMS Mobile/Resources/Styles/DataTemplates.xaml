@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:Converters="clr-namespace:IMS_Mobile.Converters"
     xmlns:Models="clr-namespace:IMS_Mobile.MVVM.Models"
+    xmlns:Pages="clr-namespace:IMS_Mobile.MVVM.Views"
     xmlns:effectsView="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core">
 
     <Converters:BuyTConv x:Key="BuyingConverter" />
@@ -45,6 +46,9 @@
                     TextColor="{Binding Type, Converter={StaticResource TransactionColorConverter}}"
                     VerticalOptions="Center" />
             </Grid>
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type Pages:HomePage}}, Path=BindingContext.DetailsPopup}" CommandParameter="{Binding .}" />
+            </Border.GestureRecognizers>
         </Border>
     </DataTemplate>
     <!--  sell transaction  -->
@@ -77,6 +81,9 @@
                     TextColor="{Binding Type, Converter={StaticResource TransactionColorConverter}}"
                     VerticalOptions="Center" />
             </Grid>
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type Pages:HomePage}}, Path=BindingContext.DetailsPopup}" CommandParameter="{Binding .}" />
+            </Border.GestureRecognizers>
         </Border>
     </DataTemplate>
 
