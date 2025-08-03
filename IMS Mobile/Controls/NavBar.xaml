@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="IMS_Mobile.Controls.NavBar"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <Border
+        Padding="0,10,0,20"
+        Background="White"
+        Stroke="#E0E0E0"
+        StrokeThickness="1">
+        <Grid ColumnDefinitions="*,*,*,*">
+            <!--  Home (Active)  -->
+            <Border
+                x:Name="homeBorder"
+                Grid.Column="0"
+                StyleClass="ActiveNavigationItemStyle">
+                <VerticalStackLayout HorizontalOptions="Center">
+                    <Image
+                        Margin="0,0,0,5"
+                        Aspect="AspectFit"
+                        Source="home.png" />
+                    <Label
+                        x:Name="homeLabel"
+                        StyleClass="ActiveNavigationTextStyle"
+                        Text="Home" />
+                </VerticalStackLayout>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding HomeCommand}" />
+                </Border.GestureRecognizers>
+            </Border>
+
+            <!--  Products  -->
+            <Border
+                x:Name="invBorder"
+                Grid.Column="1"
+                StyleClass="NavigationItemStyle">
+                <VerticalStackLayout HorizontalOptions="Center">
+                    <Image
+                        Margin="0,0,0,5"
+                        Aspect="AspectFit"
+                        Source="products.png" />
+                    <Label
+                        x:Name="invLabel"
+                        StyleClass="NavigationTextStyle"
+                        Text="Inventory" />
+                </VerticalStackLayout>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding InvCommand}" />
+                </Border.GestureRecognizers>
+            </Border>
+
+            <!--  Inventory  -->
+            <Border
+                x:Name="contactBorder"
+                Grid.Column="2"
+                StyleClass="NavigationItemStyle">
+                <VerticalStackLayout HorizontalOptions="Center">
+                    <Image
+                        Margin="0,0,0,5"
+                        Aspect="AspectFit"
+                        Source="contact.png" />
+                    <Label
+                        x:Name="contactLabel"
+                        StyleClass="NavigationTextStyle"
+                        Text="Contacts" />
+                </VerticalStackLayout>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ContactCommand}" />
+                </Border.GestureRecognizers>
+            </Border>
+
+            <!--  Reports  -->
+            <Border
+                x:Name="reportsBorder"
+                Grid.Column="3"
+                StyleClass="NavigationItemStyle">
+                <VerticalStackLayout HorizontalOptions="Center">
+                    <Image
+                        Margin="0,0,0,5"
+                        Aspect="AspectFit"
+                        Source="reports.png" />
+                    <Label
+                        x:Name="reportsLabel"
+                        StyleClass="NavigationTextStyle"
+                        Text="Reports" />
+                </VerticalStackLayout>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ReportsCommand}" />
+                </Border.GestureRecognizers>
+            </Border>
+        </Grid>
+    </Border>
+</ContentView>

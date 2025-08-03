@@ -1,0 +1,166 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xaml-comp compile="true" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <!--  Typography Styles  -->
+    <Style Class="TitleStyle" TargetType="Label">
+        <Setter Property="FontFamily" Value="poppinbold" />
+        <Setter Property="FontSize" Value="24" />
+        <Setter Property="TextColor" Value="Black" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="Margin" Value="0,20,0,0" />
+    </Style>
+
+    <Style Class="SectionTitleStyle" TargetType="Label">
+        <Setter Property="FontFamily" Value="poppinbold" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="TextColor" Value="Black" />
+        <Setter Property="Margin" Value="20,20,20,10" />
+    </Style>
+
+    <Style Class="RegularTextStyle" TargetType="Label">
+        <Setter Property="FontFamily" Value="poppinregular" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="TextColor" Value="Black" />
+    </Style>
+
+    <Style Class="SmallTextStyle" TargetType="Label">
+        <Setter Property="FontFamily" Value="poppinregular" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="TextColor" Value="#666666" />
+    </Style>
+
+    <!--  Card Styles  -->
+    <Style Class="BalanceCardStyle" TargetType="Border">
+        <Setter Property="Background">
+            <Setter.Value>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop Offset="0" Color="#4CAF50" />
+                    <GradientStop Offset="1" Color="#E0E0E0" />
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Stroke" Value="Transparent" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="StrokeShape">
+            <Setter.Value>
+                <RoundRectangle CornerRadius="16" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Margin" Value="20,10,20,20" />
+        <Setter Property="Padding" Value="20" />
+        <Setter Property="Shadow">
+            <Setter.Value>
+                <Shadow
+                    Brush="#40000000"
+                    Radius="8"
+                    Offset="0,4" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style Class="TransactionCardStyle" TargetType="Border">
+        <Setter Property="Background" Value="White" />
+        <Setter Property="Stroke" Value="#E0E0E0" />
+        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="StrokeShape">
+            <Setter.Value>
+                <RoundRectangle CornerRadius="12" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Margin" Value="20,5,20,5" />
+        <Setter Property="Padding" Value="15" />
+        <Setter Property="Shadow">
+            <Setter.Value>
+                <Shadow
+                    Brush="#20000000"
+                    Radius="4"
+                    Offset="0,2" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--  Button Styles  -->
+    <Style Class="FilterButtonStyle" TargetType="Button">
+        <Setter Property="FontFamily" Value="poppinregular" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Padding" Value="16,8" />
+        <Setter Property="Margin" Value="4,0" />
+        <Setter Property="Background" Value="White" />
+        <Setter Property="TextColor" Value="#666666" />
+        <Setter Property="BorderColor" Value="#E0E0E0" />
+        <Setter Property="BorderWidth" Value="1" />
+    </Style>
+
+    <Style Class="ActiveFilterButtonStyle" TargetType="Button">
+        <Setter Property="FontFamily" Value="poppinregular" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Padding" Value="16,8" />
+        <Setter Property="Margin" Value="4,0" />
+        <Setter Property="Background" Value="#F0F0F0" />
+        <Setter Property="TextColor" Value="Black" />
+        <Setter Property="BorderColor" Value="#CCCCCC" />
+        <Setter Property="BorderWidth" Value="1" />
+    </Style>
+
+    <!--  Icon Styles  -->
+    <Style Class="TransactionIconStyle" TargetType="Border">
+        <Setter Property="Background" Value="#F5F5F5" />
+        <Setter Property="StrokeShape">
+            <Setter.Value>
+                <RoundRectangle CornerRadius="8" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="WidthRequest" Value="40" />
+        <Setter Property="HeightRequest" Value="40" />
+        <Setter Property="HorizontalOptions" Value="Start" />
+        <Setter Property="VerticalOptions" Value="Center" />
+    </Style>
+
+    <!--  Navigation Styles  -->
+    <Style Class="NavigationItemStyle" TargetType="Border">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Stroke" Value="Transparent" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="Padding" Value="6,10" />
+        <Setter Property="Margin" Value="2,0" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="VerticalOptions" Value="Center" />
+    </Style>
+
+    <Style Class="ActiveNavigationItemStyle" TargetType="Border">
+        <Setter Property="Background" Value="#F5F5F5" />
+        <Setter Property="Stroke" Value="#CCCCCC" />
+        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="StrokeShape">
+            <Setter.Value>
+                <RoundRectangle CornerRadius="8" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Padding" Value="6,10" />
+        <Setter Property="Margin" Value="2,0" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="VerticalOptions" Value="Center" />
+    </Style>
+
+    <Style Class="NavigationIconStyle" TargetType="Label">
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="Margin" Value="0,0,0,4" />
+    </Style>
+
+    <Style Class="NavigationTextStyle" TargetType="Label">
+        <Setter Property="FontFamily" Value="poppinregular" />
+        <Setter Property="FontSize" Value="10" />
+        <Setter Property="TextColor" Value="#666666" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+    </Style>
+
+    <Style Class="ActiveNavigationTextStyle" TargetType="Label">
+        <Setter Property="FontFamily" Value="poppinbold" />
+        <Setter Property="FontSize" Value="10" />
+        <Setter Property="TextColor" Value="#666666" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+    </Style>
+
+</ResourceDictionary>

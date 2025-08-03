@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="IMS_Mobile.MVVM.Views.HomePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:Controls="clr-namespace:IMS_Mobile.Controls"
+    xmlns:Models="clr-namespace:IMS_Mobile.MVVM.Models"
+    xmlns:ViewModels="clr-namespace:IMS_Mobile.MVVM.ViewModels"
+    x:DataType="ViewModels:HomeVM"
+    BackgroundColor="White"
+    Shell.NavBarIsVisible="False">
+
+    <Grid RowDefinitions="Auto,Auto,*">
+        <!--  Header  -->
+        <Label
+            Grid.Row="0"
+            StyleClass="TitleStyle"
+            Text="Home" />
+
+        <!--  Main Content  -->
+        <VerticalStackLayout Grid.Row="1" Spacing="0">
+
+            <!--  Current Balance Card  -->
+            <Border StyleClass="BalanceCardStyle">
+                <VerticalStackLayout Spacing="8">
+                    <Label
+                        FontFamily="poppinbold"
+                        FontSize="18"
+                        HorizontalOptions="Center"
+                        Text="Current Balance"
+                        TextColor="White" />
+                    <Label
+                        FontFamily="poppinbold"
+                        FontSize="28"
+                        HorizontalOptions="Center"
+                        Text="$1,234.56"
+                        TextColor="White" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!--  Transactions Section  -->
+            <Grid Margin="20,20,20,10" ColumnDefinitions="*,Auto">
+                <Label
+                    Grid.Column="0"
+                    Margin="0,0,0,0"
+                    StyleClass="SectionTitleStyle"
+                    Text="Transactions" />
+
+                <!--  Filter Buttons  -->
+                <HorizontalStackLayout
+                    Grid.Column="1"
+                    Spacing="8"
+                    VerticalOptions="Center">
+                    <Button StyleClass="ActiveFilterButtonStyle" Text="All" />
+                    <Button StyleClass="FilterButtonStyle" Text="Income" />
+                    <Button StyleClass="FilterButtonStyle" Text="Expenses" />
+                </HorizontalStackLayout>
+            </Grid>
+        </VerticalStackLayout>
+
+        <!--  Transaction List  -->
+        <CollectionView
+            Grid.Row="2"
+            Margin="20,0,20,20"
+            ItemsSource="{Binding Transactions}"
+            VerticalScrollBarVisibility="Always">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical" Span="1" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border Margin="0,0,0,10" StyleClass="TransactionCardStyle">
+                        <Grid ColumnDefinitions="Auto,*,Auto">
+                            <Border Grid.Column="0" StyleClass="TransactionIconStyle">
+                                <Label
+                                    FontSize="16"
+                                    HorizontalOptions="Center"
+                                    Text="↗"
+                                    TextColor="#666666"
+                                    VerticalOptions="Center" />
+                            </Border>
+
+                            <VerticalStackLayout
+                                Grid.Column="1"
+                                Margin="15,0,0,0"
+                                Spacing="2">
+                                <Label StyleClass="RegularTextStyle" Text="{Binding Id}" />
+                                <Label StyleClass="SmallTextStyle" Text="{Binding Type}" />
+                            </VerticalStackLayout>
+
+                            <Label
+                                Grid.Column="2"
+                                FontFamily="poppinbold"
+                                FontSize="16"
+                                Text="{Binding totalamount}"
+                                TextColor="Black"
+                                VerticalOptions="Center" />
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </Grid>
+</ContentPage>
