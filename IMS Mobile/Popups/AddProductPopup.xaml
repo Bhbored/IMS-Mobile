@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup
+    x:Class="IMS_Mobile.Popups.AddProductPopup"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ViewModel="clr-namespace:IMS_Mobile.MVVM.ViewModels"
+    xmlns:editors="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+    xmlns:inputLayout="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:DataType="ViewModel:InventoryVM"
+    Background="White"
+    CanBeDismissedByTappingOutsideOfPopup="True"
+    HeightRequest="600">
+    <ScrollView VerticalScrollBarVisibility="Never">
+        <Grid RowDefinitions="Auto,Auto,*">
+            <!--  Header  -->
+            <Grid
+                Grid.Row="0"
+                Margin="0,0,0,10"
+                ColumnDefinitions="*,Auto">
+                <Label
+                    Grid.Column="0"
+                    FontFamily="poppinbold"
+                    FontSize="20"
+                    Text="Add New Product"
+                    TextColor="Black"
+                    VerticalOptions="Center" />
+            </Grid>
+            <!--  Form Content  -->
+            <VerticalStackLayout Grid.Row="1">
+                <!--  Product Name  -->
+                <VerticalStackLayout Spacing="5">
+                    <inputLayout:SfTextInputLayout
+                        ContainerType="Outlined"
+                        HeightRequest="100"
+                        Hint="Name"
+                        OutlineCornerRadius="8"
+                        Stroke="LightGreen">
+                        <Entry
+                            x:Name="ProductNameEntry"
+                            FontFamily="poppinregular"
+                            FontSize="14"
+                            Placeholder="Enter product name"
+                            TextColor="Black"
+                            VerticalOptions="Center" />
+                    </inputLayout:SfTextInputLayout>
+                </VerticalStackLayout>
+                <!--  Price  -->
+                <VerticalStackLayout Spacing="5">
+                    <inputLayout:SfTextInputLayout
+                        ContainerType="Outlined"
+                        HeightRequest="100"
+                        Hint="Price"
+                        OutlineCornerRadius="8"
+                        Stroke="LightGreen">
+                        <Entry
+                            x:Name="PriceEntry"
+                            FontFamily="poppinregular"
+                            FontSize="14"
+                            Keyboard="Numeric"
+                            Placeholder="Enter price"
+                            TextColor="Black"
+                            VerticalOptions="Center" />
+                    </inputLayout:SfTextInputLayout>
+
+                </VerticalStackLayout>
+
+                <!--  Cost  -->
+                <VerticalStackLayout Spacing="5">
+                    <inputLayout:SfTextInputLayout
+                        ContainerType="Outlined"
+                        HeightRequest="100"
+                        Hint="Cost"
+                        OutlineCornerRadius="8"
+                        Stroke="LightGreen">
+                        <Entry
+                            x:Name="CostEntry"
+                            FontFamily="poppinregular"
+                            FontSize="14"
+                            Keyboard="Numeric"
+                            Placeholder="Enter cost"
+                            TextColor="Black"
+                            VerticalOptions="Center" />
+                    </inputLayout:SfTextInputLayout>
+                </VerticalStackLayout>
+
+                <!--  Stock  -->
+                <VerticalStackLayout Spacing="5">
+                    <inputLayout:SfTextInputLayout
+                        ContainerType="Outlined"
+                        HeightRequest="100"
+                        Hint="Stock"
+                        OutlineCornerRadius="5"
+                        Stroke="LightGreen">
+                        <Entry
+                            x:Name="StockEntry"
+                            FontFamily="poppinregular"
+                            FontSize="14"
+                            Keyboard="Numeric"
+                            Placeholder="Enter stock quantity"
+                            TextColor="Black"
+                            VerticalOptions="Center" />
+                    </inputLayout:SfTextInputLayout>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+
+            <!--  Action Buttons  -->
+            <Grid
+                Grid.Row="2"
+                Margin="0,0,0,0"
+                ColumnDefinitions="*,*"
+                ColumnSpacing="12">
+                <Border
+                    Grid.Column="0"
+                    Padding="20,12"
+                    Background="#F5F5F5"
+                    HeightRequest="50"
+                    StrokeShape="RoundRectangle 8">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="CancelButton_Clicked" />
+                    </Border.GestureRecognizers>
+                    <Label
+                        FontFamily="poppinregular"
+                        FontSize="13"
+                        HorizontalOptions="Center"
+                        Text="Cancel"
+                        TextColor="#666666"
+                        VerticalOptions="Center" />
+                </Border>
+                <Border
+                    Grid.Column="1"
+                    Padding="20,12"
+                    Background="#4CAF50"
+                    HeightRequest="50"
+                    StrokeShape="RoundRectangle 5">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="AddProductButton_Clicked" />
+                    </Border.GestureRecognizers>
+                    <Label
+                        FontFamily="poppinregular"
+                        FontSize="13"
+                        HorizontalOptions="Center"
+                        Text="Add Product"
+                        TextColor="White"
+                        VerticalOptions="Center" />
+                </Border>
+            </Grid>
+
+        </Grid>
+    </ScrollView>
+</toolkit:Popup>

@@ -7,6 +7,7 @@
     xmlns:Converters="clr-namespace:IMS_Mobile.Converters"
     xmlns:Models="clr-namespace:IMS_Mobile.MVVM.Models"
     xmlns:ViewModels="clr-namespace:IMS_Mobile.MVVM.ViewModels"
+    xmlns:editors="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
     x:DataType="ViewModels:InventoryVM"
     BackgroundColor="White"
     Shell.NavBarIsVisible="False">
@@ -104,6 +105,9 @@
                     HorizontalOptions="Center"
                     Text="+"
                     VerticalOptions="Center" />
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding NewProductPop}" />
+                </Border.GestureRecognizers>
             </Border>
         </Grid>
 
@@ -113,7 +117,8 @@
             Margin="20,10,20,20"
             Padding="16,12"
             Background="#F0F8F0"
-            StrokeShape="RoundRectangle 12">
+            HeightRequest="70"
+            StrokeShape="RoundRectangle 15">
             <Grid ColumnDefinitions="Auto,*">
                 <Label
                     Grid.Column="0"
@@ -121,12 +126,28 @@
                     FontSize="16"
                     Text="🔍"
                     VerticalOptions="Center" />
-                <Label
+                <editors:SfAutocomplete
+                    x:Name="autocomplete"
                     Grid.Column="1"
-                    FontFamily="poppinregular"
-                    FontSize="14"
-                    Text="Search inventory"
-                    TextColor="#999999"
+                    Margin="0,5,0,0"
+                    BackgroundColor="#F0F8F0"
+                    DisplayMemberPath="Name"
+                    EnableAutoSize="True"
+                    HighlightedTextColor="#4CAF50"
+                    HighlightedTextFontAttributes="Bold"
+                    HorizontalOptions="Fill"
+                    ItemsSource="{Binding Products}"
+                    MaxDropDownHeight="250"
+                    Placeholder="Search Product ..."
+                    SelectedItems="{Binding SelectedProducts, Mode=TwoWay}"
+                    SelectionChanged="autocomplete_SelectionChanged"
+                    SelectionMode="Multiple"
+                    SelectionTextHighlightColor="#4CAF50"
+                    Stroke="Transparent"
+                    StyleClass="TitleText"
+                    TextHighlightMode="FirstOccurrence"
+                    TextMemberPath="Name"
+                    TokensWrapMode="Wrap"
                     VerticalOptions="Center" />
             </Grid>
         </Border>
@@ -136,7 +157,7 @@
             Grid.Row="2"
             Margin="0,0,0,10"
             ItemTemplate="{StaticResource InventoryItemTemplate}"
-            ItemsSource="{Binding Products}"
+            ItemsSource="{Binding FilteredProducts}"
             VerticalScrollBarVisibility="Always">
             <CollectionView.ItemsLayout>
                 <GridItemsLayout Orientation="Vertical" Span="1" />

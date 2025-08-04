@@ -16,23 +16,32 @@ namespace IMS_Mobile
         public static BaseRepository<Contact>? ContactRepository { get; set; }
         public static BaseRepository<TransactionProductItem>? TransactionProductItemRepository { get; set; }
         public static HomeVM? homeVM { get; set; }
+        public static ContactsVM? contactsVM { get; set; }
+        public static InventoryVM? inventoryVM { get; set; }
+        public static ReportsVM? reportsVM { get; set; }
         #endregion
 
         public App(BaseRepository<Transaction> _transaction, BaseRepository<Product> _productrepo,
             BaseRepository<Contact> _contactrepo, BaseRepository<TransactionProductItem> _transactionProductItemRepo
-            , HomeVM _vm)
+            , HomeVM _vm, ContactsVM _contactVM, InventoryVM _inventoryVM, ReportsVM _reportsVM)
         {
             InitializeComponent();
-            SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1JEaF5cXmRCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdmWXlceHRTQ2ZYWUN/XkFWYEk=");
+            SyncfusionLicenseProvider.RegisterLicense
+                ("Ngo9BigBOggjHTQxAR8/V1JEaF5cXmRCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdmWXlceHRTQ2ZYWUN/XkFWYEk=");
             TransactionRepository = _transaction;
             ProductRepository = _productrepo;
             ContactRepository = _contactrepo;
             TransactionProductItemRepository = _transactionProductItemRepo;
             homeVM = _vm;
+            contactsVM = _contactVM;
+            inventoryVM = _inventoryVM;
+            reportsVM = _reportsVM;
             //GenerateTestDataAsync();
+            //ProductTest();
+            //DiposeCurrentDB();
         }
 
-       
+
 
         protected override Window CreateWindow(IActivationState? activationState)
         {
@@ -80,6 +89,37 @@ namespace IMS_Mobile
             {
                 Debug.WriteLine($"Test data generation failed: {ex.Message}");
             }
+        }
+        public void ProductTest()
+        {
+            try
+            {
+                var product = new List<Product>();
+                for (int i = 0; i < 50; i++)
+                {
+                    product.Add(new Product
+                    {
+                        Name = $"Product {i + 1}",
+                        Price = Math.Round(new Random().NextDouble() * 100 + 10, 2),
+                        Cost = Math.Round(new Random().NextDouble() * 80 + 5, 2),
+                        stock = new Random().Next(1, 20)
+                    });
+                }
+                ProductRepository.InsertItems(product);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Product test failed: {ex.Message}");
+            }
+        }
+        #endregion
+
+        #region delete db
+        public void DiposeCurrentDB() {
+            ProductRepository.Dispose();
+            TransactionRepository.Dispose();
+            ContactRepository.Dispose();
+            TransactionProductItemRepository.Dispose();
         }
         #endregion
     }

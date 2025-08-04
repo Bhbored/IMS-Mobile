@@ -4,9 +4,9 @@ namespace IMS_Mobile.MVVM.Views;
 
 public partial class ReportsPage : ContentPage
 {
-	public ReportsPage()
+	public ReportsPage(ReportsVM vm)
 	{
 		InitializeComponent();
-		BindingContext = new ReportsVM();
-	}
+		BindingContext = vm;
+    }
 }
