@@ -11,7 +11,7 @@ namespace IMS_Mobile
 {
     public static class MauiProgram
     {
-        public static MauiApp CurrentApp { get; private set; }
+
         public static MauiApp CreateMauiApp()
         {
             var builder = MauiApp.CreateBuilder();
@@ -31,20 +31,19 @@ namespace IMS_Mobile
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
-
+            // Register the database
+            builder.Services.AddSingleton<BaseRepository<Transaction>>();
+            builder.Services.AddSingleton<BaseRepository<Product>>();
+            builder.Services.AddSingleton<BaseRepository<Contact>>();
+            builder.Services.AddSingleton<BaseRepository<TransactionProductItem>>();
             //ViewModels
             builder.Services.AddSingleton<HomeVM>();
+            builder.Services.AddSingleton<ContactsVM>();
+            builder.Services.AddSingleton<InventoryVM>();
+            builder.Services.AddSingleton<ReportsVM>();
 
-            string dbPath = Path.Combine(FileSystem.AppDataDirectory, "appdb.db3");
-            builder.Services.AddSingleton<AppDbContext>(sp =>
-                new AppDbContext(dbPath));
-            builder.Services.AddScoped(typeof(IRepository<Product>), typeof(Repository<Product>));
-            builder.Services.AddScoped(typeof(IRepository<Contact>), typeof(Repository<Contact>));
-            builder.Services.AddScoped(typeof(IRepository<Category>), typeof(Repository<Category>));
-            builder.Services.AddScoped(typeof(IRepository<Transaction>), typeof(Repository<Transaction>));
-            var app = builder.Build();
-            CurrentApp = app;
-            return app;
+
+            return builder.Build();
         }
     }
 }

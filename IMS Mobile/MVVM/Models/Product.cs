@@ -1,27 +1,21 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using SQLite;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace IMS_Mobile.MVVM.Models
 {
-    [Table("Products")]
-    public class Product
+  
+    public class Product : Entity
     {
 
         #region fields
         private DateTime createdDate;
 
         #endregion
-
-
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+     
         public string Name { get; set; }
         public double Price { get; set; }
         public DateTime CreatedDate
@@ -32,7 +26,8 @@ namespace IMS_Mobile.MVVM.Models
             }
             set => createdDate = value;
         }
-        public string CategoryName { get; set; }
+        [Ignore]
+        public string FormattedDate => CreatedDate.ToString("dd/MM/yyyy");
         public double Cost { get; set; }
         public int stock { get; set; }
     }

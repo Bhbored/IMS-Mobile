@@ -15,34 +15,45 @@ public partial class HomePage : ContentPage
 		InitializeComponent();
 		BindingContext = vm;
 	}
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        if (BindingContext is HomeVM vm)
+        {
+            await vm.LoadTransactionsAsync();
+        }
+    }
 
-	private void Button_Clicked(object sender, EventArgs e)
-	{
-		var btn = sender as Button;
+    #region styling logic
+    private void Button_Clicked(object sender, EventArgs e)
+    {
+        var btn = sender as Button;
 
-		ResetAllFilters();
+        ResetAllFilters();
 
-		switch (btn.AutomationId)
-		{
-			case "filter1":
-				Filter11.StyleClass = ActiveFilter;
-				break;
-			case "filter2":
-				Filter22.StyleClass = ActiveFilter;
-				break;
-			case "filter3":
-				Filter33.StyleClass = ActiveFilter;
-				break;
-			
-		}
-	}
+        switch (btn.AutomationId)
+        {
+            case "filter1":
+                Filter11.StyleClass = ActiveFilter;
+                break;
+            case "filter2":
+                Filter22.StyleClass = ActiveFilter;
+                break;
+            case "filter3":
+                Filter33.StyleClass = ActiveFilter;
+                break;
 
-	private void ResetAllFilters()
-	{
-		Filter11.StyleClass = InActiveFilter;
-		Filter22.StyleClass = InActiveFilter;
-		Filter33.StyleClass = InActiveFilter;
-	}
+        }
+    }
+
+    private void ResetAllFilters()
+    {
+        Filter11.StyleClass = InActiveFilter;
+        Filter22.StyleClass = InActiveFilter;
+        Filter33.StyleClass = InActiveFilter;
+    }
+    #endregion
+
 
     private void Button_Clicked_1(object sender, EventArgs e)
     {
@@ -52,4 +63,5 @@ public partial class HomePage : ContentPage
         }
 			
     }
+   
 }

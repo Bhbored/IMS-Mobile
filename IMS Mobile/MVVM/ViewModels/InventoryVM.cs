@@ -24,7 +24,6 @@ namespace IMS_Mobile.MVVM.ViewModels
                 Price = 2.50,
                 Cost = 1.00,
                 stock = 10,
-                CategoryName = "Fruits",
                 CreatedDate = DateTime.Now
             },
 
@@ -35,7 +34,6 @@ namespace IMS_Mobile.MVVM.ViewModels
                 Price = 1.20,
                 Cost = 0.50,
                 stock = 5,
-                CategoryName = "Fruits",
                 CreatedDate = DateTime.Now
             },
 
@@ -46,7 +44,6 @@ namespace IMS_Mobile.MVVM.ViewModels
                 Price = 1.80,
                 Cost = 0.75,
                 stock = 15,
-                CategoryName = "Fruits",
                 CreatedDate = DateTime.Now
             },
 
@@ -57,7 +54,6 @@ namespace IMS_Mobile.MVVM.ViewModels
                 Price = 3.00,
                 Cost = 1.50,
                 stock = 8,
-                CategoryName = "Fruits",
                 CreatedDate = DateTime.Now
             },
 
@@ -68,7 +64,6 @@ namespace IMS_Mobile.MVVM.ViewModels
                 Price = 2.00,
                 Cost = 0.90,
                 stock = 12,
-                CategoryName = "Fruits",
                 CreatedDate = DateTime.Now
             }];
         #endregion
