@@ -36,7 +36,7 @@ namespace IMS_Mobile
             contactsVM = _contactVM;
             inventoryVM = _inventoryVM;
             reportsVM = _reportsVM;
-            //GenerateTestDataAsync();
+            GenerateTestDataAsync();
             //ProductTest();
             //DiposeCurrentDB();
         }
