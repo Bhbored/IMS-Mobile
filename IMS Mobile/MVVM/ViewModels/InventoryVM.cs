@@ -1,6 +1,7 @@
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Extensions;
+using IMS_Mobile.MVVM.Views;
 using IMS_Mobile.Popups;
 using PropertyChanged;
 using System;
@@ -40,6 +41,8 @@ namespace IMS_Mobile.MVVM.ViewModels
                 OnPropertyChanged();
             }
         }
+        public InventoryPage InventoryPageInstance { get; set; }
+        public Product ClonedProduct { get; set; } = new Product();
         public IList<object> SelectedProducts { get; set; } = [];
         #endregion
 
@@ -75,9 +78,9 @@ namespace IMS_Mobile.MVVM.ViewModels
             {
                 if (product != null && !Products.Any(p => p.Name == product.Name))
                 {
-                   App.ProductRepository.InsertItem(product);
+                    App.ProductRepository.InsertItem(product);
                     LoadDB();
-                    Toast.Make($"{product.Name} added successfully",duration: ToastDuration.Short).Show();
+                    Toast.Make($"{product.Name} added successfully", duration: ToastDuration.Short).Show();
                 }
                 else
                 {
@@ -86,18 +89,88 @@ namespace IMS_Mobile.MVVM.ViewModels
             }
             catch (Exception ex)
             {
-                
+
                 Debug.WriteLine($"Error adding product: {ex.Message}");
             }
 
         }
+        public async void EditProduct(Product product)
+        {
+            Product originalProduct = null;
+            bool wasUpdated = false;
+
+            try
+            {
+                if (product != null && Products.Any(p => p.Id == product.Id))
+                {
+                    originalProduct = Products.FirstOrDefault(p => p.Id == product.Id);
+                    if (originalProduct != null)
+                    {
+                        originalProduct = CloneProduct(originalProduct);
+                    }
+                    App.ProductRepository.UpdateItem(product);
+                    await LoadDB();
+                    wasUpdated = true;
+                    InventoryPageInstance?.showSnackBar(product);
+
+                }
+                else
+                {
+                    await Toast.Make("Product does not exist or is null", duration: ToastDuration.Short).Show();
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error updating product: {ex.Message}");
+            }
+        }
+
+
+        private Product CloneProduct(Product product)
+        {
+            ClonedProduct = new Product
+            {
+                Name = product.Name,
+                Price = product.Price,
+                Cost = product.Cost,
+                stock = product.stock,
+            };
+            return ClonedProduct;
+        }
+        public async void UndoEdit(Product product)
+        {
+            if (ClonedProduct != null)
+            {
+                product.Name = ClonedProduct.Name;
+                product.Price = ClonedProduct.Price;
+                product.Cost = ClonedProduct.Cost;
+                product.stock = ClonedProduct.stock;
+                App.ProductRepository.UpdateItem(product);
+                await LoadDB();
+                await Toast.Make($"{product.Name} edit undone", duration: ToastDuration.Short).Show();
+                ClonedProduct = new Product(); 
+            }
+            else
+            {
+                ClonedProduct = new Product();  
+                await Toast.Make("No previous state to undo", duration: ToastDuration.Short).Show();
+            }
+        }
         #endregion
 
         #region commands
-        public ICommand NewProductPop => new Command(async() => { 
-        
-        await AppShell.Current.ShowPopupAsync(new AddProductPopup(this));
+        public ICommand NewProductPop => new Command(async () =>
+        {
+
+            await AppShell.Current.ShowPopupAsync(new AddProductPopup(this));
         });
+        public ICommand EditProductPop => new Command<Product>(async(Product) =>
+        {
+            await AppShell.Current.ShowPopupAsync(new EditProdutcPopup(this, Product));
+        });
+       
+       
+
 
         #endregion
 
@@ -116,6 +189,7 @@ namespace IMS_Mobile.MVVM.ViewModels
             return Task.CompletedTask;
         }
         #endregion
+
         #region INotifyPropertyChanged Implementation
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

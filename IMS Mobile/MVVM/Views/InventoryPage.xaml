@@ -62,20 +62,42 @@
                         VerticalOptions="End" />
 
                     <!--  Edit Icon  -->
-                    <Border
+                    <VerticalStackLayout
                         Grid.RowSpan="2"
                         Grid.Column="2"
-                        Background="Transparent"
-                        HeightRequest="24"
-                        HorizontalOptions="End"
-                        VerticalOptions="Center"
-                        WidthRequest="24">
-                        <Label
-                            FontSize="16"
-                            HorizontalOptions="Center"
-                            Text="✏️"
-                            VerticalOptions="Center" />
-                    </Border>
+                        Spacing="30"
+                        VerticalOptions="Center">
+                        <Border
+                            Background="Transparent"
+                            HeightRequest="24"
+                            HorizontalOptions="End"
+                            StrokeShape="RoundRectangle 5"
+                            VerticalOptions="Center"
+                            WidthRequest="24">
+                            <Label
+                                FontSize="16"
+                                HorizontalOptions="Center"
+                                Text="✏️"
+                                VerticalOptions="Center" />
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:InventoryVM}}, Path=EditProductPop}" CommandParameter="{Binding .}" />
+                            </Border.GestureRecognizers>
+                        </Border>
+                        <Border
+                            Background="Transparent"
+                            HeightRequest="24"
+                            HorizontalOptions="End"
+                            StrokeShape="RoundRectangle 5"
+                            VerticalOptions="Center"
+                            WidthRequest="24">
+                            <Label
+                                FontSize="16"
+                                HorizontalOptions="Center"
+                                Text="🗑️"
+                                VerticalOptions="Center" />
+                        </Border>
+                    </VerticalStackLayout>
+
                 </Grid>
             </Border>
         </DataTemplate>

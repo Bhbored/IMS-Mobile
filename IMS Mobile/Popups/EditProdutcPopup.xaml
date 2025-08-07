@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <toolkit:Popup
-    x:Class="IMS_Mobile.Popups.AddProductPopup"
+    x:Class="IMS_Mobile.Popups.EditProdutcPopup"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:ViewModel="clr-namespace:IMS_Mobile.MVVM.ViewModels"
@@ -134,7 +134,7 @@
                     HeightRequest="50"
                     StrokeShape="RoundRectangle 5">
                     <Border.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="AddProductButton_Clicked" />
+                        <TapGestureRecognizer Tapped="EditProductButton_Clicked" />
                     </Border.GestureRecognizers>
                     <Label
                         FontFamily="poppinregular"

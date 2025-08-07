@@ -93,6 +93,9 @@
 	  <MauiXaml Update="Popups\DatePickerPopup.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Popups\EditProdutcPopup.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Popups\TransactionDetails.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

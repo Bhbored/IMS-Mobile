@@ -1,3 +1,4 @@
+using CommunityToolkit.Maui.Alerts;
 using IMS_Mobile.MVVM.Models;
 using IMS_Mobile.MVVM.ViewModels;
 using System.Collections.ObjectModel;
@@ -25,6 +26,21 @@ public partial class InventoryPage : ContentPage
 		if(BindingContext is InventoryVM vm)
 		{
 			vm.FilterProducts();
+        }
+    }
+    public void showSnackBar(Product product)
+    {
+        if (BindingContext is InventoryVM vm)
+        {
+            MainThread.BeginInvokeOnMainThread(async () =>
+            {
+                await Snackbar.Make(
+                    $"{product.Name} updated successfully",
+                    () => vm.UndoEdit(product),
+                    "UNDO",
+                    TimeSpan.FromSeconds(3))
+                .Show();
+            });
         }
     }
 }
