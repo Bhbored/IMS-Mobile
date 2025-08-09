@@ -156,7 +156,7 @@ namespace IMS_Mobile.MVVM.ViewModels
 
         private Product CloneProduct(Product product)
         {
-         
+
             ClonedProduct = new Product
             {
                 Id = product.Id,
@@ -174,10 +174,10 @@ namespace IMS_Mobile.MVVM.ViewModels
             {
                 try
                 {
-                    
+
                     App.ProductRepository.DeleteItem(editedProduct);
                     App.ProductRepository.InsertItem(ClonedProduct);
-                   
+
                     await MainThread.InvokeOnMainThreadAsync(async () =>
                     {
                         await LoadDB();
@@ -186,7 +186,7 @@ namespace IMS_Mobile.MVVM.ViewModels
                     });
 
 
-                    ClonedProduct = null;
+                    ClonedProduct = new Product();
                 }
                 catch (Exception ex)
                 {
@@ -206,6 +206,81 @@ namespace IMS_Mobile.MVVM.ViewModels
             }
         }
 
+        public async void UndoDelete(Product editedProduct)
+        {
+            if (ClonedProduct != null)
+            {
+                try
+                {
+                    App.ProductRepository.InsertItem(ClonedProduct);
+
+                    await MainThread.InvokeOnMainThreadAsync(async () =>
+                    {
+                        await LoadDB();
+                        await Toast.Make($"{ClonedProduct.Name} Delete undone", duration: ToastDuration.Short).Show();
+                        OnPropertyChanged(nameof(FilteredProducts));
+                    });
+
+                    ClonedProduct = new Product();
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"Undo error: {ex.Message}");
+                    await MainThread.InvokeOnMainThreadAsync(async () =>
+                    {
+                        await Toast.Make("Failed to undo Delete", duration: ToastDuration.Short).Show();
+                    });
+                }
+            }
+            else
+            {
+                await MainThread.InvokeOnMainThreadAsync(async () =>
+                {
+                    await Toast.Make("No previous state to undo", duration: ToastDuration.Short).Show();
+                });
+            }
+        }
+        public async void DeleteProduct(Product product)
+        {
+            try
+            {
+                if (product != null && Products.Any(p => p.Id == product.Id))
+                {
+                    var productToClone = App.ProductRepository.GetItems().FirstOrDefault(p => p.Id == product.Id);
+                    ClonedProduct = CloneProduct(productToClone);
+                    App.ProductRepository.DeleteItem(product);
+                    MainThread.BeginInvokeOnMainThread(async () =>
+                    {
+                        await LoadDB();
+                        OnPropertyChanged(nameof(FilteredProducts));
+                        await Task.Delay(100);
+                        var snackbar = Snackbar.Make(
+                            message: $"Edited {product.Name} Successfully",
+                            action: () => UndoDelete(ClonedProduct),
+                            actionButtonText: "UNDO",
+                            duration: TimeSpan.FromSeconds(3),
+                            visualOptions: new CommunityToolkit.Maui.Core.SnackbarOptions
+                            {
+                                BackgroundColor = Colors.Green,
+                                TextColor = Colors.White
+                            },
+                            anchor: InventoryPageInstance
+                        );
+                        await snackbar.Show();
+                    });
+                }
+                else
+                {
+                    await Toast.Make("Product does not exist or is null", duration: ToastDuration.Short).Show();
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Delete product error: {ex.Message}");
+                await Toast.Make("Error deleting product", duration: ToastDuration.Short).Show();
+            }
+        }
+
         #endregion
 
         #region commands
@@ -220,6 +295,11 @@ namespace IMS_Mobile.MVVM.ViewModels
         });
 
         public ICommand RefreshContactsCommand => new Command(async () => await RefreshProducts());
+
+        public ICommand DeleteProductPop => new Command<Product>(async (Product) =>
+        {
+            await AppShell.Current.ShowPopupAsync(new DeleteProduct(this, Product));
+        });
 
 
         #endregion

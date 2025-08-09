@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup
+    x:Class="IMS_Mobile.Popups.DeleteProduct"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ViewModel="clr-namespace:IMS_Mobile.MVVM.ViewModels"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:DataType="ViewModel:InventoryVM"
+    Background="White">
+    <VerticalStackLayout Spacing="20">
+
+        <!--  Icon and Title  -->
+        <VerticalStackLayout Spacing="12">
+            <Frame
+                Padding="0"
+                BackgroundColor="#FFF5F5"
+                BorderColor="Transparent"
+                CornerRadius="30"
+                HeightRequest="60"
+                HorizontalOptions="Center"
+                IsClippedToBounds="True"
+                WidthRequest="60">
+                <Label
+                    FontFamily="MaterialDesignIcons"
+                    FontSize="28"
+                    HorizontalOptions="Center"
+                    Text="⚠️"
+                    TextColor="#F44336"
+                    VerticalOptions="Center" />
+            </Frame>
+
+            <Label
+                FontFamily="poppinsemibold"
+                FontSize="18"
+                HorizontalOptions="Center"
+                HorizontalTextAlignment="Center"
+                Text="Delete Product?"
+                TextColor="#1A1A1A" />
+
+            <Label
+                FontFamily="poppinregular"
+                FontSize="14"
+                HorizontalOptions="Center"
+                HorizontalTextAlignment="Center"
+                Text="This action cannot be undone. Are you sure you want to delete this product?"
+                TextColor="#666666" />
+        </VerticalStackLayout>
+
+        <!--  Buttons  -->
+        <Grid
+            Margin="0,8,0,0"
+            ColumnDefinitions="*,*"
+            ColumnSpacing="12">
+
+            <!--  Cancel Button  -->
+            <Button
+                Grid.Column="0"
+                BackgroundColor="#F5F5F5"
+                Clicked="CancelButton_Clicked"
+                CornerRadius="12"
+                FontFamily="poppinsemibold"
+                FontSize="14"
+                HeightRequest="48"
+                Text="Cancel"
+                TextColor="#666666" />
+
+            <!--  Delete Button  -->
+            <Button
+                Grid.Column="1"
+                BackgroundColor="#F44336"
+                Clicked="DeleteButton_Clicked"
+                CornerRadius="12"
+                FontFamily="poppinsemibold"
+                FontSize="14"
+                HeightRequest="48"
+                Text="Delete"
+                TextColor="White" />
+        </Grid>
+
+    </VerticalStackLayout>
+
+
+
+</toolkit:Popup>

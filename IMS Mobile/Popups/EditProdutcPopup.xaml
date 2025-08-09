@@ -140,7 +140,7 @@
                         FontFamily="poppinregular"
                         FontSize="13"
                         HorizontalOptions="Center"
-                        Text="Add Product"
+                        Text="Edit"
                         TextColor="White"
                         VerticalOptions="Center" />
                 </Border>
