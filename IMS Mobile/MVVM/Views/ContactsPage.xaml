@@ -7,6 +7,7 @@
     xmlns:Converters="clr-namespace:IMS_Mobile.Converters"
     xmlns:Models="clr-namespace:IMS_Mobile.MVVM.Models"
     xmlns:ViewModels="clr-namespace:IMS_Mobile.MVVM.ViewModels"
+    xmlns:editors="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
     x:DataType="ViewModels:ContactsVM"
     BackgroundColor="White"
     Shell.NavBarIsVisible="False">
@@ -115,6 +116,9 @@
                     HorizontalOptions="Center"
                     Text="+"
                     VerticalOptions="Center" />
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding AddContactCommand}" />
+                </Border.GestureRecognizers>
             </Border>
         </Grid>
 
@@ -132,12 +136,28 @@
                     FontSize="16"
                     Text="🔍"
                     VerticalOptions="Center" />
-                <Label
+                <editors:SfAutocomplete
+                    x:Name="autocomplete"
                     Grid.Column="1"
-                    FontFamily="poppinregular"
-                    FontSize="14"
-                    Text="Search contacts"
-                    TextColor="#999999"
+                    Margin="0,5,0,0"
+                    BackgroundColor="#F0F8F0"
+                    DisplayMemberPath="Name"
+                    EnableAutoSize="True"
+                    HighlightedTextColor="#4CAF50"
+                    HighlightedTextFontAttributes="Bold"
+                    HorizontalOptions="Fill"
+                    ItemsSource="{Binding Contacts}"
+                    MaxDropDownHeight="250"
+                    Placeholder="Search Contacts ..."
+                    SelectedItems="{Binding SelectedContacts, Mode=TwoWay}"
+                    SelectionChanged="autocomplete_SelectionChanged"
+                    SelectionMode="Multiple"
+                    SelectionTextHighlightColor="#4CAF50"
+                    Stroke="Transparent"
+                    StyleClass="TitleText"
+                    TextHighlightMode="FirstOccurrence"
+                    TextMemberPath="Name"
+                    TokensWrapMode="Wrap"
                     VerticalOptions="Center" />
             </Grid>
         </Border>
@@ -147,7 +167,7 @@
             Grid.Row="2"
             Margin="0,0,0,10"
             ItemTemplate="{StaticResource ContactItemTemplate}"
-            ItemsSource="{Binding Contacts}"
+            ItemsSource="{Binding FilteredContacts}"
             VerticalScrollBarVisibility="Always">
             <CollectionView.ItemsLayout>
                 <GridItemsLayout Orientation="Vertical" Span="1" />

@@ -12,9 +12,11 @@ namespace IMS_Mobile.MVVM.Models
 
         public string Name { get; set; }
         public int PhoneNumber { get; set; }
-        public double CreditScore{ get; set; }
-        public double TotalPurchases { get; set; }
-         
+        public string? Address { get; set; }=string.Empty;
+        public string? Email { get; set; }=string.Empty;
+        public double CreditScore{ get; set; }=0.0;
+        public double TotalPurchases { get; set; }= 0.0;
+
 
     }
 }

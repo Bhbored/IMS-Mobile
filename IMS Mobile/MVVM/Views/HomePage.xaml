@@ -101,7 +101,7 @@
                 <Border
                     Margin="0"
                     Padding="12,8"
-                    StrokeShape="RoundRectangle 10"
+                    StrokeShape="RoundRectangle 5"
                     StyleClass="ActiveFilterButtonStyle">
                     <Label
                         FontFamily="poppinbold"
