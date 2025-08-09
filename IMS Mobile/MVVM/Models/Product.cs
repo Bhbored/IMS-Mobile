@@ -18,14 +18,8 @@ namespace IMS_Mobile.MVVM.Models
      
         public string Name { get; set; }
         public double Price { get; set; }
-        public DateTime CreatedDate
-        {
-            get
-            {
-                return DateTime.Now;
-            }
-            set => createdDate = value;
-        }
+        public DateTime CreatedDate { get; set; } = DateTime.Now;
+
         [Ignore]
         public string FormattedDate => CreatedDate.ToString("dd/MM/yyyy");
         public double Cost { get; set; }

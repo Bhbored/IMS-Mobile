@@ -24,6 +24,7 @@ namespace IMS_Mobile.MVVM.ViewModels
         private ObservableCollection<Product> filteredProducts = new();
 
         #region fields
+        private bool _isRefreshing = false;
         #endregion
 
         #region Properties
@@ -41,9 +42,28 @@ namespace IMS_Mobile.MVVM.ViewModels
                 OnPropertyChanged();
             }
         }
-        public InventoryPage InventoryPageInstance { get; set; }
+        public InventoryPage? InventoryPageInstance { get; set; }
         public Product ClonedProduct { get; set; } = new Product();
         public IList<object> SelectedProducts { get; set; } = [];
+
+        public InventoryPage InventoryPage
+        {
+            get => InventoryPageInstance;
+            set
+            {
+                InventoryPageInstance = value;
+                OnPropertyChanged();
+            }
+        }
+        public bool IsRefreshing
+        {
+            get => _isRefreshing;
+            set
+            {
+                _isRefreshing = value;
+                OnPropertyChanged(nameof(IsRefreshing));
+            }
+        }
         #endregion
 
         #region Methods
@@ -96,23 +116,31 @@ namespace IMS_Mobile.MVVM.ViewModels
         }
         public async void EditProduct(Product product)
         {
-            Product originalProduct = null;
-            bool wasUpdated = false;
-
             try
             {
                 if (product != null && Products.Any(p => p.Id == product.Id))
                 {
-                    originalProduct = Products.FirstOrDefault(p => p.Id == product.Id);
-                    if (originalProduct != null)
-                    {
-                        originalProduct = CloneProduct(originalProduct);
-                    }
+                    var productToClone = App.ProductRepository.GetItems().FirstOrDefault(p => p.Id == product.Id);
+                    ClonedProduct = CloneProduct(productToClone);
                     App.ProductRepository.UpdateItem(product);
                     await LoadDB();
-                    wasUpdated = true;
-                    InventoryPageInstance?.showSnackBar(product);
-
+                    MainThread.BeginInvokeOnMainThread(async () =>
+                    {
+                        await Task.Delay(100);
+                        var snackbar = Snackbar.Make(
+                            message: $"Edited {product.Name} Successfully",
+                            action: () => UndoEdit(ClonedProduct),
+                            actionButtonText: "UNDO",
+                            duration: TimeSpan.FromSeconds(3),
+                            visualOptions: new CommunityToolkit.Maui.Core.SnackbarOptions
+                            {
+                                BackgroundColor = Colors.Green,
+                                TextColor = Colors.White
+                            },
+                            anchor: InventoryPageInstance
+                        );
+                        await snackbar.Show();
+                    });
                 }
                 else
                 {
@@ -121,41 +149,63 @@ namespace IMS_Mobile.MVVM.ViewModels
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Error updating product: {ex.Message}");
+                Debug.WriteLine($"Edit product error: {ex.Message}");
+                await Toast.Make("Error updating product", duration: ToastDuration.Short).Show();
             }
         }
-
 
         private Product CloneProduct(Product product)
         {
+         
             ClonedProduct = new Product
             {
+                Id = product.Id,
                 Name = product.Name,
                 Price = product.Price,
                 Cost = product.Cost,
-                stock = product.stock,
+                stock = product.stock
             };
             return ClonedProduct;
         }
-        public async void UndoEdit(Product product)
+
+        public async void UndoEdit(Product editedProduct)
         {
             if (ClonedProduct != null)
             {
-                product.Name = ClonedProduct.Name;
-                product.Price = ClonedProduct.Price;
-                product.Cost = ClonedProduct.Cost;
-                product.stock = ClonedProduct.stock;
-                App.ProductRepository.UpdateItem(product);
-                await LoadDB();
-                await Toast.Make($"{product.Name} edit undone", duration: ToastDuration.Short).Show();
-                ClonedProduct = new Product(); 
+                try
+                {
+                    
+                    App.ProductRepository.DeleteItem(editedProduct);
+                    App.ProductRepository.InsertItem(ClonedProduct);
+                   
+                    await MainThread.InvokeOnMainThreadAsync(async () =>
+                    {
+                        await LoadDB();
+                        await Toast.Make($"{ClonedProduct.Name} edit undone", duration: ToastDuration.Short).Show();
+                        OnPropertyChanged(nameof(FilteredProducts));
+                    });
+
+
+                    ClonedProduct = null;
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"Undo error: {ex.Message}");
+                    await MainThread.InvokeOnMainThreadAsync(async () =>
+                    {
+                        await Toast.Make("Failed to undo edit", duration: ToastDuration.Short).Show();
+                    });
+                }
             }
             else
             {
-                ClonedProduct = new Product();  
-                await Toast.Make("No previous state to undo", duration: ToastDuration.Short).Show();
+                await MainThread.InvokeOnMainThreadAsync(async () =>
+                {
+                    await Toast.Make("No previous state to undo", duration: ToastDuration.Short).Show();
+                });
             }
         }
+
         #endregion
 
         #region commands
@@ -164,17 +214,32 @@ namespace IMS_Mobile.MVVM.ViewModels
 
             await AppShell.Current.ShowPopupAsync(new AddProductPopup(this));
         });
-        public ICommand EditProductPop => new Command<Product>(async(Product) =>
+        public ICommand EditProductPop => new Command<Product>(async (Product) =>
         {
             await AppShell.Current.ShowPopupAsync(new EditProdutcPopup(this, Product));
         });
-       
-       
+
+        public ICommand RefreshContactsCommand => new Command(async () => await RefreshProducts());
 
 
         #endregion
 
         #region Tasks
+        private async Task RefreshProducts()
+        {
+            try
+            {
+                IsRefreshing = true;
+                await Task.Delay(1000);
+                await LoadDB();
+                IsRefreshing = false;
+
+            }
+            catch (Exception ex)
+            {
+                IsRefreshing = false;
+            }
+        }
 
         public Task LoadDB()
         {

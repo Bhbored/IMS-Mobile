@@ -30,7 +30,7 @@
                         <Image
                             Aspect="AspectFill"
                             HorizontalOptions="Center"
-                            Source="products.png"
+                            Source="product.png"
                             VerticalOptions="Center" />
                     </Border>
 
@@ -175,15 +175,20 @@
         </Border>
 
         <!--  Inventory List  -->
-        <CollectionView
+        <RefreshView
             Grid.Row="2"
-            Margin="0,0,0,10"
-            ItemTemplate="{StaticResource InventoryItemTemplate}"
-            ItemsSource="{Binding FilteredProducts}"
-            VerticalScrollBarVisibility="Always">
-            <CollectionView.ItemsLayout>
-                <GridItemsLayout Orientation="Vertical" Span="1" />
-            </CollectionView.ItemsLayout>
-        </CollectionView>
+            Command="{Binding RefreshContactsCommand}"
+            IsRefreshing="{Binding IsRefreshing}"
+            RefreshColor="LightGreen">
+            <CollectionView
+                Margin="0,0,0,10"
+                ItemTemplate="{StaticResource InventoryItemTemplate}"
+                ItemsSource="{Binding FilteredProducts}"
+                VerticalScrollBarVisibility="Always">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" Span="1" />
+                </CollectionView.ItemsLayout>
+            </CollectionView>
+        </RefreshView>
     </Grid>
 </ContentPage>
