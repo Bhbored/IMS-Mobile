@@ -3,6 +3,7 @@ using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Extensions;
 using IMS_Mobile.MVVM.Views;
 using IMS_Mobile.Popups;
+using IMS_Mobile.Service;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
@@ -92,19 +93,19 @@ namespace IMS_Mobile.MVVM.ViewModels
                 FilteredProducts = new ObservableCollection<Product>(filteredList);
             }
         }
-        public void AddProduct(Product product)
+        public async void AddProduct(Product product)
         {
             try
             {
                 if (product != null && !Products.Any(p => p.Name == product.Name))
                 {
                     App.ProductRepository.InsertItem(product);
-                    LoadDB();
-                    Toast.Make($"{product.Name} added successfully", duration: ToastDuration.Short).Show();
+                    await LoadDB();
+                    await ModernToastService.ShowSuccess($"{product.Name} added successfully");
                 }
                 else
                 {
-                    Toast.Make("Product already exists or is null", duration: ToastDuration.Short).Show();
+                    await ModernToastService.ShowError("Product already exists or is null");
                 }
             }
             catch (Exception ex)
@@ -144,13 +145,15 @@ namespace IMS_Mobile.MVVM.ViewModels
                 }
                 else
                 {
-                    await Toast.Make("Product does not exist or is null", duration: ToastDuration.Short).Show();
+                    await ModernToastService.ShowError("Product does not exist or is null");
+
                 }
             }
             catch (Exception ex)
             {
                 Debug.WriteLine($"Edit product error: {ex.Message}");
-                await Toast.Make("Error updating product", duration: ToastDuration.Short).Show();
+                await ModernToastService.ShowInfo("Error updating product");
+
             }
         }
 
@@ -177,11 +180,10 @@ namespace IMS_Mobile.MVVM.ViewModels
 
                     App.ProductRepository.DeleteItem(editedProduct);
                     App.ProductRepository.InsertItem(ClonedProduct);
-
                     await MainThread.InvokeOnMainThreadAsync(async () =>
                     {
                         await LoadDB();
-                        await Toast.Make($"{ClonedProduct.Name} edit undone", duration: ToastDuration.Short).Show();
+                        await ModernToastService.ShowSuccess($"{ClonedProduct.Name} edit undone");
                         OnPropertyChanged(nameof(FilteredProducts));
                     });
 
@@ -193,7 +195,7 @@ namespace IMS_Mobile.MVVM.ViewModels
                     Debug.WriteLine($"Undo error: {ex.Message}");
                     await MainThread.InvokeOnMainThreadAsync(async () =>
                     {
-                        await Toast.Make("Failed to undo edit", duration: ToastDuration.Short).Show();
+                        await ModernToastService.ShowSuccess("Failed to undo edit");
                     });
                 }
             }
@@ -201,7 +203,7 @@ namespace IMS_Mobile.MVVM.ViewModels
             {
                 await MainThread.InvokeOnMainThreadAsync(async () =>
                 {
-                    await Toast.Make("No previous state to undo", duration: ToastDuration.Short).Show();
+                    await ModernToastService.ShowError("No previous state to undo");
                 });
             }
         }
@@ -217,7 +219,7 @@ namespace IMS_Mobile.MVVM.ViewModels
                     await MainThread.InvokeOnMainThreadAsync(async () =>
                     {
                         await LoadDB();
-                        await Toast.Make($"{ClonedProduct.Name} Delete undone", duration: ToastDuration.Short).Show();
+                        await ModernToastService.ShowSuccess($"{ClonedProduct.Name} Delete undone");
                         OnPropertyChanged(nameof(FilteredProducts));
                     });
 
@@ -228,7 +230,7 @@ namespace IMS_Mobile.MVVM.ViewModels
                     Debug.WriteLine($"Undo error: {ex.Message}");
                     await MainThread.InvokeOnMainThreadAsync(async () =>
                     {
-                        await Toast.Make("Failed to undo Delete", duration: ToastDuration.Short).Show();
+                        await ModernToastService.ShowError("Failed to undo Delete");
                     });
                 }
             }
@@ -236,7 +238,7 @@ namespace IMS_Mobile.MVVM.ViewModels
             {
                 await MainThread.InvokeOnMainThreadAsync(async () =>
                 {
-                    await Toast.Make("No previous state to undo", duration: ToastDuration.Short).Show();
+                    await ModernToastService.ShowInfo("No previous state to undo");
                 });
             }
         }
@@ -271,15 +273,16 @@ namespace IMS_Mobile.MVVM.ViewModels
                 }
                 else
                 {
-                    await Toast.Make("Product does not exist or is null", duration: ToastDuration.Short).Show();
+                    await ModernToastService.ShowError("Product does not exist or is null");
                 }
             }
             catch (Exception ex)
             {
                 Debug.WriteLine($"Delete product error: {ex.Message}");
-                await Toast.Make("Error deleting product", duration: ToastDuration.Short).Show();
+                await ModernToastService.ShowInfo("Error deleting product");
             }
         }
+
 
         #endregion
 

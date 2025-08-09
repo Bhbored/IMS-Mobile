@@ -44,8 +44,6 @@ namespace IMS_Mobile.MVVM.ViewModels
 
         #endregion
 
-
-
         #region Methods
 
        
