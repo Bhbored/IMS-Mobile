@@ -10,7 +10,8 @@ namespace IMS_Mobile
             Routing.RegisterRoute("HomePage", typeof(HomePage));
             Routing.RegisterRoute("ContactsPage", typeof(ContactsPage));
             Routing.RegisterRoute("InventoryPage", typeof(InventoryPage));
-            Routing.RegisterRoute("ReportsPage", typeof(ReportsPage));
+            Routing.RegisterRoute("ReportsPage", typeof(ReportsPage)); 
+            Routing.RegisterRoute("ContactDetailsPage", typeof(ContactDetailsPage));
         }
         //await Shell.Current.GoToAsync("//products");
     }

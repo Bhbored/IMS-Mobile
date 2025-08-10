@@ -1,12 +1,447 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="IMS_Mobile.MVVM.Views.ContactDetailsPage"
-             Title="ContactDetailsPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+<ContentPage
+    x:Class="IMS_Mobile.MVVM.Views.ContactDetailsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:Converters="clr-namespace:IMS_Mobile.Converters"
+    xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Expander;assembly=Syncfusion.Maui.Expander"
+    Title="Contact Details"
+    BackgroundColor="#F5F5F5">
+    <ContentPage.Resources>
+        <Converters:StringNotNullOrEmptyConverter x:Key="StringNotNullOrEmptyConverter" />
+        <Converters:PaidStatusToBadgeColorConverter x:Key="PaidStatusToBadgeColorConverter" />
+        <Converters:PaidStatusToColorConverter x:Key="PaidStatusToColorConverter" />
+        <Converters:PaidStatusToBorderColorConverter x:Key="PaidStatusToBorderColorConverter" />
+        <Converters:HasItemsConverter x:Key="HasItemsConverter" />
+        <Converters:IsEmptyConverter x:Key="IsEmptyConverter" />
+    </ContentPage.Resources>
+    <ScrollView>
+        <StackLayout Spacing="0">
+
+            <!--  Header Section with Modern Design  -->
+            <Border
+                Margin="0,0,0,-20"
+                Padding="0,40,0,30"
+                Background="White"
+                Stroke="Transparent"
+                StrokeShape="RoundRectangle 0,0,30,30">
+                <StackLayout Spacing="20">
+                    <Frame
+                        Padding="0"
+                        BackgroundColor="#E8F5E9"
+                        BorderColor="Transparent"
+                        CornerRadius="45"
+                        HasShadow="True"
+                        HeightRequest="90"
+                        HorizontalOptions="Center"
+                        IsClippedToBounds="True"
+                        WidthRequest="90">
+                        <Label
+                            FontSize="45"
+                            HorizontalOptions="Center"
+                            Text="👤"
+                            VerticalOptions="Center" />
+                    </Frame>
+
+                    <StackLayout Spacing="3">
+                        <Label
+                            FontFamily="poppinbold"
+                            FontSize="26"
+                            HorizontalOptions="Center"
+                            Text="{Binding Contact.Name}"
+                            TextColor="#333333" />
+
+                        <BoxView
+                            Margin="60,10"
+                            HeightRequest="1"
+                            Color="#EEEEEE" />
+
+                        <StackLayout Padding="30,0" Spacing="12">
+                            <StackLayout
+                                HorizontalOptions="Center"
+                                Orientation="Horizontal"
+                                Spacing="12">
+                                <Label
+                                    FontSize="18"
+                                    Text="📞"
+                                    TextColor="#666666" />
+                                <Label
+                                    FontFamily="poppinregular"
+                                    FontSize="15"
+                                    Text="{Binding Contact.PhoneNumber}"
+                                    TextColor="#666666" />
+                            </StackLayout>
+
+                            <StackLayout
+                                HorizontalOptions="Center"
+                                IsVisible="{Binding Contact.Email, Converter={StaticResource StringNotNullOrEmptyConverter}}"
+                                Orientation="Horizontal"
+                                Spacing="12">
+                                <Label
+                                    FontSize="18"
+                                    Text="✉️"
+                                    TextColor="#666666" />
+                                <Label
+                                    FontFamily="poppinregular"
+                                    FontSize="15"
+                                    Text="{Binding Contact.Email}"
+                                    TextColor="#666666" />
+                            </StackLayout>
+
+                            <StackLayout
+                                HorizontalOptions="Center"
+                                IsVisible="{Binding Contact.Address, Converter={StaticResource StringNotNullOrEmptyConverter}}"
+                                Orientation="Horizontal"
+                                Spacing="12">
+                                <Label
+                                    FontSize="18"
+                                    Text="📍"
+                                    TextColor="#666666" />
+                                <Label
+                                    FontFamily="poppinregular"
+                                    FontSize="15"
+                                    Text="{Binding Contact.Address}"
+                                    TextColor="#666666" />
+                            </StackLayout>
+                        </StackLayout>
+                    </StackLayout>
+                </StackLayout>
+            </Border>
+
+            <!--  Stats Cards Section  -->
+            <StackLayout Padding="20,0,20,15" Spacing="15">
+
+                <!--  Credit Score Card  -->
+                <Border
+                    Padding="25"
+                    Background="White"
+                    Stroke="Transparent"
+                    StrokeShape="RoundRectangle 20">
+                    <Border.Shadow>
+                        <Shadow
+                            Brush="#20000000"
+                            Radius="10"
+                            Offset="0,4" />
+                    </Border.Shadow>
+                    <Grid
+                        ColumnDefinitions="*,Auto"
+                        ColumnSpacing="15"
+                        RowDefinitions="Auto,*,Auto">
+                        <StackLayout
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Spacing="5">
+                            <Label FontSize="20" Text="💳" />
+                            <Label
+                                FontFamily="poppinbold"
+                                FontSize="15"
+                                Text="Credit Score"
+                                TextColor="#666666" />
+                        </StackLayout>
+
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            FontFamily="poppinbold"
+                            FontSize="32"
+                            Text="{Binding Contact.CreditScore, StringFormat='{0:F1}'}"
+                            TextColor="#FF9800"
+                            VerticalOptions="Center" />
+
+                        <Button
+                            Grid.Row="0"
+                            Grid.RowSpan="3"
+                            Grid.Column="1"
+                            BackgroundColor="#FFF3E0"
+                            CornerRadius="25"
+                            FontFamily="poppinbold"
+                            FontSize="13"
+                            HeightRequest="40"
+                            Text="Reduce"
+                            TextColor="#FF9800"
+                            VerticalOptions="Center"
+                            WidthRequest="100" />
+                    </Grid>
+                </Border>
+
+                <!--  Total Purchases Card  -->
+                <Border
+                    Padding="25"
+                    Background="White"
+                    Stroke="Transparent"
+                    StrokeShape="RoundRectangle 20">
+                    <Border.Shadow>
+                        <Shadow
+                            Brush="#20000000"
+                            Radius="10"
+                            Offset="0,4" />
+                    </Border.Shadow>
+                    <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,*">
+                        <StackLayout
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Spacing="5">
+                            <Label FontSize="20" Text="💰" />
+                            <Label
+                                FontFamily="poppinbold"
+                                FontSize="15"
+                                Text="Total Purchases"
+                                TextColor="#666666" />
+                        </StackLayout>
+
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            FontFamily="poppinbold"
+                            FontSize="32"
+                            Text="{Binding Contact.TotalPurchases, StringFormat='${0:F2}'}"
+                            TextColor="#4CAF50"
+                            VerticalOptions="Center" />
+
+                        <Frame
+                            Grid.Row="0"
+                            Grid.RowSpan="2"
+                            Grid.Column="1"
+                            Padding="0"
+                            BackgroundColor="#E8F5E9"
+                            CornerRadius="15"
+                            HeightRequest="50"
+                            IsClippedToBounds="True"
+                            VerticalOptions="Center"
+                            WidthRequest="50">
+                            <Label
+                                FontSize="22"
+                                HorizontalOptions="Center"
+                                Text="📊"
+                                VerticalOptions="Center" />
+                        </Frame>
+                    </Grid>
+                </Border>
+            </StackLayout>
+
+            <!--  Transactions Section  -->
+            <StackLayout
+                Padding="0,20,0,0"
+                BackgroundColor="White"
+                Spacing="0">
+                <StackLayout
+                    Padding="25,0,25,20"
+                    Orientation="Horizontal"
+                    Spacing="12">
+                    <Label FontSize="22" Text="🧾" />
+                    <Label
+                        FontFamily="poppinbold"
+                        FontSize="20"
+                        Text="Recent Transactions"
+                        TextColor="#333333" />
+                    <Label
+                        FontFamily="poppinregular"
+                        FontSize="16"
+                        Text="{Binding Transactions.Count, StringFormat='({0})'}"
+                        TextColor="#888888"
+                        VerticalOptions="Center" />
+                </StackLayout>
+
+                <StackLayout
+                    Padding="0,0,0,25"
+                    BindableLayout.ItemsSource="{Binding Transactions}"
+                    Spacing="12">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <Border
+                                Margin="25,0,25,8"
+                                Padding="20"
+                                Background="{Binding IsPaid, Converter={StaticResource PaidStatusToColorConverter}}"
+                                Stroke="{Binding IsPaid, Converter={StaticResource PaidStatusToBorderColorConverter}}"
+                                StrokeShape="RoundRectangle 16"
+                                StrokeThickness="1">
+                                <Border.Shadow>
+                                    <Shadow
+                                        Brush="#10000000"
+                                        Radius="6"
+                                        Offset="0,2" />
+                                </Border.Shadow>
+                                <StackLayout Spacing="15">
+                                    <!--  Transaction Header  -->
+                                    <StackLayout Orientation="Horizontal">
+                                        <Frame
+                                            Padding="0"
+                                            BackgroundColor="#F0F7FF"
+                                            CornerRadius="12"
+                                            HeightRequest="45"
+                                            IsClippedToBounds="True"
+                                            WidthRequest="45">
+                                            <Label
+                                                FontSize="22"
+                                                HorizontalOptions="Center"
+                                                Text="💰"
+                                                VerticalOptions="Center" />
+                                        </Frame>
+
+                                        <StackLayout
+                                            Margin="15,0"
+                                            HorizontalOptions="Fill"
+                                            VerticalOptions="Center">
+                                            <Label
+                                                FontFamily="poppinbold"
+                                                FontSize="17"
+                                                Text="Sale Transaction"
+                                                TextColor="#333333" />
+                                            <Label
+                                                FontFamily="poppinregular"
+                                                FontSize="13"
+                                                Text="{Binding HumanDate}"
+                                                TextColor="#888888" />
+                                        </StackLayout>
+
+                                        <StackLayout
+                                            HorizontalOptions="End"
+                                            Spacing="3"
+                                            VerticalOptions="Center">
+                                            <Label
+                                                FontFamily="poppinbold"
+                                                FontSize="18"
+                                                Text="{Binding totalamount, StringFormat='${0:F2}'}"
+                                                TextColor="#4CAF50" />
+                                            <Label
+                                                Padding="8,4"
+                                                BackgroundColor="{Binding IsPaid, Converter={StaticResource PaidStatusToBadgeColorConverter}}"
+                                                FontFamily="poppinbold"
+                                                FontSize="12"
+                                                HorizontalOptions="End"
+                                                Text="{Binding Status}"
+                                                TextColor="White" />
+                                        </StackLayout>
+                                    </StackLayout>
+
+                                    <!--  Products Expander  -->
+                                    <syncfusion:SfExpander Margin="0,5,0,0" IsVisible="{Binding Products.Count, Converter={StaticResource HasItemsConverter}}">
+                                        <syncfusion:SfExpander.Header>
+                                            <StackLayout Padding="10,5" Orientation="Horizontal">
+                                                <Label
+                                                    FontSize="16"
+                                                    Text="📦"
+                                                    VerticalOptions="Center" />
+                                                <Label
+                                                    Margin="10,0,0,0"
+                                                    FontFamily="poppinbold"
+                                                    FontSize="14"
+                                                    Text="{Binding Products.Count, StringFormat='{0} Products'}"
+                                                    TextColor="#666666"
+                                                    VerticalOptions="Center" />
+                                                <Label
+                                                    FontFamily="poppinregular"
+                                                    FontSize="12"
+                                                    Text=" Tap to expand"
+                                                    TextColor="#999999"
+                                                    VerticalOptions="Center" />
+                                            </StackLayout>
+                                        </syncfusion:SfExpander.Header>
+                                        <syncfusion:SfExpander.Content>
+                                            <StackLayout
+                                                Padding="0,10,0,5"
+                                                BindableLayout.ItemsSource="{Binding Products}"
+                                                Spacing="8">
+                                                <BindableLayout.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Border
+                                                            Padding="15"
+                                                            Background="#FAFAFA"
+                                                            Stroke="#F0F0F0"
+                                                            StrokeShape="RoundRectangle 12">
+                                                            <StackLayout Orientation="Horizontal">
+                                                                <Frame
+                                                                    Padding="0"
+                                                                    BackgroundColor="#E3F2FD"
+                                                                    CornerRadius="8"
+                                                                    HeightRequest="32"
+                                                                    IsClippedToBounds="True"
+                                                                    WidthRequest="32">
+                                                                    <Label
+                                                                        FontSize="16"
+                                                                        HorizontalOptions="Center"
+                                                                        Text="📦"
+                                                                        VerticalOptions="Center" />
+                                                                </Frame>
+
+                                                                <StackLayout
+                                                                    Margin="12,0"
+                                                                    HorizontalOptions="Fill"
+                                                                    Spacing="2">
+                                                                    <Label
+                                                                        FontFamily="poppinbold"
+                                                                        FontSize="14"
+                                                                        Text="{Binding Name}"
+                                                                        TextColor="#444444" />
+                                                                    <StackLayout Orientation="Horizontal" Spacing="20">
+                                                                        <StackLayout Orientation="Horizontal" Spacing="5">
+                                                                            <Label
+                                                                                FontFamily="poppinregular"
+                                                                                FontSize="12"
+                                                                                Text="Qty:"
+                                                                                TextColor="#888888" />
+                                                                            <Label
+                                                                                FontFamily="poppinbold"
+                                                                                FontSize="12"
+                                                                                Text="{Binding Quantity}"
+                                                                                TextColor="#666666" />
+                                                                        </StackLayout>
+                                                                        <Label
+                                                                            FontFamily="poppinbold"
+                                                                            FontSize="13"
+                                                                            Text="{Binding Price, StringFormat='${0:F2}'}"
+                                                                            TextColor="#4CAF50" />
+                                                                    </StackLayout>
+                                                                </StackLayout>
+                                                            </StackLayout>
+                                                        </Border>
+                                                    </DataTemplate>
+                                                </BindableLayout.ItemTemplate>
+                                            </StackLayout>
+                                        </syncfusion:SfExpander.Content>
+                                    </syncfusion:SfExpander>
+                                </StackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+
+                    <!--  Empty State  -->
+                    <StackLayout
+                        Padding="25,50"
+                        HorizontalOptions="Center"
+                        IsVisible="{Binding Transactions.Count, Converter={StaticResource IsEmptyConverter}}">
+                        <Frame
+                            Padding="0"
+                            BackgroundColor="#F8F9FA"
+                            BorderColor="Transparent"
+                            CornerRadius="30"
+                            HeightRequest="70"
+                            HorizontalOptions="Center"
+                            IsClippedToBounds="True"
+                            WidthRequest="70">
+                            <Label
+                                FontSize="35"
+                                HorizontalOptions="Center"
+                                Text="📭"
+                                VerticalOptions="Center" />
+                        </Frame>
+                        <Label
+                            Margin="0,20,0,10"
+                            FontFamily="poppinbold"
+                            FontSize="18"
+                            HorizontalOptions="Center"
+                            Text="No transactions yet"
+                            TextColor="#666666" />
+                        <Label
+                            FontFamily="poppinregular"
+                            FontSize="14"
+                            HorizontalOptions="Center"
+                            HorizontalTextAlignment="Center"
+                            Text="This contact hasn't made any purchases"
+                            TextColor="#999999" />
+                    </StackLayout>
+                </StackLayout>
+            </StackLayout>
+        </StackLayout>
+    </ScrollView>
 </ContentPage>

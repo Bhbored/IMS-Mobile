@@ -379,6 +379,10 @@ namespace IMS_Mobile.MVVM.ViewModels
         {
             await RefreshContacts();
         });
+        public Command ShowDetailsCommand => new Command<Contact>(async (contact) =>
+        {
+            await App.Current.MainPage.Navigation.PushAsync(new ContactDetailsPage(contact));
+        });
         #endregion
 
         #region Tasks

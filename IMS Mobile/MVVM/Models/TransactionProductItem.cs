@@ -12,7 +12,6 @@ namespace IMS_Mobile.MVVM.Models
         public string Name { get; set; }
         public double Price { get; set; }
         public int Quantity { get; set; } = 1;
-        public string CategoryName { get; set; }
         public double Cost { get; set; }
 
         [ForeignKey(typeof(Transaction))]

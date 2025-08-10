@@ -113,6 +113,9 @@
                     </VerticalStackLayout>
 
                 </Grid>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ContactsVM}}, Path=ShowDetailsCommand}" CommandParameter="{Binding .}" />
+                </Border.GestureRecognizers>
             </Border>
         </DataTemplate>
     </ContentPage.Resources>
