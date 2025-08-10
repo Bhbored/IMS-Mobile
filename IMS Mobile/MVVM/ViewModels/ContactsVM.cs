@@ -27,6 +27,7 @@ namespace IMS_Mobile.MVVM.ViewModels
         private ObservableCollection<Contact> contacts = new ObservableCollection<Contact>();
         private ContactsPage contactsPage;
         private Contact clonedContact = new Contact();
+        private bool isRefreshing = false;
         #endregion
 
         #region Properties
@@ -64,6 +65,15 @@ namespace IMS_Mobile.MVVM.ViewModels
             set
             {
                 clonedContact = value;
+                OnPropertyChanged();
+            }
+        }
+        public bool IsRefreshing
+        {
+            get => isRefreshing;
+            set
+            {
+                isRefreshing = value;
                 OnPropertyChanged();
             }
         }
@@ -200,8 +210,10 @@ namespace IMS_Mobile.MVVM.ViewModels
         }
         public async void DeleteContact(Contact contact)
         {
-            if (contact != null && Contacts.Any(x => x.Name == contact.Name))
+            if (contact != null)
             {
+                var tobecloned = App.ContactRepository.GetItems().FirstOrDefault(x => x.Name == contact.Name);
+                CloneContact(tobecloned);
                 App.ContactRepository.DeleteItem(contact);
                 await LoadContacts();
                 MainThread.BeginInvokeOnMainThread(async () =>
@@ -209,6 +221,8 @@ namespace IMS_Mobile.MVVM.ViewModels
                     await Task.Delay(100);
                     var snackbar = Snackbar.Make(
                     message: $"{contact.Name} Deleted Successfully",
+                     action: () => UndoDelete(contact),
+                    actionButtonText: "UNDO",
                     duration: TimeSpan.FromSeconds(2),
                     visualOptions: new SnackbarOptions
                     {
@@ -267,7 +281,53 @@ namespace IMS_Mobile.MVVM.ViewModels
                     await Task.Delay(100);
                     var snackbar = Snackbar.Make(
                     message: $"{contact.Name} Edit Undone Successfully",
+                    duration: TimeSpan.FromSeconds(3),
+                    visualOptions: new SnackbarOptions
+                    {
+                        BackgroundColor = Colors.LightGreen,
+                        TextColor = Colors.White,
+                        CornerRadius = 10,
+                    },
+                    anchor: contactsPage
+                );
+                    await snackbar.Show();
+                });
+            }
+            else
+            {
+                MainThread.BeginInvokeOnMainThread(async () =>
+                {
+                    await Task.Delay(100);
+                    var snackbar = Snackbar.Make(
+                    message: $"{contact.Name} Not Found",
                     duration: TimeSpan.FromSeconds(2),
+                    visualOptions: new SnackbarOptions
+                    {
+                        BackgroundColor = Colors.Red,
+                        TextColor = Colors.White,
+                        CornerRadius = 10,
+                    },
+                    anchor: contactsPage
+                );
+                    await snackbar.Show();
+                });
+            }
+        }
+        public void UndoDelete(Contact contact)
+        {
+            if (contact != null)
+            {
+
+                App.ContactRepository.InsertItem(ClonedContact);
+                ClonedContact = new Contact();
+                _ = LoadContacts();
+                OnPropertyChanged(nameof(ClonedContact));
+                MainThread.BeginInvokeOnMainThread(async () =>
+                {
+                    await Task.Delay(100);
+                    var snackbar = Snackbar.Make(
+                    message: $"{contact.Name} Delete Undone Successfully",
+                    duration: TimeSpan.FromSeconds(3),
                     visualOptions: new SnackbarOptions
                     {
                         BackgroundColor = Colors.LightGreen,
@@ -311,6 +371,14 @@ namespace IMS_Mobile.MVVM.ViewModels
         {
             AppShell.Current.ShowPopupAsync(new EditContactPopup(this, Contact));
         });
+        public Command DeleteContactCommand => new Command<Contact>((Contact) =>
+        {
+            AppShell.Current.ShowPopupAsync(new DeleteContactPopup(this, Contact));
+        });
+        public Command RefreshCommand => new Command(async () =>
+        {
+            await RefreshContacts();
+        });
         #endregion
 
         #region Tasks
@@ -327,6 +395,13 @@ namespace IMS_Mobile.MVVM.ViewModels
             }
             SortContacts();
             await Task.CompletedTask;
+        }
+        public async Task RefreshContacts()
+        {
+            IsRefreshing = true;
+            await Task.Delay(1000);
+            await LoadContacts();
+            IsRefreshing = false;
         }
         #endregion
 

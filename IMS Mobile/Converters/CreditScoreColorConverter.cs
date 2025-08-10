@@ -8,16 +8,16 @@ namespace IMS_Mobile.Converters
         {
             if (value is double creditScore)
             {
-                if (creditScore >= 800)
-                    return Color.FromHex("#4CAF50"); // Green for excellent
-                else if (creditScore >= 700)
-                    return Color.FromHex("#FF9800"); // Orange for good
-                else if (creditScore >= 600)
-                    return Color.FromHex("#FFC107"); // Yellow for fair
-                else
-                    return Color.FromHex("#F44336"); // Red for poor
+                if (creditScore >= 1000)
+                    return Colors.LightGreen; // Green for excellent
+                else if (creditScore >= 2000)
+                    return Colors.Orange; // Orange for good
+                else if (creditScore >= 3000)
+                    return Colors.Yellow; // Yellow for fair
+                else if(creditScore >=4000)
+                    return Colors.Red; // Red for poor
             }
-            return Color.FromHex("#9E9E9E"); // Gray default
+            return Colors.Gray; // Gray default
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

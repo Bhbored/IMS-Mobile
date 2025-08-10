@@ -68,28 +68,50 @@
                             FontFamily="poppinregular"
                             FontSize="12"
                             HorizontalOptions="Center"
-                            Text="{Binding CreditScore, StringFormat='Credit: {0:F0}'}"
+                            Text="{Binding CreditScore, StringFormat='Credit: {0} LBP'}"
                             TextColor="White" />
                     </Border>
 
                     <!--  Edit Icon  -->
-                    <Border
+                    <VerticalStackLayout
                         Grid.RowSpan="2"
                         Grid.Column="2"
-                        Background="Transparent"
-                        HeightRequest="24"
-                        HorizontalOptions="End"
-                        VerticalOptions="Center"
-                        WidthRequest="24">
-                        <Label
-                            FontSize="16"
-                            HorizontalOptions="Center"
-                            Text="✏️"
-                            VerticalOptions="Center" />
-                        <Border.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ContactsVM}}, Path=EditContactCommand}" CommandParameter="{Binding .}" />
-                        </Border.GestureRecognizers>
-                    </Border>
+                        Spacing="25"
+                        VerticalOptions="Center">
+                        <Border
+                            Background="Transparent"
+                            HeightRequest="24"
+                            HorizontalOptions="End"
+                            StrokeShape="RoundRectangle 5"
+                            VerticalOptions="Center"
+                            WidthRequest="24">
+                            <Label
+                                FontSize="16"
+                                HorizontalOptions="Center"
+                                Text="✏️"
+                                VerticalOptions="Center" />
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ContactsVM}}, Path=EditContactCommand}" CommandParameter="{Binding .}" />
+                            </Border.GestureRecognizers>
+                        </Border>
+                        <Border
+                            Background="Transparent"
+                            HeightRequest="24"
+                            HorizontalOptions="End"
+                            StrokeShape="RoundRectangle 5"
+                            VerticalOptions="Center"
+                            WidthRequest="24">
+                            <Label
+                                FontSize="16"
+                                HorizontalOptions="Center"
+                                Text="🗑️"
+                                VerticalOptions="Center" />
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ContactsVM}}, Path=DeleteContactCommand}" CommandParameter="{Binding .}" />
+                            </Border.GestureRecognizers>
+                        </Border>
+                    </VerticalStackLayout>
+
                 </Grid>
             </Border>
         </DataTemplate>
@@ -166,15 +188,21 @@
         </Border>
 
         <!--  Contacts List  -->
-        <CollectionView
+        <RefreshView
             Grid.Row="2"
-            Margin="0,0,0,10"
-            ItemTemplate="{StaticResource ContactItemTemplate}"
-            ItemsSource="{Binding FilteredContacts}"
-            VerticalScrollBarVisibility="Always">
-            <CollectionView.ItemsLayout>
-                <GridItemsLayout Orientation="Vertical" Span="1" />
-            </CollectionView.ItemsLayout>
-        </CollectionView>
+            Command="{Binding RefreshCommand}"
+            IsRefreshing="{Binding IsRefreshing}"
+            RefreshColor="LightGreen">
+            <CollectionView
+                Margin="0,0,0,10"
+                ItemTemplate="{StaticResource ContactItemTemplate}"
+                ItemsSource="{Binding FilteredContacts}"
+                VerticalScrollBarVisibility="Always">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" Span="1" />
+                </CollectionView.ItemsLayout>
+            </CollectionView>
+        </RefreshView>
+
     </Grid>
 </ContentPage>
