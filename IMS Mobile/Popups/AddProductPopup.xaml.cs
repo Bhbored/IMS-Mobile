@@ -1,3 +1,4 @@
+
 using CommunityToolkit.Maui.Views;
 using IMS_Mobile.MVVM.Models;
 using IMS_Mobile.MVVM.ViewModels;
@@ -38,8 +39,13 @@ public partial class AddProductPopup : Popup, INotifyPropertyChanged
     {
         if (BindingContext is InventoryVM vm)
         {
+            if (string.IsNullOrWhiteSpace(ProductNameEntry.Text))
+            {
+               Application.Current.MainPage.DisplayAlert("Required Field", "Please enter a name to continue", "Got it");
+                return;
+            }
             NewProduct = new Product();
-            NewProduct.Name = ProductNameEntry.Text;
+            NewProduct.Name = ProductNameEntry.Text.Trim();
             NewProduct.Price = double.TryParse(PriceEntry.Text, out var price) ? price : 0;
             NewProduct.Cost = double.TryParse(CostEntry.Text, out var cost) ? cost : 0;
             NewProduct.stock = int.TryParse(StockEntry.Text, out var quantity) ? quantity : 0;

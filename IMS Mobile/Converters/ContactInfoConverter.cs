@@ -8,7 +8,7 @@ namespace IMS_Mobile.Converters
         {
             if (value is IMS_Mobile.MVVM.Models.Contact contact)
             {
-                return $"Phone: {contact.PhoneNumber} | Credit: ${contact.CreditScore:F2} | Total: ${contact.TotalPurchases:F2}";
+                return $"Phone: {contact.PhoneNumber} |  Total: {contact.TotalPurchases} LBP";
             }
             return string.Empty;
         }

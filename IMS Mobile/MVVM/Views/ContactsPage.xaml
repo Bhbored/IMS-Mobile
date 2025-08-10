@@ -86,6 +86,9 @@
                             HorizontalOptions="Center"
                             Text="✏️"
                             VerticalOptions="Center" />
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ContactsVM}}, Path=EditContactCommand}" CommandParameter="{Binding .}" />
+                        </Border.GestureRecognizers>
                     </Border>
                 </Grid>
             </Border>

@@ -99,6 +99,9 @@
 	  <MauiXaml Update="Popups\DeleteProduct.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Popups\EditContactPopup.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Popups\EditProdutcPopup.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

@@ -26,6 +26,7 @@ namespace IMS_Mobile.MVVM.ViewModels
         private ObservableCollection<Contact> filteredContacts = new ObservableCollection<Contact>();
         private ObservableCollection<Contact> contacts = new ObservableCollection<Contact>();
         private ContactsPage contactsPage;
+        private Contact clonedContact = new Contact();
         #endregion
 
         #region Properties
@@ -57,11 +58,31 @@ namespace IMS_Mobile.MVVM.ViewModels
                 OnPropertyChanged();
             }
         }
+        public Contact ClonedContact
+        {
+            get => clonedContact;
+            set
+            {
+                clonedContact = value;
+                OnPropertyChanged();
+            }
+        }
         #endregion
 
         #region Methods
-
-        public void FilterProducts()
+        public void SortContacts()
+        {
+            var sortedList = Contacts.OrderBy(c => c.Name).ToList();
+            foreach (var contact in sortedList)
+            {
+                if (!Contacts.Contains(contact))
+                {
+                    Contacts.Add(contact);
+                }
+            }
+            FilteredContacts = new ObservableCollection<Contact>(sortedList);
+        }
+        public void FilterContacts()
         {
             if (SelectedContacts.Count == 0)
             {
@@ -130,6 +151,154 @@ namespace IMS_Mobile.MVVM.ViewModels
                 });
             }
         }
+        public async void EditContact(Contact contact)
+        {
+            if (contact != null)
+            {
+                var tobecloned = App.ContactRepository.GetItems().FirstOrDefault(x => x.Name == contact.Name);
+                CloneContact(tobecloned);
+                App.ContactRepository.UpdateItem(contact);
+                await LoadContacts();
+                MainThread.BeginInvokeOnMainThread(async () =>
+                {
+                    await Task.Delay(100);
+                    var snackbar = Snackbar.Make(
+                    message: $"{contact.Name} Updated Successfully",
+                    action: () => UndoEdit(contact),
+                    actionButtonText: "UNDO",
+                    duration: TimeSpan.FromSeconds(2),
+                    visualOptions: new SnackbarOptions
+                    {
+                        BackgroundColor = Colors.LightGreen,
+                        TextColor = Colors.White,
+                        CornerRadius = 10,
+                    },
+                    anchor: contactsPage
+                );
+                    await snackbar.Show();
+                });
+            }
+            else
+            {
+                MainThread.BeginInvokeOnMainThread(async () =>
+                {
+                    await Task.Delay(100);
+                    var snackbar = Snackbar.Make(
+                    message: $"{contact.Name} Not Found",
+                    duration: TimeSpan.FromSeconds(2),
+                    visualOptions: new SnackbarOptions
+                    {
+                        BackgroundColor = Colors.Red,
+                        TextColor = Colors.White,
+                        CornerRadius = 10,
+                    },
+                    anchor: contactsPage
+                );
+                    await snackbar.Show();
+                });
+            }
+        }
+        public async void DeleteContact(Contact contact)
+        {
+            if (contact != null && Contacts.Any(x => x.Name == contact.Name))
+            {
+                App.ContactRepository.DeleteItem(contact);
+                await LoadContacts();
+                MainThread.BeginInvokeOnMainThread(async () =>
+                {
+                    await Task.Delay(100);
+                    var snackbar = Snackbar.Make(
+                    message: $"{contact.Name} Deleted Successfully",
+                    duration: TimeSpan.FromSeconds(2),
+                    visualOptions: new SnackbarOptions
+                    {
+                        BackgroundColor = Colors.LightGreen,
+                        TextColor = Colors.White,
+                        CornerRadius = 10,
+                    },
+                    anchor: contactsPage
+                );
+                    await snackbar.Show();
+                });
+            }
+            else
+            {
+                MainThread.BeginInvokeOnMainThread(async () =>
+                {
+                    await Task.Delay(100);
+                    var snackbar = Snackbar.Make(
+                    message: $"{contact.Name} Not Found",
+                    duration: TimeSpan.FromSeconds(2),
+                    visualOptions: new SnackbarOptions
+                    {
+                        BackgroundColor = Colors.Red,
+                        TextColor = Colors.White,
+                        CornerRadius = 10,
+                    },
+                    anchor: contactsPage
+                );
+                    await snackbar.Show();
+                });
+            }
+        }
+
+        public void CloneContact(Contact contact)
+        {
+
+            ClonedContact = new Contact
+            {
+                Name = contact.Name,
+                PhoneNumber = contact.PhoneNumber,
+                Email = contact.Email,
+                Address = contact.Address
+            };
+        }
+        public void UndoEdit(Contact contact)
+        {
+            if (contact != null)
+            {
+                App.ContactRepository.DeleteItem(contact);
+                App.ContactRepository.InsertItem(ClonedContact);
+                ClonedContact = new Contact();
+                _ = LoadContacts();
+                OnPropertyChanged(nameof(ClonedContact));
+                MainThread.BeginInvokeOnMainThread(async () =>
+                {
+                    await Task.Delay(100);
+                    var snackbar = Snackbar.Make(
+                    message: $"{contact.Name} Edit Undone Successfully",
+                    duration: TimeSpan.FromSeconds(2),
+                    visualOptions: new SnackbarOptions
+                    {
+                        BackgroundColor = Colors.LightGreen,
+                        TextColor = Colors.White,
+                        CornerRadius = 10,
+                    },
+                    anchor: contactsPage
+                );
+                    await snackbar.Show();
+                });
+            }
+            else
+            {
+                MainThread.BeginInvokeOnMainThread(async () =>
+                {
+                    await Task.Delay(100);
+                    var snackbar = Snackbar.Make(
+                    message: $"{contact.Name} Not Found",
+                    duration: TimeSpan.FromSeconds(2),
+                    visualOptions: new SnackbarOptions
+                    {
+                        BackgroundColor = Colors.Red,
+                        TextColor = Colors.White,
+                        CornerRadius = 10,
+                    },
+                    anchor: contactsPage
+                );
+                    await snackbar.Show();
+                });
+            }
+        }
         #endregion
 
         #region commands
@@ -137,6 +306,10 @@ namespace IMS_Mobile.MVVM.ViewModels
         public Command AddContactCommand => new Command(() =>
         {
             AppShell.Current.ShowPopupAsync(new AddContactPopup(this));
+        });
+        public Command EditContactCommand => new Command<Contact>((Contact) =>
+        {
+            AppShell.Current.ShowPopupAsync(new EditContactPopup(this, Contact));
         });
         #endregion
 
@@ -152,7 +325,7 @@ namespace IMS_Mobile.MVVM.ViewModels
             {
                 Contacts.Add(contact);
             }
-            FilteredContacts = new ObservableCollection<Contact>(Contacts);
+            SortContacts();
             await Task.CompletedTask;
         }
         #endregion

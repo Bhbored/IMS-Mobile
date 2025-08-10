@@ -25,7 +25,7 @@ public partial class ContactsPage : ContentPage
     {
         if (BindingContext is ContactsVM vm)
         {
-            vm.FilterProducts();
+            vm.FilterContacts();
         }
     }
 }
