@@ -19,6 +19,12 @@
         <Tab Title="Reports" Icon="reports.png">
             <ShellContent ContentTemplate="{DataTemplate views:ReportsPage}" Route="ReportsPage" />
         </Tab>
+        <Tab Title="Sell Products" Icon="sell.png">
+            <ShellContent ContentTemplate="{DataTemplate views:SellProducts}" Route="SellProducts" />
+        </Tab>
+        <Tab Title="Restock" Icon="buy.png">
+            <ShellContent ContentTemplate="{DataTemplate views:BuyProducts}" Route="BuyProducts" />
+        </Tab>
     </TabBar>
     <Shell.TabBarForegroundColor>
         <OnPlatform x:TypeArguments="Color">

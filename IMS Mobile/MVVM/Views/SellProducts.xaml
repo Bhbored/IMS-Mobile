@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="IMS_Mobile.MVVM.Views.SellProducts"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:Models="clr-namespace:IMS_Mobile.MVVM.Models"
+    xmlns:ViewModels="clr-namespace:IMS_Mobile.MVVM.ViewModels"
+    xmlns:editors="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+    x:DataType="ViewModels:InventoryVM"
+    BackgroundColor="White"
+    Shell.NavBarIsVisible="False">
+
+    <Grid RowDefinitions="Auto,Auto,*,Auto">
+
+        <!--  Header (Row 0) - Match Inventory Page Style  -->
+        <Grid
+            Grid.Row="0"
+            Margin="20,0,20,10"
+            ColumnDefinitions="*,Auto">
+            <Label
+                Grid.Column="0"
+                HorizontalOptions="Center"
+                StyleClass="TitleStyle"
+                Text="Sell Product" />
+            <Border
+                Grid.Column="1"
+                Background="#F5F5F5"
+                HeightRequest="40"
+                HorizontalOptions="End"
+                StrokeShape="RoundRectangle 8"
+                VerticalOptions="End"
+                WidthRequest="40">
+                <Label
+                    FontSize="20"
+                    HorizontalOptions="Center"
+                    Text="🛒"
+                    VerticalOptions="Center" />
+            </Border>
+        </Grid>
+
+        <!--  Search Bar (Row 1) - Match Inventory Page Style  -->
+        <Border
+            Grid.Row="1"
+            Margin="20,10,20,20"
+            Padding="16,12"
+            Background="#F0F8F0"
+            HeightRequest="70"
+            StrokeShape="RoundRectangle 15">
+            <Grid ColumnDefinitions="Auto,*">
+                <Label
+                    Grid.Column="0"
+                    Margin="0,0,8,0"
+                    FontSize="16"
+                    Text="🔍"
+                    VerticalOptions="Center" />
+                <editors:SfAutocomplete
+                    x:Name="autocomplete"
+                    Grid.Column="1"
+                    Margin="0,5,0,0"
+                    BackgroundColor="#F0F8F0"
+                    DisplayMemberPath="Name"
+                    EnableAutoSize="True"
+                    HighlightedTextColor="#4CAF50"
+                    HighlightedTextFontAttributes="Bold"
+                    HorizontalOptions="Fill"
+                    ItemsSource="{Binding Products}"
+                    MaxDropDownHeight="250"
+                    Placeholder="Search Product ..."
+                    SelectedItems="{Binding SelectedProducts, Mode=TwoWay}"
+                    SelectionChanged="autocomplete_SelectionChanged"
+                    SelectionMode="Multiple"
+                    SelectionTextHighlightColor="#4CAF50"
+                    Stroke="Transparent"
+                    StyleClass="TitleText"
+                    TextHighlightMode="FirstOccurrence"
+                    TextMemberPath="Name"
+                    TokensWrapMode="Wrap"
+                    VerticalOptions="Center" />
+            </Grid>
+        </Border>
+
+        <!--  Product Collection (Row 2)  -->
+        <CollectionView
+            Grid.Row="2"
+            ItemsSource="{Binding FilteredProducts}"
+            SelectionMode="None">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical" Span="1" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="Models:Product">
+                    <Border StyleClass="ProductItemStyle">
+                        <Grid ColumnDefinitions="Auto,*,Auto,Auto" ColumnSpacing="8">
+                            <!--  Product Image  -->
+                            <Border
+                                Grid.Column="0"
+                                Background="#F5F5F5"
+                                HeightRequest="60"
+                                StrokeShape="RoundRectangle 10"
+                                WidthRequest="60">
+                                <Image Aspect="AspectFit" Source="product.png" />
+                            </Border>
+
+                            <!--  Product Info  -->
+                            <StackLayout
+                                Grid.Column="1"
+                                Spacing="2"
+                                VerticalOptions="Center">
+                                <Label
+                                    LineBreakMode="WordWrap"
+                                    MaxLines="2"
+                                    StyleClass="RegularTextStyle"
+                                    Text="{Binding Name}" />
+                                <Label
+                                    LineBreakMode="WordWrap"
+                                    StyleClass="PriceStyle"
+                                    Text="{Binding Price, StringFormat='${0:F2}'}" />
+                                <Label
+                                    LineBreakMode="WordWrap"
+                                    StyleClass="StockStyle"
+                                    Text="{Binding stock, StringFormat='Stock: {0}'}" />
+                            </StackLayout>
+
+                            <!--  Stock Control  -->
+                            <StackLayout
+                                Grid.Column="2"
+                                Orientation="Horizontal"
+                                Spacing="1"
+                                VerticalOptions="Center">
+                                <Button
+                                    CornerRadius="13"
+                                    FontSize="12"
+                                    HeightRequest="26"
+                                    StyleClass="QuantityButtonStyle"
+                                    Text="-"
+                                    WidthRequest="26" />
+                                <Entry
+                                    FontSize="11"
+                                    HeightRequest="26"
+                                    Keyboard="Numeric"
+                                    StyleClass="QuantityEntryStyle"
+                                    Text="1"
+                                    WidthRequest="32" />
+                                <Button
+                                    CornerRadius="13"
+                                    FontSize="12"
+                                    HeightRequest="26"
+                                    StyleClass="QuantityButtonStyle"
+                                    Text="+"
+                                    WidthRequest="26" />
+                            </StackLayout>
+
+                            <!--  Selection Checkbox  -->
+                            <CheckBox
+                                Grid.Column="3"
+                                IsChecked="{Binding IsChecked}"
+                                Scale="0.7"
+                                VerticalOptions="Center"
+                                Color="#4CAF50" />
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!--  Cart Summary (Row 3) - Footer  -->
+        <Border
+            Grid.Row="3"
+            Padding="20,15"
+            Background="#F8F9FA"
+            Stroke="#E0E0E0"
+            StrokeShape="RoundRectangle 15,15,0,0"
+            StrokeThickness="1">
+            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="15">
+                <StackLayout Grid.Column="0" VerticalOptions="Center">
+                    <Label StyleClass="RegularTextStyle" Text="Cart: 0 items" />
+                    <Label StyleClass="PriceStyle" Text="Total: $0.00" />
+                </StackLayout>
+                <Button
+                    Grid.Column="1"
+                    Padding="20,10"
+                    CornerRadius="20"
+                    StyleClass="CashButtonStyle"
+                    Text="View Cart" />
+            </Grid>
+        </Border>
+    </Grid>
+</ContentPage>

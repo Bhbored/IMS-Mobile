@@ -26,6 +26,7 @@ namespace IMS_Mobile.MVVM.ViewModels
 
         #region fields
         private bool _isRefreshing = false;
+
         #endregion
 
         #region Properties

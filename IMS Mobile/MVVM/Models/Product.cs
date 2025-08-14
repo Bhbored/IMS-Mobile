@@ -24,6 +24,9 @@ namespace IMS_Mobile.MVVM.Models
         public string FormattedDate => CreatedDate.ToString("dd/MM/yyyy");
         public double Cost { get; set; }
         public int stock { get; set; }
+
+        [Ignore]
+        public bool IsChecked { get; set; } = false;
     }
 
     

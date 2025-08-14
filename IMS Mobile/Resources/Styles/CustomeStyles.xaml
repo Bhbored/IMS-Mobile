@@ -304,5 +304,98 @@
         <Setter Property="TextColor" Value="#666666" />
         <Setter Property="HorizontalOptions" Value="Center" />
     </Style>
+    <!--  New Product Item Style  -->
+    <Style Class="ProductItemStyle" TargetType="Border">
+        <Setter Property="Background" Value="White" />
+        <Setter Property="Stroke" Value="#E0E0E0" />
+        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="StrokeShape">
+            <Setter.Value>
+                <RoundRectangle CornerRadius="12" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Margin" Value="15,5" />
+        <Setter Property="Padding" Value="15" />
+        <Setter Property="Shadow">
+            <Setter.Value>
+                <Shadow
+                    Brush="#10000000"
+                    Radius="2"
+                    Offset="0,1" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--  New Price Style  -->
+    <Style Class="PriceStyle" TargetType="Label">
+        <Setter Property="FontFamily" Value="poppinbold" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="TextColor" Value="#4CAF50" />
+    </Style>
+
+    <!--  New Stock Style  -->
+    <Style Class="StockStyle" TargetType="Label">
+        <Setter Property="FontFamily" Value="poppinregular" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="TextColor" Value="#FF9800" />
+    </Style>
+
+    <!--  Payment Button Styles  -->
+    <Style Class="PaymentButtonStyle" TargetType="Button">
+        <Setter Property="FontFamily" Value="poppinregular" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Padding" Value="20,12" />
+        <Setter Property="Margin" Value="10,5" />
+        <Setter Property="TextColor" Value="White" />
+        <Setter Property="CornerRadius" Value="10" />
+    </Style>
+
+    <Style
+        BasedOn="{StaticResource PaymentButtonStyle}"
+        Class="CashButtonStyle"
+        TargetType="Button">
+        <Setter Property="Background" Value="#4CAF50" />
+    </Style>
+
+    <Style
+        BasedOn="{StaticResource PaymentButtonStyle}"
+        Class="TabButtonStyle"
+        TargetType="Button">
+        <Setter Property="Background" Value="#2196F3" />
+    </Style>
+    <!--  Add to existing styles  -->
+    <Style Class="QuantityButtonStyle" TargetType="Button">
+        <Setter Property="FontFamily" Value="poppinbold" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="TextColor" Value="White" />
+        <Setter Property="Background" Value="#4CAF50" />
+        <Setter Property="WidthRequest" Value="32" />
+        <Setter Property="HeightRequest" Value="32" />
+        <Setter Property="CornerRadius" Value="16" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Margin" Value="2" />
+    </Style>
+
+    <Style Class="QuantityEntryStyle" TargetType="Entry">
+        <Setter Property="FontFamily" Value="poppinbold" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="TextColor" Value="Black" />
+        <Setter Property="BackgroundColor" Value="#F0F8F0" />
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+        <Setter Property="VerticalTextAlignment" Value="Center" />
+        <Setter Property="WidthRequest" Value="45" />
+        <Setter Property="HeightRequest" Value="32" />
+        <Setter Property="Margin" Value="3,0" />
+    </Style>
+
+    <Style Class="AddToCartButtonStyle" TargetType="Button">
+        <Setter Property="FontFamily" Value="poppinbold" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="TextColor" Value="White" />
+        <Setter Property="Background" Value="#2196F3" />
+        <Setter Property="CornerRadius" Value="16" />
+        <Setter Property="Padding" Value="12,6" />
+        <Setter Property="Margin" Value="5,0" />
+    </Style>
 
 </ResourceDictionary>
