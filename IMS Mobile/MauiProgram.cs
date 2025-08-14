@@ -5,6 +5,7 @@ using IMS_Mobile.MVVM.Models;
 using IMS_Mobile.MVVM.ViewModels;
 using Microsoft.Extensions.Logging;
 using Syncfusion.Maui.Core.Hosting;
+using Syncfusion.Maui.Toolkit.Hosting;
 using Contact = IMS_Mobile.MVVM.Models.Contact;
 
 namespace IMS_Mobile
@@ -18,6 +19,7 @@ namespace IMS_Mobile
             builder
                 .UseMauiApp<App>()
                 .ConfigureSyncfusionCore()
+                .ConfigureSyncfusionToolkit()
                 .UseMauiCommunityToolkitCore()
                 .UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
@@ -27,7 +29,7 @@ namespace IMS_Mobile
                     fonts.AddFont("Poppins-Bold.ttf", "poppinbold");
                     fonts.AddFont("Poppins-Regular.ttf", "poppinregular");
                 });
-
+          
 #if DEBUG
             builder.Logging.AddDebug();
 #endif

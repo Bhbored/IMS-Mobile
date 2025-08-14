@@ -22,14 +22,65 @@ namespace IMS_Mobile.MVVM.ViewModels
     [AddINotifyPropertyChangedInterface]
     public class InventoryVM : INotifyPropertyChanged
     {
-        private ObservableCollection<Product> filteredProducts = new();
+
 
         #region fields
         private bool _isRefreshing = false;
+        private ObservableCollection<Product> filteredProducts = new();
+        private ObservableCollection<Product> cartItems = new ObservableCollection<Product>();
+        public int cartitemstock = 1;
+        public int cartitems = 0;
+        public double cartvalue = 0.0;
+        private ObservableCollection<Product> finalCartItems = new ObservableCollection<Product>();
 
         #endregion
 
         #region Properties
+        public int CartItemsCount
+        {
+            get => cartitems;
+            set
+            {
+                cartitems = value;
+                OnPropertyChanged();
+            }
+        }
+        public int CartItemStock
+        {
+            get => cartitemstock;
+            set
+            {
+                cartitemstock = value;
+                OnPropertyChanged();
+            }
+        }
+        public double CartValue
+        {
+            get => cartvalue;
+            set
+            {
+                cartvalue = value;
+                OnPropertyChanged();
+            }
+        }
+        public ObservableCollection<Product> CartItems
+        {
+            get => cartItems;
+            set
+            {
+                cartItems = value;
+                OnPropertyChanged();
+            }
+        }
+        public ObservableCollection<Product> FinalCartItems
+        {
+            get => finalCartItems;
+            set
+            {
+                finalCartItems = value;
+                OnPropertyChanged();
+            }
+        }
         public ObservableCollection<Product> Products { get; set; } = new ObservableCollection<Product>();
         public ObservableCollection<Product> FilteredProducts
         {
@@ -282,6 +333,44 @@ namespace IMS_Mobile.MVVM.ViewModels
                 Debug.WriteLine($"Delete product error: {ex.Message}");
                 await ModernToastService.ShowInfo("Error deleting product");
             }
+        }
+        public void UpdateCart(Product product, bool isChecked)
+        {
+            if (isChecked && !CartItems.Any(p => p.Id == product.Id))
+            {
+                CartItems.Add(product);
+
+            }
+            else
+            {
+                var itemToRemove = CartItems.FirstOrDefault(p => p.Id == product.Id);
+                if (itemToRemove != null && CartItems.Any(p => p.Id == product.Id))
+                {
+                    CartItems.Remove(itemToRemove);
+                }
+            }
+
+            CartItemsCount = CartItems.Count;
+            CartItemStock = CartItems.Sum(p => p.stock);
+            CartValue = CartItems.Sum(p => p.Price);
+
+            OnPropertyChanged(nameof(CartItemsCount));
+            OnPropertyChanged(nameof(CartItemStock));
+            OnPropertyChanged(nameof(CartValue));
+            OnPropertyChanged(nameof(CartItems));
+        }
+        public void FinalizeCart()
+        {
+            if (CartItems.Count > 0)
+            {
+                FinalCartItems.Clear();
+                foreach (var item in CartItems)
+                {
+                    FinalCartItems.Add(item);
+                }
+
+            }
+           
         }
 
 

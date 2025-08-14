@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:Models="clr-namespace:IMS_Mobile.MVVM.Models"
     xmlns:ViewModels="clr-namespace:IMS_Mobile.MVVM.ViewModels"
+    xmlns:bottomSheet="clr-namespace:Syncfusion.Maui.Toolkit.BottomSheet;assembly=Syncfusion.Maui.Toolkit"
     xmlns:editors="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
     x:DataType="ViewModels:InventoryVM"
     BackgroundColor="White"
@@ -104,6 +105,8 @@
                             <!--  Product Info  -->
                             <StackLayout
                                 Grid.Column="1"
+                                Grid.ColumnSpan="3"
+                                Margin="10,0,0,0"
                                 Spacing="2"
                                 VerticalOptions="Center">
                                 <Label
@@ -121,40 +124,11 @@
                                     Text="{Binding stock, StringFormat='Stock: {0}'}" />
                             </StackLayout>
 
-                            <!--  Stock Control  -->
-                            <StackLayout
-                                Grid.Column="2"
-                                Orientation="Horizontal"
-                                Spacing="1"
-                                VerticalOptions="Center">
-                                <Button
-                                    CornerRadius="13"
-                                    FontSize="12"
-                                    HeightRequest="26"
-                                    StyleClass="QuantityButtonStyle"
-                                    Text="-"
-                                    WidthRequest="26" />
-                                <Entry
-                                    FontSize="11"
-                                    HeightRequest="26"
-                                    Keyboard="Numeric"
-                                    StyleClass="QuantityEntryStyle"
-                                    Text="1"
-                                    WidthRequest="32" />
-                                <Button
-                                    CornerRadius="13"
-                                    FontSize="12"
-                                    HeightRequest="26"
-                                    StyleClass="QuantityButtonStyle"
-                                    Text="+"
-                                    WidthRequest="26" />
-                            </StackLayout>
-
                             <!--  Selection Checkbox  -->
                             <CheckBox
                                 Grid.Column="3"
-                                IsChecked="{Binding IsChecked}"
-                                Scale="0.7"
+                                CheckedChanged="CheckBox_CheckedChanged"
+                                IsChecked="{Binding IsChecked, Mode=TwoWay}"
                                 VerticalOptions="Center"
                                 Color="#4CAF50" />
                         </Grid>
@@ -173,16 +147,190 @@
             StrokeThickness="1">
             <Grid ColumnDefinitions="*,Auto" ColumnSpacing="15">
                 <StackLayout Grid.Column="0" VerticalOptions="Center">
-                    <Label StyleClass="RegularTextStyle" Text="Cart: 0 items" />
-                    <Label StyleClass="PriceStyle" Text="Total: $0.00" />
+                    <Label StyleClass="RegularTextStyle" Text="{Binding CartItemsCount, StringFormat='Cart: {0} items'}" />
+                    <Label StyleClass="PriceStyle" Text="{Binding CartValue, StringFormat='Total: {0} LBP'}" />
                 </StackLayout>
-                <Button
+                <ImageButton
                     Grid.Column="1"
                     Padding="20,10"
-                    CornerRadius="20"
-                    StyleClass="CashButtonStyle"
-                    Text="View Cart" />
+                    Clicked="Button_Clicked"
+                    CornerRadius="15"
+                    Source="cart.png"
+                    StyleClass="CashButtonStyle" />
+
             </Grid>
         </Border>
+        <bottomSheet:SfBottomSheet
+            x:Name="bottomSheet"
+            Grid.Row="0"
+            Grid.RowSpan="4"
+            Background="White"
+            CollapseOnOverlayTap="False"
+            CornerRadius="20,20,0,0"
+            EnableSwiping="True"
+            GrabberBackground="LightGreen"
+            State="FullExpanded">
+            <bottomSheet:SfBottomSheet.BottomSheetContent>
+                <VerticalStackLayout>
+                    <!--  Header with Title and Close Button  -->
+                    <Grid Padding="20,10" ColumnDefinitions="*,Auto">
+                        <Label
+                            Grid.Column="0"
+                            HorizontalOptions="Start"
+                            StyleClass="TitleStyle"
+                            Text="Shopping Cart" />
+                        <Border
+                            Grid.Column="1"
+                            Background="#F5F5F5"
+                            HeightRequest="30"
+                            StrokeShape="RoundRectangle 15"
+                            VerticalOptions="Center"
+                            WidthRequest="30">
+                            <Label
+                                FontSize="18"
+                                HorizontalOptions="Center"
+                                Text="✕"
+                                VerticalOptions="Center" />
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding CloseCartCommand}" />
+                            </Border.GestureRecognizers>
+                        </Border>
+                    </Grid>
+
+                    <CollectionView
+                        HeightRequest="500"
+                        HorizontalOptions="Fill"
+                        ItemsSource="{Binding FinalCartItems}"
+                        SelectionMode="None">
+                        <CollectionView.EmptyView>
+                            <StackLayout
+                                Padding="20"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center">
+                                <Image
+                                    Aspect="AspectFit"
+                                    HeightRequest="80"
+                                    Source="emptycart.png" />
+                                <Label
+                                    HorizontalOptions="Center"
+                                    StyleClass="TitleStyle"
+                                    Text="Cart Is Empty" />
+                                <Label
+                                    HorizontalOptions="Center"
+                                    StyleClass="SmallTextStyle"
+                                    Text="Add items to your cart to get started" />
+                            </StackLayout>
+                        </CollectionView.EmptyView>
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout Orientation="Vertical" Span="1" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="Models:Product">
+                                <Border Margin="10,5" StyleClass="ProductItemStyle">
+                                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8">
+                                        <!--  Product Image  -->
+                                        <Border
+                                            Grid.Column="0"
+                                            Background="#F5F5F5"
+                                            HeightRequest="60"
+                                            StrokeShape="RoundRectangle 10"
+                                            WidthRequest="60">
+                                            <Image Aspect="AspectFit" Source="product.png" />
+                                        </Border>
+
+                                        <!--  Product Info  -->
+                                        <StackLayout
+                                            Grid.Column="1"
+                                            Margin="10,0,0,0"
+                                            Spacing="2"
+                                            VerticalOptions="Center">
+                                            <Label
+                                                LineBreakMode="WordWrap"
+                                                MaxLines="2"
+                                                StyleClass="RegularTextStyle"
+                                                Text="{Binding Name}" />
+                                            <Label
+                                                LineBreakMode="WordWrap"
+                                                StyleClass="PriceStyle"
+                                                Text="{Binding Price, StringFormat='${0:F2}'}" />
+                                            <Label
+                                                LineBreakMode="WordWrap"
+                                                StyleClass="StockStyle"
+                                                Text="{Binding stock, StringFormat='Stock: {0}'}" />
+
+                                            <!--  Stock Control  -->
+
+                                        </StackLayout>
+                                        <StackLayout
+                                            Grid.Column="2"
+                                            Orientation="Horizontal"
+                                            Spacing="1"
+                                            VerticalOptions="End">
+                                            <Button
+                                                CornerRadius="13"
+                                                FontSize="12"
+                                                HeightRequest="26"
+                                                StyleClass="QuantityButtonStyle"
+                                                Text="-"
+                                                WidthRequest="26" />
+                                            <Entry
+                                                FontSize="11"
+                                                HeightRequest="26"
+                                                Keyboard="Numeric"
+                                                StyleClass="QuantityEntryStyle"
+                                                Text="1"
+                                                WidthRequest="32" />
+                                            <Button
+                                                CornerRadius="13"
+                                                FontSize="12"
+                                                HeightRequest="26"
+                                                StyleClass="QuantityButtonStyle"
+                                                Text="+"
+                                                WidthRequest="26" />
+                                        </StackLayout>
+                                        <!--  Delete Icon  -->
+                                        <Border
+                                            Grid.Column="2"
+                                            Margin="0,0,0,70"
+                                            Background="#FFEBEE"
+                                            HeightRequest="30"
+                                            HorizontalOptions="End"
+                                            StrokeShape="RoundRectangle 15"
+                                            VerticalOptions="Start"
+                                            WidthRequest="30">
+                                            <Label
+                                                HorizontalOptions="Center"
+                                                Text="🗑️"
+                                                VerticalOptions="Center" />
+                                            <Border.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:InventoryVM}}, Path=RemoveFromCartCommand}" CommandParameter="{Binding .}" />
+                                            </Border.GestureRecognizers>
+                                        </Border>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                    <!--  Cart Summary  -->
+                    <Border
+                        Margin="10"
+                        Padding="15"
+                        StyleClass="CartSummaryStyle">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <StackLayout Grid.Column="0">
+                                <Label StyleClass="RegularTextStyle" Text="{Binding CartItemCount, StringFormat='Items: {0}'}" />
+                                <Label StyleClass="TotalAmountStyle" Text="{Binding CartTotal, StringFormat='Total: ${0:F2}'}" />
+                            </StackLayout>
+                            <Button
+                                Grid.Column="1"
+                                CornerRadius="20"
+                                StyleClass="CashButtonStyle"
+                                Text="Checkout" />
+                        </Grid>
+                    </Border>
+                </VerticalStackLayout>
+            </bottomSheet:SfBottomSheet.BottomSheetContent>
+        </bottomSheet:SfBottomSheet>
     </Grid>
 </ContentPage>

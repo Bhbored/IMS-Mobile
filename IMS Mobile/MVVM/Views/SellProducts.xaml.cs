@@ -1,5 +1,6 @@
+using IMS_Mobile.MVVM.Models;
 using IMS_Mobile.MVVM.ViewModels;
-
+using Syncfusion.Maui.Core.Hosting;
 namespace IMS_Mobile.MVVM.Views;
 
 public partial class SellProducts : ContentPage
@@ -23,5 +24,24 @@ public partial class SellProducts : ContentPage
         {
             vm.FilterProducts();
         }
+    }
+
+    private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
+    {
+        var checkBox = sender as CheckBox;
+        var product = checkBox.BindingContext as Product;
+        var vm = BindingContext as InventoryVM;
+
+        if (vm != null && product != null)
+        {
+            vm.UpdateCart(product, e.Value); 
+        }
+    }
+
+    private void Button_Clicked(object sender, EventArgs e)
+    {
+        bottomSheet.Show();
+        var vm = BindingContext as InventoryVM;
+        vm.FinalizeCart();
     }
 }
