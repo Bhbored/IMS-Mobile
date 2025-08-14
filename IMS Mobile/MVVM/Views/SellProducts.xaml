@@ -128,7 +128,7 @@
                             <CheckBox
                                 Grid.Column="3"
                                 CheckedChanged="CheckBox_CheckedChanged"
-                                IsChecked="{Binding IsChecked, Mode=TwoWay}"
+                                IsChecked="{Binding IsChecked}"
                                 VerticalOptions="Center"
                                 Color="#4CAF50" />
                         </Grid>
@@ -179,22 +179,14 @@
                             HorizontalOptions="Start"
                             StyleClass="TitleStyle"
                             Text="Shopping Cart" />
-                        <Border
+                        <Button
                             Grid.Column="1"
-                            Background="#F5F5F5"
-                            HeightRequest="30"
-                            StrokeShape="RoundRectangle 15"
-                            VerticalOptions="Center"
-                            WidthRequest="30">
-                            <Label
-                                FontSize="18"
-                                HorizontalOptions="Center"
-                                Text="✕"
-                                VerticalOptions="Center" />
-                            <Border.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding CloseCartCommand}" />
-                            </Border.GestureRecognizers>
-                        </Border>
+                            Background="LightGreen"
+                            Clicked="CloseBottomSheet"
+                            CornerRadius="100"
+                            HeightRequest="50"
+                            Text="❌"
+                            WidthRequest="50" />
                     </Grid>
 
                     <CollectionView
@@ -210,6 +202,7 @@
                                 <Image
                                     Aspect="AspectFit"
                                     HeightRequest="80"
+                                    IsAnimationPlaying="True"
                                     Source="emptycart.png" />
                                 <Label
                                     HorizontalOptions="Center"
@@ -227,7 +220,7 @@
                         <CollectionView.ItemTemplate>
                             <DataTemplate x:DataType="Models:Product">
                                 <Border Margin="10,5" StyleClass="ProductItemStyle">
-                                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8">
+                                    <Grid ColumnDefinitions="Auto,*,Auto,Auto" ColumnSpacing="8">
                                         <!--  Product Image  -->
                                         <Border
                                             Grid.Column="0"
@@ -257,41 +250,65 @@
                                                 LineBreakMode="WordWrap"
                                                 StyleClass="StockStyle"
                                                 Text="{Binding stock, StringFormat='Stock: {0}'}" />
-
-                                            <!--  Stock Control  -->
-
                                         </StackLayout>
+
+                                        <!--  Quantity Control  -->
                                         <StackLayout
                                             Grid.Column="2"
+                                            HorizontalOptions="End"
                                             Orientation="Horizontal"
-                                            Spacing="1"
-                                            VerticalOptions="End">
-                                            <Button
-                                                CornerRadius="13"
-                                                FontSize="12"
-                                                HeightRequest="26"
-                                                StyleClass="QuantityButtonStyle"
-                                                Text="-"
-                                                WidthRequest="26" />
+                                            Spacing="4"
+                                            VerticalOptions="Center">
+
+                                            <!--  Decrease Button  -->
+                                            <Border
+                                                Background="#4CAF50"
+                                                HeightRequest="30"
+                                                StrokeShape="RoundRectangle 15"
+                                                WidthRequest="30">
+                                                <Label
+                                                    FontSize="16"
+                                                    HorizontalOptions="Center"
+                                                    Text="-"
+                                                    TextColor="White"
+                                                    VerticalOptions="Center" />
+                                                <Border.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:InventoryVM}}, Path=DecreaseQuantityCommand}" CommandParameter="{Binding .}" />
+                                                </Border.GestureRecognizers>
+                                            </Border>
+
+                                            <!--  Quantity Entry  -->
                                             <Entry
-                                                FontSize="11"
-                                                HeightRequest="26"
+                                                FontSize="12"
+                                                HeightRequest="30"
+                                                HorizontalTextAlignment="Center"
                                                 Keyboard="Numeric"
                                                 StyleClass="QuantityEntryStyle"
-                                                Text="1"
-                                                WidthRequest="32" />
-                                            <Button
-                                                CornerRadius="13"
-                                                FontSize="12"
-                                                HeightRequest="26"
-                                                StyleClass="QuantityButtonStyle"
-                                                Text="+"
-                                                WidthRequest="26" />
+                                                Text="{Binding Quantity}"
+                                                TextChanged="Entry_TextChanged"
+                                                WidthRequest="40" />
+
+                                            <!--  Increase Button  -->
+                                            <Border
+                                                Background="#4CAF50"
+                                                HeightRequest="30"
+                                                StrokeShape="RoundRectangle 15"
+                                                WidthRequest="30">
+                                                <Label
+                                                    FontSize="16"
+                                                    HorizontalOptions="Center"
+                                                    Text="+"
+                                                    TextColor="White"
+                                                    VerticalOptions="Center" />
+                                                <Border.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:InventoryVM}}, Path=IncreaseQuantityCommand}" CommandParameter="{Binding .}" />
+                                                </Border.GestureRecognizers>
+                                            </Border>
                                         </StackLayout>
+
                                         <!--  Delete Icon  -->
                                         <Border
-                                            Grid.Column="2"
-                                            Margin="0,0,0,70"
+                                            Grid.Column="3"
                                             Background="#FFEBEE"
                                             HeightRequest="30"
                                             HorizontalOptions="End"
@@ -299,6 +316,7 @@
                                             VerticalOptions="Start"
                                             WidthRequest="30">
                                             <Label
+                                                FontSize="16"
                                                 HorizontalOptions="Center"
                                                 Text="🗑️"
                                                 VerticalOptions="Center" />
@@ -316,17 +334,28 @@
                     <Border
                         Margin="10"
                         Padding="15"
+                        StrokeShape="RoundRectangle 15"
                         StyleClass="CartSummaryStyle">
                         <Grid ColumnDefinitions="*,Auto">
                             <StackLayout Grid.Column="0">
-                                <Label StyleClass="RegularTextStyle" Text="{Binding CartItemCount, StringFormat='Items: {0}'}" />
-                                <Label StyleClass="TotalAmountStyle" Text="{Binding CartTotal, StringFormat='Total: ${0:F2}'}" />
+                                <Label StyleClass="RegularTextStyle" Text="{Binding CartItemsCount, StringFormat='Items: {0}'}" />
+                                <Label StyleClass="TotalAmountStyle" Text="{Binding CartValue, StringFormat='Total: {0:F2} LBP'}" />
                             </StackLayout>
-                            <Button
+                            <HorizontalStackLayout
                                 Grid.Column="1"
-                                CornerRadius="20"
-                                StyleClass="CashButtonStyle"
-                                Text="Checkout" />
+                                HorizontalOptions="Center"
+                                Spacing="25"
+                                VerticalOptions="Center">
+                                <Button
+                                    CornerRadius="10"
+                                    StyleClass="CashButtonStyle"
+                                    Text="On-Tab" />
+                                <Button
+                                    CornerRadius="10"
+                                    StyleClass="CashButtonStyle"
+                                    Text="Cash" />
+                            </HorizontalStackLayout>
+
                         </Grid>
                     </Border>
                 </VerticalStackLayout>

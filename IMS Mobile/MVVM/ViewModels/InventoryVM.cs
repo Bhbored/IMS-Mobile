@@ -28,29 +28,22 @@ namespace IMS_Mobile.MVVM.ViewModels
         private bool _isRefreshing = false;
         private ObservableCollection<Product> filteredProducts = new();
         private ObservableCollection<Product> cartItems = new ObservableCollection<Product>();
-        public int cartitemstock = 1;
         public int cartitems = 0;
         public double cartvalue = 0.0;
         private ObservableCollection<Product> finalCartItems = new ObservableCollection<Product>();
+        private static SellProducts? sellProductsPage;
+
 
         #endregion
 
         #region Properties
+
         public int CartItemsCount
         {
             get => cartitems;
             set
             {
                 cartitems = value;
-                OnPropertyChanged();
-            }
-        }
-        public int CartItemStock
-        {
-            get => cartitemstock;
-            set
-            {
-                cartitemstock = value;
                 OnPropertyChanged();
             }
         }
@@ -96,6 +89,14 @@ namespace IMS_Mobile.MVVM.ViewModels
             }
         }
         public InventoryPage? InventoryPageInstance { get; set; }
+        public static SellProducts SellProductsPage
+        {
+            get => sellProductsPage;
+            set
+            {
+                sellProductsPage = value;
+            }
+        }
         public Product ClonedProduct { get; set; } = new Product();
         public IList<object> SelectedProducts { get; set; } = [];
 
@@ -351,11 +352,9 @@ namespace IMS_Mobile.MVVM.ViewModels
             }
 
             CartItemsCount = CartItems.Count;
-            CartItemStock = CartItems.Sum(p => p.stock);
             CartValue = CartItems.Sum(p => p.Price);
 
             OnPropertyChanged(nameof(CartItemsCount));
-            OnPropertyChanged(nameof(CartItemStock));
             OnPropertyChanged(nameof(CartValue));
             OnPropertyChanged(nameof(CartItems));
         }
@@ -370,9 +369,83 @@ namespace IMS_Mobile.MVVM.ViewModels
                 }
 
             }
-           
+
+        }
+        public void ClearCart()
+        {
+            if (FinalCartItems.Count > 0)
+            {
+               
+                CartItems.Clear();
+                finalCartItems.Clear();
+                foreach (Product c in FilteredProducts)
+                {
+                    c.IsChecked = false;
+                    c.Quantity = 1;
+                }
+                CartItemsCount = 0;
+                CartValue = 0.00;
+                OnPropertyChanged(nameof(FilteredProducts));
+                OnPropertyChanged(nameof(CartItemsCount));
+                OnPropertyChanged(nameof(CartValue));
+                OnPropertyChanged(nameof(CartItems));
+            }
+        }
+        public void RemoveFromCart(Product product)
+        {
+            if (product != null)
+            {
+                var itemToRemove = FinalCartItems.FirstOrDefault(p => p.Id == product.Id);
+                if (itemToRemove != null)
+                {
+                    CartItems.Remove(itemToRemove);
+                    FinalCartItems.Remove(itemToRemove);
+                    OnPropertyChanged(nameof(CartItemsCount));
+                    OnPropertyChanged(nameof(FinalCartItems));
+                    CartItemsCount = CartItems.Count;
+                    CartValue = CartItems.Sum(p => p.Price);
+                    OnPropertyChanged(nameof(CartValue));
+                    OnPropertyChanged(nameof(CartItems));
+                    var productToUpdate = FilteredProducts.FirstOrDefault(p => p.Id == itemToRemove.Id);
+                    productToUpdate.IsChecked = false;
+                    OnPropertyChanged(nameof(FilterProducts));
+                }
+            }
+        }
+        private void IncreaseQuantity(Product product)
+        {
+            if (product != null && product.Quantity < product.stock)
+            {
+                product.Quantity++;
+                UpdateCartTotals();
+            }
         }
 
+        private void DecreaseQuantity(Product product)
+        {
+            if (product != null && product.Quantity >= 1)
+            {
+                product.Quantity--;
+                UpdateCartTotals();
+            }
+            else if (product != null && product.Quantity > product.stock)
+            {
+                product.Quantity = product.stock;
+                product.Quantity--;
+                OnPropertyChanged(nameof(product.Quantity));
+                OnPropertyChanged(nameof(FinalCartItems));
+                UpdateCartTotals();
+            }
+        }
+
+        public void UpdateCartTotals()
+        {
+
+            CartItemsCount = FinalCartItems.Count;
+            CartValue = FinalCartItems.Sum(p => p.Price * p.Quantity);
+            OnPropertyChanged(nameof(CartItemsCount));
+            OnPropertyChanged(nameof(CartValue));
+        }
 
         #endregion
 
@@ -393,8 +466,19 @@ namespace IMS_Mobile.MVVM.ViewModels
         {
             await AppShell.Current.ShowPopupAsync(new DeleteProduct(this, Product));
         });
+        public ICommand RemoveFromCartCommand => new Command<Product>((product) =>
+        {
+            RemoveFromCart(product);
+        });
 
-
+        public ICommand IncreaseQuantityCommand =>new Command<Product>((product) =>
+        {
+            IncreaseQuantity(product);
+        });
+        public ICommand DecreaseQuantityCommand=> new Command<Product>((product) =>
+        {
+            DecreaseQuantity(product);
+        });
         #endregion
 
         #region Tasks

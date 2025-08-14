@@ -1,14 +1,15 @@
 using IMS_Mobile.MVVM.Models;
 using IMS_Mobile.MVVM.ViewModels;
+using Microsoft.Maui.Controls;
 using Syncfusion.Maui.Core.Hosting;
 namespace IMS_Mobile.MVVM.Views;
 
 public partial class SellProducts : ContentPage
 {
-	public SellProducts(InventoryVM vm)
-	{
-		InitializeComponent();
-		BindingContext = vm;
+    public SellProducts(InventoryVM vm)
+    {
+        InitializeComponent();
+        BindingContext = vm;
     }
     protected override void OnAppearing()
     {
@@ -34,7 +35,7 @@ public partial class SellProducts : ContentPage
 
         if (vm != null && product != null)
         {
-            vm.UpdateCart(product, e.Value); 
+            vm.UpdateCart(product, e.Value);
         }
     }
 
@@ -43,5 +44,51 @@ public partial class SellProducts : ContentPage
         bottomSheet.Show();
         var vm = BindingContext as InventoryVM;
         vm.FinalizeCart();
+    }
+    private void CloseBottomSheet(object sender, EventArgs e)
+    {
+        var vm = BindingContext as InventoryVM;
+        vm.ClearCart();
+        bottomSheet.Close();
+    }
+
+    private void Entry_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        var entry = sender as Entry;
+        var product = entry.BindingContext as Product;
+        var vm = BindingContext as InventoryVM;
+
+        if (product != null && !string.IsNullOrEmpty(e.NewTextValue))
+        {
+            if (string.IsNullOrWhiteSpace(e.NewTextValue))
+                return;
+
+            if (int.TryParse(e.NewTextValue, out int newQuantity))
+            {
+                if (newQuantity > product.stock)
+                {
+                    entry.Text = product.stock.ToString();
+                    entry.CursorPosition = entry.Text.Length;
+                    product.Quantity = product.stock;
+                }
+                else if (newQuantity < 1)
+                {
+                    entry.Text = "1";
+                    entry.CursorPosition = entry.Text.Length;
+                    product.Quantity = 1;
+                }
+                else
+                {
+                    product.Quantity = newQuantity;
+                }
+
+                vm?.UpdateCartTotals();
+            }
+            else
+            {
+                entry.Text = product.Quantity.ToString();
+                entry.CursorPosition = entry.Text.Length;
+            }
+        }
     }
 }
