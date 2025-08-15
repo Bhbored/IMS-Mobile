@@ -21,13 +21,12 @@ namespace IMS_Mobile.MVVM.ViewModels
     [AddINotifyPropertyChangedInterface]
     public class HomeVM : INotifyPropertyChanged
     {
-     
-        
-
         #region Properties
         public ObservableCollection<Transaction> Transactions { get; set; } = new ObservableCollection<Transaction>();
         public ObservableCollection<Transaction> FilteredTransactions { get; set; } = new ObservableCollection<Transaction>();
+        #endregion
 
+        #region Pagination
         public int PageIndex
         {
             get => _pageIndex;
@@ -37,24 +36,17 @@ namespace IMS_Mobile.MVVM.ViewModels
                 OnPropertyChanged();
             }
         }
-        #region fields
+
         private int _pageIndex = 1;
-
-        #endregion
-
-        #endregion
-
-        #region Methods
-
-       
+        private List<Transaction> _currentFilteredList = new List<Transaction>();
 
         public void incrementPageIndex()
         {
-            var maxPages = (int)Math.Ceiling((double)(Transactions.Count / 10));
+            var maxPages = (int)Math.Ceiling((double)_currentFilteredList.Count / 10);
             if (PageIndex < maxPages)
             {
                 PageIndex++;
-                Pagination();
+                ApplyPagination();
             }
         }
 
@@ -63,69 +55,44 @@ namespace IMS_Mobile.MVVM.ViewModels
             if (PageIndex > 1)
             {
                 PageIndex--;
-                Pagination();
+                ApplyPagination();
             }
         }
 
-        public void Pagination()
+        private void ApplyPagination()
         {
-            var maxPages = (int)Math.Ceiling((double)(Transactions.Count / 10));
-            if (PageIndex <= maxPages || PageIndex >= 1)
+            var maxPages = (int)Math.Ceiling((double)_currentFilteredList.Count / 10);
+
+            if (PageIndex > maxPages && maxPages > 0)
+                PageIndex = maxPages;
+            if (PageIndex < 1)
+                PageIndex = 1;
+
+            var paginatedTransactions = _currentFilteredList
+                .Skip((PageIndex - 1) * 10)
+                .Take(10)
+                .ToList();
+
+            FilteredTransactions.Clear();
+            foreach (var transaction in paginatedTransactions)
             {
-                var sortedTransactions = Transactions.OrderByDescending(t => t.CreatedDate).ToList();
-                FilteredTransactions = new ObservableCollection<Transaction>();
-                var paginatedTransactions = sortedTransactions.Skip((PageIndex - 1) * 10).Take(10).ToList();
-                foreach (var transaction in paginatedTransactions)
-                {
-                    FilteredTransactions.Add(transaction);
-                }
-                OnPropertyChanged(nameof(FilteredTransactions));
-                OnPropertyChanged(nameof(PageIndex));
+                FilteredTransactions.Add(transaction);
             }
         }
-
-        public void FilterByDateRange(DateTime startDate, DateTime endDate)
-        {
-            var filtered = Transactions.Where(t => t.CreatedDate.Date >= startDate.Date && t.CreatedDate.Date <= endDate.Date).ToList();
-            FilteredTransactions = new ObservableCollection<Transaction>(filtered);
-            FilteredTransactions.OrderByDescending(t => t.CreatedDate).ToList();
-            PageIndex = 1;
-            OnPropertyChanged(nameof(FilteredTransactions));
-            OnPropertyChanged(nameof(PageIndex));
-        }
-        public void FilterBuy()
-        {
-            var filtered = Transactions.Where(t => t.Type == "buy").OrderByDescending(t => t.CreatedDate).ToList();
-            FilteredTransactions = new ObservableCollection<Transaction>(filtered);
-            PageIndex = 1;
-            OnPropertyChanged(nameof(FilteredTransactions));
-            OnPropertyChanged(nameof(PageIndex));
-        }
-        public void FilterSell()
-        {
-            var filtered = Transactions.Where(t => t.Type == "sell").OrderByDescending(t => t.CreatedDate).ToList();
-            FilteredTransactions = new ObservableCollection<Transaction>(filtered);
-            PageIndex = 1;
-            OnPropertyChanged(nameof(FilteredTransactions));
-            OnPropertyChanged(nameof(PageIndex));
-        }
-
-
 
         public void BackToFirstPage()
         {
             PageIndex = 1;
-            Pagination();
+            ApplyPagination();
         }
+
         public void BackToLastPage()
         {
-            PageIndex = (int)Math.Ceiling((double)(Transactions.Count / 10));
-            Pagination();
+            var maxPages = (int)Math.Ceiling((double)_currentFilteredList.Count / 10);
+            PageIndex = maxPages > 0 ? maxPages : 1;
+            ApplyPagination();
         }
 
-        #endregion
-
-        #region commands
         public ICommand PreviousPage => new Command(() =>
         {
             decrementPageIndex();
@@ -142,6 +109,48 @@ namespace IMS_Mobile.MVVM.ViewModels
         {
             BackToLastPage();
         });
+        #endregion
+
+        #region Filtering
+        public void FilterByDateRange(DateTime startDate, DateTime endDate)
+        {
+            _currentFilteredList = Transactions
+                .Where(t => t.CreatedDate.Date >= startDate.Date && t.CreatedDate.Date <= endDate.Date)
+                .OrderByDescending(t => t.CreatedDate)
+                .ToList();
+            PageIndex = 1;
+            ApplyPagination();
+        }
+
+        public void FilterBuy()
+        {
+            _currentFilteredList = Transactions
+                .Where(t => t.Type == "buy")
+                .OrderByDescending(t => t.CreatedDate)
+                .ToList();
+            PageIndex = 1;
+            ApplyPagination();
+        }
+
+        public void FilterSell()
+        {
+            _currentFilteredList = Transactions
+                .Where(t => t.Type == "sell")
+                .OrderByDescending(t => t.CreatedDate)
+                .ToList();
+            PageIndex = 1;
+            ApplyPagination();
+        }
+
+        public void ShowAllTransactions()
+        {
+            _currentFilteredList = Transactions
+                .OrderByDescending(t => t.CreatedDate)
+                .ToList();
+            PageIndex = 1;
+            ApplyPagination();
+        }
+
         public ICommand BuyFilterCommand => new Command(() =>
         {
             FilterBuy();
@@ -150,12 +159,18 @@ namespace IMS_Mobile.MVVM.ViewModels
         {
             FilterSell();
         });
+        public ICommand AllFilterCommand => new Command(() =>
+        {
+            ShowAllTransactions();
+        });
+        #endregion
+
+        #region Commands
         public ICommand DetailsPopup => new Command<Transaction>((transaction) =>
         {
             var products = transaction.Products;
             var items = new List<TransactionProductItem>(products);
             AppShell.Current.ShowPopupAsync(new TransactionDetails(items));
-
         });
         #endregion
 
@@ -169,11 +184,9 @@ namespace IMS_Mobile.MVVM.ViewModels
             {
                 Transactions.Add(transaction);
             }
-            Pagination();
-            OnPropertyChanged(nameof(Transactions));
+            ShowAllTransactions();
             return Task.CompletedTask;
         }
-        
         #endregion
 
         #region INotifyPropertyChanged Implementation

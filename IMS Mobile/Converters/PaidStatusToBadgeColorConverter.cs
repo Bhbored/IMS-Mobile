@@ -12,7 +12,7 @@ namespace IMS_Mobile.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             bool isPaid = (bool)value;
-            return isPaid ? "#4CAF50" : "#FF9800"; 
+            return isPaid ? Color.FromArgb("#4CAF50") : Color.FromArgb("#FF9800");
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

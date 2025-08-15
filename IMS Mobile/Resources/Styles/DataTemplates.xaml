@@ -12,7 +12,7 @@
     <Converters:SellTConv x:Key="SellingConverter" />
     <Converters:TransactionColorConv x:Key="TransactionColorConverter" />
 
-    <!--  buy transaction  -->
+    <!--  buy  transaction  -->
     <DataTemplate x:Key="buyTransactions" x:DataType="Models:Transaction">
 
         <Border
@@ -51,7 +51,7 @@
             </Border.GestureRecognizers>
         </Border>
     </DataTemplate>
-    <!--  sell transaction  -->
+    <!--  sell cash transaction  -->
     <DataTemplate x:Key="sellTransactions" x:DataType="Models:Transaction">
         <Border Margin="0,0,0,5" StyleClass="TransactionCardStyle">
             <Grid ColumnDefinitions="Auto,*,Auto">
@@ -86,5 +86,39 @@
             </Border.GestureRecognizers>
         </Border>
     </DataTemplate>
+    <!--  sell On tab transaction  -->
+    <DataTemplate x:Key="sellOnTabTransactions" x:DataType="Models:Transaction">
+        <Border Margin="0,0,0,5" StyleClass="TransactionCardStyle">
+            <Grid ColumnDefinitions="Auto,*,Auto">
+                <Border Grid.Column="0" StyleClass="TransactionIconStyle">
+                    <Label
+                        FontSize="16"
+                        HorizontalOptions="Center"
+                        Text="↗"
+                        TextColor="#666666"
+                        VerticalOptions="Center" />
+                </Border>
 
+                <VerticalStackLayout
+                    Grid.Column="1"
+                    Margin="15,0,0,0"
+                    Spacing="0">
+                    <Label StyleClass="RegularTextStyle" Text="{Binding Id, StringFormat='Transaction #{0}'}" />
+                    <Label StyleClass="SmallTextStyle" Text="{Binding FormattedDate}" />
+                    <Label StyleClass="SmallTextStyle" Text="{Binding Type}" />
+                </VerticalStackLayout>
+
+                <Label
+                    Grid.Column="2"
+                    FontFamily="poppinbold"
+                    FontSize="16"
+                    Text="{Binding totalamount, StringFormat='{0} LBP'}"
+                    TextColor="Gray"
+                    VerticalOptions="Center" />
+            </Grid>
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type Pages:HomePage}}, Path=BindingContext.DetailsPopup}" CommandParameter="{Binding .}" />
+            </Border.GestureRecognizers>
+        </Border>
+    </DataTemplate>
 </ResourceDictionary>

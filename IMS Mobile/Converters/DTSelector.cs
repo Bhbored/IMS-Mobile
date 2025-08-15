@@ -13,8 +13,19 @@ namespace IMS_Mobile.Converters
         {
             if (item is not Transaction transaction)
                 return null;
-
-            var key = transaction.Type == "buy" ? "buyTransactions" : "sellTransactions";
+            var key = string.Empty;
+            if (transaction.Type == "buy")
+            {
+                key = "buyTransactions";
+            }
+            else if (transaction.Type == "sell" && transaction.IsPaid == true)
+            {
+                key = "sellTransactions";
+            }
+            else if (transaction.Type == "sell" && transaction.IsPaid == false)
+            {
+                key = "sellOnTabTransactions";
+            }
 
             Application.Current.Resources.TryGetValue(key, out var template);
             return template as DataTemplate;
