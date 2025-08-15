@@ -104,6 +104,9 @@
 	  <MauiXaml Update="Popups\AddContactPopup.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Popups\ContactSearchPopup.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Popups\DatePickerPopup.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

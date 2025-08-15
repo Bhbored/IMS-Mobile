@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup
+    x:Class="IMS_Mobile.Popups.ContactSearchPopup"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:editors="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
+
+    <Border
+        Background="#FFFFFF"
+        Stroke="#E0E0E0"
+        StrokeShape="RoundRectangle 15"
+        StrokeThickness="1">
+
+        <Grid
+            Padding="20"
+            ColumnDefinitions="*, Auto"
+            RowDefinitions="Auto, Auto, *, Auto"
+            WidthRequest="400">
+
+            <!--  Header  -->
+            <Label
+                Grid.Row="0"
+                Grid.Column="0"
+                FontAttributes="Bold"
+                FontSize="18"
+                Text="Select Contact"
+                TextColor="#333333"
+                VerticalOptions="Center" />
+
+            <!--  Cancel Button  -->
+            <Button
+                x:Name="CancelButton"
+                Grid.Row="0"
+                Grid.Column="1"
+                BackgroundColor="Transparent"
+                Clicked="CancelButton_Clicked"
+                CornerRadius="20"
+                FontSize="16"
+                HeightRequest="40"
+                HorizontalOptions="End"
+                Text="✕"
+                TextColor="#999999"
+                WidthRequest="40" />
+
+            <!--  Selected Contact Placeholder  -->
+            <Border
+                Grid.Row="1"
+                Grid.ColumnSpan="2"
+                Margin="0,15,0,0"
+                BackgroundColor="#F8F9FA"
+                HeightRequest="50"
+                IsVisible="{Binding IsContactSelected}"
+                Stroke="#E0E0E0"
+                StrokeShape="RoundRectangle 8"
+                StrokeThickness="1">
+                <Label
+                    Margin="15,0"
+                    FontFamily="PoppinsRegular"
+                    FontSize="16"
+                    Text="{Binding SelectedContact.Name}"
+                    TextColor="#333333"
+                    VerticalOptions="Center" />
+            </Border>
+
+            <!--  Autocomplete  -->
+            <editors:SfAutocomplete
+                x:Name="autocomplete"
+                Grid.Row="1"
+                Grid.ColumnSpan="2"
+                Margin="0,15,0,0"
+                BackgroundColor="#F8F9FA"
+                DisplayMemberPath="Name"
+                EnableAutoSize="True"
+                HeightRequest="50"
+                HighlightedTextColor="#007AFF"
+                HighlightedTextFontAttributes="Bold"
+                HorizontalOptions="Fill"
+                IsVisible="{Binding IsContactNotSelected}"
+                ItemsSource="{Binding Contacts}"
+                MaxDropDownHeight="250"
+                Placeholder="Search contact..."
+                SelectedItem="{Binding SelectedContact, Mode=TwoWay}"
+                SelectionMode="Single"
+                SelectionTextHighlightColor="#007AFF"
+                Stroke="#E0E0E0"
+                StyleClass="Body"
+                TextHighlightMode="FirstOccurrence"
+                TextMemberPath="Name"
+                VerticalOptions="Start" />
+
+            <!--  Action Buttons  -->
+            <HorizontalStackLayout
+                Grid.Row="3"
+                Grid.ColumnSpan="2"
+                Margin="0,20,0,0"
+                HorizontalOptions="End"
+                Spacing="10">
+
+                <Button
+                    BackgroundColor="Transparent"
+                    Clicked="CancelButton_Clicked"
+                    Text="Cancel"
+                    TextColor="#007AFF" />
+
+                <Button
+                    x:Name="SelectButton"
+                    BackgroundColor="#007AFF"
+                    Clicked="SelectButton_Clicked"
+                    FontAttributes="Bold"
+                    Text="Confirm"
+                    TextColor="White" />
+            </HorizontalStackLayout>
+        </Grid>
+    </Border>
+</toolkit:Popup>

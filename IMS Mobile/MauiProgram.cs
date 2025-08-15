@@ -3,6 +3,7 @@ using CommunityToolkit.Maui.Core;
 using IMS_Mobile.DB;
 using IMS_Mobile.MVVM.Models;
 using IMS_Mobile.MVVM.ViewModels;
+using IMS_Mobile.MVVM.Views;
 using Microsoft.Extensions.Logging;
 using Syncfusion.Maui.Core.Hosting;
 using Syncfusion.Maui.Toolkit.Hosting;
@@ -43,6 +44,7 @@ namespace IMS_Mobile
             builder.Services.AddSingleton<ContactsVM>();
             builder.Services.AddSingleton<InventoryVM>();
             builder.Services.AddSingleton<ReportsVM>();
+            builder.Services.AddTransient<SellProducts>();
 
 
             return builder.Build();

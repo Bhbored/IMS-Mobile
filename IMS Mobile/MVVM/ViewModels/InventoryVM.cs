@@ -16,6 +16,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Contact = IMS_Mobile.MVVM.Models.Contact;
 using Product = IMS_Mobile.MVVM.Models.Product;
 
 namespace IMS_Mobile.MVVM.ViewModels
@@ -24,7 +25,7 @@ namespace IMS_Mobile.MVVM.ViewModels
     public class InventoryVM : INotifyPropertyChanged
     {
 
-
+      
         #region fields
         private bool _isRefreshing = false;
         private ObservableCollection<Product> filteredProducts = new();
@@ -32,7 +33,7 @@ namespace IMS_Mobile.MVVM.ViewModels
         public int cartitems = 0;
         public double cartvalue = 0.0;
         private ObservableCollection<Product> finalCartItems = new ObservableCollection<Product>();
-        private static SellProducts? sellProductsPage;
+        private static SellProducts? sellProductsPage ;
 
 
         #endregion
@@ -46,6 +47,7 @@ namespace IMS_Mobile.MVVM.ViewModels
             {
                 cartitems = value;
                 OnPropertyChanged();
+
             }
         }
         public double CartValue
@@ -516,7 +518,84 @@ namespace IMS_Mobile.MVVM.ViewModels
                 });
             }
         }
-
+        public void SellCredit(Contact contact)
+        {
+            try
+            {
+                if (FinalCartItems.Count > 0)
+                {
+                    var contactid = App.ContactRepository.GetItems().Where(x=>x.Name == contact.Name).FirstOrDefault(); 
+                    var transaction = new Transaction
+                    {
+                        totalamount = CartValue,
+                        Type = "sell",
+                        IsPaid = false,
+                        ContactId = contactid.Id,
+                        Products = new List<TransactionProductItem>()
+                    };
+                    foreach (var item in FinalCartItems)
+                    {
+                        transaction.Products.Add(new TransactionProductItem
+                        {
+                            Name = item.Name,
+                            Quantity = item.Quantity,
+                            Price = item.Price,
+                        });
+                    }
+                    App.TransactionRepository.InsertItemWithChildren(transaction);
+                    ClearCart();
+                    LoadDB();
+                    MainThread.BeginInvokeOnMainThread(async () =>
+                    {
+                        await Task.Delay(100);
+                        var snackbar = Snackbar.Make(
+                        message: "Credit Transaction Added successfully",
+                        duration: TimeSpan.FromSeconds(2),
+                        visualOptions: new SnackbarOptions
+                        {
+                            BackgroundColor = Colors.Green,
+                            TextColor = Colors.White,
+                            CornerRadius = 10,
+                        },
+                        anchor: sellProductsPage
+                    );
+                        await snackbar.Show();
+                    });
+                }
+            }
+            catch (Exception ex) {
+                App.Current.MainPage.DisplayAlert($"WE CAN'T BECAUSE{ex.Message}", "OK","CANCEL");
+            }
+            
+           
+        }
+        public async void OpenContactSearchPopup()
+        {
+            if (FinalCartItems.Count > 0)
+            {
+                await AppShell.Current.ShowPopupAsync(new ContactSearchPopup(this));
+            }
+            else
+            {
+                MainThread.BeginInvokeOnMainThread(async () =>
+                {
+                    await Task.Delay(100);
+                    var snackbar = Snackbar.Make(
+                    message: "Add Items To Cart First",
+                    duration: TimeSpan.FromSeconds(2),
+                    visualOptions: new SnackbarOptions
+                    {
+                        BackgroundColor = Colors.Red,
+                        TextColor = Colors.White,
+                        CornerRadius = 10,
+                    },
+                    anchor: sellProductsPage
+                );
+                    await snackbar.Show();
+                });
+            }
+                
+        }
 
         #endregion
 

@@ -351,6 +351,7 @@
                                 Spacing="25"
                                 VerticalOptions="Center">
                                 <Button
+                                    Clicked="SellOntab"
                                     CornerRadius="10"
                                     StyleClass="CashButtonStyle"
                                     Text="On-Tab" />

@@ -1,5 +1,7 @@
+using CommunityToolkit.Maui.Extensions;
 using IMS_Mobile.MVVM.Models;
 using IMS_Mobile.MVVM.ViewModels;
+using IMS_Mobile.Popups;
 using Microsoft.Maui.Controls;
 using Syncfusion.Maui.Core.Hosting;
 namespace IMS_Mobile.MVVM.Views;
@@ -11,6 +13,7 @@ public partial class SellProducts : ContentPage
         InitializeComponent();
         BindingContext = vm;
     }
+   
     protected override void OnAppearing()
     {
         base.OnAppearing();
@@ -101,4 +104,12 @@ public partial class SellProducts : ContentPage
             bottomSheet.Close();
         }
     }
+
+    private void SellOntab(object sender, EventArgs e)
+    {
+        var vm = BindingContext as InventoryVM;
+        vm.OpenContactSearchPopup();
+        
+    }
+   
 }
