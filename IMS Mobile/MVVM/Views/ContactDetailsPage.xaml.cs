@@ -45,6 +45,9 @@ public partial class ContactDetailsPage : ContentPage
         base.OnDisappearing();
         Debug.WriteLine($"remove form stack  {Navigation.NavigationStack.Count}");
     }
+    public void FillCreditScore() {
+        
+    }
 
 
 }

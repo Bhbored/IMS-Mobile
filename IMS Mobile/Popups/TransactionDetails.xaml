@@ -83,7 +83,7 @@
                                     FontSize="16"
                                     Text="{Binding Name}"
                                     TextColor="Black" />
-                                <Label StyleClass="SmallTextStyle" Text="{Binding Price, StringFormat='{0} LBP'}" />
+                                <Label StyleClass="SmallTextStyle" Text="{Binding TotalPrice, StringFormat='{0} LBP'}" />
                             </VerticalStackLayout>
 
                             <!--  Quantity  -->

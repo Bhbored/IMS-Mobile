@@ -25,7 +25,7 @@ namespace IMS_Mobile.MVVM.ViewModels
     public class InventoryVM : INotifyPropertyChanged
     {
 
-      
+
         #region fields
         private bool _isRefreshing = false;
         private ObservableCollection<Product> filteredProducts = new();
@@ -33,7 +33,7 @@ namespace IMS_Mobile.MVVM.ViewModels
         public int cartitems = 0;
         public double cartvalue = 0.0;
         private ObservableCollection<Product> finalCartItems = new ObservableCollection<Product>();
-        private static SellProducts? sellProductsPage ;
+        private static SellProducts? sellProductsPage;
 
 
         #endregion
@@ -381,7 +381,7 @@ namespace IMS_Mobile.MVVM.ViewModels
         }
         public void ClearCart()
         {
-            if (FinalCartItems.Count > 0 || FilteredProducts.Any(x=>x.IsChecked== true))
+            if (FinalCartItems.Count > 0 || FilteredProducts.Any(x => x.IsChecked == true))
             {
 
                 CartItems.Clear();
@@ -475,6 +475,20 @@ namespace IMS_Mobile.MVVM.ViewModels
                         Price = item.Price,
                     });
                 }
+                var productnames = transaction.Products.Select(x => x.Name).ToList();
+                foreach (var productname in productnames)
+                {
+                    var temproduct = App.ProductRepository
+                        .GetItems()
+                        .FirstOrDefault(x => x.Name == productname);
+                    if (temproduct != null)
+                    {
+                        temproduct.stock -= transaction.Products
+                      .FirstOrDefault(x => x.Name == productname)
+                      .Quantity;
+                        App.ProductRepository.UpdateItem(temproduct);
+                    }
+                }
                 App.TransactionRepository.InsertItemWithChildren(transaction);
                 ClearCart();
                 LoadDB();
@@ -524,7 +538,7 @@ namespace IMS_Mobile.MVVM.ViewModels
             {
                 if (FinalCartItems.Count > 0)
                 {
-                    var contactid = App.ContactRepository.GetItems().Where(x=>x.Name == contact.Name).FirstOrDefault(); 
+                    var contactid = App.ContactRepository.GetItems().Where(x => x.Name == contact.Name).FirstOrDefault();
                     var transaction = new Transaction
                     {
                         totalamount = CartValue,
@@ -542,7 +556,24 @@ namespace IMS_Mobile.MVVM.ViewModels
                             Price = item.Price,
                         });
                     }
+                    var productnames = transaction.Products.Select(x => x.Name).ToList();
+                    foreach (var productname in productnames)
+                    {
+                        var temproduct = App.ProductRepository
+                            .GetItems()
+                            .FirstOrDefault(x => x.Name == productname);
+                        if (temproduct != null)
+                        {
+                            temproduct.stock -= transaction.Products
+                          .FirstOrDefault(x => x.Name == productname)
+                          .Quantity;
+                            App.ProductRepository.UpdateItem(temproduct);
+                        }     
+                    }
+                    contactid.TotalPurchases += transaction.totalamount;
+                    contactid.CreditScore += transaction.totalamount;
                     App.TransactionRepository.InsertItemWithChildren(transaction);
+                    App.ContactRepository.UpdateItem(contactid);
                     ClearCart();
                     LoadDB();
                     MainThread.BeginInvokeOnMainThread(async () =>
@@ -563,11 +594,12 @@ namespace IMS_Mobile.MVVM.ViewModels
                     });
                 }
             }
-            catch (Exception ex) {
-                App.Current.MainPage.DisplayAlert($"WE CAN'T BECAUSE{ex.Message}", "OK","CANCEL");
+            catch (Exception ex)
+            {
+                App.Current.MainPage.DisplayAlert($"WE CAN'T BECAUSE{ex.Message}", "OK", "CANCEL");
             }
-            
-           
+
+
         }
         public async void OpenContactSearchPopup()
         {
@@ -594,7 +626,7 @@ namespace IMS_Mobile.MVVM.ViewModels
                     await snackbar.Show();
                 });
             }
-                
+
         }
 
         #endregion
