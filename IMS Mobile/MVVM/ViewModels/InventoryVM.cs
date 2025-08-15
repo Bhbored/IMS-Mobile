@@ -1,6 +1,7 @@
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Extensions;
+using IMS_Mobile.MVVM.Models;
 using IMS_Mobile.MVVM.Views;
 using IMS_Mobile.Popups;
 using IMS_Mobile.Service;
@@ -125,7 +126,9 @@ namespace IMS_Mobile.MVVM.ViewModels
         {
             if (SelectedProducts.Count == 0)
             {
-                FilteredProducts = new ObservableCollection<Product>(Products);
+                FilteredProducts.Clear();
+                foreach (var p in Products)
+                    FilteredProducts.Add(p);
             }
             else
             {
@@ -143,7 +146,9 @@ namespace IMS_Mobile.MVVM.ViewModels
                     }
                 }
 
-                FilteredProducts = new ObservableCollection<Product>(filteredList);
+                FilteredProducts.Clear();
+                foreach (var p in filteredList.DistinctBy(x => x.Id))
+                    FilteredProducts.Add(p);
             }
         }
         public async void AddProduct(Product product)
@@ -339,6 +344,7 @@ namespace IMS_Mobile.MVVM.ViewModels
         {
             if (isChecked && !CartItems.Any(p => p.Id == product.Id))
             {
+
                 CartItems.Add(product);
 
             }
@@ -373,9 +379,9 @@ namespace IMS_Mobile.MVVM.ViewModels
         }
         public void ClearCart()
         {
-            if (FinalCartItems.Count > 0)
+            if (FinalCartItems.Count > 0 || FilteredProducts.Any(x=>x.IsChecked== true))
             {
-               
+
                 CartItems.Clear();
                 finalCartItems.Clear();
                 foreach (Product c in FilteredProducts)
@@ -408,7 +414,7 @@ namespace IMS_Mobile.MVVM.ViewModels
                     OnPropertyChanged(nameof(CartItems));
                     var productToUpdate = FilteredProducts.FirstOrDefault(p => p.Id == itemToRemove.Id);
                     productToUpdate.IsChecked = false;
-                    OnPropertyChanged(nameof(FilterProducts));
+                    OnPropertyChanged(nameof(FilteredProducts));
                 }
             }
         }
@@ -446,6 +452,71 @@ namespace IMS_Mobile.MVVM.ViewModels
             OnPropertyChanged(nameof(CartItemsCount));
             OnPropertyChanged(nameof(CartValue));
         }
+        public void SellCash()
+        {
+            if (FinalCartItems.Count > 0)
+            {
+                var transaction = new Transaction
+                {
+
+                    totalamount = CartValue,
+                    Type = "sell",
+                    IsPaid = true,
+                    Products = new List<TransactionProductItem>()
+                };
+                foreach (var item in FinalCartItems)
+                {
+                    transaction.Products.Add(new TransactionProductItem
+                    {
+                        Name = item.Name,
+                        Quantity = item.Quantity,
+                        Price = item.Price,
+                    });
+                }
+                App.TransactionRepository.InsertItemWithChildren(transaction);
+                ClearCart();
+                LoadDB();
+                MainThread.BeginInvokeOnMainThread(async () =>
+                {
+                    await Task.Delay(100);
+                    var snackbar = Snackbar.Make(
+                    message: "Cash Transaction Added successfully",
+                    duration: TimeSpan.FromSeconds(2),
+                    visualOptions: new SnackbarOptions
+                    {
+                        BackgroundColor = Colors.Green,
+                        TextColor = Colors.White,
+                        CornerRadius = 10,
+
+                    },
+                    anchor: sellProductsPage
+                );
+                    await snackbar.Show();
+                });
+
+            }
+            else
+            {
+                MainThread.BeginInvokeOnMainThread(async () =>
+                {
+                    await Task.Delay(100);
+                    var snackbar = Snackbar.Make(
+                    message: "Add Items To Cart First",
+                    duration: TimeSpan.FromSeconds(2),
+                    visualOptions: new SnackbarOptions
+                    {
+                        BackgroundColor = Colors.Red,
+                        TextColor = Colors.White,
+                        CornerRadius = 10,
+
+                    },
+                    anchor: sellProductsPage
+                );
+                    await snackbar.Show();
+                });
+            }
+        }
+
 
         #endregion
 
@@ -471,14 +542,15 @@ namespace IMS_Mobile.MVVM.ViewModels
             RemoveFromCart(product);
         });
 
-        public ICommand IncreaseQuantityCommand =>new Command<Product>((product) =>
+        public ICommand IncreaseQuantityCommand => new Command<Product>((product) =>
         {
             IncreaseQuantity(product);
         });
-        public ICommand DecreaseQuantityCommand=> new Command<Product>((product) =>
+        public ICommand DecreaseQuantityCommand => new Command<Product>((product) =>
         {
             DecreaseQuantity(product);
         });
+        public ICommand RefresCartItems => new Command(async () => await RefreshCart());
         #endregion
 
         #region Tasks
@@ -497,7 +569,22 @@ namespace IMS_Mobile.MVVM.ViewModels
                 IsRefreshing = false;
             }
         }
+        private async Task RefreshCart()
+        {
+            try
+            {
+                IsRefreshing = true;
+                await Task.Delay(1000);
+                ClearCart();
+                await LoadDB();
+                IsRefreshing = false;
 
+            }
+            catch (Exception ex)
+            {
+                IsRefreshing = false;
+            }
+        }
         public Task LoadDB()
         {
             var dbProdutcs = App.ProductRepository.GetItems();

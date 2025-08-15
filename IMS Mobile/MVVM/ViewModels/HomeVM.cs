@@ -95,18 +95,16 @@ namespace IMS_Mobile.MVVM.ViewModels
         }
         public void FilterBuy()
         {
-            var filtered = Transactions.Where(t => t.Type == "buy").ToList();
+            var filtered = Transactions.Where(t => t.Type == "buy").OrderByDescending(t => t.CreatedDate).ToList();
             FilteredTransactions = new ObservableCollection<Transaction>(filtered);
-            FilteredTransactions.OrderByDescending(t => t.CreatedDate).ToList();
             PageIndex = 1;
             OnPropertyChanged(nameof(FilteredTransactions));
             OnPropertyChanged(nameof(PageIndex));
         }
         public void FilterSell()
         {
-            var filtered = Transactions.Where(t => t.Type == "sell").ToList();
+            var filtered = Transactions.Where(t => t.Type == "sell").OrderByDescending(t => t.CreatedDate).ToList();
             FilteredTransactions = new ObservableCollection<Transaction>(filtered);
-            FilteredTransactions.OrderByDescending(t => t.CreatedDate).ToList();
             PageIndex = 1;
             OnPropertyChanged(nameof(FilteredTransactions));
             OnPropertyChanged(nameof(PageIndex));

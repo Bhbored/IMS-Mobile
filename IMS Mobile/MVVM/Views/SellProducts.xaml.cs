@@ -91,4 +91,14 @@ public partial class SellProducts : ContentPage
             }
         }
     }
+
+    private void SellCash(object sender, EventArgs e)
+    {
+        var  vm = BindingContext as InventoryVM;
+        if (vm != null)
+        {
+            vm.SellCash();
+            bottomSheet.Close();
+        }
+    }
 }

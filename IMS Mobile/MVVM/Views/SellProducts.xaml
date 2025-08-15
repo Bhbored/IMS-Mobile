@@ -81,61 +81,65 @@
         </Border>
 
         <!--  Product Collection (Row 2)  -->
-        <CollectionView
+        <RefreshView
             Grid.Row="2"
-            ItemsSource="{Binding FilteredProducts}"
-            SelectionMode="None">
-            <CollectionView.ItemsLayout>
-                <GridItemsLayout Orientation="Vertical" Span="1" />
-            </CollectionView.ItemsLayout>
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="Models:Product">
-                    <Border StyleClass="ProductItemStyle">
-                        <Grid ColumnDefinitions="Auto,*,Auto,Auto" ColumnSpacing="8">
-                            <!--  Product Image  -->
-                            <Border
-                                Grid.Column="0"
-                                Background="#F5F5F5"
-                                HeightRequest="60"
-                                StrokeShape="RoundRectangle 10"
-                                WidthRequest="60">
-                                <Image Aspect="AspectFit" Source="product.png" />
-                            </Border>
+            Command="{Binding RefresCartItems}"
+            IsRefreshing="{Binding IsRefreshing}"
+            RefreshColor="LightGreen">
+            <CollectionView ItemsSource="{Binding FilteredProducts}" SelectionMode="None">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" Span="1" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="Models:Product">
+                        <Border StyleClass="ProductItemStyle">
+                            <Grid ColumnDefinitions="Auto,*,Auto,Auto" ColumnSpacing="8">
+                                <!--  Product Image  -->
+                                <Border
+                                    Grid.Column="0"
+                                    Background="#F5F5F5"
+                                    HeightRequest="60"
+                                    StrokeShape="RoundRectangle 10"
+                                    WidthRequest="60">
+                                    <Image Aspect="AspectFit" Source="product.png" />
+                                </Border>
 
-                            <!--  Product Info  -->
-                            <StackLayout
-                                Grid.Column="1"
-                                Grid.ColumnSpan="3"
-                                Margin="10,0,0,0"
-                                Spacing="2"
-                                VerticalOptions="Center">
-                                <Label
-                                    LineBreakMode="WordWrap"
-                                    MaxLines="2"
-                                    StyleClass="RegularTextStyle"
-                                    Text="{Binding Name}" />
-                                <Label
-                                    LineBreakMode="WordWrap"
-                                    StyleClass="PriceStyle"
-                                    Text="{Binding Price, StringFormat='${0:F2}'}" />
-                                <Label
-                                    LineBreakMode="WordWrap"
-                                    StyleClass="StockStyle"
-                                    Text="{Binding stock, StringFormat='Stock: {0}'}" />
-                            </StackLayout>
+                                <!--  Product Info  -->
+                                <StackLayout
+                                    Grid.Column="1"
+                                    Grid.ColumnSpan="2"
+                                    Margin="10,0,0,0"
+                                    Spacing="2"
+                                    VerticalOptions="Center">
+                                    <Label
+                                        LineBreakMode="WordWrap"
+                                        MaxLines="2"
+                                        StyleClass="RegularTextStyle"
+                                        Text="{Binding Name}" />
+                                    <Label
+                                        LineBreakMode="WordWrap"
+                                        StyleClass="PriceStyle"
+                                        Text="{Binding Price, StringFormat='${0:F2}'}" />
+                                    <Label
+                                        LineBreakMode="WordWrap"
+                                        StyleClass="StockStyle"
+                                        Text="{Binding stock, StringFormat='Stock: {0}'}" />
+                                </StackLayout>
 
-                            <!--  Selection Checkbox  -->
-                            <CheckBox
-                                Grid.Column="3"
-                                CheckedChanged="CheckBox_CheckedChanged"
-                                IsChecked="{Binding IsChecked}"
-                                VerticalOptions="Center"
-                                Color="#4CAF50" />
-                        </Grid>
-                    </Border>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+                                <!--  Selection Checkbox  -->
+                                <CheckBox
+                                    Grid.Column="3"
+                                    CheckedChanged="CheckBox_CheckedChanged"
+                                    IsChecked="{Binding IsChecked, Mode=TwoWay}"
+                                    VerticalOptions="Center"
+                                    Color="#4CAF50" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+
 
         <!--  Cart Summary (Row 3) - Footer  -->
         <Border
@@ -351,6 +355,7 @@
                                     StyleClass="CashButtonStyle"
                                     Text="On-Tab" />
                                 <Button
+                                    Clicked="SellCash"
                                     CornerRadius="10"
                                     StyleClass="CashButtonStyle"
                                     Text="Cash" />
