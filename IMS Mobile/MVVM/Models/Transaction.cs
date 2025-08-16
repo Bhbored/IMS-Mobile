@@ -18,7 +18,7 @@ namespace IMS_Mobile.MVVM.Models
 
         public string Type { get; set; } //sell or buy
 
-        public bool IsPaid { get; set; } = false;
+        public bool IsPaid { get; set; }
 
         [Ignore]
         public string Status => IsPaid == true ? "Paid" : "Unpaid";

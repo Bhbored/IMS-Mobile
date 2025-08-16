@@ -46,7 +46,6 @@ namespace IMS_Mobile
             builder.Services.AddSingleton<ReportsVM>();
             builder.Services.AddTransient<SellProducts>();
 
-
             return builder.Build();
         }
     }

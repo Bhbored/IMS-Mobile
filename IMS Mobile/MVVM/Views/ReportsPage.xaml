@@ -11,9 +11,7 @@
     BackgroundColor="White"
     Shell.NavBarIsVisible="False">
 
-    <ContentPage.Resources>
-        <Converters:CurrencyConverter x:Key="CurrencyConverter" />
-    </ContentPage.Resources>
+
 
     <Grid RowDefinitions="Auto,*">
         <!--  Header  -->
@@ -70,7 +68,7 @@
                                 FontFamily="poppinbold"
                                 FontSize="24"
                                 HorizontalOptions="Center"
-                                Text="{Binding CashRegisterData.CashFlow, Converter={StaticResource CurrencyConverter}}"
+                                Text="{Binding CashRegister.CashFlow, StringFormat='{0:F2} LBP'}"
                                 TextColor="White" />
                             <Label
                                 FontFamily="poppinregular"
@@ -98,7 +96,7 @@
                                 FontFamily="poppinbold"
                                 FontSize="24"
                                 HorizontalOptions="Center"
-                                Text="{Binding CashRegisterData.TotalSales, Converter={StaticResource CurrencyConverter}}"
+                                Text="{Binding CashRegister.TotalSales, StringFormat='{0:F2} LBP'}"
                                 TextColor="White" />
                             <Label
                                 FontFamily="poppinregular"
@@ -126,7 +124,7 @@
                                 FontFamily="poppinbold"
                                 FontSize="24"
                                 HorizontalOptions="Center"
-                                Text="{Binding CashRegisterData.InventoryValue, Converter={StaticResource CurrencyConverter}}"
+                                Text="{Binding CashRegister.InventoryValue, StringFormat='{0:F2} LBP'}"
                                 TextColor="White" />
                             <Label
                                 FontFamily="poppinregular"
@@ -154,7 +152,7 @@
                                 FontFamily="poppinbold"
                                 FontSize="24"
                                 HorizontalOptions="Center"
-                                Text="{Binding CashRegisterData.TotalCredit, Converter={StaticResource CurrencyConverter}}"
+                                Text="{Binding CashRegister.TotalCredit, StringFormat='{0:F2} LBP'}"
                                 TextColor="White" />
                             <Label
                                 FontFamily="poppinregular"
@@ -193,7 +191,7 @@
                                 Grid.Column="1"
                                 FontFamily="poppinbold"
                                 FontSize="20"
-                                Text="{Binding CashRegisterData.TotalSales, StringFormat='${0:N2}'}"
+                                Text="{Binding CashRegister.TotalSales, StringFormat='{0:F2} LBP'}"
                                 TextColor="#4CAF50"
                                 VerticalOptions="Center" />
                         </Grid>
@@ -218,7 +216,7 @@
                                 Grid.Column="1"
                                 FontFamily="poppinbold"
                                 FontSize="20"
-                                Text="{Binding CashRegisterData.CashFlow, Converter={StaticResource CurrencyConverter}}"
+                                Text="{Binding CashRegister.CashFlow, StringFormat='{0:F2} LBP'}"
                                 TextColor="#2196F3"
                                 VerticalOptions="Center" />
                         </Grid>
@@ -243,7 +241,7 @@
                                 Grid.Column="1"
                                 FontFamily="poppinbold"
                                 FontSize="20"
-                                Text="{Binding CashRegisterData.TotalCredit, Converter={StaticResource CurrencyConverter}}"
+                                Text="{Binding CashRegister.TotalCredit, StringFormat='{0:F2} LBP'}"
                                 TextColor="#FF9800"
                                 VerticalOptions="Center" />
                         </Grid>

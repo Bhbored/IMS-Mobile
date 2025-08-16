@@ -14,7 +14,7 @@ namespace IMS_Mobile
         public static BaseRepository<Transaction>? TransactionRepository { get; set; }
         public static BaseRepository<Product>? ProductRepository { get; set; }
         public static BaseRepository<Contact>? ContactRepository { get; set; }
-        public static BaseRepository<TransactionProductItem>? TransactionProductItemRepository { get; set; }
+        public static BaseRepository<TransactionProductItem>? TransactionProductItemRepository { get; set; }  
         public static HomeVM? homeVM { get; set; }
         public static ContactsVM? contactsVM { get; set; }
         public static InventoryVM? inventoryVM { get; set; }

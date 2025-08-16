@@ -33,6 +33,7 @@ namespace IMS_Mobile.MVVM.ViewModels
         #endregion
 
         #region Properties
+        public bool Animation { get; set; }=false;
         public ObservableCollection<Contact> Contacts
         {
             get => contacts;
@@ -390,7 +391,9 @@ namespace IMS_Mobile.MVVM.ViewModels
         });
         public Command ShowDetailsCommand => new Command<Contact>(async (contact) =>
         {
+            Animation = true;
             await App.Current.MainPage.Navigation.PushAsync(new ContactDetailsPage(contact,LoadContactTransaction(contact)));
+            Animation = false;
         });
         #endregion
 

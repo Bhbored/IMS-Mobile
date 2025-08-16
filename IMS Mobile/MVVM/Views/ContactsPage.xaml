@@ -122,6 +122,7 @@
 
     <Grid RowDefinitions="Auto,Auto,*">
         <!--  Header  -->
+
         <Grid
             Grid.Row="0"
             Margin="20,0,20,10"
@@ -206,6 +207,15 @@
                 </CollectionView.ItemsLayout>
             </CollectionView>
         </RefreshView>
-
+        <Image
+            Grid.Row="0"
+            Grid.RowSpan="3"
+            Aspect="AspectFill"
+            Background="Transparent"
+            HorizontalOptions="Center"
+            IsAnimationPlaying="True"
+            IsVisible="{Binding Animation}"
+            Source="emptyinventory.gif"
+            VerticalOptions="Center" />
     </Grid>
 </ContentPage>
