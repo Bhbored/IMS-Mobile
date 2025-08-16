@@ -144,7 +144,7 @@
                             Grid.Column="0"
                             FontFamily="poppinbold"
                             FontSize="32"
-                            Text="{Binding Contact.CreditScore, StringFormat='{0:F1}'}"
+                            Text="{Binding Contact.CreditScore, StringFormat='{0:F2} LBP'}"
                             TextColor="#FF9800"
                             VerticalOptions="Center" />
 
@@ -153,6 +153,7 @@
                             Grid.RowSpan="3"
                             Grid.Column="1"
                             BackgroundColor="#FFF3E0"
+                            Clicked="Button_Clicked"
                             CornerRadius="25"
                             FontFamily="poppinbold"
                             FontSize="13"
@@ -194,7 +195,7 @@
                             Grid.Column="0"
                             FontFamily="poppinbold"
                             FontSize="32"
-                            Text="{Binding Contact.TotalPurchases, StringFormat='${0:F2}'}"
+                            Text="{Binding Contact.TotalPurchases, StringFormat='{0:F2} LBP'}"
                             TextColor="#4CAF50"
                             VerticalOptions="Center" />
 
@@ -237,7 +238,7 @@
                     <Label
                         FontFamily="poppinregular"
                         FontSize="16"
-                        Text="{Binding Transactions.Count, StringFormat='({0})'}"
+                        Text="{Binding Transactions.Count, StringFormat='{0} Transaction'}"
                         TextColor="#888888"
                         VerticalOptions="Center" />
                 </StackLayout>
@@ -303,7 +304,7 @@
                                             <Label
                                                 FontFamily="poppinbold"
                                                 FontSize="18"
-                                                Text="{Binding totalamount, StringFormat='${0:F2}'}"
+                                                Text="{Binding totalamount, StringFormat='{0:F2} LBP'}"
                                                 TextColor="#4CAF50" />
                                             <Label
                                                 Padding="8,4"
@@ -391,7 +392,7 @@
                                                                         <Label
                                                                             FontFamily="poppinbold"
                                                                             FontSize="13"
-                                                                            Text="{Binding Price, StringFormat='${0:F2}'}"
+                                                                            Text="{Binding Price, StringFormat='{0:F2} LBP'}"
                                                                             TextColor="#4CAF50" />
                                                                     </StackLayout>
                                                                 </StackLayout>
