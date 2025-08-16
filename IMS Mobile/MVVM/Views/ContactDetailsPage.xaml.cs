@@ -14,20 +14,51 @@ public partial class ContactDetailsPage : ContentPage
     public Contact Contact { get; set; } = new Contact();
     public ObservableCollection<Transaction> Transactions { get; set; } = new ObservableCollection<Transaction>();
 
-    public ContactDetailsPage(Contact contact)
+    private List<Transaction> _allTransactions = new List<Transaction>();
+    private int _currentIndex = 0;
+    private const int _pageSize = 5;
+    private bool _isLoading = false;
+
+    public ContactDetailsPage(Contact contact, List<Transaction> transactions)
     {
         InitializeComponent();
         Contact = contact;
         BindingContext = this;
-        FillTransaction();
-
+        LoadInitialTransactions(transactions);
     }
-    public void FillTransaction()
+
+    public void LoadInitialTransactions(List<Transaction> transactions)
     {
-        var contactTransactions = App.TransactionRepository.GetItemsWithChildren()
-        .Where(x => x.ContactId == Contact.Id)
-        .ToList();
-        Transactions = new ObservableCollection<Transaction>(contactTransactions);
+        _allTransactions =transactions;
+        LoadNextPage();
+    }
+
+    private void LoadNextPage()
+    {
+        if (_isLoading) return;
+
+        _isLoading = true;
+
+        var nextBatch = _allTransactions
+            .Skip(_currentIndex)
+            .Take(_pageSize)
+            .ToList();
+
+        foreach (var transaction in nextBatch)
+        {
+            Transactions.Add(transaction);
+        }
+
+        _currentIndex += _pageSize;
+        _isLoading = false;
+    }
+
+    private void OnRemainingItemsThresholdReached(object sender, EventArgs e)
+    {
+        if (_currentIndex < _allTransactions.Count)
+        {
+            LoadNextPage();
+        }
     }
 
     protected override bool OnBackButtonPressed()
@@ -45,10 +76,4 @@ public partial class ContactDetailsPage : ContentPage
         base.OnDisappearing();
         Debug.WriteLine($"remove form stack  {Navigation.NavigationStack.Count}");
     }
-    public void FillCreditScore() {
-        
-    }
-
-
 }
-

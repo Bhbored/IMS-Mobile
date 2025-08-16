@@ -10,11 +10,18 @@ public partial class TransactionDetails : Popup
 	public TransactionDetails(List<TransactionProductItem> products)
 	{
 		InitializeComponent();
-		Products = new ObservableCollection<TransactionProductItem>(products);
-		BindingContext = this;
+        Fill(products);
+        BindingContext = this;
 	}
 	private void OnCloseClicked(object sender, EventArgs e)
 	{
 		CloseAsync();
 	}
+	public void Fill(List<TransactionProductItem> products)
+	{
+        foreach (var item in products)
+        {
+            Products.Add(item);
+        }
+    }
 }

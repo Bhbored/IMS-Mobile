@@ -489,7 +489,7 @@ namespace IMS_Mobile.MVVM.ViewModels
                         App.ProductRepository.UpdateItem(temproduct);
                     }
                 }
-                App.TransactionRepository.InsertItemWithChildren(transaction);
+                App.TransactionRepository.InsertItemWithChildren(transaction,true);
                 ClearCart();
                 LoadDB();
                 MainThread.BeginInvokeOnMainThread(async () =>

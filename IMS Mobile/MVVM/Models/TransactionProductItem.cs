@@ -21,23 +21,12 @@ namespace IMS_Mobile.MVVM.Models
         public double Price { get => price; set => price = value; }
         public int Quantity { get => quantity; set => quantity = value; }
         public double Cost { get => cost; set => cost = value; }
+
         [Ignore]
-        public double TotalCost
-        {
-            get => totalCost;
-            set
-            {
-                totalCost = quantity * cost;
-            }
-        }
-        public double TotalPrice
-        {
-            get => totalCost;
-            set
-            {
-                totalCost = quantity * price;
-            }
-        }
+        public double TotalCost => quantity * cost;
+
+        [Ignore]
+        public double TotalPrice => quantity * price;
 
         [ForeignKey(typeof(Transaction))]
         public int TransactionId { get; set; }

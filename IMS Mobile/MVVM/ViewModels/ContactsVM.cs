@@ -12,7 +12,9 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 using Contact = IMS_Mobile.MVVM.Models.Contact;
+using Transaction = IMS_Mobile.MVVM.Models.Transaction;
 
 namespace IMS_Mobile.MVVM.ViewModels
 {
@@ -359,6 +361,13 @@ namespace IMS_Mobile.MVVM.ViewModels
                 });
             }
         }
+        public List<Transaction> LoadContactTransaction(Contact contact)
+        {
+            var transactions = App.TransactionRepository.GetItemsWithChildren()
+            .Where(x => x.ContactId == contact.Id)
+            .ToList();
+            return transactions;
+        }
         #endregion
 
         #region commands
@@ -381,7 +390,7 @@ namespace IMS_Mobile.MVVM.ViewModels
         });
         public Command ShowDetailsCommand => new Command<Contact>(async (contact) =>
         {
-            await App.Current.MainPage.Navigation.PushAsync(new ContactDetailsPage(contact));
+            await App.Current.MainPage.Navigation.PushAsync(new ContactDetailsPage(contact,LoadContactTransaction(contact)));
         });
         #endregion
 

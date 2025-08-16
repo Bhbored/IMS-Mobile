@@ -242,11 +242,13 @@
                         VerticalOptions="Center" />
                 </StackLayout>
 
-                <StackLayout
-                    Padding="0,0,0,25"
-                    BindableLayout.ItemsSource="{Binding Transactions}"
-                    Spacing="12">
-                    <BindableLayout.ItemTemplate>
+                <CollectionView
+                    x:Name="TransactionsCollectionView"
+                    Margin="0,0,0,25"
+                    ItemsSource="{Binding Transactions}"
+                    RemainingItemsThreshold="2"
+                    RemainingItemsThresholdReached="OnRemainingItemsThresholdReached">
+                    <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <Border
                                 Margin="25,0,25,8"
@@ -403,44 +405,41 @@
                                 </StackLayout>
                             </Border>
                         </DataTemplate>
-                    </BindableLayout.ItemTemplate>
-
-                    <!--  Empty State  -->
-                    <StackLayout
-                        Padding="25,50"
-                        HorizontalOptions="Center"
-                        IsVisible="{Binding Transactions.Count, Converter={StaticResource IsEmptyConverter}}">
-                        <Frame
-                            Padding="0"
-                            BackgroundColor="#F8F9FA"
-                            BorderColor="Transparent"
-                            CornerRadius="30"
-                            HeightRequest="70"
-                            HorizontalOptions="Center"
-                            IsClippedToBounds="True"
-                            WidthRequest="70">
-                            <Label
-                                FontSize="35"
+                    </CollectionView.ItemTemplate>
+                    <CollectionView.EmptyView>
+                        <StackLayout Padding="25,50" HorizontalOptions="Center">
+                            <Frame
+                                Padding="0"
+                                BackgroundColor="#F8F9FA"
+                                BorderColor="Transparent"
+                                CornerRadius="30"
+                                HeightRequest="70"
                                 HorizontalOptions="Center"
-                                Text="📭"
-                                VerticalOptions="Center" />
-                        </Frame>
-                        <Label
-                            Margin="0,20,0,10"
-                            FontFamily="poppinbold"
-                            FontSize="18"
-                            HorizontalOptions="Center"
-                            Text="No transactions yet"
-                            TextColor="#666666" />
-                        <Label
-                            FontFamily="poppinregular"
-                            FontSize="14"
-                            HorizontalOptions="Center"
-                            HorizontalTextAlignment="Center"
-                            Text="This contact hasn't made any purchases"
-                            TextColor="#999999" />
-                    </StackLayout>
-                </StackLayout>
+                                IsClippedToBounds="True"
+                                WidthRequest="70">
+                                <Label
+                                    FontSize="35"
+                                    HorizontalOptions="Center"
+                                    Text="📭"
+                                    VerticalOptions="Center" />
+                            </Frame>
+                            <Label
+                                Margin="0,20,0,10"
+                                FontFamily="poppinbold"
+                                FontSize="18"
+                                HorizontalOptions="Center"
+                                Text="No transactions yet"
+                                TextColor="#666666" />
+                            <Label
+                                FontFamily="poppinregular"
+                                FontSize="14"
+                                HorizontalOptions="Center"
+                                HorizontalTextAlignment="Center"
+                                Text="This contact hasn't made any purchases"
+                                TextColor="#999999" />
+                        </StackLayout>
+                    </CollectionView.EmptyView>
+                </CollectionView>
             </StackLayout>
         </StackLayout>
     </ScrollView>
