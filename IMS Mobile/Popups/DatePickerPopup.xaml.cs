@@ -17,9 +17,9 @@ public partial class DatePickerPopup : Popup
 
     
 
-    private void OnCancelClicked(object sender, EventArgs e)
+    private async void OnCancelClicked(object sender, EventArgs e)
     {
-        CloseAsync();
+        await CloseAsync();
     }
 
     private async void OnApplyClicked(object sender, EventArgs e)

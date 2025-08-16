@@ -1,9 +1,11 @@
 ﻿using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
+using IMS_Mobile.MVVM.Views;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -14,6 +16,11 @@ namespace IMS_Mobile.MVVM.ViewModels
     [AddINotifyPropertyChangedInterface]
     public class DateFilterViewModel : INotifyPropertyChanged
     {
+        private DateTime _startDate = DateTime.Now.AddDays(-7);
+        private DateTime _endDate = DateTime.Now;
+        private string _filterSummary = "Last 7 days";
+        private readonly HomeVM _homeVM;
+        public static HomePage HomePage { get; set; }
 
         public DateTime StartDate
         {
@@ -47,11 +54,6 @@ namespace IMS_Mobile.MVVM.ViewModels
             }
         }
 
-        private DateTime _startDate = DateTime.Now.AddDays(-7);
-        private DateTime _endDate = DateTime.Now;
-        private string _filterSummary = "Last 7 days";
-        private readonly HomeVM _homeVM;
-
         public DateFilterViewModel(HomeVM homeVM)
         {
             _homeVM = homeVM;
@@ -68,15 +70,13 @@ namespace IMS_Mobile.MVVM.ViewModels
         {
             try
             {
+                var days = (EndDate - StartDate).Days;
                 if (_homeVM != null)
                 {
                     _homeVM.FilterByDateRange(StartDate, EndDate);
-                    await ShowToast($"Filtered {_homeVM.FilteredTransactions.Count} transactions");
+
                 }
-                else
-                {
-                    await ShowToast("HomeVM is null");
-                }
+
             }
             catch (Exception ex)
             {
@@ -92,7 +92,7 @@ namespace IMS_Mobile.MVVM.ViewModels
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Toast error: {ex.Message}");
+                Debug.WriteLine($"Toast error: {ex.Message}");
             }
         }
 

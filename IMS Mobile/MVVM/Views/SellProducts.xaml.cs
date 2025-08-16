@@ -38,6 +38,7 @@ public partial class SellProducts : ContentPage
 
         if (vm != null && product != null)
         {
+            vm.IsBuy = false;
             vm.UpdateCart(product, e.Value);
         }
     }
@@ -84,7 +85,7 @@ public partial class SellProducts : ContentPage
                 {
                     product.Quantity = newQuantity;
                 }
-
+                vm.IsBuy = false;
                 vm?.UpdateCartTotals();
             }
             else

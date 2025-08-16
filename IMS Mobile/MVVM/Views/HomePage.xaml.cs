@@ -20,7 +20,10 @@ public partial class HomePage : ContentPage
         base.OnAppearing();
         if (BindingContext is HomeVM vm)
         {
-            await vm.LoadTransactionsAsync();
+            if (vm.FilteredTransactions.Count == 0)
+            {
+                await vm.LoadTransactionsAsync();
+            }
         }
     }
 

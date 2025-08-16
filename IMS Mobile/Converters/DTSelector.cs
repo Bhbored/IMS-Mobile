@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IMS_Mobile.MVVM.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,8 +27,8 @@ namespace IMS_Mobile.Converters
             {
                 key = "sellOnTabTransactions";
             }
-
-            Application.Current.Resources.TryGetValue(key, out var template);
+          
+                Application.Current.Resources.TryGetValue(key, out var template);
             return template as DataTemplate;
 
         }

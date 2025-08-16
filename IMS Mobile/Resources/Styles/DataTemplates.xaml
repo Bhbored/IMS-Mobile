@@ -121,4 +121,90 @@
             </Border.GestureRecognizers>
         </Border>
     </DataTemplate>
+    <!--  sell transactiondetails  -->
+    <DataTemplate x:Key="SellTransactionDetails">
+        <Border StyleClass="TransactionCardStyle">
+            <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto,Auto">
+                <!--  Product Image  -->
+                <Border
+                    Grid.RowSpan="2"
+                    Grid.Column="0"
+                    Margin="0,0,12,0"
+                    HeightRequest="60"
+                    StyleClass="TransactionIconStyle"
+                    WidthRequest="60">
+                    <Image
+                        Aspect="AspectFill"
+                        HorizontalOptions="Center"
+                        Source="product.png"
+                        VerticalOptions="Center" />
+                </Border>
+
+                <!--  Product Details  -->
+                <VerticalStackLayout
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Spacing="4">
+                    <Label
+                        FontFamily="poppinbold"
+                        FontSize="16"
+                        Text="{Binding Name}"
+                        TextColor="Black" />
+                    <Label StyleClass="SmallTextStyle" Text="{Binding TotalPrice, StringFormat='{0} LBP'}" />
+                </VerticalStackLayout>
+
+                <!--  Quantity  -->
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    StyleClass="SmallTextStyle"
+                    Text="{Binding Quantity, StringFormat='{0} units'}"
+                    VerticalOptions="End" />
+
+            </Grid>
+        </Border>
+    </DataTemplate>
+    <!--  buy transactiondetails  -->
+    <DataTemplate x:Key="BuyTransactionDetails">
+        <Border StyleClass="TransactionCardStyle">
+            <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto,Auto">
+                <!--  Product Image  -->
+                <Border
+                    Grid.RowSpan="2"
+                    Grid.Column="0"
+                    Margin="0,0,12,0"
+                    HeightRequest="60"
+                    StyleClass="TransactionIconStyle"
+                    WidthRequest="60">
+                    <Image
+                        Aspect="AspectFill"
+                        HorizontalOptions="Center"
+                        Source="product.png"
+                        VerticalOptions="Center" />
+                </Border>
+
+                <!--  Product Details  -->
+                <VerticalStackLayout
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Spacing="4">
+                    <Label
+                        FontFamily="poppinbold"
+                        FontSize="16"
+                        Text="{Binding Name}"
+                        TextColor="Black" />
+                    <Label StyleClass="SmallTextStyle" Text="{Binding TotalCost, StringFormat='{0} LBP'}" />
+                </VerticalStackLayout>
+
+                <!--  Quantity  -->
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    StyleClass="SmallTextStyle"
+                    Text="{Binding Quantity, StringFormat='{0} units'}"
+                    VerticalOptions="End" />
+
+            </Grid>
+        </Border>
+    </DataTemplate>
 </ResourceDictionary>

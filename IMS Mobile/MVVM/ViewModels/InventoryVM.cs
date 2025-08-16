@@ -34,12 +34,21 @@ namespace IMS_Mobile.MVVM.ViewModels
         public double cartvalue = 0.0;
         private ObservableCollection<Product> finalCartItems = new ObservableCollection<Product>();
         private static SellProducts? sellProductsPage;
+        private bool isBuy = false;
 
 
         #endregion
 
         #region Properties
-
+        public bool IsBuy
+        {
+            get => isBuy;
+            set
+            {
+                isBuy = value;
+                OnPropertyChanged();
+            }
+        }
         public int CartItemsCount
         {
             get => cartitems;
@@ -360,8 +369,15 @@ namespace IMS_Mobile.MVVM.ViewModels
             }
 
             CartItemsCount = CartItems.Count;
-            CartValue = CartItems.Sum(p => p.Price);
-
+            if (IsBuy == true)
+            {
+                CartValue = CartItems.Sum(p => p.Cost);
+            }
+            else
+            {
+                CartValue = CartItems.Sum(p => p.Price);
+            }
+            OnPropertyChanged(nameof(IsBuy));
             OnPropertyChanged(nameof(CartItemsCount));
             OnPropertyChanged(nameof(CartValue));
             OnPropertyChanged(nameof(CartItems));
@@ -450,7 +466,15 @@ namespace IMS_Mobile.MVVM.ViewModels
         {
 
             CartItemsCount = FinalCartItems.Count;
-            CartValue = FinalCartItems.Sum(p => p.Price * p.Quantity);
+            if (IsBuy == true)
+            {
+                CartValue = FinalCartItems.Sum(p => p.Cost * p.Quantity);
+            }
+            else
+            {
+                CartValue = FinalCartItems.Sum(p => p.Price * p.Quantity);
+            }
+
             OnPropertyChanged(nameof(CartItemsCount));
             OnPropertyChanged(nameof(CartValue));
         }
@@ -489,7 +513,7 @@ namespace IMS_Mobile.MVVM.ViewModels
                         App.ProductRepository.UpdateItem(temproduct);
                     }
                 }
-                App.TransactionRepository.InsertItemWithChildren(transaction,true);
+                App.TransactionRepository.InsertItemWithChildren(transaction, true);
                 ClearCart();
                 LoadDB();
                 MainThread.BeginInvokeOnMainThread(async () =>
@@ -568,7 +592,7 @@ namespace IMS_Mobile.MVVM.ViewModels
                           .FirstOrDefault(x => x.Name == productname)
                           .Quantity;
                             App.ProductRepository.UpdateItem(temproduct);
-                        }     
+                        }
                     }
                     contactid.TotalPurchases += transaction.totalamount;
                     contactid.CreditScore += transaction.totalamount;
@@ -628,7 +652,84 @@ namespace IMS_Mobile.MVVM.ViewModels
             }
 
         }
+        public void BuyProducts()
+        {
+            if (FinalCartItems.Count > 0)
+            {
+                var transaction = new Transaction
+                {
 
+                    totalamount = CartValue,
+                    Type = "buy",
+                    IsPaid = true,
+                    Products = new List<TransactionProductItem>()
+                };
+                foreach (var item in FinalCartItems)
+                {
+                    transaction.Products.Add(new TransactionProductItem
+                    {
+                        Name = item.Name,
+                        Quantity = item.Quantity,
+                        Cost = item.Cost,
+                    });
+                }
+                var productnames = transaction.Products.Select(x => x.Name).ToList();
+                foreach (var productname in productnames)
+                {
+                    var temproduct = App.ProductRepository
+                        .GetItems()
+                        .FirstOrDefault(x => x.Name == productname);
+                    if (temproduct != null)
+                    {
+                        temproduct.stock += transaction.Products
+                      .FirstOrDefault(x => x.Name == productname)
+                      .Quantity;
+                        App.ProductRepository.UpdateItem(temproduct);
+                    }
+                }
+                App.TransactionRepository.InsertItemWithChildren(transaction, true);
+                ClearCart();
+                LoadDB();
+                MainThread.BeginInvokeOnMainThread(async () =>
+                {
+                    await Task.Delay(100);
+                    var snackbar = Snackbar.Make(
+                    message: "Buy Transaction Added successfully",
+                    duration: TimeSpan.FromSeconds(2),
+                    visualOptions: new SnackbarOptions
+                    {
+                        BackgroundColor = Colors.Green,
+                        TextColor = Colors.White,
+                        CornerRadius = 10,
+
+                    },
+                    anchor: sellProductsPage
+                );
+                    await snackbar.Show();
+                });
+
+            }
+            else
+            {
+                MainThread.BeginInvokeOnMainThread(async () =>
+                {
+                    await Task.Delay(100);
+                    var snackbar = Snackbar.Make(
+                    message: "Add Items To Cart First",
+                    duration: TimeSpan.FromSeconds(2),
+                    visualOptions: new SnackbarOptions
+                    {
+                        BackgroundColor = Colors.Red,
+                        TextColor = Colors.White,
+                        CornerRadius = 10,
+
+                    },
+                    anchor: sellProductsPage
+                );
+                    await snackbar.Show();
+                });
+            }
+        }
         #endregion
 
         #region commands

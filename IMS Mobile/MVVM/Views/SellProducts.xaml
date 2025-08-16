@@ -119,7 +119,7 @@
                                     <Label
                                         LineBreakMode="WordWrap"
                                         StyleClass="PriceStyle"
-                                        Text="{Binding Price, StringFormat='${0:F2}'}" />
+                                        Text="{Binding Price, StringFormat='{0:F2} LBP'}" />
                                     <Label
                                         LineBreakMode="WordWrap"
                                         StyleClass="StockStyle"
@@ -249,7 +249,7 @@
                                             <Label
                                                 LineBreakMode="WordWrap"
                                                 StyleClass="PriceStyle"
-                                                Text="{Binding Price, StringFormat='${0:F2}'}" />
+                                                Text="{Binding Price, StringFormat='{0:F2} LBP'}" />
                                             <Label
                                                 LineBreakMode="WordWrap"
                                                 StyleClass="StockStyle"

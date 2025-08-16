@@ -1,20 +1,25 @@
-﻿using PropertyChanged;
+﻿using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
+using CommunityToolkit.Maui.Extensions;
+using IMS_Mobile.DB;
+using IMS_Mobile.MVVM.Models;
+using IMS_Mobile.MVVM.Views;
+using IMS_Mobile.Popups;
+using IMS_Mobile.Service;
+using Microsoft.Maui.Controls;
+using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
 using System.Windows.Input;
-using Microsoft.Maui.Controls;
 using Transaction = IMS_Mobile.MVVM.Models.Transaction;
-using IMS_Mobile.MVVM.Models;
-using IMS_Mobile.Popups;
-using CommunityToolkit.Maui.Extensions;
-using IMS_Mobile.DB;
 
 namespace IMS_Mobile.MVVM.ViewModels
 {
@@ -22,6 +27,8 @@ namespace IMS_Mobile.MVVM.ViewModels
     public class HomeVM : INotifyPropertyChanged
     {
         #region Properties
+        public static HomePage HomePage { get; set; }
+
         public ObservableCollection<Transaction> Transactions { get; set; } = new ObservableCollection<Transaction>();
         public ObservableCollection<Transaction> FilteredTransactions { get; set; } = new ObservableCollection<Transaction>();
         #endregion
@@ -114,13 +121,58 @@ namespace IMS_Mobile.MVVM.ViewModels
         #region Filtering
         public void FilterByDateRange(DateTime startDate, DateTime endDate)
         {
+
             _currentFilteredList = Transactions
                 .Where(t => t.CreatedDate.Date >= startDate.Date && t.CreatedDate.Date <= endDate.Date)
                 .OrderByDescending(t => t.CreatedDate)
                 .ToList();
             PageIndex = 1;
             ApplyPagination();
+            OnPropertyChanged(nameof(_currentFilteredList));
+            var days = (endDate - startDate).Days;
+            if (_currentFilteredList.Count != 0)
+            {
+                MainThread.BeginInvokeOnMainThread(async () =>
+                {
+                    await Task.Delay(100);
+                    var snackbar = Snackbar.Make(
+                    message: $"Showing transactions from {startDate:MMM dd} to {endDate:MMM dd} ({days + 1} days)",
+                    duration: TimeSpan.FromSeconds(2),
+                    visualOptions: new SnackbarOptions
+                    {
+                        BackgroundColor = Colors.LightGreen,
+                        TextColor = Colors.White,
+                        CornerRadius = 10,
+
+                    },
+                    anchor: HomePage
+                );
+                    await snackbar.Show();
+                });
+
+            }
+            else
+            {
+                MainThread.BeginInvokeOnMainThread(async () =>
+                {
+                    await Task.Delay(100);
+                    var snackbar = Snackbar.Make(
+                    message: $"No transactions from {startDate:MMM dd} to {endDate:MMM dd}",
+                    duration: TimeSpan.FromSeconds(2),
+                    visualOptions: new SnackbarOptions
+                    {
+                        BackgroundColor = Colors.Red,
+                        TextColor = Colors.White,
+                        CornerRadius = 10,
+
+                    },
+                    anchor: HomePage
+                );
+                    await snackbar.Show();
+                });
+            }
         }
+
 
         public void FilterBuy()
         {
