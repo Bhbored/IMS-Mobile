@@ -110,40 +110,31 @@
                 Margin="0,0,0,0"
                 ColumnDefinitions="*,*"
                 ColumnSpacing="12">
-                <Border
+                <Button
                     Grid.Column="0"
                     Padding="20,12"
-                    Background="#F5F5F5"
+                    BackgroundColor="#F5F5F5"
+                    Clicked="CancelButton_Clicked"
+                    CornerRadius="8"
+                    FontFamily="poppinregular"
+                    FontSize="13"
                     HeightRequest="50"
-                    StrokeShape="RoundRectangle 8">
-                    <Border.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="CancelButton_Clicked" />
-                    </Border.GestureRecognizers>
-                    <Label
-                        FontFamily="poppinregular"
-                        FontSize="13"
-                        HorizontalOptions="Center"
-                        Text="Cancel"
-                        TextColor="#666666"
-                        VerticalOptions="Center" />
-                </Border>
-                <Border
+                    Text="Cancel"
+                    TextColor="#666666"
+                    VerticalOptions="Center" />
+
+                <Button
                     Grid.Column="1"
                     Padding="20,12"
-                    Background="#4CAF50"
+                    BackgroundColor="#4CAF50"
+                    Clicked="AddProductButton_Clicked"
+                    CornerRadius="8"
+                    FontFamily="poppinregular"
+                    FontSize="13"
                     HeightRequest="50"
-                    StrokeShape="RoundRectangle 8">
-                    <Border.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="AddProductButton_Clicked" />
-                    </Border.GestureRecognizers>
-                    <Label
-                        FontFamily="poppinregular"
-                        FontSize="13"
-                        HorizontalOptions="Center"
-                        Text="Add"
-                        TextColor="White"
-                        VerticalOptions="Center" />
-                </Border>
+                    Text="Add"
+                    TextColor="White"
+                    VerticalOptions="Center" />
             </Grid>
 
         </Grid>

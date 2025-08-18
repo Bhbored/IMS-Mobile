@@ -10,10 +10,12 @@ public partial class HomePage : ContentPage
 {
     private static readonly IList<string> ActiveFilter = new List<string> { "ActiveFilterButtonStyle" };
     private static readonly IList<string> InActiveFilter = new List<string> { "FilterButtonStyle" };
+    public static HomePage? Current { get; private set; }
     public HomePage(HomeVM vm)
     {
         InitializeComponent();
         BindingContext = vm;
+        Current = this;
     }
     protected override async void OnAppearing()
     {
@@ -23,6 +25,7 @@ public partial class HomePage : ContentPage
             if (vm.FilteredTransactions.Count == 0)
             {
                 await vm.LoadTransactionsAsync();
+                ResetAllFilters();
             }
         }
     }
@@ -52,7 +55,7 @@ public partial class HomePage : ContentPage
         }
     }
 
-    private void ResetAllFilters()
+    public void ResetAllFilters()
     {
         Filter11.StyleClass = InActiveFilter;
         Filter22.StyleClass = InActiveFilter;

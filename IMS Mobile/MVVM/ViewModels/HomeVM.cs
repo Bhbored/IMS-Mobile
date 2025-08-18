@@ -27,7 +27,7 @@ namespace IMS_Mobile.MVVM.ViewModels
     public class HomeVM : INotifyPropertyChanged
     {
         #region Properties
-        public static HomePage HomePage { get; set; }
+       public HomePage HomePage { get; set; }
         public bool IsRefreshing { get; set; } = false;
 
         public ObservableCollection<Transaction> Transactions { get; set; } = new ObservableCollection<Transaction>();
@@ -249,6 +249,10 @@ namespace IMS_Mobile.MVVM.ViewModels
         {
             IsRefreshing = true;
             await Task.Delay(1000);
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                HomePage.Current?.ResetAllFilters();
+            });
             await LoadTransactionsAsync();
             IsRefreshing = false;
         }
