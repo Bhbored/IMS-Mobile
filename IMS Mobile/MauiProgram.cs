@@ -25,8 +25,8 @@ namespace IMS_Mobile
                 .UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
                 {
-                    //fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-                    //fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                    fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+                    fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                     fonts.AddFont("Poppins-Bold.ttf", "poppinbold");
                     fonts.AddFont("Poppins-Regular.ttf", "poppinregular");
                 });

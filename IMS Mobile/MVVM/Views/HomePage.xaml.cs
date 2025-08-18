@@ -8,13 +8,13 @@ namespace IMS_Mobile.MVVM.Views;
 
 public partial class HomePage : ContentPage
 {
-	private static readonly IList<string> ActiveFilter = new List<string> { "ActiveFilterButtonStyle" };
-	private static readonly IList<string> InActiveFilter = new List<string> { "FilterButtonStyle" };
-	public HomePage(HomeVM vm)
-	{
-		InitializeComponent();
-		BindingContext = vm;
-	}
+    private static readonly IList<string> ActiveFilter = new List<string> { "ActiveFilterButtonStyle" };
+    private static readonly IList<string> InActiveFilter = new List<string> { "FilterButtonStyle" };
+    public HomePage(HomeVM vm)
+    {
+        InitializeComponent();
+        BindingContext = vm;
+    }
     protected override async void OnAppearing()
     {
         base.OnAppearing();
@@ -26,7 +26,10 @@ public partial class HomePage : ContentPage
             }
         }
     }
-
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+    }
     #region styling logic
     private void Button_Clicked(object sender, EventArgs e)
     {
@@ -60,11 +63,11 @@ public partial class HomePage : ContentPage
 
     private void Button_Clicked_1(object sender, EventArgs e)
     {
-		if(BindingContext is  HomeVM vm)
-		{
+        if (BindingContext is HomeVM vm)
+        {
             AppShell.Current.ShowPopupAsync(new DatePickerPopup(vm));
         }
-			
+
     }
-   
+
 }

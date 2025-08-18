@@ -348,7 +348,7 @@
                             <HorizontalStackLayout
                                 Grid.Column="1"
                                 HorizontalOptions="Center"
-                                Spacing="25"
+                                Spacing="15"
                                 VerticalOptions="Center">
                                 <Button
                                     Clicked="SellOntab"

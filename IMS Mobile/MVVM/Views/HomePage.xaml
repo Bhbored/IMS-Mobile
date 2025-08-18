@@ -82,17 +82,23 @@
 
         <!--  Transaction List  -->
         <Grid Grid.Row="2" RowDefinitions="*,Auto">
-            <CollectionView
+            <RefreshView
                 Grid.Row="0"
                 Margin="20,0,20,10"
-                ItemTemplate="{StaticResource DTSelector}"
-                ItemsSource="{Binding FilteredTransactions}"
-                SelectionMode="None"
-                VerticalScrollBarVisibility="Always">
-                <CollectionView.ItemsLayout>
-                    <GridItemsLayout Orientation="Vertical" Span="1" />
-                </CollectionView.ItemsLayout>
-            </CollectionView>
+                Command="{Binding RefreshCommand}"
+                IsRefreshing="{Binding IsRefreshing}"
+                RefreshColor="LightGreen">
+                <CollectionView
+                    ItemTemplate="{StaticResource DTSelector}"
+                    ItemsSource="{Binding FilteredTransactions}"
+                    SelectionMode="None"
+                    VerticalScrollBarVisibility="Always">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical" Span="1" />
+                    </CollectionView.ItemsLayout>
+                </CollectionView>
+            </RefreshView>
+
             <HorizontalStackLayout
                 Grid.Row="1"
                 Margin="0,0,0,10"

@@ -36,9 +36,7 @@ namespace IMS_Mobile
             contactsVM = _contactVM;
             inventoryVM = _inventoryVM;
             reportsVM = _reportsVM;
-            //GenerateTestDataAsync();
-            //ProductTest();
-            //DiposeCurrentDB();
+            
         }
 
 
@@ -48,71 +46,6 @@ namespace IMS_Mobile
             return new Window(new AppShell());
         }
 
-        #region test data injection
-        private void GenerateTestDataAsync()
-        {
-            try
-            {
-                var random = new Random();
-                var types = new[] { "buy", "sell" };
-                var productNames = new[] { "Laptop", "Phone", "Tablet", "Headphones", "Mouse", "Keyboard", "Monitor", "Speaker", "Camera", "Printer" };
-
-                for (int i = 1; i <= 50; i++)
-                {
-                    var transaction = new Transaction
-                    {
-                        totalamount = Math.Round(random.NextDouble() * 1000 + 50, 2),
-                        Type = types[random.Next(types.Length)],
-                        IsPaid = random.Next(2) == 1,
-                        CreatedDate = DateTime.Now.AddDays(-random.Next(30)),
-                        ContactId = 0
-                    };
-
-                    var productCount = random.Next(1, 6);
-                    for (int j = 0; j < productCount; j++)
-                    {
-                        transaction.Products.Add(new TransactionProductItem
-                        {
-                            Name = productNames[random.Next(productNames.Length)],
-                            Price = Math.Round(random.NextDouble() * 200 + 20, 2),
-                            Quantity = random.Next(1, 10),
-                            Cost = Math.Round(random.NextDouble() * 150 + 10, 2)
-                        });
-                    }
-                    i++;
-                    TransactionRepository.InsertItemWithChildren(transaction, true);
-                }
-
-                Debug.WriteLine("Test data generated successfully");
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Test data generation failed: {ex.Message}");
-            }
-        }
-        public void ProductTest()
-        {
-            try
-            {
-                var product = new List<Product>();
-                for (int i = 0; i < 50; i++)
-                {
-                    product.Add(new Product
-                    {
-                        Name = $"Product {i + 1}",
-                        Price = Math.Round(new Random().NextDouble() * 100 + 10, 2),
-                        Cost = Math.Round(new Random().NextDouble() * 80 + 5, 2),
-                        stock = new Random().Next(1, 20)
-                    });
-                }
-                ProductRepository.InsertItems(product);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Product test failed: {ex.Message}");
-            }
-        }
-        #endregion
 
         #region delete db
         public void DiposeCurrentDB() {

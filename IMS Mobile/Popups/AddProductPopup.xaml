@@ -132,7 +132,7 @@
                     Padding="20,12"
                     Background="#4CAF50"
                     HeightRequest="50"
-                    StrokeShape="RoundRectangle 5">
+                    StrokeShape="RoundRectangle 8">
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Tapped="AddProductButton_Clicked" />
                     </Border.GestureRecognizers>
@@ -140,7 +140,7 @@
                         FontFamily="poppinregular"
                         FontSize="13"
                         HorizontalOptions="Center"
-                        Text="Add Product"
+                        Text="Add"
                         TextColor="White"
                         VerticalOptions="Center" />
                 </Border>

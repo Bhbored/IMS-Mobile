@@ -350,18 +350,24 @@
         <Setter Property="CornerRadius" Value="10" />
     </Style>
 
-    <Style
-        BasedOn="{StaticResource PaymentButtonStyle}"
-        Class="CashButtonStyle"
-        TargetType="Button">
+    <Style Class="CashButtonStyle" TargetType="Button">
         <Setter Property="Background" Value="#4CAF50" />
+        <Setter Property="FontFamily" Value="poppinregular" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Padding" Value="20,12" />
+        <Setter Property="Margin" Value="10,5" />
+        <Setter Property="TextColor" Value="White" />
+        <Setter Property="CornerRadius" Value="10" />
     </Style>
 
-    <Style
-        BasedOn="{StaticResource PaymentButtonStyle}"
-        Class="TabButtonStyle"
-        TargetType="Button">
+    <Style Class="TabButtonStyle" TargetType="Button">
         <Setter Property="Background" Value="#2196F3" />
+        <Setter Property="FontFamily" Value="poppinregular" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Padding" Value="20,12" />
+        <Setter Property="Margin" Value="10,5" />
+        <Setter Property="TextColor" Value="White" />
+        <Setter Property="CornerRadius" Value="10" />
     </Style>
     <!--  Add to existing styles  -->
     <Style Class="QuantityButtonStyle" TargetType="Button">

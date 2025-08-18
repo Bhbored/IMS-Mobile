@@ -57,6 +57,23 @@
             <CollectionView.ItemsLayout>
                 <GridItemsLayout Orientation="Vertical" Span="1" />
             </CollectionView.ItemsLayout>
+            <CollectionView.EmptyView>
+                <VerticalStackLayout
+                    HorizontalOptions="Center"
+                    Spacing="20"
+                    VerticalOptions="Center">
+                    <Image
+                        Aspect="AspectFit"
+                        HeightRequest="150"
+                        IsAnimationPlaying="True"
+                        Source="noproduct.gif" />
+                    <Label
+                        HorizontalOptions="Center"
+                        StyleClass="RegularTextStyle"
+                        Text="The Customer Payed his Debt"
+                        VerticalOptions="Center" />
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
 
         </CollectionView>
 

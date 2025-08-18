@@ -82,7 +82,6 @@ public partial class ContactDetailsPage : ContentPage
             OnBackButtonPressed();
         }
         base.OnDisappearing();
-        Debug.WriteLine($"remove form stack  {Navigation.NavigationStack.Count}");
     }
 
     private async void Button_Clicked(object sender, EventArgs e)
@@ -107,7 +106,17 @@ public partial class ContactDetailsPage : ContentPage
                 {
                     var newScore = Contact.CreditScore - reduction;
                     Contact.CreditScore = newScore;
+                    var contactid = App.ContactRepository.GetItems().Where(x => x.Name == Contact.Name).FirstOrDefault().Id;
                     App.ContactRepository.UpdateItem(Contact);
+                    var transatcion = new Transaction
+                    {
+                        totalamount = reduction,
+                        Type = "sell",
+                        IsPaid = true,
+                        CreatedDate = DateTime.Now,
+                        ContactId = contactid,
+                    };
+                    App.TransactionRepository.InsertItem(transatcion);
                 }
                 else if (!string.IsNullOrEmpty(result))
                 {

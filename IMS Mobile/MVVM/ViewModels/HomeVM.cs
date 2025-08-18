@@ -28,6 +28,7 @@ namespace IMS_Mobile.MVVM.ViewModels
     {
         #region Properties
         public static HomePage HomePage { get; set; }
+        public bool IsRefreshing { get; set; } = false;
 
         public ObservableCollection<Transaction> Transactions { get; set; } = new ObservableCollection<Transaction>();
         public ObservableCollection<Transaction> FilteredTransactions { get; set; } = new ObservableCollection<Transaction>();
@@ -224,6 +225,11 @@ namespace IMS_Mobile.MVVM.ViewModels
             var items = new List<TransactionProductItem>(products);
             AppShell.Current.ShowPopupAsync(new TransactionDetails(items));
         });
+        public Command RefreshCommand => new Command(async () =>
+        {
+            await RefreshTransactions();
+        });
+     
         #endregion
 
         #region Tasks
@@ -238,6 +244,13 @@ namespace IMS_Mobile.MVVM.ViewModels
             }
             ShowAllTransactions();
             return Task.CompletedTask;
+        }
+        public async Task RefreshTransactions()
+        {
+            IsRefreshing = true;
+            await Task.Delay(1000);
+            await LoadTransactionsAsync();
+            IsRefreshing = false;
         }
         #endregion
 

@@ -21,30 +21,8 @@ namespace IMS_Mobile.DB
         {
             get
             {
-                var appDataDir = FileSystem.AppDataDirectory;
-
-                // Ensure the directory exists
-                if (!Directory.Exists(appDataDir))
-                {
-                    Directory.CreateDirectory(appDataDir);
-                }
-
-                var dbPath = Path.Combine(appDataDir, DBFileName);
-
-                if (!File.Exists(dbPath))
-                {
-                    try
-                    {
-                        File.WriteAllText(dbPath, "");
-                        Debug.WriteLine($"[DB] Created database file at: {dbPath}");
-                    }
-                    catch (Exception ex)
-                    {
-                       Debug.WriteLine($"[ERROR][DB] Failed to create database file: {ex.Message}");
-                    }
-                }
-
-                return dbPath;
+                return Path
+                     .Combine(FileSystem.AppDataDirectory, DBFileName);
             }
         }
     }
