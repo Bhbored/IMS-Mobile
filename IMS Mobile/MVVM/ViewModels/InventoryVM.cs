@@ -35,11 +35,21 @@ namespace IMS_Mobile.MVVM.ViewModels
         private ObservableCollection<Product> finalCartItems = new ObservableCollection<Product>();
         private static SellProducts? sellProductsPage;
         private bool isBuy = false;
+        private bool isCartSheetOpen1;
 
 
         #endregion
 
         #region Properties
+        public bool isCartSheetOpen
+        {
+            get => isCartSheetOpen1;
+            set
+            {
+                isCartSheetOpen1 = value;
+                OnPropertyChanged();
+            }
+        }
         public bool IsBuy
         {
             get => isBuy;
@@ -382,7 +392,7 @@ namespace IMS_Mobile.MVVM.ViewModels
             OnPropertyChanged(nameof(CartValue));
             OnPropertyChanged(nameof(CartItems));
         }
-        public void FinalizeCart()
+        public async void FinalizeCart()
         {
             if (CartItems.Count > 0)
             {
@@ -391,11 +401,16 @@ namespace IMS_Mobile.MVVM.ViewModels
                 {
                     FinalCartItems.Add(item);
                 }
-
+                await Task.Delay(100);
+                isCartSheetOpen = true;
+            }
+            else
+            {
+                isCartSheetOpen = true;
             }
 
         }
-        public void ClearCart()
+        public async void ClearCart()
         {
             if (FinalCartItems.Count > 0 || FilteredProducts.Any(x => x.IsChecked == true))
             {
@@ -413,6 +428,12 @@ namespace IMS_Mobile.MVVM.ViewModels
                 OnPropertyChanged(nameof(CartItemsCount));
                 OnPropertyChanged(nameof(CartValue));
                 OnPropertyChanged(nameof(CartItems));
+                await Task.Delay(100);
+                isCartSheetOpen = false;
+            }
+            else
+            {
+                isCartSheetOpen = false;
             }
         }
         public void RemoveFromCart(Product product)

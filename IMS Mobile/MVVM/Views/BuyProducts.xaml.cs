@@ -47,7 +47,6 @@ public partial class BuyProducts : ContentPage
 
     private void Button_Clicked(object sender, EventArgs e)
     {
-        bottomSheet.Show();
         var vm = BindingContext as InventoryVM;
         vm.IsBuy = true;
         vm.FinalizeCart();
@@ -57,7 +56,6 @@ public partial class BuyProducts : ContentPage
     {
         var vm = BindingContext as InventoryVM;
         vm.ClearCart();
-        bottomSheet.Close();
     }
 
     private void Entry_TextChanged(object sender, TextChangedEventArgs e)

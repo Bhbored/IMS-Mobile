@@ -173,6 +173,7 @@
             CornerRadius="20,20,0,0"
             EnableSwiping="True"
             GrabberBackground="LightGreen"
+            IsOpen="{Binding isCartSheetOpen, Mode=TwoWay}"
             State="FullExpanded">
             <bottomSheet:SfBottomSheet.BottomSheetContent>
                 <VerticalStackLayout>

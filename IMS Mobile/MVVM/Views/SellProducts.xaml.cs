@@ -8,6 +8,7 @@ namespace IMS_Mobile.MVVM.Views;
 
 public partial class SellProducts : ContentPage
 {
+   
     public SellProducts(InventoryVM vm)
     {
         InitializeComponent();
@@ -22,6 +23,7 @@ public partial class SellProducts : ContentPage
             vm.LoadDB();
         }
     }
+    
     private void autocomplete_SelectionChanged(object sender, Syncfusion.Maui.Inputs.SelectionChangedEventArgs e)
     {
         if (BindingContext is InventoryVM vm)
@@ -45,15 +47,16 @@ public partial class SellProducts : ContentPage
 
     private void Button_Clicked(object sender, EventArgs e)
     {
-        bottomSheet.Show();
         var vm = BindingContext as InventoryVM;
         vm.FinalizeCart();
+        //bottomSheet.Show();
+       
     }
     private void CloseBottomSheet(object sender, EventArgs e)
     {
         var vm = BindingContext as InventoryVM;
         vm.ClearCart();
-        bottomSheet.Close();
+        //bottomSheet.Close();
     }
 
     private void Entry_TextChanged(object sender, TextChangedEventArgs e)
