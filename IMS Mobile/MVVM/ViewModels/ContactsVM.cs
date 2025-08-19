@@ -1,6 +1,7 @@
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Extensions;
+using IMS_Mobile.MVVM.Models;
 using IMS_Mobile.MVVM.Views;
 using IMS_Mobile.Popups;
 using PropertyChanged;
@@ -30,6 +31,8 @@ namespace IMS_Mobile.MVVM.ViewModels
         private ContactsPage contactsPage;
         private Contact clonedContact = new Contact();
         private bool isRefreshing = false;
+        private List<Transaction> clonedContactTransaction = new List<Transaction>();
+
         #endregion
 
         #region Properties
@@ -68,6 +71,15 @@ namespace IMS_Mobile.MVVM.ViewModels
             set
             {
                 clonedContact = value;
+                OnPropertyChanged();
+            }
+        }
+        public List<Transaction> ClonedContactTransaction
+        {
+            get => clonedContactTransaction;
+            set
+            {
+                clonedContactTransaction = value;
                 OnPropertyChanged();
             }
         }
@@ -301,18 +313,40 @@ namespace IMS_Mobile.MVVM.ViewModels
 
         public void CloneContact(Contact contact)
         {
-
-            ClonedContact = new Contact
+            if (contact != null)
             {
-                Id = contact.Id,
-                Name = contact.Name,
-                PhoneNumber = contact.PhoneNumber,
-                Email = contact.Email,
-                Address = contact.Address,
-                TotalPurchases = contact.TotalPurchases,
-                CreditScore = contact.CreditScore,
-            };
+                ClonedContact = new Contact
+                {
+                    Id = contact.Id,
+                    Name = contact.Name,
+                    PhoneNumber = contact.PhoneNumber,
+                    Email = contact.Email,
+                    Address = contact.Address,
+                    TotalPurchases = contact.TotalPurchases,
+                    CreditScore = contact.CreditScore,
+                };
+                var oldtransaction = App.TransactionRepository.GetItems().Where(x => x.ContactId == contact.Id).ToList();
+                if (oldtransaction.Any())
+                {
+                    CloneContactTransactions(contact);
+                    OnPropertyChanged(nameof(ClonedContactTransaction));
+                }
+
+            }
+
         }
+        public void CloneContactTransactions(Contact contact)
+        {
+            var oldtransaction = App.TransactionRepository.GetItems().Where(x => x.ContactId == contact.Id).ToList();
+            ClonedContactTransaction.Clear();
+            foreach (var item in oldtransaction)
+            { 
+                ClonedContactTransaction.Add(item);
+            }
+            OnPropertyChanged(nameof(ClonedContactTransaction));
+        }
+
+
         public async void UndoEdit(int contactId)
         {
             if (ClonedContact is null || ClonedContact.Id != contactId)
@@ -362,11 +396,23 @@ namespace IMS_Mobile.MVVM.ViewModels
         {
             if (contact != null)
             {
-
+                int originalContactId = ClonedContact.Id;
                 App.ContactRepository.InsertItem(ClonedContact);
+                var insertedContact = App.ContactRepository.GetItems().FirstOrDefault(c => c.Name == ClonedContact.Name);
+                int newContactId = insertedContact?.Id ?? ClonedContact.Id;
+                if (ClonedContactTransaction.Any())
+                {
+                    foreach (var item in ClonedContactTransaction)
+                    {
+                        item.ContactId = newContactId;
+                        App.TransactionRepository.UpdateItem(item);
+                    }
+                }
                 ClonedContact = new Contact();
+                ClonedContactTransaction.Clear();
                 _ = LoadContacts();
                 OnPropertyChanged(nameof(ClonedContact));
+                OnPropertyChanged(nameof(ClonedContactTransaction));
                 MainThread.BeginInvokeOnMainThread(async () =>
                 {
                     await Task.Delay(100);
