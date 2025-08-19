@@ -47,7 +47,7 @@
             </Grid>
 
             <!--  Form Content  -->
-            <VerticalStackLayout Grid.Row="1" Spacing="16">
+            <VerticalStackLayout Grid.Row="1" Spacing="5">
 
                 <!--  Contact Name  -->
                 <inputLayout:SfTextInputLayout

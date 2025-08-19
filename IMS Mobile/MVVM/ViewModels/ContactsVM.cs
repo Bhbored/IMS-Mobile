@@ -33,7 +33,7 @@ namespace IMS_Mobile.MVVM.ViewModels
         #endregion
 
         #region Properties
-        public bool Animation { get; set; }=false;
+        public bool Animation { get; set; } = false;
         public ObservableCollection<Contact> Contacts
         {
             get => contacts;
@@ -141,6 +141,7 @@ namespace IMS_Mobile.MVVM.ViewModels
                     },
                     anchor: contactsPage
                 );
+
                     await snackbar.Show();
                 });
             }
@@ -164,40 +165,15 @@ namespace IMS_Mobile.MVVM.ViewModels
                 });
             }
         }
-        public async void EditContact(Contact contact)
+        public async Task EditContact(Contact edited)
         {
-            if (contact != null)
-            {
-                var tobecloned = App.ContactRepository.GetItems().FirstOrDefault(x => x.Name == contact.Name);
-                CloneContact(tobecloned);
-                App.ContactRepository.UpdateItem(contact);
-                await LoadContacts();
-                MainThread.BeginInvokeOnMainThread(async () =>
-                {
-                    await Task.Delay(100);
-                    var snackbar = Snackbar.Make(
-                    message: $"{contact.Name} Updated Successfully",
-                    action: () => UndoEdit(contact),
-                    actionButtonText: "UNDO",
-                    duration: TimeSpan.FromSeconds(2),
-                    visualOptions: new SnackbarOptions
-                    {
-                        BackgroundColor = Colors.LightGreen,
-                        TextColor = Colors.White,
-                        CornerRadius = 10,
-                    },
-                    anchor: contactsPage
-                );
-                    await snackbar.Show();
-                });
-            }
-            else
+            if (edited is null)
             {
                 MainThread.BeginInvokeOnMainThread(async () =>
                 {
                     await Task.Delay(100);
                     var snackbar = Snackbar.Make(
-                    message: $"{contact.Name} Not Found",
+                    message: $"{edited.Name} Already Exist",
                     duration: TimeSpan.FromSeconds(2),
                     visualOptions: new SnackbarOptions
                     {
@@ -209,13 +185,77 @@ namespace IMS_Mobile.MVVM.ViewModels
                 );
                     await snackbar.Show();
                 });
+                return;
             }
+
+            var original = App.ContactRepository.GetItem(edited.Id);
+            if (original is null)
+            {
+                MainThread.BeginInvokeOnMainThread(async () =>
+                {
+                    await Task.Delay(100);
+                    var snackbar = Snackbar.Make(
+                    message: $"{edited.Name} is Not Found",
+                    duration: TimeSpan.FromSeconds(2),
+                    visualOptions: new SnackbarOptions
+                    {
+                        BackgroundColor = Colors.Red,
+                        TextColor = Colors.White,
+                        CornerRadius = 10,
+                    },
+                    anchor: contactsPage
+                );
+                    await snackbar.Show();
+                });
+                return;
+            }
+
+            ClonedContact = new Contact
+            {
+                Id = original.Id,
+                Name = original.Name,
+                Email = original.Email,
+                Address = original.Address,
+                CreditScore = original.CreditScore,
+                PhoneNumber = original.PhoneNumber,
+                TotalPurchases = original.TotalPurchases
+            };
+
+            original.Name = edited.Name;
+            original.Email = edited.Email;
+            original.Address = edited.Address;
+            original.CreditScore = edited.CreditScore;
+            original.PhoneNumber = edited.PhoneNumber;
+            original.TotalPurchases = edited.TotalPurchases;
+
+            App.ContactRepository.UpdateItem(original);
+            await LoadContacts();
+
+            MainThread.BeginInvokeOnMainThread(async () =>
+            {
+                await Task.Delay(100);
+                var snackbar = Snackbar.Make(
+                message: $"{original.Name} Updated !",
+                duration: TimeSpan.FromSeconds(2),
+                 action: () => UndoEdit(original.Id),
+                    actionButtonText: "UNDO",
+                visualOptions: new SnackbarOptions
+                {
+                    BackgroundColor = Colors.LightGreen,
+                    TextColor = Colors.White,
+                    CornerRadius = 10,
+                },
+                anchor: contactsPage
+            );
+                await snackbar.Show();
+            });
         }
+
         public async void DeleteContact(Contact contact)
         {
             if (contact != null)
             {
-                var tobecloned = App.ContactRepository.GetItems().FirstOrDefault(x => x.Name == contact.Name);
+                var tobecloned = App.ContactRepository.GetItems().FirstOrDefault(x => x.Id == contact.Id);
                 CloneContact(tobecloned);
                 App.ContactRepository.DeleteItem(contact);
                 await LoadContacts();
@@ -224,7 +264,7 @@ namespace IMS_Mobile.MVVM.ViewModels
                     await Task.Delay(100);
                     var snackbar = Snackbar.Make(
                     message: $"{contact.Name} Deleted Successfully",
-                     action: () => UndoDelete(contact),
+                    action: () => UndoDelete(contact),
                     actionButtonText: "UNDO",
                     duration: TimeSpan.FromSeconds(2),
                     visualOptions: new SnackbarOptions
@@ -264,58 +304,60 @@ namespace IMS_Mobile.MVVM.ViewModels
 
             ClonedContact = new Contact
             {
+                Id = contact.Id,
                 Name = contact.Name,
                 PhoneNumber = contact.PhoneNumber,
                 Email = contact.Email,
-                Address = contact.Address
+                Address = contact.Address,
+                TotalPurchases = contact.TotalPurchases,
+                CreditScore = contact.CreditScore,
             };
         }
-        public void UndoEdit(Contact contact)
+        public async void UndoEdit(int contactId)
         {
-            if (contact != null)
+            if (ClonedContact is null || ClonedContact.Id != contactId)
             {
-                App.ContactRepository.DeleteItem(contact);
-                App.ContactRepository.InsertItem(ClonedContact);
-                ClonedContact = new Contact();
-                _ = LoadContacts();
-                OnPropertyChanged(nameof(ClonedContact));
-                MainThread.BeginInvokeOnMainThread(async () =>
-                {
-                    await Task.Delay(100);
-                    var snackbar = Snackbar.Make(
-                    message: $"{contact.Name} Edit Undone Successfully",
-                    duration: TimeSpan.FromSeconds(3),
-                    visualOptions: new SnackbarOptions
-                    {
-                        BackgroundColor = Colors.LightGreen,
-                        TextColor = Colors.White,
-                        CornerRadius = 10,
-                    },
-                    anchor: contactsPage
-                );
-                    await snackbar.Show();
-                });
+                await Snackbar.Make("Nothing to undo", duration: TimeSpan.FromSeconds(2), anchor: contactsPage).Show();
+                return;
+            }
+
+            var current = App.ContactRepository.GetItem(contactId);
+            if (current is not null)
+            {
+                current.Name = ClonedContact.Name;
+                current.Email = ClonedContact.Email;
+                current.Address = ClonedContact.Address;
+                current.CreditScore = ClonedContact.CreditScore;
+                current.PhoneNumber = ClonedContact.PhoneNumber;
+                current.TotalPurchases = ClonedContact.TotalPurchases;
+                App.ContactRepository.UpdateItem(current);
             }
             else
             {
-                MainThread.BeginInvokeOnMainThread(async () =>
-                {
-                    await Task.Delay(100);
-                    var snackbar = Snackbar.Make(
-                    message: $"{contact.Name} Not Found",
-                    duration: TimeSpan.FromSeconds(2),
-                    visualOptions: new SnackbarOptions
-                    {
-                        BackgroundColor = Colors.Red,
-                        TextColor = Colors.White,
-                        CornerRadius = 10,
-                    },
-                    anchor: contactsPage
-                );
-                    await snackbar.Show();
-                });
+                App.ContactRepository.InsertItem(ClonedContact);
             }
+
+            ClonedContact = null;
+            await LoadContacts();
+
+            MainThread.BeginInvokeOnMainThread(async () =>
+            {
+                await Task.Delay(100);
+                var snackbar = Snackbar.Make(
+                message: "Edit Undone",
+                duration: TimeSpan.FromSeconds(2),
+                visualOptions: new SnackbarOptions
+                {
+                    BackgroundColor = Colors.Red,
+                    TextColor = Colors.White,
+                    CornerRadius = 10,
+                },
+                anchor: contactsPage
+            );
+                await snackbar.Show();
+            });
         }
+
         public void UndoDelete(Contact contact)
         {
             if (contact != null)
@@ -392,7 +434,7 @@ namespace IMS_Mobile.MVVM.ViewModels
         public Command ShowDetailsCommand => new Command<Contact>(async (contact) =>
         {
             Animation = true;
-            await App.Current.MainPage.Navigation.PushAsync(new ContactDetailsPage(contact,LoadContactTransaction(contact)));
+            await App.Current.MainPage.Navigation.PushAsync(new ContactDetailsPage(contact, LoadContactTransaction(contact)));
             Animation = false;
         });
         #endregion
