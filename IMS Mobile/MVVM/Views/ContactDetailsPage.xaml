@@ -68,6 +68,7 @@
                                 <Label
                                     FontFamily="poppinregular"
                                     FontSize="15"
+                                    LineBreakMode="WordWrap"
                                     Text="{Binding Contact.PhoneNumber}"
                                     TextColor="#666666" />
                             </StackLayout>
@@ -84,6 +85,7 @@
                                 <Label
                                     FontFamily="poppinregular"
                                     FontSize="15"
+                                    LineBreakMode="WordWrap"
                                     Text="{Binding Contact.Email}"
                                     TextColor="#666666" />
                             </StackLayout>
@@ -100,6 +102,7 @@
                                 <Label
                                     FontFamily="poppinregular"
                                     FontSize="15"
+                                    LineBreakMode="WordWrap"
                                     Text="{Binding Contact.Address}"
                                     TextColor="#666666" />
                             </StackLayout>
@@ -238,6 +241,7 @@
                     <Label
                         FontFamily="poppinregular"
                         FontSize="16"
+                        LineBreakMode="WordWrap"
                         Text="{Binding Transactions.Count, StringFormat='{0} Transaction'}"
                         TextColor="#888888"
                         VerticalOptions="Center" />
@@ -266,8 +270,9 @@
                                 </Border.Shadow>
                                 <StackLayout Spacing="15">
                                     <!--  Transaction Header  -->
-                                    <StackLayout Orientation="Horizontal">
+                                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="15">
                                         <Frame
+                                            Grid.Column="0"
                                             Padding="0"
                                             BackgroundColor="#F0F7FF"
                                             CornerRadius="12"
@@ -281,29 +286,31 @@
                                                 VerticalOptions="Center" />
                                         </Frame>
 
-                                        <StackLayout
-                                            Margin="15,0"
-                                            HorizontalOptions="Fill"
-                                            VerticalOptions="Center">
+                                        <StackLayout Grid.Column="1" VerticalOptions="Center">
                                             <Label
                                                 FontFamily="poppinbold"
                                                 FontSize="17"
+                                                LineBreakMode="WordWrap"
                                                 Text="Sale Transaction"
                                                 TextColor="#333333" />
                                             <Label
                                                 FontFamily="poppinregular"
                                                 FontSize="13"
+                                                LineBreakMode="WordWrap"
                                                 Text="{Binding HumanDate}"
                                                 TextColor="#888888" />
                                         </StackLayout>
 
                                         <StackLayout
+                                            Grid.Column="2"
                                             HorizontalOptions="End"
                                             Spacing="3"
                                             VerticalOptions="Center">
                                             <Label
                                                 FontFamily="poppinbold"
                                                 FontSize="18"
+                                                HorizontalTextAlignment="End"
+                                                LineBreakMode="WordWrap"
                                                 Text="{Binding totalamount, StringFormat='{0:F2} LBP'}"
                                                 TextColor="#4CAF50" />
                                             <Label
@@ -312,10 +319,12 @@
                                                 FontFamily="poppinbold"
                                                 FontSize="12"
                                                 HorizontalOptions="End"
+                                                HorizontalTextAlignment="Center"
+                                                LineBreakMode="NoWrap"
                                                 Text="{Binding Status}"
                                                 TextColor="White" />
                                         </StackLayout>
-                                    </StackLayout>
+                                    </Grid>
 
                                     <!--  Products Expander  -->
                                     <syncfusion:SfExpander Margin="0,5,0,0" IsVisible="{Binding Products.Count, Converter={StaticResource HasItemsConverter}}">
@@ -329,12 +338,14 @@
                                                     Margin="10,0,0,0"
                                                     FontFamily="poppinbold"
                                                     FontSize="14"
+                                                    LineBreakMode="WordWrap"
                                                     Text="{Binding Products.Count, StringFormat='{0} Products'}"
                                                     TextColor="#666666"
                                                     VerticalOptions="Center" />
                                                 <Label
                                                     FontFamily="poppinregular"
                                                     FontSize="12"
+                                                    LineBreakMode="WordWrap"
                                                     Text=" Tap to expand"
                                                     TextColor="#999999"
                                                     VerticalOptions="Center" />
@@ -352,8 +363,9 @@
                                                             Background="#FAFAFA"
                                                             Stroke="#F0F0F0"
                                                             StrokeShape="RoundRectangle 12">
-                                                            <StackLayout Orientation="Horizontal">
+                                                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
                                                                 <Frame
+                                                                    Grid.Column="0"
                                                                     Padding="0"
                                                                     BackgroundColor="#E3F2FD"
                                                                     CornerRadius="8"
@@ -367,17 +379,18 @@
                                                                         VerticalOptions="Center" />
                                                                 </Frame>
 
-                                                                <StackLayout
-                                                                    Margin="12,0"
-                                                                    HorizontalOptions="Fill"
-                                                                    Spacing="2">
+                                                                <StackLayout Grid.Column="1" Spacing="2">
                                                                     <Label
                                                                         FontFamily="poppinbold"
                                                                         FontSize="14"
+                                                                        LineBreakMode="WordWrap"
                                                                         Text="{Binding Name}"
                                                                         TextColor="#444444" />
-                                                                    <StackLayout Orientation="Horizontal" Spacing="20">
-                                                                        <StackLayout Orientation="Horizontal" Spacing="5">
+                                                                    <Grid ColumnDefinitions="Auto,Auto,*" ColumnSpacing="20">
+                                                                        <StackLayout
+                                                                            Grid.Column="0"
+                                                                            Orientation="Horizontal"
+                                                                            Spacing="5">
                                                                             <Label
                                                                                 FontFamily="poppinregular"
                                                                                 FontSize="12"
@@ -390,13 +403,14 @@
                                                                                 TextColor="#666666" />
                                                                         </StackLayout>
                                                                         <Label
+                                                                            Grid.Column="1"
                                                                             FontFamily="poppinbold"
                                                                             FontSize="13"
                                                                             Text="{Binding Price, StringFormat='{0:F2} LBP'}"
                                                                             TextColor="#4CAF50" />
-                                                                    </StackLayout>
+                                                                    </Grid>
                                                                 </StackLayout>
-                                                            </StackLayout>
+                                                            </Grid>
                                                         </Border>
                                                     </DataTemplate>
                                                 </BindableLayout.ItemTemplate>
@@ -429,6 +443,7 @@
                                 FontFamily="poppinbold"
                                 FontSize="18"
                                 HorizontalOptions="Center"
+                                LineBreakMode="WordWrap"
                                 Text="No transactions yet"
                                 TextColor="#666666" />
                             <Label
@@ -436,6 +451,7 @@
                                 FontSize="14"
                                 HorizontalOptions="Center"
                                 HorizontalTextAlignment="Center"
+                                LineBreakMode="WordWrap"
                                 Text="This contact hasn't made any purchases"
                                 TextColor="#999999" />
                         </StackLayout>
