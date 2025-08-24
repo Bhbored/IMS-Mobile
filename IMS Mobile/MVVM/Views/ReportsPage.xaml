@@ -7,11 +7,10 @@
     xmlns:Converters="clr-namespace:IMS_Mobile.Converters"
     xmlns:Models="clr-namespace:IMS_Mobile.MVVM.Models"
     xmlns:ViewModels="clr-namespace:IMS_Mobile.MVVM.ViewModels"
+    xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Expander;assembly=Syncfusion.Maui.Expander"
     x:DataType="ViewModels:ReportsVM"
-    BackgroundColor="White"
+    BackgroundColor="#F8F9FA"
     Shell.NavBarIsVisible="False">
-
-
 
     <Grid RowDefinitions="Auto,*">
         <!--  Header  -->
@@ -42,13 +41,12 @@
 
         <!--  Content  -->
         <ScrollView Grid.Row="1">
-            <VerticalStackLayout Padding="20" Spacing="20">
+            <VerticalStackLayout Padding="20,0,20,20" Spacing="20">
 
                 <!--  Summary Cards Grid  -->
                 <Grid
                     ColumnDefinitions="*,*"
                     ColumnSpacing="15"
-                    HeightRequest="300"
                     RowDefinitions="*,*"
                     RowSpacing="15">
 
@@ -57,7 +55,7 @@
                         Grid.Row="0"
                         Grid.Column="0"
                         StyleClass="CashFlowCardStyle">
-                        <VerticalStackLayout Spacing="8">
+                        <VerticalStackLayout Spacing="12" VerticalOptions="Center">
                             <Label
                                 FontFamily="poppinbold"
                                 FontSize="16"
@@ -66,7 +64,7 @@
                                 TextColor="White" />
                             <Label
                                 FontFamily="poppinbold"
-                                FontSize="24"
+                                FontSize="22"
                                 HorizontalOptions="Center"
                                 Text="{Binding CashRegister.CashFlow, StringFormat='{0:F2} LBP'}"
                                 TextColor="White" />
@@ -85,7 +83,7 @@
                         Grid.Row="0"
                         Grid.Column="1"
                         StyleClass="SalesCardStyle">
-                        <VerticalStackLayout Spacing="8">
+                        <VerticalStackLayout Spacing="12" VerticalOptions="Center">
                             <Label
                                 FontFamily="poppinbold"
                                 FontSize="16"
@@ -94,7 +92,7 @@
                                 TextColor="White" />
                             <Label
                                 FontFamily="poppinbold"
-                                FontSize="24"
+                                FontSize="22"
                                 HorizontalOptions="Center"
                                 Text="{Binding CashRegister.TotalSales, StringFormat='{0:F2} LBP'}"
                                 TextColor="White" />
@@ -113,7 +111,7 @@
                         Grid.Row="1"
                         Grid.Column="0"
                         StyleClass="InventoryCardStyle">
-                        <VerticalStackLayout Spacing="8">
+                        <VerticalStackLayout Spacing="12" VerticalOptions="Center">
                             <Label
                                 FontFamily="poppinbold"
                                 FontSize="16"
@@ -122,7 +120,7 @@
                                 TextColor="White" />
                             <Label
                                 FontFamily="poppinbold"
-                                FontSize="24"
+                                FontSize="22"
                                 HorizontalOptions="Center"
                                 Text="{Binding CashRegister.InventoryValue, StringFormat='{0:F2} LBP'}"
                                 TextColor="White" />
@@ -141,7 +139,7 @@
                         Grid.Row="1"
                         Grid.Column="1"
                         StyleClass="CreditCardStyle">
-                        <VerticalStackLayout Spacing="8">
+                        <VerticalStackLayout Spacing="12" VerticalOptions="Center">
                             <Label
                                 FontFamily="poppinbold"
                                 FontSize="16"
@@ -150,7 +148,7 @@
                                 TextColor="White" />
                             <Label
                                 FontFamily="poppinbold"
-                                FontSize="24"
+                                FontSize="22"
                                 HorizontalOptions="Center"
                                 Text="{Binding CashRegister.TotalCredit, StringFormat='{0:F2} LBP'}"
                                 TextColor="White" />
@@ -170,80 +168,249 @@
                     <Label
                         Margin="0,10,0,0"
                         StyleClass="SectionTitleStyle"
-                        Text="Financial Summary" />
+                        Text="Financial Summary"
+                        TextColor="Black" />
 
-                    <!--  Net Profit Calculation  -->
-                    <Border StyleClass="TransactionCardStyle">
-                        <Grid ColumnDefinitions="*,Auto">
-                            <VerticalStackLayout Spacing="4">
-                                <Label
-                                    FontFamily="poppinbold"
-                                    FontSize="16"
-                                    Text="Net Profit"
-                                    TextColor="Black" />
-                                <Label
-                                    FontFamily="poppinregular"
-                                    FontSize="14"
-                                    Text="Sales - Credit - Inventory"
-                                    TextColor="#666666" />
-                            </VerticalStackLayout>
-                            <Label
-                                Grid.Column="1"
-                                FontFamily="poppinbold"
-                                FontSize="20"
-                                Text="{Binding CashRegister.TotalSales, StringFormat='{0:F2} LBP'}"
-                                TextColor="#4CAF50"
-                                VerticalOptions="Center" />
-                        </Grid>
+                    <!--  Net Profit Calculation with Syncfusion Expander  -->
+                    <Border StyleClass="SummaryCardStyle">
+                        <syncfusion:SfExpander x:Name="NetProfitExpander" HeaderIconPosition="End">
+                            <syncfusion:SfExpander.Header>
+                                <Border StyleClass="ExpanderContainerStyle">
+                                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="15">
+                                        <Border
+                                            Background="#E8F5E9"
+                                            HeightRequest="40"
+                                            StrokeShape="RoundRectangle 10"
+                                            WidthRequest="40">
+                                            <Label
+                                                FontFamily="poppinbold"
+                                                FontSize="18"
+                                                HorizontalOptions="Center"
+                                                Text="💰"
+                                                VerticalOptions="Center" />
+                                        </Border>
+                                        <VerticalStackLayout
+                                            Grid.Column="1"
+                                            Spacing="2"
+                                            VerticalOptions="Center">
+                                            <Label
+                                                FontFamily="poppinbold"
+                                                FontSize="16"
+                                                Text="Net Profit"
+                                                TextColor="Black" />
+                                            <Label
+                                                FontFamily="poppinregular"
+                                                FontSize="13"
+                                                Text="Revenue minus expenses"
+                                                TextColor="#666666" />
+                                        </VerticalStackLayout>
+                                    </Grid>
+                                </Border>
+                            </syncfusion:SfExpander.Header>
+                            <syncfusion:SfExpander.Content>
+                                <Border StyleClass="ExpanderContainerStyle">
+                                    <VerticalStackLayout Spacing="16">
+                                        <Grid ColumnDefinitions="*,Auto">
+                                            <Label
+                                                FontFamily="poppinregular"
+                                                FontSize="14"
+                                                Text="Total Sales"
+                                                TextColor="#666666" />
+                                            <Label
+                                                Grid.Column="1"
+                                                FontFamily="poppinbold"
+                                                FontSize="14"
+                                                Text="{Binding CashRegister.TotalSales, StringFormat='{0:F2} LBP'}"
+                                                TextColor="Black" />
+                                        </Grid>
+                                        <BoxView
+                                            BackgroundColor="#F0F0F0"
+                                            HeightRequest="1"
+                                            HorizontalOptions="Fill" />
+                                        <Grid ColumnDefinitions="*,Auto">
+                                            <Label
+                                                FontFamily="poppinregular"
+                                                FontSize="14"
+                                                Text="Total Credit"
+                                                TextColor="#666666" />
+                                            <Label
+                                                Grid.Column="1"
+                                                FontFamily="poppinbold"
+                                                FontSize="14"
+                                                Text="{Binding CashRegister.TotalCredit, StringFormat='{0:F2} LBP'}"
+                                                TextColor="Black" />
+                                        </Grid>
+                                        <BoxView
+                                            BackgroundColor="#F0F0F0"
+                                            HeightRequest="1"
+                                            HorizontalOptions="Fill" />
+                                        <Grid ColumnDefinitions="*,Auto">
+                                            <Label
+                                                FontFamily="poppinregular"
+                                                FontSize="14"
+                                                Text="Total Purchases"
+                                                TextColor="#666666" />
+                                            <Label
+                                                Grid.Column="1"
+                                                FontFamily="poppinbold"
+                                                FontSize="14"
+                                                Text="{Binding CashRegister.TotalPurchases, StringFormat='{0:F2} LBP'}"
+                                                TextColor="Black" />
+                                        </Grid>
+                                        <BoxView
+                                            BackgroundColor="#F0F0F0"
+                                            HeightRequest="1"
+                                            HorizontalOptions="Fill" />
+                                        <Grid ColumnDefinitions="*,Auto">
+                                            <Label
+                                                FontFamily="poppinbold"
+                                                FontSize="16"
+                                                Text="Net Profit"
+                                                TextColor="Black" />
+                                            <Label
+                                                Grid.Column="1"
+                                                FontFamily="poppinbold"
+                                                FontSize="16"
+                                                Text="{Binding CashRegister.NetProfit, StringFormat='{0:F2} LBP'}"
+                                                TextColor="#4CAF50" />
+                                        </Grid>
+                                    </VerticalStackLayout>
+                                </Border>
+                            </syncfusion:SfExpander.Content>
+                        </syncfusion:SfExpander>
                     </Border>
 
-                    <!--  Cash Position  -->
-                    <Border StyleClass="TransactionCardStyle">
-                        <Grid ColumnDefinitions="*,Auto">
-                            <VerticalStackLayout Spacing="4">
-                                <Label
-                                    FontFamily="poppinbold"
-                                    FontSize="16"
-                                    Text="Cash Position"
-                                    TextColor="Black" />
-                                <Label
-                                    FontFamily="poppinregular"
-                                    FontSize="14"
-                                    Text="Available cash balance"
-                                    TextColor="#666666" />
-                            </VerticalStackLayout>
-                            <Label
-                                Grid.Column="1"
-                                FontFamily="poppinbold"
-                                FontSize="20"
-                                Text="{Binding CashRegister.CashFlow, StringFormat='{0:F2} LBP'}"
-                                TextColor="#2196F3"
-                                VerticalOptions="Center" />
-                        </Grid>
+                    <!--  Cash Position with Syncfusion Expander  -->
+                    <Border StyleClass="SummaryCardStyle">
+                        <syncfusion:SfExpander x:Name="CashPositionExpander" HeaderIconPosition="End">
+                            <syncfusion:SfExpander.Header>
+                                <Border StyleClass="ExpanderContainerStyle">
+                                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="15">
+                                        <Border
+                                            Background="#E3F2FD"
+                                            HeightRequest="40"
+                                            StrokeShape="RoundRectangle 10"
+                                            WidthRequest="40">
+                                            <Label
+                                                FontFamily="poppinbold"
+                                                FontSize="18"
+                                                HorizontalOptions="Center"
+                                                Text="💳"
+                                                VerticalOptions="Center" />
+                                        </Border>
+                                        <VerticalStackLayout
+                                            Grid.Column="1"
+                                            Spacing="2"
+                                            VerticalOptions="Center">
+                                            <Label
+                                                FontFamily="poppinbold"
+                                                FontSize="16"
+                                                Text="Cash Position"
+                                                TextColor="Black" />
+                                            <Label
+                                                FontFamily="poppinregular"
+                                                FontSize="13"
+                                                Text="Available cash balance"
+                                                TextColor="#666666" />
+                                        </VerticalStackLayout>
+                                    </Grid>
+                                </Border>
+                            </syncfusion:SfExpander.Header>
+                            <syncfusion:SfExpander.Content>
+                                <Border StyleClass="ExpanderContainerStyle">
+                                    <VerticalStackLayout Spacing="16">
+                                        <Grid ColumnDefinitions="*,Auto">
+                                            <Label
+                                                FontFamily="poppinregular"
+                                                FontSize="14"
+                                                Text="Total Sales"
+                                                TextColor="#666666" />
+                                            <Label
+                                                Grid.Column="1"
+                                                FontFamily="poppinbold"
+                                                FontSize="14"
+                                                Text="{Binding CashRegister.TotalSales, StringFormat='{0:F2} LBP'}"
+                                                TextColor="Black" />
+                                        </Grid>
+                                        <BoxView
+                                            BackgroundColor="#F0F0F0"
+                                            HeightRequest="1"
+                                            HorizontalOptions="Fill" />
+                                        <Grid ColumnDefinitions="*,Auto">
+                                            <Label
+                                                FontFamily="poppinregular"
+                                                FontSize="14"
+                                                Text="Credit Amount"
+                                                TextColor="#666666" />
+                                            <Label
+                                                Grid.Column="1"
+                                                FontFamily="poppinbold"
+                                                FontSize="14"
+                                                Text="{Binding CashRegister.TotalCredit, StringFormat='{0:F2} LBP'}"
+                                                TextColor="Black" />
+                                        </Grid>
+                                        <BoxView
+                                            BackgroundColor="#F0F0F0"
+                                            HeightRequest="1"
+                                            HorizontalOptions="Fill" />
+                                        <Grid ColumnDefinitions="*,Auto">
+                                            <Label
+                                                FontFamily="poppinbold"
+                                                FontSize="16"
+                                                Text="Available Balance"
+                                                TextColor="Black" />
+                                            <Label
+                                                Grid.Column="1"
+                                                FontFamily="poppinbold"
+                                                FontSize="16"
+                                                Text="{Binding CashRegister.CashFlow, StringFormat='{0:F2} LBP'}"
+                                                TextColor="#2196F3" />
+                                        </Grid>
+                                    </VerticalStackLayout>
+                                </Border>
+                            </syncfusion:SfExpander.Content>
+                        </syncfusion:SfExpander>
                     </Border>
 
                     <!--  Credit Exposure  -->
-                    <Border StyleClass="TransactionCardStyle">
-                        <Grid ColumnDefinitions="*,Auto">
-                            <VerticalStackLayout Spacing="4">
+                    <Border StyleClass="SummaryCardStyle">
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="15">
+                            <Border
+                                Background="#FFF3E0"
+                                HeightRequest="40"
+                                StrokeShape="RoundRectangle 10"
+                                WidthRequest="40">
                                 <Label
                                     FontFamily="poppinbold"
-                                    FontSize="16"
-                                    Text="Credit Exposure"
-                                    TextColor="Black" />
-                                <Label
-                                    FontFamily="poppinregular"
-                                    FontSize="14"
-                                    Text="Outstanding credit amount"
-                                    TextColor="#666666" />
-                            </VerticalStackLayout>
-                            <Label
+                                    FontSize="18"
+                                    HorizontalOptions="Center"
+                                    Text="📝"
+                                    VerticalOptions="Center" />
+                            </Border>
+                            <Grid
                                 Grid.Column="1"
-                                FontFamily="poppinbold"
-                                FontSize="20"
-                                Text="{Binding CashRegister.TotalCredit, StringFormat='{0:F2} LBP'}"
-                                TextColor="#FF9800"
-                                VerticalOptions="Center" />
+                                ColumnDefinitions="*,Auto"
+                                HorizontalOptions="Fill">
+                                <VerticalStackLayout Spacing="2" VerticalOptions="Center">
+                                    <Label
+                                        FontFamily="poppinbold"
+                                        FontSize="16"
+                                        Text="Total Purchases"
+                                        TextColor="Black" />
+                                    <Label
+                                        FontFamily="poppinregular"
+                                        FontSize="13"
+                                        Text="Buy amount"
+                                        TextColor="#666666" />
+                                </VerticalStackLayout>
+                                <Label
+                                    Grid.Column="1"
+                                    FontFamily="poppinbold"
+                                    FontSize="18"
+                                    Text="{Binding CashRegister.TotalSales, StringFormat='{0:F2} LBP'}"
+                                    TextColor="Red"
+                                    VerticalOptions="Center" />
+                            </Grid>
                         </Grid>
                     </Border>
                 </VerticalStackLayout>
@@ -253,10 +420,14 @@
                     <Label
                         Margin="0,10,0,0"
                         StyleClass="SectionTitleStyle"
-                        Text="Quick Actions" />
+                        Text="Quick Actions"
+                        TextColor="Black" />
 
-                    <Grid ColumnDefinitions="*,*" ColumnSpacing="15">
-                        <Border StyleClass="ActionCardStyle">
+                    <Grid
+                        ColumnDefinitions="*,*"
+                        ColumnSpacing="15"
+                        RowDefinitions="Auto">
+                        <Border Grid.Column="0" StyleClass="ActionCardStyle">
                             <VerticalStackLayout HorizontalOptions="Center" Spacing="8">
                                 <Label
                                     FontSize="24"
@@ -272,7 +443,7 @@
                             </VerticalStackLayout>
                         </Border>
 
-                        <Border StyleClass="ActionCardStyle">
+                        <Border Grid.Column="1" StyleClass="ActionCardStyle">
                             <VerticalStackLayout HorizontalOptions="Center" Spacing="8">
                                 <Label
                                     FontSize="24"

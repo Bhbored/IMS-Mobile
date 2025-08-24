@@ -404,4 +404,60 @@
         <Setter Property="Margin" Value="5,0" />
     </Style>
 
+    <!--  Modern Card Style for Summary Items  -->
+    <Style Class="SummaryCardStyle" TargetType="Border">
+        <Setter Property="Background" Value="White" />
+        <Setter Property="Stroke" Value="#E0E0E0" />
+        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="StrokeShape">
+            <Setter.Value>
+                <RoundRectangle CornerRadius="16" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Padding" Value="20" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Shadow">
+            <Setter.Value>
+                <Shadow
+                    Brush="#15000000"
+                    Radius="6"
+                    Offset="0,2" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--  Expander Header Style - Modern  -->
+    <Style Class="ExpanderHeaderStyle" TargetType="Border">
+        <Setter Property="Background" Value="White" />
+        <Setter Property="Stroke" Value="#E0E0E0" />
+        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="StrokeShape">
+            <Setter.Value>
+                <RoundRectangle CornerRadius="12,12,0,0" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Padding" Value="20" />
+        <Setter Property="Margin" Value="0" />
+    </Style>
+
+    <!--  Expander Content Style - Modern  -->
+    <Style Class="ExpanderContentStyle" TargetType="Border">
+        <Setter Property="Background" Value="White" />
+        <Setter Property="Stroke" Value="#E0E0E0" />
+        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="StrokeShape">
+            <Setter.Value>
+                <RoundRectangle CornerRadius="0,0,12,12" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Padding" Value="20" />
+        <Setter Property="Margin" Value="0,0,0,15" />
+    </Style>
+    <Style Class="ExpanderContainerStyle" TargetType="Border">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Stroke" Value="Transparent" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Margin" Value="0" />
+    </Style>
 </ResourceDictionary>

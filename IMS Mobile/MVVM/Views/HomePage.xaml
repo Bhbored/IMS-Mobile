@@ -36,7 +36,7 @@
                         FontFamily="poppinbold"
                         FontSize="28"
                         HorizontalOptions="Center"
-                        Text="$1,234.56"
+                        Text="{Binding CashFLow, StringFormat='{0:F2} LBP'}"
                         TextColor="White" />
                 </VerticalStackLayout>
             </Border>

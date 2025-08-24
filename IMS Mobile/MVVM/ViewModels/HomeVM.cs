@@ -26,12 +26,23 @@ namespace IMS_Mobile.MVVM.ViewModels
     [AddINotifyPropertyChangedInterface]
     public class HomeVM : INotifyPropertyChanged
     {
+
         #region Properties
-       public HomePage HomePage { get; set; }
+        public HomePage HomePage { get; set; }
         public bool IsRefreshing { get; set; } = false;
 
         public ObservableCollection<Transaction> Transactions { get; set; } = new ObservableCollection<Transaction>();
         public ObservableCollection<Transaction> FilteredTransactions { get; set; } = new ObservableCollection<Transaction>();
+        public double CashFLow
+        {
+            get => cashFLow;
+            set
+            {
+                cashFLow = value;
+                OnPropertyChanged();
+            }
+        }
+
         #endregion
 
         #region Pagination
@@ -47,6 +58,7 @@ namespace IMS_Mobile.MVVM.ViewModels
 
         private int _pageIndex = 1;
         private List<Transaction> _currentFilteredList = new List<Transaction>();
+        private double cashFLow;
 
         public void incrementPageIndex()
         {
@@ -229,7 +241,7 @@ namespace IMS_Mobile.MVVM.ViewModels
         {
             await RefreshTransactions();
         });
-     
+
         #endregion
 
         #region Tasks
@@ -243,6 +255,8 @@ namespace IMS_Mobile.MVVM.ViewModels
                 Transactions.Add(transaction);
             }
             ShowAllTransactions();
+            CashFLow = transactions.Where(x => x.Type == "sell" && x.IsPaid == true)
+            .Sum(x => x.totalamount);
             return Task.CompletedTask;
         }
         public async Task RefreshTransactions()

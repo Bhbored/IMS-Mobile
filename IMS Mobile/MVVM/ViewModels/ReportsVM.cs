@@ -16,9 +16,7 @@ namespace IMS_Mobile.MVVM.ViewModels
     {
         private cashRegister cashRegister = new cashRegister();
 
-        public ReportsVM()
-        {
-        }
+       
         #region fields
         #endregion
 
@@ -32,12 +30,12 @@ namespace IMS_Mobile.MVVM.ViewModels
                 OnPropertyChanged();
             }
         }
+        public static ReportsVM? Current { get; private set; }
         #endregion
 
         #region Methods
         public void FillCashRegister()
         {
-
             var products = App.ProductRepository.GetItems();
             var transactions = App.TransactionRepository.GetItems();
             var contacts = App.ContactRepository.GetItems();
@@ -45,7 +43,7 @@ namespace IMS_Mobile.MVVM.ViewModels
             .Where(x => x.Type == "sell" && x.IsPaid == true)
             .Sum(x => x.totalamount);
             CashRegister.InventoryValue = products
-            .Sum(x => x.Quantity * x.Price);
+            .Sum(x => x.stock * x.Price);
             CashRegister.TotalSales = transactions
             .Where(x => x.Type == "sell")
             .Sum(x => x.totalamount);
@@ -55,7 +53,9 @@ namespace IMS_Mobile.MVVM.ViewModels
             CashRegister.TotalPurchases = transactions
             .Where(x => x.Type == "buy")
             .Sum(x => x.totalamount);
+            CashRegister.NetProfit = CashRegister.TotalSales - CashRegister.TotalCredit - CashRegister.TotalPurchases;
             OnPropertyChanged(nameof(CashRegister));
+            
 
         }
         public void load()
@@ -72,6 +72,7 @@ namespace IMS_Mobile.MVVM.ViewModels
         #region Tasks
 
         #endregion
+
         #region INotifyPropertyChanged Implementation
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
