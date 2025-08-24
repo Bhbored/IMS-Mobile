@@ -11,6 +11,7 @@
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
                 <ResourceDictionary Source="Resources/Styles/CustomeStyles.xaml" />
                 <ResourceDictionary Source="Resources/Styles/DataTemplates.xaml" />
+                <ResourceDictionary Source="/Resources/Styles/GlobalStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

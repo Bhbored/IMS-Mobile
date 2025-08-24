@@ -14,7 +14,7 @@ namespace IMS_Mobile
         public static BaseRepository<Transaction>? TransactionRepository { get; set; }
         public static BaseRepository<Product>? ProductRepository { get; set; }
         public static BaseRepository<Contact>? ContactRepository { get; set; }
-        public static BaseRepository<TransactionProductItem>? TransactionProductItemRepository { get; set; }  
+        public static BaseRepository<TransactionProductItem>? TransactionProductItemRepository { get; set; }
         public static HomeVM? homeVM { get; set; }
         public static ContactsVM? contactsVM { get; set; }
         public static InventoryVM? inventoryVM { get; set; }
@@ -25,9 +25,10 @@ namespace IMS_Mobile
             BaseRepository<Contact> _contactrepo, BaseRepository<TransactionProductItem> _transactionProductItemRepo
             , HomeVM _vm, ContactsVM _contactVM, InventoryVM _inventoryVM, ReportsVM _reportsVM)
         {
+
             InitializeComponent();
             SyncfusionLicenseProvider.RegisterLicense
-                ("Ngo9BigBOggjHTQxAR8/V1JEaF5cXmRCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdmWXlceHRTQ2ZYWUN/XkFWYEk=");
+           ("Ngo9BigBOggjHTQxAR8/V1JEaF5cXmRCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdmWXlceHRTQ2ZYWUN/XkFWYEk=");
             TransactionRepository = _transaction;
             ProductRepository = _productrepo;
             ContactRepository = _contactrepo;
@@ -36,7 +37,6 @@ namespace IMS_Mobile
             contactsVM = _contactVM;
             inventoryVM = _inventoryVM;
             reportsVM = _reportsVM;
-            
         }
 
 
@@ -48,7 +48,8 @@ namespace IMS_Mobile
 
 
         #region delete db
-        public void DiposeCurrentDB() {
+        public void DiposeCurrentDB()
+        {
             ProductRepository.Dispose();
             TransactionRepository.Dispose();
             ContactRepository.Dispose();

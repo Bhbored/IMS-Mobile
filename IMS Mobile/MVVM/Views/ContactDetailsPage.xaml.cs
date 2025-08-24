@@ -102,7 +102,7 @@ public partial class ContactDetailsPage : ContentPage
 
             if (!string.IsNullOrEmpty(result))
             {
-                if (double.TryParse(result, out double reduction) && reduction > 0)
+                if (double.TryParse(result, out double reduction) && reduction > 0 && reduction <= Contact.CreditScore)
                 {
                     var newScore = Contact.CreditScore - reduction;
                     Contact.CreditScore = newScore;
@@ -117,6 +117,10 @@ public partial class ContactDetailsPage : ContentPage
                         ContactId = contactid,
                     };
                     App.TransactionRepository.InsertItem(transatcion);
+                }
+                else if (double.TryParse(result, out double reductions) && reductions > Contact.CreditScore)
+                {
+                    await DisplayAlert("⚠️ Invalid Input", "Please enter a valid number LESS than credit score", "OK");
                 }
                 else if (!string.IsNullOrEmpty(result))
                 {

@@ -340,7 +340,7 @@ namespace IMS_Mobile.MVVM.ViewModels
             var oldtransaction = App.TransactionRepository.GetItems().Where(x => x.ContactId == contact.Id).ToList();
             ClonedContactTransaction.Clear();
             foreach (var item in oldtransaction)
-            { 
+            {
                 ClonedContactTransaction.Add(item);
             }
             OnPropertyChanged(nameof(ClonedContactTransaction));
