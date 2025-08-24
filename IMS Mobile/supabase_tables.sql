@@ -1,8 +1,0 @@
-CREATE TABLE product (
-    id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL,
-    price DOUBLE PRECISION NOT NULL,
-    created_date TEXT NOT NULL,
-    cost DOUBLE PRECISION NOT NULL,
-    stock INTEGER NOT NULL
-);

@@ -31,8 +31,8 @@ namespace IMS_Mobile.MVVM.Models
         [ForeignKey(typeof(Transaction))]
         public int TransactionId { get; set; }
         [ForeignKey(typeof(Product))]
-        public int ProductId { get; set; }
+
         [ManyToOne] public Transaction Transaction { get; set; }
-        [ManyToOne] public Product Product { get; set; }
+
     }
 }

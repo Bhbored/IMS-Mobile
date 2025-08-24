@@ -26,6 +26,13 @@ namespace IMS_Mobile.MVVM.ViewModels
     [AddINotifyPropertyChangedInterface]
     public class HomeVM : INotifyPropertyChanged
     {
+        private readonly SyncService _syncService;
+        public HomeVM(SyncService syncService)
+        {
+
+            _syncService = syncService;
+
+        }
 
         #region Properties
         public HomePage HomePage { get; set; }
@@ -268,6 +275,7 @@ namespace IMS_Mobile.MVVM.ViewModels
                 HomePage.Current?.ResetAllFilters();
             });
             await LoadTransactionsAsync();
+            await _syncService.SyncToSupabase();
             IsRefreshing = false;
         }
         #endregion

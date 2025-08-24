@@ -5,6 +5,7 @@ using Syncfusion.Licensing;
 using System.Diagnostics;
 using IMS_Mobile.MVVM.Models;
 using Contact = IMS_Mobile.MVVM.Models.Contact;
+using IMS_Mobile.Service;
 
 namespace IMS_Mobile
 {
@@ -19,11 +20,15 @@ namespace IMS_Mobile
         public static ContactsVM? contactsVM { get; set; }
         public static InventoryVM? inventoryVM { get; set; }
         public static ReportsVM? reportsVM { get; set; }
+
+        private readonly Supabase.Client _supabaseClient;
+        private readonly SyncService _syncService;
         #endregion
 
         public App(BaseRepository<Transaction> _transaction, BaseRepository<Product> _productrepo,
             BaseRepository<Contact> _contactrepo, BaseRepository<TransactionProductItem> _transactionProductItemRepo
-            , HomeVM _vm, ContactsVM _contactVM, InventoryVM _inventoryVM, ReportsVM _reportsVM)
+            , HomeVM _vm, ContactsVM _contactVM, InventoryVM _inventoryVM, ReportsVM _reportsVM,
+            Supabase.Client supabaseClient, SyncService syncService)
         {
 
             InitializeComponent();
@@ -37,6 +42,9 @@ namespace IMS_Mobile
             contactsVM = _contactVM;
             inventoryVM = _inventoryVM;
             reportsVM = _reportsVM;
+            _supabaseClient = supabaseClient;
+            _syncService = syncService;
+            InitializeSupabase();
         }
 
 
@@ -45,7 +53,18 @@ namespace IMS_Mobile
         {
             return new Window(new AppShell());
         }
-
+        private async void InitializeSupabase()
+        {
+            try
+            {
+                await _supabaseClient.InitializeAsync();
+                Console.WriteLine("Supabase initialized successfully");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error initializing Supabase: {ex.Message}");
+            }
+        }
 
         #region delete db
         public void DiposeCurrentDB()
