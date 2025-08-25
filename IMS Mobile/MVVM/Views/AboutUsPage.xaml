@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="IMS_Mobile.MVVM.Views.AboutUsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="AboutUsPage"
+    BackgroundColor="#F5F5F5">
+    <ScrollView>
+        <StackLayout Spacing="0">
+
+            <!--  Header Section  -->
+            <Border Margin="15,20,15,10" StyleClass="SummaryCardStyle">
+                <StackLayout Spacing="15">
+                    <Label
+                        Margin="0,10,0,5"
+                        HorizontalOptions="Center"
+                        StyleClass="TitleStyle"
+                        Text="BHB Group" />
+
+                    <Label
+                        HorizontalOptions="Center"
+                        StyleClass="RegularTextStyle"
+                        Text="Innovating Business Solutions"
+                        TextColor="#666666" />
+
+                    <BoxView
+                        Margin="0,10"
+                        BackgroundColor="#E0E0E0"
+                        HeightRequest="1" />
+
+                    <Label
+                        Margin="0,10"
+                        HorizontalTextAlignment="Center"
+                        StyleClass="RegularTextStyle"
+                        Text="We transform ideas into reality through innovative technology solutions and strategic business consulting." />
+                </StackLayout>
+            </Border>
+
+            <!--  Mission Section  -->
+            <Border Margin="15,0,15,10" StyleClass="SummaryCardStyle">
+                <StackLayout Spacing="10">
+                    <Label
+                        Margin="0,0,0,10"
+                        StyleClass="SectionTitleStyle"
+                        Text="Our Mission" />
+
+                    <Label
+                        HorizontalTextAlignment="Start"
+                        StyleClass="RegularTextStyle"
+                        Text="To empower businesses with cutting-edge technology solutions that drive growth, efficiency, and success in the digital age." />
+                </StackLayout>
+            </Border>
+
+            <!--  Services Section  -->
+            <Border Margin="15,0,15,10" StyleClass="SummaryCardStyle">
+                <StackLayout Spacing="10">
+                    <Label
+                        Margin="0,0,0,10"
+                        StyleClass="SectionTitleStyle"
+                        Text="Our Services" />
+
+                    <StackLayout Spacing="15">
+                        <StackLayout Orientation="Horizontal" Spacing="10">
+                            <Label
+                                FontSize="18"
+                                StyleClass="RegularTextStyle"
+                                Text="•"
+                                VerticalOptions="Center" />
+                            <Label
+                                StyleClass="RegularTextStyle"
+                                Text="Business Consulting"
+                                VerticalOptions="Center" />
+                        </StackLayout>
+
+                        <StackLayout Orientation="Horizontal" Spacing="10">
+                            <Label
+                                FontSize="18"
+                                StyleClass="RegularTextStyle"
+                                Text="•"
+                                VerticalOptions="Center" />
+                            <Label
+                                StyleClass="RegularTextStyle"
+                                Text="Technology Solutions"
+                                VerticalOptions="Center" />
+                        </StackLayout>
+
+                        <StackLayout Orientation="Horizontal" Spacing="10">
+                            <Label
+                                FontSize="18"
+                                StyleClass="RegularTextStyle"
+                                Text="•"
+                                VerticalOptions="Center" />
+                            <Label
+                                StyleClass="RegularTextStyle"
+                                Text="Digital Transformation"
+                                VerticalOptions="Center" />
+                        </StackLayout>
+
+                        <StackLayout Orientation="Horizontal" Spacing="10">
+                            <Label
+                                FontSize="18"
+                                StyleClass="RegularTextStyle"
+                                Text="•"
+                                VerticalOptions="Center" />
+                            <Label
+                                StyleClass="RegularTextStyle"
+                                Text="Strategic Planning"
+                                VerticalOptions="Center" />
+                        </StackLayout>
+                    </StackLayout>
+                </StackLayout>
+            </Border>
+
+            <!--  Contact Section  -->
+            <Border Margin="15,0,15,10" StyleClass="SummaryCardStyle">
+                <StackLayout Spacing="15">
+                    <Label
+                        Margin="0,0,0,10"
+                        StyleClass="SectionTitleStyle"
+                        Text="Get In Touch" />
+
+                    <StackLayout Spacing="10">
+                        <StackLayout Orientation="Horizontal" Spacing="10">
+                            <Image
+                                HeightRequest="20"
+                                Source="email.png"
+                                VerticalOptions="Center"
+                                WidthRequest="20" />
+                            <Label
+                                StyleClass="RegularTextStyle"
+                                Text="bhboredbusiness@gmail.com"
+                                VerticalOptions="Center" />
+                        </StackLayout>
+                    </StackLayout>
+                </StackLayout>
+            </Border>
+
+            <!--  Footer  -->
+            <Label
+                Margin="0,20,0,30"
+                HorizontalOptions="Center"
+                StyleClass="SmallTextStyle"
+                Text="© 2024 BHB Group. All rights reserved." />
+
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

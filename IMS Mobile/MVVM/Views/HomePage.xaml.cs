@@ -16,6 +16,7 @@ public partial class HomePage : ContentPage
         InitializeComponent();
         BindingContext = vm;
         Current = this;
+
     }
     protected override async void OnAppearing()
     {
@@ -72,5 +73,5 @@ public partial class HomePage : ContentPage
         }
 
     }
-
+    
 }
