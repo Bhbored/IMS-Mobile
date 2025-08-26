@@ -108,6 +108,7 @@ public partial class ContactDetailsPage : ContentPage
                     Contact.CreditScore = newScore;
                     var contactid = App.ContactRepository.GetItems().Where(x => x.Name == Contact.Name).FirstOrDefault().Id;
                     App.ContactRepository.UpdateItem(Contact);
+                   
                     var transatcion = new Transaction
                     {
                         totalamount = reduction,

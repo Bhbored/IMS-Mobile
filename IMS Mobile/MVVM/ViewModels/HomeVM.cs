@@ -275,7 +275,6 @@ namespace IMS_Mobile.MVVM.ViewModels
                 HomePage.Current?.ResetAllFilters();
             });
             await LoadTransactionsAsync();
-            await _syncService.SyncToSupabase();
             IsRefreshing = false;
         }
         #endregion

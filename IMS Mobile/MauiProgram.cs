@@ -49,8 +49,7 @@ namespace IMS_Mobile
             builder.Services.AddSingleton<ReportsVM>();
 
             // Configure Supabase
-            var supabaseUrl = "https://leuyksaxpnppatlpitav.supabase.co"; 
-            var supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxldXlrc2F4cG5wcGF0bHBpdGF2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYwNDkyMzcsImV4cCI6MjA3MTYyNTIzN30.98ho7Ne_WOj_ihRcIyQDsDp_lzQzRVGFajLh5r7W8pc";
+          
             var options = new SupabaseOptions
             {
                 AutoRefreshToken = true,
