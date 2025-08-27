@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup
+    x:Class="IMS_Mobile.Popups.LogoutConfirmationPopup"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    Background="Transparent"
+    CanBeDismissedByTappingOutsideOfPopup="False">
+
+    <Border
+        Padding="25"
+        BackgroundColor="White"
+        Stroke="#E0E0E0"
+        StrokeShape="RoundRectangle 20"
+        StrokeThickness="1"
+        WidthRequest="300">
+
+        <VerticalStackLayout Spacing="20">
+            <!--  Header Icon  -->
+            <Border
+                BackgroundColor="#FFF5F5"
+                HeightRequest="60"
+                HorizontalOptions="Center"
+                Stroke="Transparent"
+                StrokeShape="RoundRectangle 30"
+                WidthRequest="60">
+                <Image
+                    HeightRequest="30"
+                    HorizontalOptions="Center"
+                    Source="logout.png"
+                    VerticalOptions="Center"
+                    WidthRequest="30" />
+            </Border>
+
+            <!--  Title  -->
+            <Label
+                FontAttributes="Bold"
+                FontSize="20"
+                HorizontalOptions="Center"
+                Text="Logout"
+                TextColor="#333333" />
+
+            <!--  Message  -->
+            <Label
+                FontSize="14"
+                HorizontalOptions="Center"
+                HorizontalTextAlignment="Center"
+                Text="Are you sure you want to logout from the application?"
+                TextColor="#666666" />
+
+            <!--  Buttons  -->
+            <Grid Margin="0,10,0,0" ColumnDefinitions="*,10,*">
+                <Button
+                    Grid.Column="0"
+                    BackgroundColor="#F5F5F5"
+                    Clicked="OnCancelClicked"
+                    CornerRadius="12"
+                    FontFamily="poppinbold"
+                    HeightRequest="45"
+                    Text="Cancel"
+                    TextColor="#666666" />
+
+                <Button
+                    Grid.Column="2"
+                    Background="{StaticResource SalesCardStyle.Background}"
+                    Command="{Binding Logout}"
+                    CornerRadius="12"
+                    FontFamily="poppinbold"
+                    HeightRequest="45"
+                    Text="Logout"
+                    TextColor="White" />
+            </Grid>
+        </VerticalStackLayout>
+    </Border>
+</toolkit:Popup>

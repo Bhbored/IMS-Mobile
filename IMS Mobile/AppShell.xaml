@@ -4,13 +4,12 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:views="clr-namespace:IMS_Mobile.MVVM.Views"
-    FlyoutBackgroundColor="#6750A4"
+    FlyoutBackgroundColor="White"
     Shell.FlyoutBehavior="Flyout">
-
 
     <!--  Flyout Header  -->
     <Shell.FlyoutHeader>
-        <Grid BackgroundColor="#6750A4" HeightRequest="180">
+        <Grid BackgroundColor="White" HeightRequest="180">
             <Grid.RowDefinitions>
                 <RowDefinition Height="20" />
                 <RowDefinition Height="100" />
@@ -22,9 +21,9 @@
             <Border
                 Grid.Row="1"
                 Padding="2"
-                Background="White"
+                Background="#4CAF50"
                 HorizontalOptions="Center"
-                Stroke="White"
+                Stroke="#4CAF50"
                 StrokeShape="RoundRectangle 50"
                 StrokeThickness="2"
                 VerticalOptions="Center">
@@ -41,37 +40,81 @@
                 x:Name="userNameLabel"
                 Grid.Row="2"
                 Margin="0,5,0,0"
+                FontAttributes="Bold"
+                FontSize="16"
                 HorizontalOptions="Center"
                 HorizontalTextAlignment="Center"
-                StyleClass="RegularTextStyle"
                 Text="User Name"
-                TextColor="White" />
+                TextColor="Black" />
+
+            <!--  User Email/Role  -->
+            <Label
+                x:Name="userEmailLabel"
+                Grid.Row="3"
+                Margin="0,0,0,5"
+                FontSize="12"
+                HorizontalOptions="Center"
+                HorizontalTextAlignment="Center"
+                Text="user@example.com"
+                TextColor="#666666" />
         </Grid>
     </Shell.FlyoutHeader>
 
-    <!--  Main Tab Bar Content  -->
-    <TabBar>
-        <Tab Title="Home" Icon="home.png">
-            <ShellContent ContentTemplate="{DataTemplate views:HomePage}" Route="HomePage" />
-        </Tab>
-        <Tab Title="Contacts" Icon="contact.png">
-            <ShellContent ContentTemplate="{DataTemplate views:ContactsPage}" Route="ContactsPage" />
-        </Tab>
-        <Tab Title="Inventory" Icon="products.png">
-            <ShellContent ContentTemplate="{DataTemplate views:InventoryPage}" Route="InventoryPage" />
-        </Tab>
-        <Tab Title="Reports" Icon="reports.png">
-            <ShellContent ContentTemplate="{DataTemplate views:ReportsPage}" Route="ReportsPage" />
-        </Tab>
-        <Tab Title="Sell Products" Icon="sell.png">
-            <ShellContent ContentTemplate="{DataTemplate views:SellProducts}" Route="SellProducts" />
-        </Tab>
-        <Tab Title="Restock" Icon="buy.png">
-            <ShellContent ContentTemplate="{DataTemplate views:BuyProducts}" Route="BuyProducts" />
-        </Tab>
-    </TabBar>
+    <!--  Login/Signup Routes (Not in Flyout)  -->
+    <ShellContent
+        ContentTemplate="{DataTemplate views:LoadingPage}"
+        Route="LoadingPage"
+        Shell.FlyoutBehavior="Disabled"
+        Shell.FlyoutItemIsVisible="False" />
 
-    <!--  Flyout Menu Items  -->
+    <ShellContent
+        Title="Login"
+        ContentTemplate="{DataTemplate views:LoginPage}"
+        Route="LoginPage"
+        Shell.FlyoutBehavior="Disabled"
+        Shell.FlyoutItemIsVisible="False" />
+
+    <ShellContent
+        Title="Sign Up"
+        ContentTemplate="{DataTemplate views:SignUpPage}"
+        Route="SignUpPage"
+        Shell.FlyoutBehavior="Disabled"
+        Shell.FlyoutItemIsVisible="False" />
+
+    <!--  Main App Content with Flyout  -->
+    <FlyoutItem Title="Dashboard" Icon="home.png">
+        <ShellContent
+            Title="Home"
+            ContentTemplate="{DataTemplate views:HomePage}"
+            Icon="home.png"
+            Route="HomePage" />
+        <ShellContent
+            Title="Contacts"
+            ContentTemplate="{DataTemplate views:ContactsPage}"
+            Icon="contact.png"
+            Route="ContactsPage" />
+        <ShellContent
+            Title="Inventory"
+            ContentTemplate="{DataTemplate views:InventoryPage}"
+            Icon="products.png"
+            Route="InventoryPage" />
+        <ShellContent
+            Title="Reports"
+            ContentTemplate="{DataTemplate views:ReportsPage}"
+            Icon="reports.png"
+            Route="ReportsPage" />
+        <ShellContent
+            Title="Sell Products"
+            ContentTemplate="{DataTemplate views:SellProducts}"
+            Icon="sell.png"
+            Route="SellProducts" />
+        <ShellContent
+            Title="Restock"
+            ContentTemplate="{DataTemplate views:BuyProducts}"
+            Icon="buy.png"
+            Route="BuyProducts" />
+    </FlyoutItem>
+
     <FlyoutItem Title="About Us" Icon="about.png">
         <ShellContent ContentTemplate="{DataTemplate views:AboutUsPage}" Route="AboutUsPage" />
     </FlyoutItem>
@@ -84,14 +127,29 @@
         <ShellContent ContentTemplate="{DataTemplate views:SettingsPage}" Route="SettingsPage" />
     </FlyoutItem>
 
+    <!--  Separator  -->
+    <MenuItem IsEnabled="False" Text="----------" />
+
+    <!--  Logout Button at Bottom  -->
+    <MenuItem
+        Clicked="MenuItem_Clicked"
+        IconImageSource="logout.png"
+        Text="Logout" />
+
     <!--  Tab Bar Styling  -->
     <Shell.TabBarForegroundColor>
         <OnPlatform x:TypeArguments="Color">
-            <On Platform="iOS, Android" Value="#72fcb9" />
+            <On Platform="iOS, Android" Value="#4CAF50" />
         </OnPlatform>
     </Shell.TabBarForegroundColor>
     <Shell.TabBarTitleColor>
-        <Color>#72fcb9</Color>
+        <Color>#4CAF50</Color>
     </Shell.TabBarTitleColor>
+    <Shell.TabBarBackgroundColor>
+        <Color>White</Color>
+    </Shell.TabBarBackgroundColor>
+    <Shell.TabBarUnselectedColor>
+        <Color>Grey</Color>
+    </Shell.TabBarUnselectedColor>
 
 </Shell>

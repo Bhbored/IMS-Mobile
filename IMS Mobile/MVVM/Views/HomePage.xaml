@@ -13,14 +13,14 @@
         <Converters:DTSelector x:Key="DTSelector" />
     </ContentPage.Resources>
     <Shell.TitleView>
-        <Label
-            Margin="0,10,40,0"
-            FontFamily="poppinbold"
-            FontSize="24"
-            HorizontalOptions="Center"
-            Text="Home"
-            TextColor="Black"
-            VerticalOptions="Center" />
+        <HorizontalStackLayout HorizontalOptions="Start" VerticalOptions="End">
+            <Label
+                FontFamily="poppinbold"
+                FontSize="24"
+                Text="Home"
+                TextColor="Black" />
+        </HorizontalStackLayout>
+
     </Shell.TitleView>
     <Grid RowDefinitions="Auto,*">
         <!--  Main Content  -->

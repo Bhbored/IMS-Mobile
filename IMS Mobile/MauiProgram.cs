@@ -37,6 +37,13 @@ namespace IMS_Mobile
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
+            builder.Services.AddSingleton<SupabaseAuthService>();
+            builder.Services.AddSingleton<LoadingPage>();
+            builder.Services.AddSingleton<LoginPage>();
+            builder.Services.AddSingleton<SignUpPage>();
+            builder.Services.AddSingleton<LoadingViewModel>();
+            builder.Services.AddSingleton<LoginViewModel>();
+            builder.Services.AddSingleton<SignUpViewModel>();
             // Register the database
             builder.Services.AddSingleton<BaseRepository<Transaction>>();
             builder.Services.AddSingleton<BaseRepository<Product>>();
@@ -49,7 +56,8 @@ namespace IMS_Mobile
             builder.Services.AddSingleton<ReportsVM>();
 
             // Configure Supabase
-          
+            var supabaseUrl = "https://leuyksaxpnppatlpitav.supabase.co"; 
+            var supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxldXlrc2F4cG5wcGF0bHBpdGF2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYwNDkyMzcsImV4cCI6MjA3MTYyNTIzN30.98ho7Ne_WOj_ihRcIyQDsDp_lzQzRVGFajLh5r7W8pc";
             var options = new SupabaseOptions
             {
                 AutoRefreshToken = true,
@@ -58,11 +66,7 @@ namespace IMS_Mobile
             };
 
             var supabase = new Supabase.Client(supabaseUrl, supabaseKey, options);
-
-            // Register Supabase client as a singleton
             builder.Services.AddSingleton(supabase);
-
-            // Register your sync service
             builder.Services.AddSingleton<SyncService>();
 
             return builder.Build();

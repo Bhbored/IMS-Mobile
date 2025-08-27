@@ -6,6 +6,8 @@ using System.Diagnostics;
 using IMS_Mobile.MVVM.Models;
 using Contact = IMS_Mobile.MVVM.Models.Contact;
 using IMS_Mobile.Service;
+using IMS_Mobile.MVVM.Views;
+
 
 namespace IMS_Mobile
 {
@@ -23,12 +25,13 @@ namespace IMS_Mobile
 
         private readonly Supabase.Client _supabaseClient;
         private readonly SyncService _syncService;
+        public static SupabaseAuthService AuthService { get; private set; }
         #endregion
 
         public App(BaseRepository<Transaction> _transaction, BaseRepository<Product> _productrepo,
             BaseRepository<Contact> _contactrepo, BaseRepository<TransactionProductItem> _transactionProductItemRepo
             , HomeVM _vm, ContactsVM _contactVM, InventoryVM _inventoryVM, ReportsVM _reportsVM,
-            Supabase.Client supabaseClient, SyncService syncService)
+            Supabase.Client supabaseClient, SyncService syncService, SupabaseAuthService _authservice)
         {
 
             InitializeComponent();
@@ -44,6 +47,7 @@ namespace IMS_Mobile
             reportsVM = _reportsVM;
             _supabaseClient = supabaseClient;
             _syncService = syncService;
+            AuthService = _authservice;
             InitializeSupabase();
         }
 
@@ -51,7 +55,9 @@ namespace IMS_Mobile
 
         protected override Window CreateWindow(IActivationState? activationState)
         {
-            return new Window(new AppShell());
+            var shell = new AppShell(AuthService);
+            Shell.Current?.GoToAsync($"//{nameof(LoadingPage)}");
+            return new Window(shell);
         }
         private async void InitializeSupabase()
         {

@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Extensions;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using IMS_Mobile.DB;
 using IMS_Mobile.MVVM.Models;
 using IMS_Mobile.MVVM.Views;
@@ -24,14 +26,75 @@ using Transaction = IMS_Mobile.MVVM.Models.Transaction;
 namespace IMS_Mobile.MVVM.ViewModels
 {
     [AddINotifyPropertyChangedInterface]
-    public class HomeVM : INotifyPropertyChanged
+    public partial class HomeVM : ObservableObject, INotifyPropertyChanged
     {
+        private readonly SupabaseAuthService _authService;
         private readonly SyncService _syncService;
-        public HomeVM(SyncService syncService)
+
+        [ObservableProperty]
+        private bool _isSyncing;
+
+        [ObservableProperty]
+        private string _syncStatus = "Ready";
+       public static HomeVM? Instance { get; private set; }
+        public HomeVM(SupabaseAuthService authService, SyncService syncService)
         {
-
+            _authService = authService;
             _syncService = syncService;
+        }
 
+        [RelayCommand]
+        private async Task SyncToCloudAsync()
+        {
+            if (IsSyncing) return;
+
+            IsSyncing = true;
+            SyncStatus = "Syncing to cloud...";
+
+            try
+            {
+                if (await _authService.ValidateSessionAsync())
+                {
+                    await _syncService.SyncToSupabase();
+                    SyncStatus = "Sync completed successfully!";
+                }
+                else
+                {
+                    SyncStatus = "Authentication required";
+                    await Shell.Current.GoToAsync($"//{nameof(LoginPage)}");
+                }
+            }
+            catch (Exception ex)
+            {
+                SyncStatus = $"Sync failed: {ex.Message}";
+            }
+            finally
+            {
+                IsSyncing = false;
+            }
+        }
+
+        [RelayCommand]
+        private async Task LogoutAsync()
+        {
+            bool result = await Shell.Current.DisplayAlert(
+                "Logout",
+                "Are you sure you want to logout?",
+                "Yes", "No");
+
+            if (result)
+            {
+                await _authService.SignOutAsync();
+                await Shell.Current.GoToAsync($"//{nameof(LoginPage)}");
+            }
+        }
+
+        // Quick logout without confirmation (wire to a button if desired)
+        [RelayCommand]
+        public async Task QuickLogoutAsync()
+        {
+            await _authService.SignOutAsync();
+            await Shell.Current.GoToAsync($"//{nameof(LoginPage)}");
         }
 
         #region Properties
@@ -66,6 +129,7 @@ namespace IMS_Mobile.MVVM.ViewModels
         private int _pageIndex = 1;
         private List<Transaction> _currentFilteredList = new List<Transaction>();
         private double cashFLow;
+        
 
         public void incrementPageIndex()
         {
