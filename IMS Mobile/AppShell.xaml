@@ -68,14 +68,12 @@
         Shell.FlyoutItemIsVisible="False" />
 
     <ShellContent
-        Title="Login"
         ContentTemplate="{DataTemplate views:LoginPage}"
         Route="LoginPage"
         Shell.FlyoutBehavior="Disabled"
         Shell.FlyoutItemIsVisible="False" />
 
     <ShellContent
-        Title="Sign Up"
         ContentTemplate="{DataTemplate views:SignUpPage}"
         Route="SignUpPage"
         Shell.FlyoutBehavior="Disabled"

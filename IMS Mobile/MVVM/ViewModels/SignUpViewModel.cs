@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using IMS_Mobile.MVVM.Views;
 using IMS_Mobile.Service;
 
 namespace IMS_Mobile.MVVM.ViewModels
@@ -48,7 +49,7 @@ namespace IMS_Mobile.MVVM.ViewModels
                 if (session != null)
                 {
                     await Shell.Current.DisplayAlert("Success", "Account created successfully!", "OK");
-                    await Shell.Current.GoToAsync($"//{nameof(IMS_Mobile.MVVM.Views.HomePage)}");
+                    await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
                 }
                 else
                 {
