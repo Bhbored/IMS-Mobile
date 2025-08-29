@@ -106,7 +106,6 @@ namespace IMS_Mobile.Service
             {
                 try
                 {
-                    // Check if contact already exists
                     var existing = await _supabaseClient
                         .From<ContactDto>()
                         .Where(x => x.UserId == _currentUserId && x.LocalId == contact.Id)
@@ -116,21 +115,17 @@ namespace IMS_Mobile.Service
 
                     if (existing.Models.Count > 0)
                     {
-                        // Update existing record
                         contactDto.Id = existing.Models[0].Id;
                         await _supabaseClient.From<ContactDto>().Upsert(contactDto);
-                        Debug.WriteLine($"✅ Updated contact local_id {contact.Id} -> db_id {contactDto.Id}");
                     }
                     else
                     {
-                        // Insert new record - DON'T set Id, let database auto-generate
                         await _supabaseClient.From<ContactDto>().Insert(contactDto);
-                        Debug.WriteLine($"✅ Inserted contact local_id {contact.Id}");
                     }
                 }
                 catch (Exception ex)
                 {
-                    Debug.WriteLine($"❌ Error syncing contact local_id {contact.Id}: {ex.Message}");
+                    Debug.WriteLine($"Error syncing contact {contact.Id}: {ex.Message}");
                 }
             }
         }
@@ -144,7 +139,6 @@ namespace IMS_Mobile.Service
             {
                 try
                 {
-                    // Check if product already exists
                     var existing = await _supabaseClient
                         .From<ProductDto>()
                         .Where(x => x.UserId == _currentUserId && x.LocalId == product.Id)
@@ -154,21 +148,17 @@ namespace IMS_Mobile.Service
 
                     if (existing.Models.Count > 0)
                     {
-                        // Update existing record
                         productDto.Id = existing.Models[0].Id;
                         await _supabaseClient.From<ProductDto>().Upsert(productDto);
-                        Debug.WriteLine($"✅ Updated product local_id {product.Id} -> db_id {productDto.Id}");
                     }
                     else
                     {
-                        // Insert new record - DON'T set Id, let database auto-generate
                         await _supabaseClient.From<ProductDto>().Insert(productDto);
-                        Debug.WriteLine($"✅ Inserted product local_id {product.Id}");
                     }
                 }
                 catch (Exception ex)
                 {
-                    Debug.WriteLine($"❌ Error syncing product local_id {product.Id}: {ex.Message}");
+                    Debug.WriteLine($"Error syncing product {product.Id}: {ex.Message}");
                 }
             }
         }
@@ -178,13 +168,11 @@ namespace IMS_Mobile.Service
             if (_currentUserId == Guid.Empty) return;
 
             var transactions = _transactionRepository.GetItemsWithChildren();
-            Debug.WriteLine($"Found {transactions.Count()} transactions to sync");
 
             foreach (var transaction in transactions)
             {
                 try
                 {
-                    // Check if transaction already exists
                     var existing = await _supabaseClient
                         .From<TransactionDto>()
                         .Where(x => x.UserId == _currentUserId && x.LocalId == transaction.Id)
@@ -194,33 +182,20 @@ namespace IMS_Mobile.Service
 
                     if (existing.Models.Count > 0)
                     {
-                        // Update existing record
                         transactionDto.Id = existing.Models[0].Id;
                         await _supabaseClient.From<TransactionDto>().Upsert(transactionDto);
-                        Debug.WriteLine($"✅ Updated transaction local_id {transaction.Id} -> db_id {transactionDto.Id}");
                     }
                     else
                     {
-                        // Insert new record - DON'T set Id, let database auto-generate
-                        var response = await _supabaseClient.From<TransactionDto>().Insert(transactionDto);
-                        Debug.WriteLine($"✅ Inserted transaction local_id {transaction.Id}");
-                        if (response.Model?.Id > 0)
-                        {
-                            Debug.WriteLine($"   Generated db_id: {response.Model.Id}");
-                        }
-                        else
-                        {
-                            Debug.WriteLine("   Failed to generate db_id");
-                        }
+                        await _supabaseClient.From<TransactionDto>().Insert(transactionDto);
                     }
                 }
                 catch (Exception ex)
                 {
-                    Debug.WriteLine($"❌ Error syncing transaction local_id {transaction.Id}: {ex.Message}");
+                    Debug.WriteLine($"Error syncing transaction {transaction.Id}: {ex.Message}");
                 }
             }
 
-            // Build mapping after all transactions are synced
             await BuildTransactionIdMap();
         }
 
@@ -234,19 +209,14 @@ namespace IMS_Mobile.Service
                     .Where(x => x.UserId == _currentUserId)
                     .Get();
 
-                Debug.WriteLine($"Found {allTransactions.Models.Count} transactions in Supabase");
-
                 foreach (var transactionDto in allTransactions.Models)
                 {
-                    // Remove the if check to include ALL transactions
                     _transactionIdMap[transactionDto.LocalId] = transactionDto.Id;
-                    Debug.WriteLine($"Mapped local_id {transactionDto.LocalId} -> db_id {transactionDto.Id}");
                 }
-                Debug.WriteLine($"Built mapping with {_transactionIdMap.Count} entries");
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"❌ Error building transaction ID map: {ex.Message}");
+                Debug.WriteLine($"Error building transaction ID map: {ex.Message}");
             }
         }
 
@@ -254,16 +224,10 @@ namespace IMS_Mobile.Service
         {
             if (_currentUserId == Guid.Empty) return;
 
-            // Ensure we have the latest mapping
-            if (_transactionIdMap.Count == 0)
-            {
-                await BuildTransactionIdMap();
-            }
-
             var transactionItems = _transactionProductItemRepository.GetItems();
-            Debug.WriteLine($"Found {transactionItems.Count()} transaction items to sync");
 
-            int processedCount = 0;
+            int insertedCount = 0;
+            int updatedCount = 0;
             int skippedCount = 0;
             int errorCount = 0;
 
@@ -271,52 +235,40 @@ namespace IMS_Mobile.Service
             {
                 try
                 {
-                    // Map the local transaction ID to database transaction ID
+                    var existing = await _supabaseClient
+                        .From<TransactionProductItemDto>()
+                        .Where(x => x.UserId == _currentUserId && x.LocalId == item.Id)
+                        .Get();
+
+                    var itemDto = TransactionProductItemDto.FromModel(item, _currentUserId.ToString());
+
                     if (_transactionIdMap.TryGetValue(item.TransactionId, out int databaseTransactionId))
                     {
-                        // Create item with mapped database transaction ID
-                        var mappedItem = new TransactionProductItem
+                        itemDto.TransactionId = databaseTransactionId;
+
+                        if (existing.Models.Count > 0)
                         {
-                            Name = item.Name,
-                            Price = item.Price,
-                            Quantity = item.Quantity,
-                            Cost = item.Cost,
-                            TransactionId = databaseTransactionId // Use database ID, not local ID
-                        };
-
-                        var itemDto = TransactionProductItemDto.FromModel(mappedItem, _currentUserId.ToString());
-
-                        // Use OnConflict with the UNIQUE CONSTRAINT COLUMNS
-                        var response = await _supabaseClient
-                            .From<TransactionProductItemDto>()
-                            .OnConflict("user_id,local_id") // This is the unique constraint!
-                            .Upsert(itemDto);
-
-                        // Debug the response
-                        if (response.Model != null)
-                        {
-                            Debug.WriteLine($"✅ Synced transaction item local_id {item.Id} -> db_id {response.Model.Id}");
+                            itemDto.Id = existing.Models[0].Id;
+                            await _supabaseClient.From<TransactionProductItemDto>().Upsert(itemDto);
+                            updatedCount++;
                         }
                         else
                         {
-                            Debug.WriteLine($"✅ Synced transaction item local_id {item.Id} - no model returned");
+                            await _supabaseClient.From<TransactionProductItemDto>().Insert(itemDto);
+                            insertedCount++;
                         }
-                        processedCount++;
                     }
                     else
                     {
-                        Debug.WriteLine($"⚠️ No mapped database ID for transaction local_id {item.TransactionId}");
                         skippedCount++;
                     }
                 }
                 catch (Exception ex)
                 {
-                    Debug.WriteLine($"❌ Error syncing transaction item local_id {item.Id}: {ex.Message}");
+                    Debug.WriteLine($"Error syncing transaction item {item.Id}: {ex.Message}");
                     errorCount++;
                 }
             }
-
-            Debug.WriteLine($"Transaction items: {processedCount} processed, {skippedCount} skipped, {errorCount} errors");
         }
         #endregion
 

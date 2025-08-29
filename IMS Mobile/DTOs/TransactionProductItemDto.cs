@@ -21,6 +21,9 @@ namespace IMS_Mobile.DTOs
         [Column("transaction_id")]
         public int TransactionId { get; set; }
 
+        [Column("local_transaction_id")]
+        public int LocalTransactionId { get; set; }
+
         public static TransactionProductItemDto FromModel(TransactionProductItem item, string currentUserId)
         {
             Guid userId = Guid.Empty;
@@ -37,7 +40,7 @@ namespace IMS_Mobile.DTOs
                 Price = item.Price,
                 Quantity = item.Quantity,
                 Cost = item.Cost,
-                TransactionId = item.TransactionId // This is the local transaction ID
+                LocalTransactionId = item.TransactionId // This is the local transaction ID
             };
         }
 
@@ -50,7 +53,7 @@ namespace IMS_Mobile.DTOs
                 Price = this.Price,
                 Quantity = this.Quantity,
                 Cost = this.Cost,
-                TransactionId = this.TransactionId
+                TransactionId = this.LocalTransactionId
             };
         }
     }
