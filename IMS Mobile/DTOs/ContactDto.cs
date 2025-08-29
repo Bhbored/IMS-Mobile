@@ -10,7 +10,7 @@ namespace IMS_Mobile.DTOs
         public string Name { get; set; } = string.Empty;
 
         [Column("phone_number")]
-        public int PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; } = string.Empty;
 
         [Column("address")]
         public string Address { get; set; } = string.Empty;
@@ -25,13 +25,20 @@ namespace IMS_Mobile.DTOs
         public double TotalPurchases { get; set; }
 
         // Factory method for easy conversion
-        public static ContactDto FromModel(Contact contact)
+        public static ContactDto FromModel(Contact contact, string currentUserId)
         {
+            Guid userId = Guid.Empty;
+            if (!string.IsNullOrEmpty(currentUserId))
+            {
+                Guid.TryParse(currentUserId, out userId);
+            }
             return new ContactDto
             {
-                Id = contact.Id,
+                // Don't set Id - let database auto-generate
+                LocalId = contact.Id,
+                UserId = userId,
                 Name = contact.Name,
-                PhoneNumber = contact.PhoneNumber,
+                PhoneNumber = contact.PhoneNumber.ToString(),
                 Address = contact.Address ?? string.Empty,
                 Email = contact.Email ?? string.Empty,
                 CreditScore = contact.CreditScore,
@@ -43,9 +50,9 @@ namespace IMS_Mobile.DTOs
         {
             return new Contact
             {
-                Id = this.Id,
+                Id = this.LocalId, // Use LocalId for the model ID
                 Name = this.Name,
-                PhoneNumber = this.PhoneNumber,
+                PhoneNumber = int.TryParse(this.PhoneNumber, out int phone) ? phone : 0,
                 Address = this.Address,
                 Email = this.Email,
                 CreditScore = this.CreditScore,

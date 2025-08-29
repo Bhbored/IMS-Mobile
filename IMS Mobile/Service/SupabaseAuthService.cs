@@ -2,22 +2,33 @@
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.Maui.Storage;
 using IMS_Mobile.MVVM.Models;
+using System;
+using System.Threading;
+using System.Linq;
+using System.Diagnostics;
 
 namespace IMS_Mobile.Service
 {
     public class SupabaseAuthService
     {
+        #region Fields
         private readonly Supabase.Client _supabase;
         private UserSession? _currentSession;
         private bool _isOfflineSessionActive;
+        #endregion
 
         public SupabaseAuthService(Supabase.Client supabaseClient)
         {
             _supabase = supabaseClient;
         }
 
+        #region Public Properties
         public Supabase.Client GetClient() => _supabase;
+        public bool IsUserAuthenticated => _currentSession != null && !_currentSession.IsExpired;
+        public bool IsOfflineSessionActive => _isOfflineSessionActive;
+        #endregion
 
+        #region Authentication Methods
         public async Task<bool> InitializeAsync()
         {
             try
@@ -29,7 +40,6 @@ namespace IMS_Mobile.Service
                 {
                     await _supabase.Auth.SetSession(accessToken, refreshToken);
 
-                    // Hydrate local session immediately (works offline)
                     var jwtToken = new JwtSecurityToken(accessToken);
                     _currentSession = new UserSession
                     {
@@ -38,10 +48,18 @@ namespace IMS_Mobile.Service
                         ExpiresAt = jwtToken.ValidTo
                     };
 
-                    // Try server validation; if offline or server fails, keep offline session
-                    var isValid = await ValidateSessionAsync();
+                    bool isValid = false;
+                    if (NetworkHelper.IsConnected())
+                    {
+                        isValid = await ValidateSessionAsync();
+                    }
+                    else
+                    {
+                        isValid = _currentSession != null && !_currentSession.IsExpired;
+                    }
+
                     _isOfflineSessionActive = !isValid;
-                    if (isValid)
+                    if (isValid && NetworkHelper.IsConnected())
                     {
                         var userId = GetUserId();
                         LoggedIn?.Invoke(userId);
@@ -50,8 +68,9 @@ namespace IMS_Mobile.Service
                 }
                 return false;
             }
-            catch
+            catch (Exception ex)
             {
+                Debug.WriteLine($"Auth init failed: {ex.Message}");
                 return false;
             }
         }
@@ -71,7 +90,6 @@ namespace IMS_Mobile.Service
                         ExpiresAt = jwtToken.ValidTo
                     };
 
-                    // Store tokens securely
                     await SecureStorage.SetAsync("access_token", session.AccessToken);
                     await SecureStorage.SetAsync("refresh_token", session.RefreshToken);
 
@@ -82,8 +100,9 @@ namespace IMS_Mobile.Service
                 }
                 return null;
             }
-            catch
+            catch (Exception ex)
             {
+                Debug.WriteLine($"Sign in failed: {ex.Message}");
                 return null;
             }
         }
@@ -112,33 +131,14 @@ namespace IMS_Mobile.Service
                     LoggedIn?.Invoke(GetUserId());
                     return userSession;
                 }
-                // Some setups require email confirmation and return no session.
-                // Fallback: attempt immediate sign-in to obtain session.
+
                 var signedIn = await SignInAsync(email, password);
                 return signedIn;
             }
-            catch
+            catch (Exception ex)
             {
+                Debug.WriteLine($"Sign up failed: {ex.Message}");
                 return null;
-            }
-        }
-
-        public async Task<bool> ValidateSessionAsync()
-        {
-            try
-            {
-                // Check if we have a current session
-                var accessToken = await SecureStorage.GetAsync("access_token");
-                if (string.IsNullOrEmpty(accessToken))
-                    return false;
-
-                // Try to get user with the access token
-                var user = await _supabase.Auth.GetUser(accessToken);
-                return user != null;
-            }
-            catch
-            {
-                return false;
             }
         }
 
@@ -147,23 +147,72 @@ namespace IMS_Mobile.Service
             try
             {
                 await _supabase.Auth.SignOut();
-                // Updated: Use Remove instead of RemoveAsync
                 SecureStorage.Remove("access_token");
                 SecureStorage.Remove("refresh_token");
                 _currentSession = null;
                 _isOfflineSessionActive = false;
                 LoggedOut?.Invoke();
             }
-            catch
+            catch (Exception ex)
             {
-                // Handle silently
+                Debug.WriteLine($"Sign out failed: {ex.Message}");
+            }
+        }
+        #endregion
+
+        #region Session Management
+        public async Task<bool> ValidateSessionAsync()
+        {
+            try
+            {
+                var accessToken = await SecureStorage.GetAsync("access_token");
+                if (string.IsNullOrEmpty(accessToken))
+                    return false;
+
+                if (!NetworkHelper.IsConnected())
+                    return false;
+
+                using (var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10)))
+                {
+                    try
+                    {
+                        var user = await _supabase.Auth.GetUser(accessToken);
+                        return user != null;
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        return false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Session validation failed: {ex.Message}");
+                return false;
             }
         }
 
-        public bool IsUserAuthenticated => _currentSession != null && !_currentSession.IsExpired;
+        public void HydrateOfflineSession(string accessToken, string refreshToken)
+        {
+            try
+            {
+                var jwtToken = new JwtSecurityToken(accessToken);
+                _currentSession = new UserSession
+                {
+                    AccessToken = accessToken,
+                    RefreshToken = refreshToken,
+                    ExpiresAt = jwtToken.ValidTo
+                };
+                _isOfflineSessionActive = true;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Offline session hydration failed: {ex.Message}");
+            }
+        }
+        #endregion
 
-        public bool IsOfflineSessionActive => _isOfflineSessionActive;
-
+        #region User Information
         public string GetUserId()
         {
             try
@@ -175,16 +224,101 @@ namespace IMS_Mobile.Service
                 if (_currentSession?.AccessToken is string token && !string.IsNullOrEmpty(token))
                 {
                     var jwt = new JwtSecurityToken(token);
-                    // Standard claim subject (sub) contains user id in GoTrue
                     var sub = jwt.Claims.FirstOrDefault(c => c.Type == "sub")?.Value;
                     return sub ?? string.Empty;
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"GetUserId failed: {ex.Message}");
+            }
             return string.Empty;
         }
 
+        public Guid GetUserIdGuid()
+        {
+            var userIdString = GetUserId();
+            if (!string.IsNullOrEmpty(userIdString) && Guid.TryParse(userIdString, out Guid userId))
+                return userId;
+            return Guid.Empty;
+        }
+
+        public string GetUserEmail()
+        {
+            try
+            {
+                var currentUser = _supabase.Auth.CurrentUser;
+                return currentUser?.Email ?? string.Empty;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"GetUserEmail failed: {ex.Message}");
+                return string.Empty;
+            }
+        }
+        #endregion
+
+        #region Password Management
+        public async Task<bool> SendPasswordResetEmailAsync(string email, string? redirectTo = null)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(email)) return false;
+                await _supabase.Auth.ResetPasswordForEmail(email);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Password reset failed: {ex.Message}");
+                return false;
+            }
+        }
+
+        public async Task<(UserSession? Session, string? Error)> SignUpWithResultAsync(string email, string password)
+        {
+            try
+            {
+                var session = await _supabase.Auth.SignUp(email, password);
+                if (session != null && !string.IsNullOrEmpty(session.AccessToken))
+                {
+                    var jwtToken = new JwtSecurityToken(session.AccessToken);
+                    var userSession = new UserSession
+                    {
+                        AccessToken = session.AccessToken,
+                        RefreshToken = session.RefreshToken,
+                        ExpiresAt = jwtToken.ValidTo
+                    };
+
+                    await SecureStorage.SetAsync("access_token", session.AccessToken);
+                    if (!string.IsNullOrEmpty(session.RefreshToken))
+                        await SecureStorage.SetAsync("refresh_token", session.RefreshToken);
+
+                    _currentSession = userSession;
+                    _isOfflineSessionActive = false;
+                    LoggedIn?.Invoke(GetUserId());
+                    return (userSession, null);
+                }
+
+                return (null, null);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Sign up with result failed: {ex.Message}");
+
+                var message = ex.Message ?? string.Empty;
+                if (message.Contains("already", StringComparison.OrdinalIgnoreCase) &&
+                    message.Contains("register", StringComparison.OrdinalIgnoreCase))
+                {
+                    return (null, "An account with this email already exists.");
+                }
+                return (null, "Registration failed. Please try again.");
+            }
+        }
+        #endregion
+
+        #region Events
         public event Action<string>? LoggedIn;
         public event Action? LoggedOut;
+        #endregion
     }
 }

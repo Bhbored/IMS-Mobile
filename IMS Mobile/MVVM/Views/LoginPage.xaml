@@ -3,9 +3,12 @@
     x:Class="IMS_Mobile.MVVM.Views.LoginPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:Converters="clr-namespace:IMS_Mobile.Converters"
     xmlns:inputLayout="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
     BackgroundColor="White">
-
+    <ContentPage.Resources>
+        <Converters:StringToBoolConverter x:Key="StringToBoolConverter" />
+    </ContentPage.Resources>
     <ScrollView>
         <VerticalStackLayout
             Padding="30"
@@ -44,6 +47,12 @@
                         TextColor="#333333"
                         VerticalOptions="Center" />
                 </inputLayout:SfTextInputLayout>
+                <Label
+                    FontFamily="poppinregular"
+                    FontSize="12"
+                    IsVisible="{Binding EmailError, Converter={StaticResource StringToBoolConverter}}"
+                    Text="{Binding EmailError, StringFormat='! {0}'}"
+                    TextColor="Red" />
 
                 <!--  Password Input  -->
                 <inputLayout:SfTextInputLayout
@@ -57,11 +66,18 @@
                         FontFamily="poppinregular"
                         FontSize="16"
                         IsPassword="True"
+                        Keyboard="Password"
                         Placeholder="Enter your password"
                         Text="{Binding Password}"
                         TextColor="#333333"
                         VerticalOptions="Center" />
                 </inputLayout:SfTextInputLayout>
+                <Label
+                    FontFamily="poppinregular"
+                    FontSize="12"
+                    IsVisible="{Binding PasswordError, Converter={StaticResource StringToBoolConverter}}"
+                    Text="{Binding PasswordError, StringFormat='! {0}'}"
+                    TextColor="Red" />
 
                 <!--  Forgot Password  -->
                 <Label
@@ -69,12 +85,16 @@
                     HorizontalOptions="End"
                     StyleClass="SmallTextStyle"
                     Text="Forgot Password?"
-                    TextColor="#4CAF50" />
+                    TextColor="#4CAF50">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ForgotPasswordCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
             </VerticalStackLayout>
 
             <!--  Login Button  -->
             <Button
-                Background="{StaticResource SalesCardStyle.Background}"
+                Background="#4CAF50"
                 Command="{Binding LoginCommand}"
                 CornerRadius="12"
                 FontFamily="poppinbold"
@@ -117,7 +137,7 @@
                     VerticalOptions="Center">
                     <Image
                         HeightRequest="24"
-                        Source="google_icon.png"
+                        Source="google.png"
                         WidthRequest="24" />
                     <Label
                         FontFamily="poppinregular"

@@ -22,11 +22,18 @@ namespace IMS_Mobile.DTOs
         [Column("stock")]
         public int stock { get; set; }
 
-        public static ProductDto FromModel(Product product)
+        public static ProductDto FromModel(Product product, string currentUserId)
         {
+            Guid userId = Guid.Empty;
+            if (!string.IsNullOrEmpty(currentUserId))
+            {
+                Guid.TryParse(currentUserId, out userId);
+            }
             return new ProductDto
             {
-                Id = product.Id,
+                // Don't set Id - let database auto-generate
+                LocalId = product.Id,
+                UserId = userId,
                 Name = product.Name,
                 Price = product.Price,
                 CreatedDate = product.CreatedDate,
@@ -39,7 +46,7 @@ namespace IMS_Mobile.DTOs
         {
             return new Product
             {
-                Id = this.Id,
+                Id = this.LocalId, // Use LocalId for the model ID
                 Name = this.Name,
                 Price = this.Price,
                 CreatedDate = this.CreatedDate,

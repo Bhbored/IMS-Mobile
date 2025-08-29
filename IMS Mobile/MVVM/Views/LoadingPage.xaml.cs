@@ -10,12 +10,17 @@ public partial class LoadingPage : ContentPage
 		InitializeComponent();
         BindingContext = viewModel;
     }
-    protected override async void OnAppearing()
+    protected override void OnAppearing()
     {
         base.OnAppearing();
-        if (BindingContext is LoadingViewModel viewModel)
+        var vm = BindingContext as LoadingViewModel;
+        _ = Task.Run(async () =>
         {
-            await viewModel.CheckAuthenticationAsync();
-        }
+            await Task.Delay(100); // Small delay to ensure UI is ready
+            MainThread.BeginInvokeOnMainThread(async () =>
+            {
+                await vm.CheckAuthenticationAsync();
+            });
+        });
     }
 }

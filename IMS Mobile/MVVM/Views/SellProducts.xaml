@@ -152,7 +152,7 @@
             <Grid ColumnDefinitions="*,Auto" ColumnSpacing="15">
                 <StackLayout Grid.Column="0" VerticalOptions="Center">
                     <Label StyleClass="RegularTextStyle" Text="{Binding CartItemsCount, StringFormat='Cart: {0} items'}" />
-                    <Label StyleClass="PriceStyle" Text="{Binding CartValue, StringFormat='Total: {0} LBP'}" />
+                    <Label StyleClass="PriceStyle" Text="{Binding CartValue, StringFormat='Total: {0:F2} LBP'}" />
                 </StackLayout>
                 <ImageButton
                     Grid.Column="1"

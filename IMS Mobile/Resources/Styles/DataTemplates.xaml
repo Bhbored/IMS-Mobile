@@ -42,7 +42,7 @@
                     Grid.Column="2"
                     FontFamily="poppinbold"
                     FontSize="16"
-                    Text="{Binding totalamount, Converter={StaticResource BuyingConverter}}"
+                    Text="{Binding totalamount, StringFormat='{0:F2} LBP'}"
                     TextColor="{Binding Type, Converter={StaticResource TransactionColorConverter}}"
                     VerticalOptions="Center" />
             </Grid>
@@ -77,7 +77,7 @@
                     Grid.Column="2"
                     FontFamily="poppinbold"
                     FontSize="16"
-                    Text="{Binding totalamount, Converter={StaticResource SellingConverter}}"
+                    Text="{Binding totalamount, StringFormat='{0:F2} LBP'}"
                     TextColor="{Binding Type, Converter={StaticResource TransactionColorConverter}}"
                     VerticalOptions="Center" />
             </Grid>

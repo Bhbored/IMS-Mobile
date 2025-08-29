@@ -36,7 +36,7 @@ namespace IMS_Mobile.MVVM.ViewModels
 
         [ObservableProperty]
         private string _syncStatus = "Ready";
-       public static HomeVM? Instance { get; private set; }
+        public static HomeVM? Instance { get; private set; }
         public HomeVM(SupabaseAuthService authService, SyncService syncService)
         {
             _authService = authService;
@@ -74,28 +74,6 @@ namespace IMS_Mobile.MVVM.ViewModels
             }
         }
 
-        [RelayCommand]
-        private async Task LogoutAsync()
-        {
-            bool result = await Shell.Current.DisplayAlert(
-                "Logout",
-                "Are you sure you want to logout?",
-                "Yes", "No");
-
-            if (result)
-            {
-                await _authService.SignOutAsync();
-                await Shell.Current.GoToAsync($"//{nameof(LoginPage)}");
-            }
-        }
-
-        // Quick logout without confirmation (wire to a button if desired)
-        [RelayCommand]
-        public async Task QuickLogoutAsync()
-        {
-            await _authService.SignOutAsync();
-            await Shell.Current.GoToAsync($"//{nameof(LoginPage)}");
-        }
 
         #region Properties
         public HomePage HomePage { get; set; }
@@ -129,7 +107,7 @@ namespace IMS_Mobile.MVVM.ViewModels
         private int _pageIndex = 1;
         private List<Transaction> _currentFilteredList = new List<Transaction>();
         private double cashFLow;
-        
+
 
         public void incrementPageIndex()
         {
@@ -333,13 +311,38 @@ namespace IMS_Mobile.MVVM.ViewModels
         public async Task RefreshTransactions()
         {
             IsRefreshing = true;
-            await Task.Delay(1000);
-            MainThread.BeginInvokeOnMainThread(() =>
+
+            try
             {
-                HomePage.Current?.ResetAllFilters();
-            });
-            await LoadTransactionsAsync();
-            IsRefreshing = false;
+                var isConnected = NetworkHelper.IsConnected();
+
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    HomePage.Current?.ResetAllFilters();
+                });
+
+                await LoadTransactionsAsync();
+
+                if (isConnected)
+                {
+                    try
+                    {
+                        await _syncService.SyncToSupabase();
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine($"Background sync failed: {ex.Message}");
+                    }
+                }
+                else
+                {
+                    await Shell.Current.DisplayAlert("Attention", "You are OFFLINE", "OK");
+                }
+            }
+            finally
+            {
+                IsRefreshing = false;
+            }
         }
         #endregion
 

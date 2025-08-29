@@ -1,13 +1,15 @@
-﻿using IMS_Mobile.DB;
+﻿using CommunityToolkit.Maui.Extensions;
+using IMS_Mobile.DB;
+using IMS_Mobile.MVVM.Models;
 using IMS_Mobile.MVVM.ViewModels;
-using Microsoft.Extensions.DependencyInjection;
+using IMS_Mobile.MVVM.Views;
+using IMS_Mobile.Popups;
+using IMS_Mobile.Service;
+using Microsoft.Maui.Storage;
 using Syncfusion.Licensing;
 using System.Diagnostics;
-using IMS_Mobile.MVVM.Models;
+using System.IdentityModel.Tokens.Jwt;
 using Contact = IMS_Mobile.MVVM.Models.Contact;
-using IMS_Mobile.Service;
-using IMS_Mobile.MVVM.Views;
-
 
 namespace IMS_Mobile
 {
@@ -28,15 +30,15 @@ namespace IMS_Mobile
         public static SupabaseAuthService AuthService { get; private set; }
         #endregion
 
+       
         public App(BaseRepository<Transaction> _transaction, BaseRepository<Product> _productrepo,
             BaseRepository<Contact> _contactrepo, BaseRepository<TransactionProductItem> _transactionProductItemRepo
             , HomeVM _vm, ContactsVM _contactVM, InventoryVM _inventoryVM, ReportsVM _reportsVM,
             Supabase.Client supabaseClient, SyncService syncService, SupabaseAuthService _authservice)
         {
-
             InitializeComponent();
-            SyncfusionLicenseProvider.RegisterLicense
-           ("Ngo9BigBOggjHTQxAR8/V1JEaF5cXmRCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdmWXlceHRTQ2ZYWUN/XkFWYEk=");
+            SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1JEaF5cXmRCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdmWXlceHRTQ2ZYWUN/XkFWYEk=");
+
             TransactionRepository = _transaction;
             ProductRepository = _productrepo;
             ContactRepository = _contactrepo;
@@ -48,37 +50,110 @@ namespace IMS_Mobile
             _supabaseClient = supabaseClient;
             _syncService = syncService;
             AuthService = _authservice;
-            InitializeSupabase();
         }
 
-
-
+        #region Window Management
         protected override Window CreateWindow(IActivationState? activationState)
         {
             var shell = new AppShell(AuthService);
-            Shell.Current?.GoToAsync($"//{nameof(LoadingPage)}");
+
+            _ = Task.Run(async () =>
+            {
+                await Task.Delay(500);
+                await HandleInitialNavigation();
+            });
+
             return new Window(shell);
         }
-        private async void InitializeSupabase()
+
+        private async Task HandleInitialNavigation()
         {
             try
             {
-                await _supabaseClient.InitializeAsync();
-                Console.WriteLine("Supabase initialized successfully");
+                await HandleAuthAndNavigation();
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error initializing Supabase: {ex.Message}");
+                Debug.WriteLine($"App startup error: {ex.Message}");
+                MainThread.BeginInvokeOnMainThread(async () =>
+                {
+                    await Shell.Current.GoToAsync($"//{nameof(LoginPage)}");
+                });
             }
         }
 
-        #region delete db
+        private async Task HandleAuthAndNavigation()
+        {
+            var accessToken = await SecureStorage.GetAsync("access_token");
+            var refreshToken = await SecureStorage.GetAsync("refresh_token");
+
+            if (!string.IsNullOrEmpty(accessToken) && !string.IsNullOrEmpty(refreshToken))
+            {
+                var jwtToken = new JwtSecurityToken(accessToken);
+                bool isTokenValid = DateTime.UtcNow < jwtToken.ValidTo;
+
+                if (isTokenValid)
+                {
+                    bool isOnline = NetworkHelper.IsConnected();
+
+                    if (isOnline)
+                    {
+                        try
+                        {
+                            await AuthService.InitializeAsync();
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.WriteLine($"AuthService init failed: {ex.Message}");
+                        }
+                    }
+                    else
+                    {
+                        AuthService.HydrateOfflineSession(accessToken, refreshToken);
+                       
+                    }
+
+                    MainThread.BeginInvokeOnMainThread(async () =>
+                    {
+                        await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
+                    });
+                    return;
+                }
+            }
+
+            MainThread.BeginInvokeOnMainThread(async () =>
+            {
+                await Shell.Current.GoToAsync($"//{nameof(LoginPage)}");
+            });
+        }
+        #endregion
+
+        #region Deep Linking
+        protected override async void OnAppLinkRequestReceived(Uri uri)
+        {
+            base.OnAppLinkRequestReceived(uri);
+
+            if (uri.ToString().Contains("reset-password"))
+            {
+                var query = uri.Query.TrimStart('?');
+                var queryParams = System.Web.HttpUtility.ParseQueryString(query);
+                var token = queryParams["token"];
+
+                if (!string.IsNullOrEmpty(token))
+                {
+                    await Shell.Current.GoToAsync($"//ResetPasswordPage?token={token}");
+                }
+            }
+        }
+        #endregion
+
+        #region Database Management
         public void DiposeCurrentDB()
         {
-            ProductRepository.Dispose();
-            TransactionRepository.Dispose();
-            ContactRepository.Dispose();
-            TransactionProductItemRepository.Dispose();
+            ProductRepository?.Dispose();
+            TransactionRepository?.Dispose();
+            ContactRepository?.Dispose();
+            TransactionProductItemRepository?.Dispose();
         }
         #endregion
     }

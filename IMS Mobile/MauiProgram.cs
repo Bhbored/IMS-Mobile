@@ -68,6 +68,7 @@ namespace IMS_Mobile
             var supabase = new Supabase.Client(supabaseUrl, supabaseKey, options);
             builder.Services.AddSingleton(supabase);
             builder.Services.AddSingleton<SyncService>();
+            
 
             return builder.Build();
         }

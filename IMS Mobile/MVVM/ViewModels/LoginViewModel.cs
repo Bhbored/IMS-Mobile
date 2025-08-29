@@ -22,6 +22,12 @@ namespace IMS_Mobile.MVVM.ViewModels
         [ObservableProperty]
         private bool _isBusy;
 
+        [ObservableProperty]
+        private string _emailError = string.Empty;
+
+        [ObservableProperty]
+        private string _passwordError = string.Empty;
+
         public LoginViewModel(SupabaseAuthService authService, SyncService syncService)
         {
             _authService = authService;
@@ -35,10 +41,30 @@ namespace IMS_Mobile.MVVM.ViewModels
 
             IsBusy = true;
             ErrorMessage = string.Empty;
+            EmailError = string.Empty;
+            PasswordError = string.Empty;
 
             try
             {
-                var session = await _authService.SignInAsync(Email, Password);
+                // Normalize inputs
+                var email = (Email ?? string.Empty).Trim();
+                var password = Password ?? string.Empty;
+
+                // Basic client-side validation
+                if (string.IsNullOrWhiteSpace(email) || !email.Contains('@'))
+                {
+                    EmailError = "Enter a valid email address.";
+                }
+                if (string.IsNullOrWhiteSpace(password))
+                {
+                    PasswordError = "Password is required.";
+                }
+                if (!string.IsNullOrEmpty(EmailError) || !string.IsNullOrEmpty(PasswordError))
+                {
+                    return;
+                }
+
+                var session = await _authService.SignInAsync(email, password);
                 if (session != null)
                 {
                     // If currently offline, inform the user about limited functionality
@@ -50,7 +76,9 @@ namespace IMS_Mobile.MVVM.ViewModels
                 }
                 else
                 {
-                    ErrorMessage = "Invalid credentials";
+                    // For security, we can't reliably distinguish between unknown email and wrong password
+                    // Provide contextual guidance next to fields instead
+                    PasswordError = "Incorrect email or password. Tap 'Forgot Password?' to reset.";
                 }
             }
             catch (Exception ex)
@@ -67,6 +95,34 @@ namespace IMS_Mobile.MVVM.ViewModels
         private async Task SignUpAsync()
         {
             await Shell.Current.GoToAsync(nameof(SignUpPage));
+        }
+
+        [RelayCommand]
+        private async Task ForgotPasswordAsync()
+        {
+            if (IsBusy) return;
+            try
+            {
+                if (string.IsNullOrWhiteSpace(Email))
+                {
+                    await Shell.Current.DisplayAlert("Reset Password", "Enter your email first.", "OK");
+                    return;
+                }
+                IsBusy = true;
+                var ok = await _authService.SendPasswordResetEmailAsync(Email);
+                if (ok)
+                {
+                    await Shell.Current.DisplayAlert("Email Sent", "If an account exists for that email, you'll receive reset instructions.", "OK");
+                }
+                else
+                {
+                    await Shell.Current.DisplayAlert("Error", "Couldn't send reset email. Try again later.", "OK");
+                }
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
     }
 }

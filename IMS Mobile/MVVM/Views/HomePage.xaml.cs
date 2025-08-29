@@ -1,8 +1,11 @@
-
+﻿
 
 using CommunityToolkit.Maui.Extensions;
+using CommunityToolkit.Mvvm.ComponentModel;
 using IMS_Mobile.MVVM.ViewModels;
 using IMS_Mobile.Popups;
+using IMS_Mobile.Service;
+using System.Diagnostics;
 
 namespace IMS_Mobile.MVVM.Views;
 
@@ -11,6 +14,9 @@ public partial class HomePage : ContentPage
     private static readonly IList<string> ActiveFilter = new List<string> { "ActiveFilterButtonStyle" };
     private static readonly IList<string> InActiveFilter = new List<string> { "FilterButtonStyle" };
     public static HomePage? Current { get; private set; }
+   
+    private bool _isConnected;
+    private bool _hasShownOfflineAlert = false;
     public HomePage(HomeVM vm)
     {
         InitializeComponent();
@@ -21,6 +27,8 @@ public partial class HomePage : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
+        
+       
         if (BindingContext is HomeVM vm)
         {
             if (vm.FilteredTransactions.Count == 0)
@@ -30,10 +38,28 @@ public partial class HomePage : ContentPage
             }
         }
     }
-    protected override void OnDisappearing()
+    protected override async void OnNavigatedTo(NavigatedToEventArgs args)
     {
-        base.OnDisappearing();
+        base.OnNavigatedTo(args);
+
+        _isConnected = NetworkHelper.IsConnected();
+
+        if (!_isConnected && !_hasShownOfflineAlert) 
+        {
+            _hasShownOfflineAlert = true; 
+            await Task.Delay(500);
+            try
+            {
+                var popup = new OfflineAlertPopup();
+                await this.ShowPopupAsync(popup);
+            }
+            catch (Exception ex)
+            {
+                await this.DisplayAlert("⚠️Offline Mode", "You're offline. Changes will be saved locally and synced when you're back online.", "OK");
+            }
+        }
     }
+
     #region styling logic
     private void Button_Clicked(object sender, EventArgs e)
     {
@@ -73,5 +99,5 @@ public partial class HomePage : ContentPage
         }
 
     }
-    
+
 }

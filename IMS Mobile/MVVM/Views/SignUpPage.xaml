@@ -3,9 +3,12 @@
     x:Class="IMS_Mobile.MVVM.Views.SignUpPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:Converters="clr-namespace:IMS_Mobile.Converters"
     xmlns:inputLayout="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
     BackgroundColor="White">
-
+    <ContentPage.Resources>
+        <Converters:StringToBoolConverter x:Key="StringToBoolConverter" />
+    </ContentPage.Resources>
     <ScrollView>
         <VerticalStackLayout
             Padding="30"
@@ -43,6 +46,12 @@
                         TextColor="#333333"
                         VerticalOptions="Center" />
                 </inputLayout:SfTextInputLayout>
+                <Label
+                    FontFamily="poppinregular"
+                    FontSize="12"
+                    IsVisible="{Binding EmailError, Converter={StaticResource StringToBoolConverter}}"
+                    Text="{Binding EmailError, StringFormat='! {0}'}"
+                    TextColor="Red" />
 
                 <!--  Password Input  -->
                 <inputLayout:SfTextInputLayout
@@ -56,11 +65,18 @@
                         FontFamily="poppinregular"
                         FontSize="16"
                         IsPassword="True"
+                        Keyboard="Password"
                         Placeholder="Create a password"
                         Text="{Binding Password}"
                         TextColor="#333333"
                         VerticalOptions="Center" />
                 </inputLayout:SfTextInputLayout>
+                <Label
+                    FontFamily="poppinregular"
+                    FontSize="12"
+                    IsVisible="{Binding PasswordError, Converter={StaticResource StringToBoolConverter}}"
+                    Text="{Binding PasswordError, StringFormat='! {0}'}"
+                    TextColor="Red" />
 
                 <!--  Confirm Password Input  -->
                 <inputLayout:SfTextInputLayout
@@ -74,16 +90,23 @@
                         FontFamily="poppinregular"
                         FontSize="16"
                         IsPassword="True"
+                        Keyboard="Password"
                         Placeholder="Confirm your password"
                         Text="{Binding ConfirmPassword}"
                         TextColor="#333333"
                         VerticalOptions="Center" />
                 </inputLayout:SfTextInputLayout>
+                <Label
+                    FontFamily="poppinregular"
+                    FontSize="12"
+                    IsVisible="{Binding ConfirmPasswordError, Converter={StaticResource StringToBoolConverter}}"
+                    Text="{Binding ConfirmPasswordError, StringFormat='! {0}'}"
+                    TextColor="Red" />
             </VerticalStackLayout>
 
             <!--  Register Button  -->
             <Button
-                Background="{StaticResource SalesCardStyle.Background}"
+                Background="LightGreen"
                 Command="{Binding RegisterCommand}"
                 CornerRadius="12"
                 FontFamily="poppinbold"
@@ -126,7 +149,7 @@
                     VerticalOptions="Center">
                     <Image
                         HeightRequest="24"
-                        Source="google_icon.png"
+                        Source="google.png"
                         WidthRequest="24" />
                     <Label
                         FontFamily="poppinregular"

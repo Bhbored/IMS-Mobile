@@ -21,16 +21,23 @@ namespace IMS_Mobile.DTOs
         [Column("transaction_id")]
         public int TransactionId { get; set; }
 
-        public static TransactionProductItemDto FromModel(TransactionProductItem item)
+        public static TransactionProductItemDto FromModel(TransactionProductItem item, string currentUserId)
         {
+            Guid userId = Guid.Empty;
+            if (!string.IsNullOrEmpty(currentUserId))
+            {
+                Guid.TryParse(currentUserId, out userId);
+            }
             return new TransactionProductItemDto
             {
-                Id = item.Id,
+                // Don't set Id - let database auto-generate
+                LocalId = item.Id,
+                UserId = userId,
                 Name = item.Name,
                 Price = item.Price,
                 Quantity = item.Quantity,
                 Cost = item.Cost,
-                TransactionId = item.TransactionId
+                TransactionId = item.TransactionId // This is the local transaction ID
             };
         }
 
@@ -38,7 +45,7 @@ namespace IMS_Mobile.DTOs
         {
             return new TransactionProductItem
             {
-                Id = this.Id,
+                Id = this.LocalId, // Use LocalId for the model ID
                 Name = this.Name,
                 Price = this.Price,
                 Quantity = this.Quantity,

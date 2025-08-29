@@ -19,14 +19,21 @@ namespace IMS_Mobile.DTOs
         [Column("created_date")]
         public DateTime CreatedDate { get; set; }
 
-        [Column("contact_id")]
+        [Column("local_contact_id")]
         public int ContactId { get; set; }
 
-        public static TransactionDto FromModel(Transaction transaction)
+        public static TransactionDto FromModel(Transaction transaction, string currentUserId)
         {
+            Guid userId = Guid.Empty;
+            if (!string.IsNullOrEmpty(currentUserId))
+            {
+                Guid.TryParse(currentUserId, out userId);
+            }
             return new TransactionDto
             {
-                Id = transaction.Id,
+                // Don't set Id - let database auto-generate
+                LocalId = transaction.Id,
+                UserId = userId,
                 totalamount = transaction.totalamount,
                 Type = transaction.Type,
                 IsPaid = transaction.IsPaid,
@@ -39,7 +46,7 @@ namespace IMS_Mobile.DTOs
         {
             return new Transaction
             {
-                Id = this.Id,
+                Id = this.LocalId, // Use LocalId for the model ID
                 totalamount = this.totalamount,
                 Type = this.Type,
                 IsPaid = this.IsPaid,
