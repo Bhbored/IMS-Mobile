@@ -17,6 +17,7 @@ namespace IMS_Mobile.DB
         #region Fields
         private readonly SQLiteConnection _connection;
         private bool _disposed;
+        private readonly object _lock = new object(); 
         #endregion
 
         #region Ctor
@@ -40,8 +41,22 @@ namespace IMS_Mobile.DB
         #region Connection
         public void StopConnection()
         {
-            _connection.Close();
-            Debug.WriteLine($"[CONNECTION] Closed for {typeof(T).Name}");
+            lock (_lock)
+            {
+                try
+                {
+                    if (_connection != null)
+                    {
+                        ResetAutoIncrementSequences();
+                        _connection.Close();
+                        Debug.WriteLine($"[CONNECTION] Closed for {typeof(T).Name}");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"[CONNECTION] Error closing connection for {typeof(T).Name}: {ex.Message}");
+                }
+            }
         }
 
         #endregion
@@ -447,5 +462,20 @@ namespace IMS_Mobile.DB
             throw new NotImplementedException();
         }
         #endregion
+        private void ResetAutoIncrementSequences()
+        {
+            try
+            {
+                using (var connection = new SQLiteConnection(Constants.DatabasePath, Constants.Flags))
+                {
+                    connection.Execute("DELETE FROM sqlite_sequence WHERE name IN ('Contact', 'Product', 'Transaction', 'TransactionProductItem')");
+                    Debug.WriteLine("✅ Auto-increment sequences reset");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"❌ Error resetting sequences: {ex.Message}");
+            }
+        }
     }
 }

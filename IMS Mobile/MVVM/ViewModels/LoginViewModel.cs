@@ -46,11 +46,10 @@ namespace IMS_Mobile.MVVM.ViewModels
 
             try
             {
-                // Normalize inputs
+                
                 var email = (Email ?? string.Empty).Trim();
                 var password = Password ?? string.Empty;
 
-                // Basic client-side validation
                 if (string.IsNullOrWhiteSpace(email) || !email.Contains('@'))
                 {
                     EmailError = "Enter a valid email address.";
@@ -67,17 +66,22 @@ namespace IMS_Mobile.MVVM.ViewModels
                 var session = await _authService.SignInAsync(email, password);
                 if (session != null)
                 {
-                    // If currently offline, inform the user about limited functionality
                     if (_authService.IsOfflineSessionActive)
                     {
-                        await Shell.Current.DisplayAlert("Offline", "You're offline. Changes won't sync until you're online.", "OK");
+                        await App.Current.MainPage.DisplayAlert("Offline", "You're offline. Changes won't sync until you're online.", "OK");
+                    }
+
+                    if (!_authService.IsOfflineSessionActive && NetworkHelper.IsConnected() == true)
+                    {
+                        App.RecreateRepositories();
+                        await _syncService.SyncFromSupabase();
+                        await Task.Delay(1000);
                     }
                     await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
                 }
                 else
                 {
-                    // For security, we can't reliably distinguish between unknown email and wrong password
-                    // Provide contextual guidance next to fields instead
+
                     PasswordError = "Incorrect email or password. Tap 'Forgot Password?' to reset.";
                 }
             }

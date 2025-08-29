@@ -31,7 +31,6 @@ namespace IMS_Mobile.DTOs
             }
             return new TransactionDto
             {
-                // Don't set Id - let database auto-generate
                 LocalId = transaction.Id,
                 UserId = userId,
                 totalamount = transaction.totalamount,
@@ -46,7 +45,7 @@ namespace IMS_Mobile.DTOs
         {
             return new Transaction
             {
-                Id = this.LocalId, // Use LocalId for the model ID
+                Id = this.LocalId, 
                 totalamount = this.totalamount,
                 Type = this.Type,
                 IsPaid = this.IsPaid,

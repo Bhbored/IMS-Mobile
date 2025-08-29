@@ -80,13 +80,9 @@ namespace IMS_Mobile.Service
                 {
                     throw new InvalidOperationException("No valid user session. Please login again.");
                 }
-
-                ClearLocalData();
-
                 await SyncContactsFromSupabase();
                 await SyncProductsFromSupabase();
                 await SyncTransactionsFromSupabase();
-                await SyncTransactionItemsFromSupabase();
             }
             catch (Exception ex)
             {
@@ -341,18 +337,39 @@ namespace IMS_Mobile.Service
 
             try
             {
+                // Get all transactions
                 var supabaseTransactions = await _supabaseClient
                     .From<TransactionDto>()
                     .Where(x => x.UserId == _currentUserId)
                     .Get();
 
+                // Get all transaction items
+                var supabaseTransactionItems = await _supabaseClient
+                    .From<TransactionProductItemDto>()
+                    .Where(x => x.UserId == _currentUserId)
+                    .Get();
+
+                // Group items by transaction ID for easy lookup
+                var itemsByTransactionId = supabaseTransactionItems.Models
+                    .GroupBy(x => x.LocalTransactionId)
+                    .ToDictionary(g => g.Key, g => g.Select(itemDto => itemDto.ToModel()).ToList());
+
+                // Insert each transaction with its children
                 foreach (var transactionDto in supabaseTransactions.Models)
                 {
                     try
                     {
                         var transaction = transactionDto.ToModel();
-                        _transactionRepository.InsertItem(transaction);
-                        Debug.WriteLine($"✅ Inserted transaction from Supabase: local_id {transactionDto.LocalId}");
+
+                        // Add the related transaction items (Products)
+                        if (itemsByTransactionId.TryGetValue(transaction.Id, out var relatedItems))
+                        {
+                            transaction.Products = relatedItems; // ✅ This is your Products list
+                        }
+
+                        // Insert transaction with all its Products
+                        _transactionRepository.InsertItemWithChildren(transaction);
+                        Debug.WriteLine($"✅ Inserted transaction with {transaction.Products.Count} products from Supabase: local_id {transactionDto.LocalId}");
                     }
                     catch (Exception ex)
                     {
@@ -366,40 +383,11 @@ namespace IMS_Mobile.Service
             }
         }
 
-        private async Task SyncTransactionItemsFromSupabase()
-        {
-            if (_currentUserId == Guid.Empty) return;
 
-            try
-            {
-                var supabaseTransactionItems = await _supabaseClient
-                    .From<TransactionProductItemDto>()
-                    .Where(x => x.UserId == _currentUserId)
-                    .Get();
-
-                foreach (var itemDto in supabaseTransactionItems.Models)
-                {
-                    try
-                    {
-                        var item = itemDto.ToModel();
-                        _transactionProductItemRepository.InsertItem(item);
-                        Debug.WriteLine($"✅ Inserted transaction item from Supabase: local_id {itemDto.LocalId}");
-                    }
-                    catch (Exception ex)
-                    {
-                        Debug.WriteLine($"❌ Error inserting transaction item local_id {itemDto.LocalId}: {ex.Message}");
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"❌ Error syncing transaction items from Supabase: {ex.Message}");
-            }
-        }
         #endregion
 
         #region Private Methods
-        private void ClearLocalData()
+        public void ClearLocalData()
         {
             try
             {
@@ -415,17 +403,12 @@ namespace IMS_Mobile.Service
                     _productRepository.DeleteItem(product);
                 }
 
-                var transactions = _transactionRepository.GetItems();
+                var transactions = _transactionRepository.GetItemsWithChildren();
                 foreach (var transaction in transactions)
                 {
                     _transactionRepository.DeleteItem(transaction);
                 }
-
-                var transactionItems = _transactionProductItemRepository.GetItems();
-                foreach (var item in transactionItems)
-                {
-                    _transactionProductItemRepository.DeleteItem(item);
-                }
+                
             }
             catch (Exception ex)
             {

@@ -24,7 +24,6 @@ namespace IMS_Mobile.DTOs
         [Column("total_purchases")]
         public double TotalPurchases { get; set; }
 
-        // Factory method for easy conversion
         public static ContactDto FromModel(Contact contact, string currentUserId)
         {
             Guid userId = Guid.Empty;
@@ -34,7 +33,6 @@ namespace IMS_Mobile.DTOs
             }
             return new ContactDto
             {
-                // Don't set Id - let database auto-generate
                 LocalId = contact.Id,
                 UserId = userId,
                 Name = contact.Name,
@@ -50,7 +48,7 @@ namespace IMS_Mobile.DTOs
         {
             return new Contact
             {
-                Id = this.LocalId, // Use LocalId for the model ID
+                Id = this.LocalId, 
                 Name = this.Name,
                 PhoneNumber = int.TryParse(this.PhoneNumber, out int phone) ? phone : 0,
                 Address = this.Address,

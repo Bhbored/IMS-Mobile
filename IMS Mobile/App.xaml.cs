@@ -55,7 +55,7 @@ namespace IMS_Mobile
         #region Window Management
         protected override Window CreateWindow(IActivationState? activationState)
         {
-            var shell = new AppShell(AuthService);
+            var shell = new AppShell(AuthService, _syncService);
 
             _ = Task.Run(async () =>
             {
@@ -148,12 +148,19 @@ namespace IMS_Mobile
         #endregion
 
         #region Database Management
-        public void DiposeCurrentDB()
+        public static void StopConnection()
         {
-            ProductRepository?.Dispose();
-            TransactionRepository?.Dispose();
-            ContactRepository?.Dispose();
-            TransactionProductItemRepository?.Dispose();
+            ProductRepository?.StopConnection();
+            TransactionRepository?.StopConnection();
+            ContactRepository?.StopConnection();       
+            TransactionProductItemRepository?.StopConnection();
+        }
+        public static void RecreateRepositories()
+        {
+            ProductRepository = new BaseRepository<Product>();
+            TransactionRepository = new BaseRepository<Transaction>();
+            ContactRepository = new BaseRepository<Contact>();
+            TransactionProductItemRepository = new BaseRepository<TransactionProductItem>();
         }
         #endregion
     }

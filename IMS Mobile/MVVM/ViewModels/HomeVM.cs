@@ -336,7 +336,7 @@ namespace IMS_Mobile.MVVM.ViewModels
                 }
                 else
                 {
-                    await Shell.Current.DisplayAlert("Attention", "You are OFFLINE", "OK");
+                    await Application.Current.MainPage.DisplayAlert("Attention", "You are OFFLINE", "OK");
                 }
             }
             finally

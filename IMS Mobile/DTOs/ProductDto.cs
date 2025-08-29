@@ -31,7 +31,6 @@ namespace IMS_Mobile.DTOs
             }
             return new ProductDto
             {
-                // Don't set Id - let database auto-generate
                 LocalId = product.Id,
                 UserId = userId,
                 Name = product.Name,
@@ -46,7 +45,7 @@ namespace IMS_Mobile.DTOs
         {
             return new Product
             {
-                Id = this.LocalId, // Use LocalId for the model ID
+                Id = this.LocalId, 
                 Name = this.Name,
                 Price = this.Price,
                 CreatedDate = this.CreatedDate,

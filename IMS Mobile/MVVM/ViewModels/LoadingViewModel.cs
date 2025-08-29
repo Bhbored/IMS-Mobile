@@ -10,7 +10,6 @@ namespace IMS_Mobile.MVVM.ViewModels
     {
         public LoadingViewModel()
         {
-            // No auth service needed - handled in App.xaml.cs
         }
 
         [RelayCommand]
