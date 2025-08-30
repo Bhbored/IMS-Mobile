@@ -27,13 +27,6 @@ namespace IMS_Mobile.MVVM.ViewModels
 
                     if (isTokenValid)
                     {
-                        bool isOnline = NetworkHelper.IsConnected();
-
-                        if (!isOnline)
-                        {
-                            await Shell.Current.DisplayAlert("⚠️Offline Mode", "You're offline. Changes will be saved locally and synced when you're back online.", "OK");
-                        }
-
                         await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
                         return;
                     }

@@ -30,7 +30,7 @@ namespace IMS_Mobile
         public static SupabaseAuthService AuthService { get; private set; }
         #endregion
 
-       
+
         public App(BaseRepository<Transaction> _transaction, BaseRepository<Product> _productrepo,
             BaseRepository<Contact> _contactrepo, BaseRepository<TransactionProductItem> _transactionProductItemRepo
             , HomeVM _vm, ContactsVM _contactVM, InventoryVM _inventoryVM, ReportsVM _reportsVM,
@@ -110,7 +110,7 @@ namespace IMS_Mobile
                     else
                     {
                         AuthService.HydrateOfflineSession(accessToken, refreshToken);
-                       
+
                     }
 
                     MainThread.BeginInvokeOnMainThread(async () =>
@@ -148,18 +148,24 @@ namespace IMS_Mobile
         #endregion
 
         #region Database Management
-        public static void StopConnection()
+        public static async Task StopConnection()
         {
-            ProductRepository?.StopConnection();
-            TransactionRepository?.StopConnection();
-            ContactRepository?.StopConnection();       
-            TransactionProductItemRepository?.StopConnection();
+            ProductRepository?.WipeAndResetTo1();
+            await Task.Delay(100);
+            TransactionRepository?.WipeAndResetTo1();
+            await Task.Delay(100);
+            ContactRepository?.WipeAndResetTo1();
+            await Task.Delay(100);
+            TransactionProductItemRepository?.WipeAndResetTo1();
         }
-        public static void RecreateRepositories()
+        public static async Task RecreateRepositories()
         {
             ProductRepository = new BaseRepository<Product>();
+            await Task.Delay(100);
             TransactionRepository = new BaseRepository<Transaction>();
+            await Task.Delay(100);
             ContactRepository = new BaseRepository<Contact>();
+            await Task.Delay(100);
             TransactionProductItemRepository = new BaseRepository<TransactionProductItem>();
         }
         #endregion

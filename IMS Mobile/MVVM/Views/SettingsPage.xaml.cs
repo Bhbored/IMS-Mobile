@@ -16,10 +16,7 @@ public partial class SettingsPage : ContentPage
         currencyPicker.SelectedIndex = 0;
     }
 
-    private async void OnBackClicked(object sender, EventArgs e)
-    {
-        await Shell.Current.GoToAsync("//HomePage");
-    }
+   
 
     private void OnChangeAvatarClicked(object sender, EventArgs e)
     {

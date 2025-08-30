@@ -90,8 +90,14 @@
                         <TapGestureRecognizer Command="{Binding ForgotPasswordCommand}" />
                     </Label.GestureRecognizers>
                 </Label>
+                <!--  Loading Indicator  -->
+                <Image
+                    HeightRequest="100"
+                    IsAnimationPlaying="True"
+                    IsVisible="{Binding IsBusy}"
+                    Source="loader.gif"
+                    WidthRequest="100" />
             </VerticalStackLayout>
-
             <!--  Login Button  -->
             <Button
                 Background="#4CAF50"
@@ -167,12 +173,7 @@
                 </Label>
             </HorizontalStackLayout>
 
-            <!--  Loading Indicator  -->
-            <ActivityIndicator
-                HorizontalOptions="Center"
-                IsRunning="{Binding IsBusy}"
-                IsVisible="{Binding IsBusy}"
-                Color="#4CAF50" />
+
 
             <!--  Error Message  -->
             <Label

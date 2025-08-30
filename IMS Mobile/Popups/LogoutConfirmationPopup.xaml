@@ -4,72 +4,87 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-    Background="Transparent"
-    CanBeDismissedByTappingOutsideOfPopup="False">
+    Background="White"
+    CanBeDismissedByTappingOutsideOfPopup="False"
+    HeightRequest="300"
+    WidthRequest="300">
 
-    <Border
-        Padding="25"
-        BackgroundColor="White"
-        Stroke="#E0E0E0"
-        StrokeShape="RoundRectangle 20"
-        StrokeThickness="1"
-        WidthRequest="300">
-
-        <VerticalStackLayout Spacing="20">
-            <!--  Header Icon  -->
-            <Border
-                BackgroundColor="#FFF5F5"
-                HeightRequest="60"
+    <VerticalStackLayout Spacing="20">
+        <!--  Header Icon  -->
+        <Border
+            BackgroundColor="#FFF5F5"
+            HeightRequest="60"
+            HorizontalOptions="Center"
+            IsVisible="{Binding IsNotLoading}"
+            Stroke="Transparent"
+            StrokeShape="RoundRectangle 30"
+            WidthRequest="60">
+            <Image
+                HeightRequest="30"
                 HorizontalOptions="Center"
-                Stroke="Transparent"
-                StrokeShape="RoundRectangle 30"
-                WidthRequest="60">
-                <Image
-                    HeightRequest="30"
-                    HorizontalOptions="Center"
-                    Source="logout.png"
-                    VerticalOptions="Center"
-                    WidthRequest="30" />
-            </Border>
+                Source="exit.png"
+                VerticalOptions="Center"
+                WidthRequest="30" />
+        </Border>
 
-            <!--  Title  -->
-            <Label
-                FontAttributes="Bold"
-                FontSize="20"
-                HorizontalOptions="Center"
-                Text="Logout"
-                TextColor="#333333" />
+        <!--  Title  -->
+        <Label
+            FontAttributes="Bold"
+            FontSize="20"
+            HorizontalOptions="Center"
+            IsVisible="{Binding IsNotLoading}"
+            Text="Logout"
+            TextColor="#333333" />
+        <Label
+            FontAttributes="Bold"
+            FontSize="20"
+            HorizontalOptions="Center"
+            IsVisible="{Binding IsLoading}"
+            Text="⚠️ Loging Out"
+            TextColor="#333333"
+            VerticalOptions="Start" />
 
-            <!--  Message  -->
-            <Label
-                FontSize="14"
-                HorizontalOptions="Center"
-                HorizontalTextAlignment="Center"
-                Text="Are you sure you want to logout from the application?"
+        <!--  Message  -->
+        <Label
+            FontSize="14"
+            HorizontalOptions="Center"
+            HorizontalTextAlignment="Center"
+            IsVisible="{Binding IsNotLoading}"
+            Text="Are you sure you want to logout from the application?"
+            TextColor="#666666" />
+        <!--  Loading Indicator  -->
+        <Image
+            Margin="0,50,0,0"
+            HeightRequest="60"
+            HorizontalOptions="Center"
+            IsAnimationPlaying="True"
+            IsVisible="{Binding IsLoading}"
+            Source="loader.gif"
+            VerticalOptions="Center" />
+
+        <!--  Buttons  -->
+        <Grid Margin="0,10,0,0" ColumnDefinitions="*,10,*">
+            <Button
+                Grid.Column="0"
+                BackgroundColor="#F5F5F5"
+                Clicked="OnCancelClicked"
+                CornerRadius="12"
+                FontFamily="poppinbold"
+                HeightRequest="45"
+                IsVisible="{Binding IsNotLoading}"
+                Text="Cancel"
                 TextColor="#666666" />
 
-            <!--  Buttons  -->
-            <Grid Margin="0,10,0,0" ColumnDefinitions="*,10,*">
-                <Button
-                    Grid.Column="0"
-                    BackgroundColor="#F5F5F5"
-                    Clicked="OnCancelClicked"
-                    CornerRadius="12"
-                    FontFamily="poppinbold"
-                    HeightRequest="45"
-                    Text="Cancel"
-                    TextColor="#666666" />
-
-                <Button
-                    Grid.Column="2"
-                    Background="LightGreen"
-                    Command="{Binding Logout}"
-                    CornerRadius="12"
-                    FontFamily="poppinbold"
-                    HeightRequest="45"
-                    Text="Logout"
-                    TextColor="White" />
-            </Grid>
-        </VerticalStackLayout>
-    </Border>
+            <Button
+                Grid.Column="2"
+                Background="LightGreen"
+                Command="{Binding Logout}"
+                CornerRadius="12"
+                FontFamily="poppinbold"
+                HeightRequest="45"
+                IsVisible="{Binding IsNotLoading}"
+                Text="Logout"
+                TextColor="White" />
+        </Grid>
+    </VerticalStackLayout>
 </toolkit:Popup>

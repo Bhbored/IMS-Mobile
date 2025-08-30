@@ -180,12 +180,12 @@
             </HorizontalStackLayout>
 
             <!--  Loading Indicator  -->
-            <ActivityIndicator
-                HorizontalOptions="Center"
-                IsRunning="{Binding IsBusy}"
+            <Image
+                HeightRequest="100"
+                IsAnimationPlaying="True"
                 IsVisible="{Binding IsBusy}"
-                Color="#4CAF50" />
-
+                Source="loader.gif"
+                WidthRequest="100" />
             <!--  Error Message  -->
             <Label
                 HorizontalOptions="Center"

@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using IMS_Mobile.MVVM.ViewModels;
 using IMS_Mobile.MVVM.Views;
 using IMS_Mobile.Service;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -12,6 +13,8 @@ public partial class LogoutConfirmationPopup : Popup
 {
     private readonly SupabaseAuthService _authService;
     private readonly SyncService _syncService;
+    public bool IsLoading { get; private set; } = false;
+    public bool IsNotLoading { get; private set; } = true;
 
     public LogoutConfirmationPopup(SupabaseAuthService authService, SyncService syncService)
     {
@@ -19,6 +22,7 @@ public partial class LogoutConfirmationPopup : Popup
         BindingContext = this;
         _authService = authService;
         _syncService = syncService;
+        IsLoading = false;
     }
     private void OnCancelClicked(object sender, EventArgs e)
     {
@@ -27,25 +31,42 @@ public partial class LogoutConfirmationPopup : Popup
     public ICommand Logout => new Command(async () =>
     {
         var connected = NetworkHelper.IsConnected();
-        if (connected)
+        try
         {
-            await logout();
+            if (connected)
+            {
+                IsNotLoading = false;
+                IsLoading = true;
+                await logout();
+            }
+            else
+            {
+                await App.Current.MainPage.DisplayAlert("Attention ⚠️", "You're not Connected", "ok");
+                await CloseAsync();
+            }
         }
-        else
+        catch (Exception ex)
         {
-            await App.Current.MainPage.DisplayAlert("Attention ⚠️", "You're not Connected", "ok");
-            await CloseAsync();
+            Debug.WriteLine($"Failed becasue {ex.Message}");
+
         }
+        finally
+        {
+            IsLoading = false;
+            IsNotLoading = true;
+        }
+
 
     });
     [RelayCommand]
     public async Task logout()
     {
+
         await _syncService.SyncToSupabase();
         await Task.Delay(1000);
-        _syncService.ClearLocalData();
+        await App.StopConnection();
+        await Task.Delay(1000);
         await _authService.SignOutAsync();
-        App.StopConnection();
         await Shell.Current.GoToAsync($"//{nameof(LoginPage)}");
     }
 }

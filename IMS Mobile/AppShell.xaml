@@ -126,7 +126,7 @@
     </FlyoutItem>
 
     <!--  Separator  -->
-    <MenuItem IsEnabled="False" Text="----------" />
+    <MenuItem IsEnabled="False" Text="--------------------------------------------" />
 
     <!--  Logout Button at Bottom  -->
     <MenuItem

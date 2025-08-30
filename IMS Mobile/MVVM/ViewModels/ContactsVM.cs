@@ -1,9 +1,10 @@
-using CommunityToolkit.Maui.Alerts;
+﻿using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Extensions;
 using IMS_Mobile.MVVM.Models;
 using IMS_Mobile.MVVM.Views;
 using IMS_Mobile.Popups;
+using IMS_Mobile.Service;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,10 @@ namespace IMS_Mobile.MVVM.ViewModels
     public class ContactsVM : INotifyPropertyChanged
     {
 
-
+        public ContactsVM(SyncService syncService)
+        {
+            _syncService = syncService;
+        }
         #region fields
 
         private ObservableCollection<Contact> filteredContacts = new ObservableCollection<Contact>();
@@ -32,6 +36,7 @@ namespace IMS_Mobile.MVVM.ViewModels
         private Contact clonedContact = new Contact();
         private bool isRefreshing = false;
         private List<Transaction> clonedContactTransaction = new List<Transaction>();
+        private readonly SyncService _syncService;
 
         #endregion
 
@@ -502,9 +507,39 @@ namespace IMS_Mobile.MVVM.ViewModels
         }
         public async Task RefreshContacts()
         {
+            var isConnected = NetworkHelper.IsConnected();
             IsRefreshing = true;
             await Task.Delay(1000);
             await LoadContacts();
+            if (isConnected == true)
+            {
+                try
+                {
+                    await _syncService.ManualSyncToSupabase();
+                    MainThread.BeginInvokeOnMainThread(async () =>
+                    {
+                        await Task.Delay(100);
+                        var snackbar = Snackbar.Make(
+                        message: "Synced Local Data To The Cloud Successfully !",
+                        duration: TimeSpan.FromSeconds(2),
+                        visualOptions: new SnackbarOptions
+                        {
+                            BackgroundColor = Colors.LightGreen,
+                            TextColor = Colors.White,
+                            CornerRadius = 10,
+
+                        },
+                        anchor: ContactsPage
+                    );
+                        await snackbar.Show();
+                    });
+                }
+                catch (Exception ex)
+                {
+                    await App.Current.MainPage.DisplayAlert("⚠️ Sync Failed", $"Casue: {ex.Message}", "Ok");
+                }
+            }
+
             IsRefreshing = false;
         }
         #endregion

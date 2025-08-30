@@ -306,7 +306,7 @@
                                                     TextColor="White"
                                                     VerticalOptions="Center" />
                                                 <Border.GestureRecognizers>
-                                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:InventoryVM}}, Path=IncreaseQuantityCommand}" CommandParameter="{Binding .}" />
+                                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:InventoryVM}}, Path=IncreaseQuantityBuyCommand}" CommandParameter="{Binding .}" />
                                                 </Border.GestureRecognizers>
                                             </Border>
                                         </StackLayout>

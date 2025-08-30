@@ -16,11 +16,12 @@ public partial class LoadingPage : ContentPage
         var vm = BindingContext as LoadingViewModel;
         _ = Task.Run(async () =>
         {
-            await Task.Delay(100); // Small delay to ensure UI is ready
+            await Task.Delay(100); 
             MainThread.BeginInvokeOnMainThread(async () =>
             {
                 await vm.CheckAuthenticationAsync();
             });
         });
     }
+    
 }

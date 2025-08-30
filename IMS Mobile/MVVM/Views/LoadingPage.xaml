@@ -9,11 +9,11 @@
         HorizontalOptions="Center"
         Spacing="20"
         VerticalOptions="Center">
-        <ActivityIndicator
-            HeightRequest="50"
-            IsRunning="True"
-            WidthRequest="50"
-            Color="Blue" />
+        <Image
+            HeightRequest="60"
+            IsAnimationPlaying="True"
+            Source="loader.gif"
+            WidthRequest="50" />
         <Label
             FontSize="16"
             HorizontalOptions="Center"

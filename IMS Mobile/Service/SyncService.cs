@@ -60,8 +60,8 @@ namespace IMS_Mobile.Service
 
                 await SyncContactsToSupabase();
                 await SyncProductsToSupabase();
-                await SyncTransactionsToSupabase(); // This will populate _transactionIdMap
-                await SyncTransactionItemsToSupabase(); // This uses _transactionIdMap
+                await SyncTransactionsToSupabase();
+                await SyncTransactionItemsToSupabase();
             }
             catch (Exception ex)
             {
@@ -90,6 +90,63 @@ namespace IMS_Mobile.Service
                 throw;
             }
         }
+        public void ClearLocalData()
+        {
+            try
+            {
+                var contacts = _contactRepository.GetItems();
+                foreach (var contact in contacts)
+                {
+                    _contactRepository.DeleteItem(contact);
+                }
+
+                var products = _productRepository.GetItems();
+                foreach (var product in products)
+                {
+                    _productRepository.DeleteItem(product);
+                }
+
+                var transactions = _transactionRepository.GetItemsWithChildren();
+                foreach (var transaction in transactions)
+                {
+                    _transactionRepository.DeleteItem(transaction);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error clearing local  {ex.Message}");
+                throw;
+            }
+        }
+        public async Task ManualSyncToSupabase()
+        {
+            try
+            {
+                RefreshUserId();
+
+                if (_currentUserId == Guid.Empty)
+                {
+                    throw new InvalidOperationException("No valid user session.");
+                }
+
+                _transactionIdMap.Clear();
+                var task = new List<Task>
+                {
+                MirrorContactsToSupabase(),
+                MirrorProductsToSupabase(),
+                MirrorTransactionsToSupabase(),
+                };
+                await Task.WhenAll(task);
+                await MirrorTransactionItemsToSupabase();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error during manual sync to Supabase: {ex.Message}");
+                throw;
+            }
+        }
+
         #endregion
 
         #region Sync To Supabase Methods
@@ -386,34 +443,211 @@ namespace IMS_Mobile.Service
 
         #endregion
 
-        #region Private Methods
-        public void ClearLocalData()
+        #region Manual Sync (Mirror) Methods
+        private async Task MirrorContactsToSupabase()
         {
-            try
+            if (_currentUserId == Guid.Empty) return;
+
+            var localContacts = _contactRepository.GetItems().ToDictionary(c => c.Id);
+            var supabaseContacts = await _supabaseClient
+                .From<ContactDto>()
+                .Where(x => x.UserId == _currentUserId)
+                .Get();
+
+            var supabaseContactMap = supabaseContacts.Models.ToDictionary(c => c.LocalId);
+
+            foreach (var localContact in localContacts.Values)
             {
-                var contacts = _contactRepository.GetItems();
-                foreach (var contact in contacts)
+                try
                 {
-                    _contactRepository.DeleteItem(contact);
-                }
+                    var contactDto = ContactDto.FromModel(localContact, _currentUserId.ToString());
 
-                var products = _productRepository.GetItems();
-                foreach (var product in products)
-                {
-                    _productRepository.DeleteItem(product);
+                    if (supabaseContactMap.TryGetValue(localContact.Id, out var existingDto))
+                    {
+                        contactDto.Id = existingDto.Id;
+                        await _supabaseClient.From<ContactDto>().Upsert(contactDto);
+                    }
+                    else
+                    {
+                        await _supabaseClient.From<ContactDto>().Insert(contactDto);
+                    }
                 }
-
-                var transactions = _transactionRepository.GetItemsWithChildren();
-                foreach (var transaction in transactions)
+                catch (Exception ex)
                 {
-                    _transactionRepository.DeleteItem(transaction);
+                    Debug.WriteLine($"Error mirroring contact {localContact.Id}: {ex.Message}");
                 }
-                
             }
-            catch (Exception ex)
+
+            foreach (var supabaseContact in supabaseContacts.Models)
             {
-                Debug.WriteLine($"Error clearing local  {ex.Message}");
-                throw;
+                if (!localContacts.ContainsKey(supabaseContact.LocalId))
+                {
+                    try
+                    {
+                        await _supabaseClient.From<ContactDto>().Where(x => x.Id == supabaseContact.Id).Delete();
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine($"Error deleting contact {supabaseContact.Id}: {ex.Message}");
+                    }
+                }
+            }
+        }
+
+        private async Task MirrorProductsToSupabase()
+        {
+            if (_currentUserId == Guid.Empty) return;
+
+            var localProducts = _productRepository.GetItems().ToDictionary(p => p.Id);
+            var supabaseProducts = await _supabaseClient
+                .From<ProductDto>()
+                .Where(x => x.UserId == _currentUserId)
+                .Get();
+
+            var supabaseProductMap = supabaseProducts.Models.ToDictionary(p => p.LocalId);
+
+            foreach (var localProduct in localProducts.Values)
+            {
+                try
+                {
+                    var productDto = ProductDto.FromModel(localProduct, _currentUserId.ToString());
+
+                    if (supabaseProductMap.TryGetValue(localProduct.Id, out var existingDto))
+                    {
+                        productDto.Id = existingDto.Id;
+                        await _supabaseClient.From<ProductDto>().Upsert(productDto);
+                    }
+                    else
+                    {
+                        await _supabaseClient.From<ProductDto>().Insert(productDto);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"Error mirroring product {localProduct.Id}: {ex.Message}");
+                }
+            }
+
+            foreach (var supabaseProduct in supabaseProducts.Models)
+            {
+                if (!localProducts.ContainsKey(supabaseProduct.LocalId))
+                {
+                    try
+                    {
+                        await _supabaseClient.From<ProductDto>().Where(x => x.Id == supabaseProduct.Id).Delete();
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine($"Error deleting product {supabaseProduct.Id}: {ex.Message}");
+                    }
+                }
+            }
+        }
+
+        private async Task MirrorTransactionsToSupabase()
+        {
+            if (_currentUserId == Guid.Empty) return;
+
+            var localTransactions = _transactionRepository.GetItemsWithChildren().ToDictionary(t => t.Id);
+            var supabaseTransactions = await _supabaseClient
+                .From<TransactionDto>()
+                .Where(x => x.UserId == _currentUserId)
+                .Get();
+
+            var supabaseTransactionMap = supabaseTransactions.Models.ToDictionary(t => t.LocalId);
+
+            foreach (var localTransaction in localTransactions.Values)
+            {
+                try
+                {
+                    var transactionDto = TransactionDto.FromModel(localTransaction, _currentUserId.ToString());
+
+                    if (supabaseTransactionMap.TryGetValue(localTransaction.Id, out var existingDto))
+                    {
+                        transactionDto.Id = existingDto.Id;
+                        await _supabaseClient.From<TransactionDto>().Upsert(transactionDto);
+                        Debug.WriteLine($"Updated Supabase Transaction{transactionDto.Id} locally {transactionDto.LocalId}");
+                    }
+                    else
+                    {
+                        await _supabaseClient.From<TransactionDto>().Insert(transactionDto);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"Error mirroring transaction {localTransaction.Id}: {ex.Message}");
+                }
+            }
+
+            foreach (var supabaseTransaction in supabaseTransactions.Models)
+            {
+                if (!localTransactions.ContainsKey(supabaseTransaction.LocalId))
+                {
+                    try
+                    {
+                        await _supabaseClient.From<TransactionDto>().Where(x => x.Id == supabaseTransaction.Id).Delete();
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine($"Error deleting transaction {supabaseTransaction.Id}: {ex.Message}");
+                    }
+                }
+            }
+
+            await BuildTransactionIdMap();
+        }
+
+        private async Task MirrorTransactionItemsToSupabase()
+        {
+            if (_currentUserId == Guid.Empty) return;
+
+            var localItems = _transactionProductItemRepository.GetItems().ToDictionary(i => i.Id);
+            var supabaseItems = await _supabaseClient
+                .From<TransactionProductItemDto>()
+                .Where(x => x.UserId == _currentUserId)
+                .Get();
+
+            var supabaseItemMap = supabaseItems.Models.ToDictionary(i => i.LocalId);
+
+            foreach (var localItem in localItems.Values)
+            {
+                try
+                {
+                    if (_transactionIdMap.TryGetValue(localItem.TransactionId, out int databaseTransactionId))
+                    {
+                        var itemDto = TransactionProductItemDto.FromModel(localItem, _currentUserId.ToString());
+                        itemDto.TransactionId = databaseTransactionId;
+
+                        if (supabaseItemMap.TryGetValue(localItem.Id, out var existingDto))
+                        {
+                            itemDto.Id = existingDto.Id;
+                            await _supabaseClient.From<TransactionProductItemDto>().Upsert(itemDto);
+                        }
+                        else
+                        {
+                            await _supabaseClient.From<TransactionProductItemDto>().Insert(itemDto);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"Error mirroring transaction item {localItem.Id}: {ex.Message}");
+                }
+            }
+
+            foreach (var supabaseItem in supabaseItems.Models)
+            {
+                if (!localItems.ContainsKey(supabaseItem.LocalId))
+                {
+                    try
+                    {
+                        await _supabaseClient.From<TransactionProductItemDto>().Where(x => x.Id == supabaseItem.Id).Delete();
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine($"Error deleting transaction item {supabaseItem.Id}: {ex.Message}");
+                    }
+                }
             }
         }
         #endregion

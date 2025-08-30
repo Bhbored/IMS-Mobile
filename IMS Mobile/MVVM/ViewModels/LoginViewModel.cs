@@ -46,7 +46,7 @@ namespace IMS_Mobile.MVVM.ViewModels
 
             try
             {
-                
+
                 var email = (Email ?? string.Empty).Trim();
                 var password = Password ?? string.Empty;
 
@@ -66,14 +66,14 @@ namespace IMS_Mobile.MVVM.ViewModels
                 var session = await _authService.SignInAsync(email, password);
                 if (session != null)
                 {
-                    if (_authService.IsOfflineSessionActive)
-                    {
-                        await App.Current.MainPage.DisplayAlert("Offline", "You're offline. Changes won't sync until you're online.", "OK");
-                    }
 
                     if (!_authService.IsOfflineSessionActive && NetworkHelper.IsConnected() == true)
                     {
-                        App.RecreateRepositories();
+                        LoginPage.Current?.CloseKeybord();
+                        await App.RecreateRepositories();
+                        await Task.Delay(100);
+                        _syncService.ClearLocalData();
+                        await Task.Delay(1000);
                         await _syncService.SyncFromSupabase();
                         await Task.Delay(1000);
                     }

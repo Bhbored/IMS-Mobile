@@ -4,13 +4,13 @@ using IMS_Mobile.DB;
 using IMS_Mobile.MVVM.Models;
 using IMS_Mobile.MVVM.ViewModels;
 using IMS_Mobile.MVVM.Views;
+using IMS_Mobile.Service;
 using Microsoft.Extensions.Logging;
+using Supabase;
 using Syncfusion.Maui.Core.Hosting;
 using Syncfusion.Maui.Toolkit.Hosting;
-using Supabase;
 using System.Reflection;
 using Contact = IMS_Mobile.MVVM.Models.Contact;
-using IMS_Mobile.Service;
 
 namespace IMS_Mobile
 {
@@ -56,8 +56,7 @@ namespace IMS_Mobile
             builder.Services.AddSingleton<ReportsVM>();
 
             // Configure Supabase
-            var supabaseUrl = "https://leuyksaxpnppatlpitav.supabase.co"; 
-            var supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxldXlrc2F4cG5wcGF0bHBpdGF2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYwNDkyMzcsImV4cCI6MjA3MTYyNTIzN30.98ho7Ne_WOj_ihRcIyQDsDp_lzQzRVGFajLh5r7W8pc";
+          
             var options = new SupabaseOptions
             {
                 AutoRefreshToken = true,

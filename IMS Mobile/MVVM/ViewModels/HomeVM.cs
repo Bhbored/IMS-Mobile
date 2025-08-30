@@ -31,49 +31,12 @@ namespace IMS_Mobile.MVVM.ViewModels
         private readonly SupabaseAuthService _authService;
         private readonly SyncService _syncService;
 
-        [ObservableProperty]
-        private bool _isSyncing;
-
-        [ObservableProperty]
-        private string _syncStatus = "Ready";
         public static HomeVM? Instance { get; private set; }
         public HomeVM(SupabaseAuthService authService, SyncService syncService)
         {
             _authService = authService;
             _syncService = syncService;
         }
-
-        [RelayCommand]
-        private async Task SyncToCloudAsync()
-        {
-            if (IsSyncing) return;
-
-            IsSyncing = true;
-            SyncStatus = "Syncing to cloud...";
-
-            try
-            {
-                if (await _authService.ValidateSessionAsync())
-                {
-                    await _syncService.SyncToSupabase();
-                    SyncStatus = "Sync completed successfully!";
-                }
-                else
-                {
-                    SyncStatus = "Authentication required";
-                    await Shell.Current.GoToAsync($"//{nameof(LoginPage)}");
-                }
-            }
-            catch (Exception ex)
-            {
-                SyncStatus = $"Sync failed: {ex.Message}";
-            }
-            finally
-            {
-                IsSyncing = false;
-            }
-        }
-
 
         #region Properties
         public HomePage HomePage { get; set; }
@@ -259,7 +222,7 @@ namespace IMS_Mobile.MVVM.ViewModels
         public void ShowAllTransactions()
         {
             _currentFilteredList = Transactions
-                .OrderByDescending(t => t.CreatedDate)
+                .OrderByDescending(t => t.Id)
                 .ToList();
             PageIndex = 1;
             ApplyPagination();
@@ -315,29 +278,41 @@ namespace IMS_Mobile.MVVM.ViewModels
             try
             {
                 var isConnected = NetworkHelper.IsConnected();
-
                 MainThread.BeginInvokeOnMainThread(() =>
                 {
                     HomePage.Current?.ResetAllFilters();
                 });
 
                 await LoadTransactionsAsync();
-
-                if (isConnected)
+                if (isConnected == true)
                 {
                     try
                     {
-                        await _syncService.SyncToSupabase();
+                        await _syncService.ManualSyncToSupabase();
+                        MainThread.BeginInvokeOnMainThread(async () =>
+                        {
+                            await Task.Delay(100);
+                            var snackbar = Snackbar.Make(
+                            message: "Synced Local Data To The Cloud Successfully !",
+                            duration: TimeSpan.FromSeconds(2),
+                            visualOptions: new SnackbarOptions
+                            {
+                                BackgroundColor = Colors.LightGreen,
+                                TextColor = Colors.White,
+                                CornerRadius = 10,
+
+                            },
+                            anchor: HomePage
+                        );
+                            await snackbar.Show();
+                        });
                     }
                     catch (Exception ex)
                     {
-                        Debug.WriteLine($"Background sync failed: {ex.Message}");
+                        await App.Current.MainPage.DisplayAlert("⚠️ Sync Failed", $"Casue: {ex.Message}", "Ok");
                     }
                 }
-                else
-                {
-                    await Application.Current.MainPage.DisplayAlert("Attention", "You are OFFLINE", "OK");
-                }
+
             }
             finally
             {

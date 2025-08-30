@@ -15,9 +15,9 @@ namespace IMS_Mobile.DB
     public class BaseRepository<T> : IBaseRepository<T> where T : Entity, new()
     {
         #region Fields
-        private readonly SQLiteConnection _connection;
+        private SQLiteConnection _connection;
         private bool _disposed;
-        private readonly object _lock = new object(); 
+        private readonly object _lock = new object();
         #endregion
 
         #region Ctor
@@ -36,6 +36,44 @@ namespace IMS_Mobile.DB
                 throw; // Re-throw to prevent silent failures
             }
         }
+        public void WipeAndResetTo1()
+        {
+            lock (_lock)
+            {
+                try
+                {
+                    EnsureConnection();
+                    var table = _connection.GetMapping<T>().TableName;
+
+                    _connection.RunInTransaction(() =>
+                    {
+                        _connection.Execute($"DELETE FROM \"{table}\";");
+
+                        var hasSeq = _connection.ExecuteScalar<int>(
+                            "SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name='sqlite_sequence'") > 0;
+
+                        if (hasSeq)
+                            _connection.Execute("DELETE FROM sqlite_sequence WHERE name = ?", table);
+                    });
+
+                    Debug.WriteLine($"✅ {table} wiped; next {table}.Id will be 1.");
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"❌ Wipe & reset failed for {typeof(T).Name}: {ex.Message}");
+                }
+                finally
+                {
+                    StopConnection();
+                }
+            }
+
+        }
+        private void EnsureConnection()
+        {
+            if (_connection == null)
+                _connection = new SQLiteConnection(Constants.DatabasePath, Constants.Flags);
+        }
         #endregion
 
         #region Connection
@@ -47,7 +85,6 @@ namespace IMS_Mobile.DB
                 {
                     if (_connection != null)
                     {
-                        ResetAutoIncrementSequences();
                         _connection.Close();
                         Debug.WriteLine($"[CONNECTION] Closed for {typeof(T).Name}");
                     }
@@ -462,20 +499,7 @@ namespace IMS_Mobile.DB
             throw new NotImplementedException();
         }
         #endregion
-        private void ResetAutoIncrementSequences()
-        {
-            try
-            {
-                using (var connection = new SQLiteConnection(Constants.DatabasePath, Constants.Flags))
-                {
-                    connection.Execute("DELETE FROM sqlite_sequence WHERE name IN ('Contact', 'Product', 'Transaction', 'TransactionProductItem')");
-                    Debug.WriteLine("✅ Auto-increment sequences reset");
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"❌ Error resetting sequences: {ex.Message}");
-            }
-        }
+        
+
     }
 }

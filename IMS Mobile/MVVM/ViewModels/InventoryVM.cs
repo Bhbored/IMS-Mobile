@@ -1,4 +1,4 @@
-using CommunityToolkit.Maui.Alerts;
+﻿using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Extensions;
 using IMS_Mobile.MVVM.Models;
@@ -24,7 +24,10 @@ namespace IMS_Mobile.MVVM.ViewModels
     [AddINotifyPropertyChangedInterface]
     public class InventoryVM : INotifyPropertyChanged
     {
-
+        public InventoryVM(SyncService syncService)
+        {
+            _syncService = syncService;
+        }
 
         #region fields
         private bool _isRefreshing = false;
@@ -36,6 +39,7 @@ namespace IMS_Mobile.MVVM.ViewModels
         private static SellProducts? sellProductsPage;
         private bool isBuy = false;
         private bool isCartSheetOpen1;
+        private readonly SyncService _syncService;
 
 
         #endregion
@@ -465,6 +469,14 @@ namespace IMS_Mobile.MVVM.ViewModels
                 UpdateCartTotals();
             }
         }
+        private void IncreaseQuantityBuy(Product product)
+        {
+            if (product != null)
+            {
+                product.Quantity++;
+                UpdateCartTotals();
+            }
+        }
 
         private void DecreaseQuantity(Product product)
         {
@@ -779,6 +791,10 @@ namespace IMS_Mobile.MVVM.ViewModels
         {
             IncreaseQuantity(product);
         });
+        public ICommand IncreaseQuantityBuyCommand => new Command<Product>((product) =>
+        {
+            IncreaseQuantityBuy(product);
+        });
         public ICommand DecreaseQuantityCommand => new Command<Product>((product) =>
         {
             DecreaseQuantity(product);
@@ -791,9 +807,39 @@ namespace IMS_Mobile.MVVM.ViewModels
         {
             try
             {
+                var isConnected = NetworkHelper.IsConnected();
                 IsRefreshing = true;
                 await Task.Delay(1000);
                 await LoadDB();
+                if (isConnected == true)
+                {
+                    try
+                    {
+                        await _syncService.ManualSyncToSupabase();
+                        MainThread.BeginInvokeOnMainThread(async () =>
+                        {
+                            await Task.Delay(100);
+                            var snackbar = Snackbar.Make(
+                            message: "Synced Local Data To The Cloud Successfully !",
+                            duration: TimeSpan.FromSeconds(2),
+                            visualOptions: new SnackbarOptions
+                            {
+                                BackgroundColor = Colors.LightGreen,
+                                TextColor = Colors.White,
+                                CornerRadius = 10,
+
+                            },
+                            anchor: InventoryPageInstance
+                        );
+                            await snackbar.Show();
+                        });
+                    }
+                    catch (Exception ex)
+                    {
+                        await App.Current.MainPage.DisplayAlert("⚠️ Sync Failed", $"Casue: {ex.Message}", "Ok");
+                    }
+
+                }
                 IsRefreshing = false;
 
             }
@@ -806,6 +852,7 @@ namespace IMS_Mobile.MVVM.ViewModels
         {
             try
             {
+
                 IsRefreshing = true;
                 await Task.Delay(1000);
                 ClearCart();

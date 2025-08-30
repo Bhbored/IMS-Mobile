@@ -407,7 +407,7 @@
                                     Grid.Column="1"
                                     FontFamily="poppinbold"
                                     FontSize="18"
-                                    Text="{Binding CashRegister.TotalSales, StringFormat='{0:F2} LBP'}"
+                                    Text="{Binding CashRegister.TotalPurchases, StringFormat='{0:F2} LBP'}"
                                     TextColor="Red"
                                     VerticalOptions="Center" />
                             </Grid>

@@ -61,9 +61,9 @@
 		<PackageReference Include="SQLiteNetExtensions" Version="2.1.0" />
 		<PackageReference Include="SQLitePCLRaw.provider.dynamic_cdecl" Version="3.0.1" />
 		<PackageReference Include="Supabase" Version="1.1.1" />
-		<PackageReference Include="Syncfusion.Maui.Core" Version="30.2.6" />
-		<PackageReference Include="Syncfusion.Maui.Expander" Version="30.2.6" />
-		<PackageReference Include="Syncfusion.Maui.Inputs" Version="30.2.6" />
+		<PackageReference Include="Syncfusion.Maui.Core" Version="30.2.7" />
+		<PackageReference Include="Syncfusion.Maui.Expander" Version="30.2.7" />
+		<PackageReference Include="Syncfusion.Maui.Inputs" Version="30.2.7" />
 		<PackageReference Include="Syncfusion.Maui.Toolkit" Version="1.0.6" />
 		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.14.0" />
 	</ItemGroup>

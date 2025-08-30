@@ -53,6 +53,6 @@ public partial class AddContactPopup : Popup
             vm.AddContact(NewContact);
         }
 
-        CloseAsync();
+       await CloseAsync();
     }
 }

@@ -16,7 +16,7 @@ namespace IMS_Mobile.MVVM.ViewModels
     {
         private cashRegister cashRegister = new cashRegister();
 
-       
+
         #region fields
         #endregion
 
@@ -55,8 +55,11 @@ namespace IMS_Mobile.MVVM.ViewModels
             .Sum(x => x.totalamount);
             CashRegister.NetProfit = CashRegister.TotalSales - CashRegister.TotalCredit - CashRegister.TotalPurchases;
             OnPropertyChanged(nameof(CashRegister));
-            
-
+            OnPropertyChanged(nameof(CashRegister.TotalSales));
+            OnPropertyChanged(nameof(CashRegister.TotalPurchases));
+            OnPropertyChanged(nameof(CashRegister.TotalCredit));
+            OnPropertyChanged(nameof(CashRegister.InventoryValue));
+            OnPropertyChanged(nameof(CashRegister.CashFlow));
         }
         public void load()
         {
