@@ -259,20 +259,31 @@ namespace IMS_Mobile.Service
         #endregion
 
         #region Password Management
-        public async Task<bool> SendPasswordResetEmailAsync(string email, string? redirectTo = null)
+        public async Task<(bool Ok, string? Error)> SendPasswordResetEmailAsync(string email, string? redirectTo = "myapp://reset-password")
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(email)) return false;
-                await _supabase.Auth.ResetPasswordForEmail(email);
-                return true;
+                if (string.IsNullOrWhiteSpace(email)) return (false, "Email is empty.");
+                if (_supabase is null) return (false, "Supabase client not available.");
+                await _supabase.InitializeAsync();
+
+                var opts = new ResetPasswordForEmailOptions(email)
+                {
+                    RedirectTo = redirectTo
+                };
+
+                await _supabase.Auth.ResetPasswordForEmail(opts);
+                return (true, null);
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Password reset failed: {ex.Message}");
-                return false;
+                System.Diagnostics.Debug.WriteLine($"Password reset failed: {ex}");
+                return (false, ex.Message);
             }
         }
+
+
+
 
         public async Task<(UserSession? Session, string? Error)> SignUpWithResultAsync(string email, string password)
         {
@@ -304,7 +315,6 @@ namespace IMS_Mobile.Service
             catch (Exception ex)
             {
                 Debug.WriteLine($"Sign up with result failed: {ex.Message}");
-
                 var message = ex.Message ?? string.Empty;
                 if (message.Contains("already", StringComparison.OrdinalIgnoreCase) &&
                     message.Contains("register", StringComparison.OrdinalIgnoreCase))

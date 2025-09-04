@@ -5,10 +5,14 @@ using IMS_Mobile.MVVM.ViewModels;
 using IMS_Mobile.MVVM.Views;
 using IMS_Mobile.Popups;
 using IMS_Mobile.Service;
+using Microsoft.Maui.Dispatching;
 using Microsoft.Maui.Storage;
+using Supabase.Gotrue;
 using Syncfusion.Licensing;
 using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
+using Microsoft.Maui.Dispatching;
+using static Supabase.Gotrue.Constants;
 using Contact = IMS_Mobile.MVVM.Models.Contact;
 
 namespace IMS_Mobile
@@ -131,19 +135,70 @@ namespace IMS_Mobile
         #region Deep Linking
         protected override async void OnAppLinkRequestReceived(Uri uri)
         {
-            base.OnAppLinkRequestReceived(uri);
-
-            if (uri.ToString().Contains("reset-password"))
+            try
             {
-                var query = uri.Query.TrimStart('?');
-                var queryParams = System.Web.HttpUtility.ParseQueryString(query);
-                var token = queryParams["token"];
-
-                if (!string.IsNullOrEmpty(token))
+                if (uri?.Scheme?.Equals("imsmobile", StringComparison.OrdinalIgnoreCase) != true ||
+                    uri.Host?.Equals("reset-password", StringComparison.OrdinalIgnoreCase) != true)
                 {
-                    await Shell.Current.GoToAsync($"//ResetPasswordPage?token={token}");
+                    base.OnAppLinkRequestReceived(uri);
+                    return;
                 }
+
+                var q = ParseQuery(uri.Query);
+                var token = q.GetValueOrDefault("token", "");
+                var email = q.GetValueOrDefault("email", "");
+                var type = q.GetValueOrDefault("type", "");
+                string? error = null;
+
+                if (string.Equals(type, "recovery", StringComparison.OrdinalIgnoreCase) &&
+                    !string.IsNullOrWhiteSpace(token) && !string.IsNullOrWhiteSpace(email))
+                {
+                    try
+                    {
+                        var auth = ServiceLocator.Services.GetService(typeof(SupabaseAuthService)) as SupabaseAuthService;
+                        if (auth is null) error = "Auth service not available.";
+                        else
+                        {
+                            var sb = auth.GetClient();
+
+                            // No IsInitialized property needed — just initialize.
+                            await sb.InitializeAsync();
+
+                            var session = await sb.Auth.VerifyOTP(email, token, EmailOtpType.Recovery);
+
+                            if (session != null && !string.IsNullOrEmpty(session.AccessToken) && !string.IsNullOrEmpty(session.RefreshToken))
+                                await sb.Auth.SetSession(session.AccessToken, session.RefreshToken);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        error = ex.Message;
+                    }
+                }
+
+                var route = $"{nameof(ResetPasswordPage)}" +
+                            $"?token={Uri.EscapeDataString(token)}" +
+                            $"&email={Uri.EscapeDataString(email)}" +
+                            $"&type={Uri.EscapeDataString(type)}";
+
+                if (!string.IsNullOrEmpty(error))
+                    route += $"&error={Uri.EscapeDataString(error)}";
+
+                await Shell.Current.GoToAsync(route);
             }
+            finally
+            {
+                base.OnAppLinkRequestReceived(uri);
+            }
+
+            static Dictionary<string, string> ParseQuery(string query) =>
+                (query ?? string.Empty).TrimStart('?')
+                .Split('&', StringSplitOptions.RemoveEmptyEntries)
+                .Select(p => p.Split('=', 2))
+                .ToDictionary(
+                    a => Uri.UnescapeDataString(a[0]),
+                    a => a.Length > 1 ? Uri.UnescapeDataString(a[1]) : string.Empty
+                );
         }
         #endregion
 

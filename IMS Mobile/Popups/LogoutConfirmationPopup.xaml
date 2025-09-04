@@ -40,7 +40,7 @@
             FontSize="20"
             HorizontalOptions="Center"
             IsVisible="{Binding IsLoading}"
-            Text="⚠️ Loging Out"
+            Text="⚠️ Logging Out"
             TextColor="#333333"
             VerticalOptions="Start" />
 
@@ -54,7 +54,7 @@
             TextColor="#666666" />
         <!--  Loading Indicator  -->
         <Image
-            Margin="0,50,0,0"
+            Margin="0,80,0,0"
             HeightRequest="60"
             HorizontalOptions="Center"
             IsAnimationPlaying="True"

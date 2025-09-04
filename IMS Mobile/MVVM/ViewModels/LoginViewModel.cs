@@ -72,7 +72,7 @@ namespace IMS_Mobile.MVVM.ViewModels
                         LoginPage.Current?.CloseKeybord();
                         await App.RecreateRepositories();
                         await Task.Delay(100);
-                        _syncService.ClearLocalData();
+                        await _syncService.ClearLocalData();
                         await Task.Delay(1000);
                         await _syncService.SyncFromSupabase();
                         await Task.Delay(1000);
@@ -114,13 +114,13 @@ namespace IMS_Mobile.MVVM.ViewModels
                 }
                 IsBusy = true;
                 var ok = await _authService.SendPasswordResetEmailAsync(Email);
-                if (ok)
+                if (ok.Ok)
                 {
                     await Shell.Current.DisplayAlert("Email Sent", "If an account exists for that email, you'll receive reset instructions.", "OK");
                 }
                 else
                 {
-                    await Shell.Current.DisplayAlert("Error", "Couldn't send reset email. Try again later.", "OK");
+                    await Shell.Current.DisplayAlert("Error", $"Couldn't send reset email.\n{ok.Error}", "OK");
                 }
             }
             finally

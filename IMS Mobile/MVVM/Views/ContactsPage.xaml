@@ -68,7 +68,7 @@
                             FontFamily="poppinregular"
                             FontSize="12"
                             HorizontalOptions="Center"
-                            Text="{Binding CreditScore, StringFormat='Credit: {0} LBP'}"
+                            Text="{Binding CreditScore, StringFormat='Credit: {0:F2} LBP'}"
                             TextColor="White" />
                     </Border>
 

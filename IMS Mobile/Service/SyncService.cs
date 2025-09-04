@@ -90,22 +90,23 @@ namespace IMS_Mobile.Service
                 throw;
             }
         }
-        public void ClearLocalData()
+        public async Task ClearLocalData()
         {
             try
             {
+                await Task.Delay(100);
                 var contacts = _contactRepository.GetItems();
                 foreach (var contact in contacts)
                 {
                     _contactRepository.DeleteItem(contact);
                 }
-
+                await Task.Delay(100);
                 var products = _productRepository.GetItems();
                 foreach (var product in products)
                 {
                     _productRepository.DeleteItem(product);
                 }
-
+                await Task.Delay(100);
                 var transactions = _transactionRepository.GetItemsWithChildren();
                 foreach (var transaction in transactions)
                 {

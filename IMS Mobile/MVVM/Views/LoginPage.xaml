@@ -173,8 +173,6 @@
                 </Label>
             </HorizontalStackLayout>
 
-
-
             <!--  Error Message  -->
             <Label
                 HorizontalOptions="Center"

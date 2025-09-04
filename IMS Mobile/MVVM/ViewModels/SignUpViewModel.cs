@@ -50,18 +50,15 @@ namespace IMS_Mobile.MVVM.ViewModels
 
             try
             {
-                // Normalize inputs
                 var email = (Email ?? string.Empty).Trim();
                 var password = Password ?? string.Empty;
                 var confirm = ConfirmPassword ?? string.Empty;
 
-                // Client-side validations
                 if (string.IsNullOrWhiteSpace(email) || !email.Contains('@'))
                 {
                     EmailError = "Enter a valid email address.";
                 }
 
-                // Password policy: at least 6 chars, contains letters and numbers
                 bool hasMinLen = password.Length >= 6;
                 bool hasLetter = password.Any(char.IsLetter);
                 bool hasDigit = password.Any(char.IsDigit);
@@ -97,11 +94,12 @@ namespace IMS_Mobile.MVVM.ViewModels
                 if (session != null)
                 {
                     await Shell.Current.DisplayAlert("Success", "Account created successfully!", "OK");
+                    await Task.Delay(100);
+                    await App.RecreateRepositories();
                     await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
                 }
                 else
                 {
-                    // Likely email confirmation required
                     await Shell.Current.DisplayAlert("Confirm Your Email", "We sent a confirmation email. Please verify to complete sign up.", "OK");
                     await Shell.Current.GoToAsync($"//{nameof(LoginPage)}");
                 }

@@ -54,9 +54,10 @@ namespace IMS_Mobile
             builder.Services.AddSingleton<ContactsVM>();
             builder.Services.AddSingleton<InventoryVM>();
             builder.Services.AddSingleton<ReportsVM>();
+            builder.Services.AddSingleton<ResetPasswordPage>();
 
             // Configure Supabase
-          
+           
             var options = new SupabaseOptions
             {
                 AutoRefreshToken = true,
@@ -67,9 +68,11 @@ namespace IMS_Mobile
             var supabase = new Supabase.Client(supabaseUrl, supabaseKey, options);
             builder.Services.AddSingleton(supabase);
             builder.Services.AddSingleton<SyncService>();
-            
 
-            return builder.Build();
+
+            var app = builder.Build();
+            ServiceLocator.Services = app.Services;
+            return app;
         }
     }
 }

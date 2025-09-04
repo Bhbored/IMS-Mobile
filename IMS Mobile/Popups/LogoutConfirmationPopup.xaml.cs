@@ -64,6 +64,7 @@ public partial class LogoutConfirmationPopup : Popup
 
         await _syncService.SyncToSupabase();
         await Task.Delay(1000);
+        await _syncService.ClearLocalData();
         await App.StopConnection();
         await Task.Delay(1000);
         await _authService.SignOutAsync();
