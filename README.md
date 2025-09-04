@@ -22,10 +22,10 @@
 
 ## Features
 
-- **Real-time IMS Status** — View up-to-date IMS monitoring data.
-- **Offline Support** — Seamless access with locally cached data when disconnected.
-- **Notifications & Alerts** — Receive updates or system event alerts.
-- **Intuitive UI** — Mobile-ready interface with responsive navigation.
+- **Real-time IMS Status** — View up-to-date IMS monitoring data.  
+- **Offline Support** — Seamless access with locally cached data when disconnected.  
+- **Notifications & Alerts** — Receive updates or system event alerts.  
+- **Intuitive UI** — Mobile-ready interface with responsive navigation.  
 
 *(Customize these based on your app’s actual functionality.)*
 
@@ -35,9 +35,9 @@
 
 ### Prerequisites
 
-- Development platform: Android / iOS / cross-platform (.NET MAUI, Xamarin, etc.)
-- Tools: Visual Studio or Rider with mobile development workloads
-- SDKs: Android SDK for Android, Xcode for iOS (if targeting both)
+- Development platform: Android / iOS / cross-platform (.NET MAUI, Xamarin, etc.)  
+- Tools: Visual Studio or Rider with mobile development workloads  
+- SDKs: Android SDK for Android, Xcode for iOS (if targeting both)  
 
 ### Installation
 
@@ -54,16 +54,13 @@ dotnet restore
 Or open the solution in your IDE (e.g. IMS Mobile.sln) and let it resolve packages.
 
 Running the App
-
-Android:
-
+Android
 dotnet build -t:Run -f net6.0-android
 
 
 or deploy via IDE to device/emulator.
 
-iOS:
-
+iOS
 dotnet build -t:Run -f net6.0-ios
 
 
@@ -138,6 +135,6 @@ Author: Bhbored
 
 GitHub: @Bhbored
 
-Email: (optional — add if you'd like to be contacted)
+---
 
-Thanks for visiting! Feel free to adjust any section to better reflect your project’s specifics. If you'd like help adding badges (e.g. build status, license) or integrating any tools, I’d be happy to assist!
+
