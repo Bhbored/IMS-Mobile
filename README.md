@@ -22,12 +22,12 @@
 
 ## Features
 
-- **Real-time IMS status** — View up-to-date information and monitoring directly from IMS.
-- **Offline support** — Cache recent data locally for seamless access even when disconnected.
-- **Notifications & Alerts** — Get notified of important updates or system events (if applicable).
-- **Intuitive UI** — Built for ease of use on mobile devices, with responsive design and smooth navigation.
+- **Real-time IMS Status** — View up-to-date IMS monitoring data.
+- **Offline Support** — Seamless access with locally cached data when disconnected.
+- **Notifications & Alerts** — Receive updates or system event alerts.
+- **Intuitive UI** — Mobile-ready interface with responsive navigation.
 
-*(Replace or expand these feature points with specifics from your actual app.)*
+*(Customize these based on your app’s actual functionality.)*
 
 ---
 
@@ -35,13 +35,109 @@
 
 ### Prerequisites
 
-- Development platform: **Android**, **iOS**, or cross-platform framework (**Xamarin**, **.NET MAUI**, or similar).
-- Tools: **Visual Studio** (with mobile workload) or **Rider** with .NET mobile support.
-- SDKs: Android SDK and/or Xcode for iOS (if targeting both platforms).
+- Development platform: Android / iOS / cross-platform (.NET MAUI, Xamarin, etc.)
+- Tools: Visual Studio or Rider with mobile development workloads
+- SDKs: Android SDK for Android, Xcode for iOS (if targeting both)
 
 ### Installation
 
-1. **Clone the repository**  
-   ```bash
-   git clone https://github.com/Bhbored/IMS-Mobile.git
-   cd IMS-Mobile
+```bash
+git clone https://github.com/Bhbored/IMS-Mobile.git
+cd IMS-Mobile
+Restore dependencies:
+
+With .NET CLI:
+
+dotnet restore
+
+
+Or open the solution in your IDE (e.g. IMS Mobile.sln) and let it resolve packages.
+
+Running the App
+
+Android:
+
+dotnet build -t:Run -f net6.0-android
+
+
+or deploy via IDE to device/emulator.
+
+iOS:
+
+dotnet build -t:Run -f net6.0-ios
+
+
+(Adjust commands for your specific framework: Xamarin, MAUI, etc.)
+
+Configuration
+
+Configure your IMS backend connection using environment variables or a config file, e.g., appsettings.json:
+
+{
+  "IMSApiUrl": "https://your-ims-api.endpoint",
+  "ApiKey": "YOUR_API_KEY_HERE"
+}
+
+
+Important: Don’t commit sensitive credentials. Use secure environment variables or secret management tools in production.
+
+Architecture & Technologies
+
+Platform: C# with .NET MAUI / Xamarin or native tooling
+
+Pattern: MVVM architecture with XAML-based views
+
+Networking: HttpClient using async/await
+
+Local Storage: SQLite, Realm, or Secure Storage for offline caching
+
+Notifications: Local or push via platform services (e.g. FCM)
+
+(Edit to reflect your actual stack and libraries.)
+
+Roadmap
+
+ Secure user authentication with token handling
+
+ Add push notifications for IMS events
+
+ Theme support (Dark Mode)
+
+ Localization (multi-language support)
+
+ UI/UX improvements and performance tuning
+
+Contributing
+
+Contributions are warmly welcome! To get started:
+
+Fork the repository
+
+Create a branch:
+
+git checkout -b feature/your-feature-name
+
+
+Make your changes and commit:
+
+git commit -m "Add: [brief description]"
+
+
+Push and open a Pull Request.
+
+Please include tests and documentation with your contribution.
+
+License
+
+This project is licensed under the MIT License. See LICENSE
+ for details.
+
+Contact
+
+Author: Bhbored
+
+GitHub: @Bhbored
+
+Email: (optional — add if you'd like to be contacted)
+
+Thanks for visiting! Feel free to adjust any section to better reflect your project’s specifics. If you'd like help adding badges (e.g. build status, license) or integrating any tools, I’d be happy to assist!
