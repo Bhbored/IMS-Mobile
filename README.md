@@ -1,17 +1,16 @@
 # IMS-Mobile
 
-> *Short tagline or mission statement (e.g., "Mobile client for IMS services", "Real-time mobile dashboard for IMS data").*
+> Mobile client for IMS services — streamlining access to IMS data on the go.
 
 ---
 
 ## Table of Contents
 
 - [Features](#features)  
-- [Demo / Screenshots](#demo--screenshots)  
 - [Getting Started](#getting-started)  
   - [Prerequisites](#prerequisites)  
   - [Installation](#installation)  
-  - [Usage](#usage)  
+  - [Running the App](#running-the-app)  
 - [Configuration](#configuration)  
 - [Architecture & Technologies](#architecture--technologies)  
 - [Roadmap](#roadmap)  
@@ -23,18 +22,12 @@
 
 ## Features
 
-- **Feature A** – Describe key functionality, e.g., "Real-time status updates from IMS endpoints".
-- **Feature B** – e.g., "Offline mode with local caching".
-- **Feature C** – e.g., "Push notifications for alerts".
-- **Feature D** – e.g., "Customizable dashboards".
+- **Real-time IMS status** — View up-to-date information and monitoring directly from IMS.
+- **Offline support** — Cache recent data locally for seamless access even when disconnected.
+- **Notifications & Alerts** — Get notified of important updates or system events (if applicable).
+- **Intuitive UI** — Built for ease of use on mobile devices, with responsive design and smooth navigation.
 
-*(Replace with actual features your app provides)*
-
----
-
-## Demo / Screenshots
-
-*(Add screenshots or animated GIFs here to visually showcase your app in action)*
+*(Replace or expand these feature points with specifics from your actual app.)*
 
 ---
 
@@ -42,12 +35,13 @@
 
 ### Prerequisites
 
-- **Platform**: Android / iOS / cross-platform (React Native, Flutter, etc.)
-- **Development tools**: e.g., Node.js, Flutter SDK, Android Studio, Xcode
-- **Other dependencies**: e.g., `gradle`, `cocoapods`, etc.
+- Development platform: **Android**, **iOS**, or cross-platform framework (**Xamarin**, **.NET MAUI**, or similar).
+- Tools: **Visual Studio** (with mobile workload) or **Rider** with .NET mobile support.
+- SDKs: Android SDK and/or Xcode for iOS (if targeting both platforms).
 
 ### Installation
 
-1. Clone the repository:  
+1. **Clone the repository**  
    ```bash
    git clone https://github.com/Bhbored/IMS-Mobile.git
+   cd IMS-Mobile
