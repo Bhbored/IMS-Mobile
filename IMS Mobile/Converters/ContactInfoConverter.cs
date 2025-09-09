@@ -8,7 +8,8 @@ namespace IMS_Mobile.Converters
         {
             if (value is IMS_Mobile.MVVM.Models.Contact contact)
             {
-                return $"Phone: {contact.PhoneNumber} |  Total: {contact.TotalPurchases} LBP";
+                var currencySymbol = GlobalCurrencyConverter.GetCurrencySymbol();
+                return $"Phone: {contact.PhoneNumber} |  Total: {contact.TotalPurchases:F2} {currencySymbol}";
             }
             return string.Empty;
         }

@@ -6,12 +6,14 @@ namespace IMS_Mobile.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            var currencySymbol = GlobalCurrencyConverter.GetCurrencySymbol();
+
             if (value is IMS_Mobile.MVVM.Models.Product product)
             {
-                return $"Price: {product.Price} LBP | Cost: {product.Cost} LBP";
+                return $"Price: {product.Price:F2} {currencySymbol} | Cost: {product.Cost:F2} {currencySymbol}";
             }
-            else if(value is IMS_Mobile.MVVM.Models.TransactionProductItem item)
-                return $"Price: ${item.Price} LBP | Cost: {item.Cost} LBP";
+            else if (value is IMS_Mobile.MVVM.Models.TransactionProductItem item)
+                return $"Price: {item.Price:F2} {currencySymbol} | Cost: {item.Cost:F2} {currencySymbol}";
             return string.Empty;
         }
 

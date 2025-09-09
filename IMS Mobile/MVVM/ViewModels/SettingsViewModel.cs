@@ -4,31 +4,39 @@ using System.Windows.Input;
 using IMS_Mobile.DB;
 using IMS_Mobile.MVVM.Models;
 using IMS_Mobile.MVVM.Views;
+using IMS_Mobile.Converters;
+using IMS_Mobile.Popups;
+using IMS_Mobile.Service;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
+using CommunityToolkit.Maui.Extensions;
 
 namespace IMS_Mobile.MVVM.ViewModels
 {
     public class SettingsViewModel : INotifyPropertyChanged
     {
         private readonly UserPreferencesRepository _userPreferencesRepository;
+        private readonly SupabaseAuthService _authService;
 
-        private UserPreferences _userPreferences;
-        private string _displayName;
+        private UserPreferences _userPreferences = null!;
+        private string _displayName = string.Empty;
         private Theme _selectedTheme;
         private Currency _selectedCurrency;
-        private string _avatar;
+        private string _avatar = string.Empty;
 
         public SettingsPage? SettingsPage { get; set; }
 
-        public SettingsViewModel(UserPreferencesRepository userPreferencesRepository)
+        public SettingsViewModel(UserPreferencesRepository userPreferencesRepository, SupabaseAuthService authService)
         {
             _userPreferencesRepository = userPreferencesRepository;
+            _authService = authService;
 
             LoadUserPreferences();
 
             SaveCommand = new Command(async () => await SavePreferences());
             ResetCommand = new Command(async () => await ResetToDefaults());
+            ChangeAvatarCommand = new Command(async () => await ChangeAvatar());
+            SelectAvatarCommand = new Command<string>(async (avatarPath) => await SelectAvatar(avatarPath));
         }
 
         public UserPreferences UserPreferences
@@ -83,8 +91,24 @@ namespace IMS_Mobile.MVVM.ViewModels
 
         public ICommand SaveCommand { get; }
         public ICommand ResetCommand { get; }
+        public ICommand ChangeAvatarCommand { get; }
+        public ICommand SelectAvatarCommand { get; }
 
-        private void LoadUserPreferences()
+        public List<string> AvatarOptions { get; } = new List<string>
+        {
+            "avatar1.png",
+            "avatar2.png",
+            "avatar3.png",
+            "avatar4.png",
+            "avatar5.png",
+            "avatar6.png",
+            "avatar7.png",
+            "avatar8.png",
+            "avatar9.png",
+            "avatar10.png"
+        };
+
+        private async void LoadUserPreferences()
         {
             try
             {
@@ -93,6 +117,12 @@ namespace IMS_Mobile.MVVM.ViewModels
                 SelectedTheme = UserPreferences.Theme;
                 SelectedCurrency = UserPreferences.Currency;
                 Avatar = UserPreferences.Avatar;
+
+                // Sync user email from Supabase if not already set
+                if (string.IsNullOrEmpty(UserPreferences.UserEmail))
+                {
+                    await SyncUserEmailFromSupabase();
+                }
             }
             catch (Exception ex)
             {
@@ -125,6 +155,15 @@ namespace IMS_Mobile.MVVM.ViewModels
                 UserPreferences.Avatar = Avatar;
 
                 _userPreferencesRepository.SaveUserPreferences(UserPreferences);
+
+                // Update the global currency converter
+                GlobalCurrencyConverter.UpdateCurrency(SelectedCurrency);
+
+                // Update flyout header
+                if (Application.Current?.MainPage is AppShell shell)
+                {
+                    await shell.UpdateFlyoutHeaderAsync();
+                }
 
                 MainThread.BeginInvokeOnMainThread(async () =>
                 {
@@ -164,7 +203,7 @@ namespace IMS_Mobile.MVVM.ViewModels
             }
         }
 
-        private async Task ResetToDefaults()
+        private Task ResetToDefaults()
         {
             try
             {
@@ -215,6 +254,96 @@ namespace IMS_Mobile.MVVM.ViewModels
                     );
                     await snackbar.Show();
                 });
+            }
+            return Task.CompletedTask;
+        }
+
+        private async Task ChangeAvatar()
+        {
+            try
+            {
+                var avatarPicker = new AvatarPickerPopup(this);
+                await Application.Current!.Windows[0].Page!.ShowPopupAsync(avatarPicker);
+            }
+            catch (Exception ex)
+            {
+                MainThread.BeginInvokeOnMainThread(async () =>
+                {
+                    await Task.Delay(100);
+                    var snackbar = Snackbar.Make(
+                        message: $"Failed to change avatar: {ex.Message}",
+                        duration: TimeSpan.FromSeconds(3),
+                        visualOptions: new SnackbarOptions
+                        {
+                            BackgroundColor = Colors.Red,
+                            TextColor = Colors.White,
+                            CornerRadius = 10,
+                        },
+                        anchor: SettingsPage
+                    );
+                    await snackbar.Show();
+                });
+            }
+        }
+
+        private async Task SelectAvatar(string avatarPath)
+        {
+            try
+            {
+                Avatar = avatarPath;
+
+                MainThread.BeginInvokeOnMainThread(async () =>
+                {
+                    await Task.Delay(100);
+                    var snackbar = Snackbar.Make(
+                        message: "Avatar updated successfully!",
+                        duration: TimeSpan.FromSeconds(2),
+                        visualOptions: new SnackbarOptions
+                        {
+                            BackgroundColor = Colors.LightGreen,
+                            TextColor = Colors.White,
+                            CornerRadius = 10,
+                        },
+                        anchor: SettingsPage
+                    );
+                    await snackbar.Show();
+                });
+            }
+            catch (Exception ex)
+            {
+                MainThread.BeginInvokeOnMainThread(async () =>
+                {
+                    await Task.Delay(100);
+                    var snackbar = Snackbar.Make(
+                        message: $"Failed to update avatar: {ex.Message}",
+                        duration: TimeSpan.FromSeconds(3),
+                        visualOptions: new SnackbarOptions
+                        {
+                            BackgroundColor = Colors.Red,
+                            TextColor = Colors.White,
+                            CornerRadius = 10,
+                        },
+                        anchor: SettingsPage
+                    );
+                    await snackbar.Show();
+                });
+            }
+        }
+
+        private async Task SyncUserEmailFromSupabase()
+        {
+            try
+            {
+                var userEmail = await _authService.GetUserEmailAsync();
+                if (!string.IsNullOrEmpty(userEmail))
+                {
+                    UserPreferences.UserEmail = userEmail;
+                    _userPreferencesRepository.SaveUserPreferences(UserPreferences);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Silently fail - user email sync is not critical
             }
         }
 

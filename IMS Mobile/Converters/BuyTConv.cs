@@ -10,12 +10,15 @@ namespace IMS_Mobile.Converters
 {
     public class BuyTConv : IValueConverter
     {
-        
+
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-          if(value is double amount)              
-              return $"- {amount} LBP";
-               return value;
+            if (value is double amount)
+            {
+                var currencySymbol = GlobalCurrencyConverter.GetCurrencySymbol();
+                return $"- {amount:F2} {currencySymbol}";
+            }
+            return value;
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)

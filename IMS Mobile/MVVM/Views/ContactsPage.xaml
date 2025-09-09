@@ -13,13 +13,16 @@
     Shell.NavBarIsVisible="False">
 
     <ContentPage.Resources>
-        <Converters:ContactInfoConverter x:Key="ContactInfoConverter" />
-        <Converters:CreditScoreColorConverter x:Key="CreditScoreColorConverter" />
-        <Converters:InitialsConverter x:Key="InitialsConverter" />
+        <Converters:ContactInfoConverter x:Key="ContactInfoConverter"/>
+        <Converters:CreditScoreColorConverter x:Key="CreditScoreColorConverter"/>
+        <Converters:InitialsConverter x:Key="InitialsConverter"/>
+        <Converters:GlobalCurrencyConverter x:Key="GlobalCurrencyConverter"/>
         <!--  Data Template for Contact Items  -->
-        <DataTemplate x:Key="ContactItemTemplate" x:DataType="Models:Contact">
+        <DataTemplate x:Key="ContactItemTemplate"
+                x:DataType="Models:Contact">
             <Border StyleClass="TransactionCardStyle">
-                <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto,Auto">
+                <Grid ColumnDefinitions="Auto,*,Auto"
+                        RowDefinitions="Auto,Auto">
                     <!--  Contact Avatar  -->
                     <Border
                         Grid.RowSpan="2"
@@ -35,7 +38,7 @@
                             HorizontalOptions="Center"
                             Text="{Binding Name, Converter={StaticResource InitialsConverter}}"
                             TextColor="#666666"
-                            VerticalOptions="Center" />
+                            VerticalOptions="Center"/>
                     </Border>
 
                     <!--  Contact Details  -->
@@ -47,12 +50,12 @@
                             FontFamily="poppinbold"
                             FontSize="16"
                             Text="{Binding Name}"
-                            TextColor="Black" />
+                            TextColor="Black"/>
                         <Label
                             FontFamily="poppinregular"
                             FontSize="14"
                             Text="{Binding Converter={StaticResource ContactInfoConverter}}"
-                            TextColor="#666666" />
+                            TextColor="#666666"/>
                     </VerticalStackLayout>
 
                     <!--  Credit Score Indicator  -->
@@ -68,8 +71,8 @@
                             FontFamily="poppinregular"
                             FontSize="12"
                             HorizontalOptions="Center"
-                            Text="{Binding CreditScore, StringFormat='Credit: {0:F2} LBP'}"
-                            TextColor="White" />
+                            Text="{Binding CreditScore, Converter={StaticResource GlobalCurrencyConverter}}"
+                            TextColor="White"/>
                     </Border>
 
                     <!--  Edit Icon  -->
@@ -89,9 +92,10 @@
                                 FontSize="16"
                                 HorizontalOptions="Center"
                                 Text="✏️"
-                                VerticalOptions="Center" />
+                                VerticalOptions="Center"/>
                             <Border.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ContactsVM}}, Path=EditContactCommand}" CommandParameter="{Binding .}" />
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ContactsVM}}, Path=EditContactCommand}"
+                                        CommandParameter="{Binding .}"/>
                             </Border.GestureRecognizers>
                         </Border>
                         <Border
@@ -105,16 +109,18 @@
                                 FontSize="16"
                                 HorizontalOptions="Center"
                                 Text="🗑️"
-                                VerticalOptions="Center" />
+                                VerticalOptions="Center"/>
                             <Border.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ContactsVM}}, Path=DeleteContactCommand}" CommandParameter="{Binding .}" />
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ContactsVM}}, Path=DeleteContactCommand}"
+                                        CommandParameter="{Binding .}"/>
                             </Border.GestureRecognizers>
                         </Border>
                     </VerticalStackLayout>
 
                 </Grid>
                 <Border.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ContactsVM}}, Path=ShowDetailsCommand}" CommandParameter="{Binding .}" />
+                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ContactsVM}}, Path=ShowDetailsCommand}"
+                            CommandParameter="{Binding .}"/>
                 </Border.GestureRecognizers>
             </Border>
         </DataTemplate>
@@ -131,7 +137,7 @@
                 Grid.Column="0"
                 HorizontalOptions="Center"
                 StyleClass="TitleStyle"
-                Text="Contacts" />
+                Text="Contacts"/>
             <Border
                 Grid.Column="1"
                 Background="#F5F5F5"
@@ -144,9 +150,9 @@
                     FontSize="20"
                     HorizontalOptions="Center"
                     Text="+"
-                    VerticalOptions="Center" />
+                    VerticalOptions="Center"/>
                 <Border.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding AddContactCommand}" />
+                    <TapGestureRecognizer Command="{Binding AddContactCommand}"/>
                 </Border.GestureRecognizers>
             </Border>
         </Grid>
@@ -165,7 +171,7 @@
                     Margin="0,0,8,0"
                     FontSize="16"
                     Text="🔍"
-                    VerticalOptions="Center" />
+                    VerticalOptions="Center"/>
                 <editors:SfAutocomplete
                     x:Name="autocomplete"
                     Grid.Column="1"
@@ -188,7 +194,7 @@
                     TextHighlightMode="FirstOccurrence"
                     TextMemberPath="Name"
                     TokensWrapMode="Wrap"
-                    VerticalOptions="Center" />
+                    VerticalOptions="Center"/>
             </Grid>
         </Border>
 
@@ -204,7 +210,8 @@
                 ItemsSource="{Binding FilteredContacts}"
                 VerticalScrollBarVisibility="Always">
                 <CollectionView.ItemsLayout>
-                    <GridItemsLayout Orientation="Vertical" Span="1" />
+                    <GridItemsLayout Orientation="Vertical"
+                            Span="1"/>
                 </CollectionView.ItemsLayout>
             </CollectionView>
         </RefreshView>
@@ -217,6 +224,6 @@
             IsAnimationPlaying="True"
             IsVisible="{Binding Animation}"
             Source="emptyinventory.gif"
-            VerticalOptions="Center" />
+            VerticalOptions="Center"/>
     </Grid>
 </ContentPage>

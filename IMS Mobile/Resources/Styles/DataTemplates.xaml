@@ -8,123 +8,145 @@
     xmlns:Pages="clr-namespace:IMS_Mobile.MVVM.Views"
     xmlns:effectsView="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core">
 
-    <Converters:BuyTConv x:Key="BuyingConverter" />
-    <Converters:SellTConv x:Key="SellingConverter" />
-    <Converters:TransactionColorConv x:Key="TransactionColorConverter" />
+    <Converters:BuyTConv x:Key="BuyingConverter"/>
+    <Converters:SellTConv x:Key="SellingConverter"/>
+    <Converters:TransactionColorConv x:Key="TransactionColorConverter"/>
+    <Converters:GlobalCurrencyConverter x:Key="GlobalCurrencyConverter"/>
 
     <!--  buy  transaction  -->
-    <DataTemplate x:Key="buyTransactions" x:DataType="Models:Transaction">
+    <DataTemplate x:Key="buyTransactions"
+            x:DataType="Models:Transaction">
 
         <Border
             Margin="0,0,0,5"
             Background="#f1fca4"
             StyleClass="TransactionCardStyle">
             <Grid ColumnDefinitions="Auto,*,Auto">
-                <Border Grid.Column="0" StyleClass="TransactionIconStyle">
+                <Border Grid.Column="0"
+                        StyleClass="TransactionIconStyle">
                     <Label
                         FontSize="16"
                         HorizontalOptions="Center"
                         Text="↗"
                         TextColor="#666666"
-                        VerticalOptions="Center" />
+                        VerticalOptions="Center"/>
                 </Border>
 
                 <VerticalStackLayout
                     Grid.Column="1"
                     Margin="15,0,0,0"
                     Spacing="0">
-                    <Label StyleClass="RegularTextStyle" Text="{Binding Id, StringFormat='Transaction #{0}'}" />
-                    <Label StyleClass="SmallTextStyle" Text="{Binding FormattedDate}" />
-                    <Label StyleClass="SmallTextStyle" Text="{Binding Type}" />
+                    <Label StyleClass="RegularTextStyle"
+                            Text="{Binding Id, StringFormat='Transaction #{0}'}"/>
+                    <Label StyleClass="SmallTextStyle"
+                            Text="{Binding FormattedDate}"/>
+                    <Label StyleClass="SmallTextStyle"
+                            Text="{Binding Type}"/>
                 </VerticalStackLayout>
 
                 <Label
                     Grid.Column="2"
                     FontFamily="poppinbold"
                     FontSize="16"
-                    Text="{Binding totalamount, StringFormat='{0:F2} LBP'}"
+                    Text="{Binding totalamount, Converter={StaticResource GlobalCurrencyConverter}}"
                     TextColor="{Binding Type, Converter={StaticResource TransactionColorConverter}}"
-                    VerticalOptions="Center" />
+                    VerticalOptions="Center"/>
             </Grid>
             <Border.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type Pages:HomePage}}, Path=BindingContext.DetailsPopup}" CommandParameter="{Binding .}" />
+                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type Pages:HomePage}}, Path=BindingContext.DetailsPopup}"
+                        CommandParameter="{Binding .}"/>
             </Border.GestureRecognizers>
         </Border>
     </DataTemplate>
     <!--  sell cash transaction  -->
-    <DataTemplate x:Key="sellTransactions" x:DataType="Models:Transaction">
-        <Border Margin="0,0,0,5" StyleClass="TransactionCardStyle">
+    <DataTemplate x:Key="sellTransactions"
+            x:DataType="Models:Transaction">
+        <Border Margin="0,0,0,5"
+                StyleClass="TransactionCardStyle">
             <Grid ColumnDefinitions="Auto,*,Auto">
-                <Border Grid.Column="0" StyleClass="TransactionIconStyle">
+                <Border Grid.Column="0"
+                        StyleClass="TransactionIconStyle">
                     <Label
                         FontSize="16"
                         HorizontalOptions="Center"
                         Text="↗"
                         TextColor="#666666"
-                        VerticalOptions="Center" />
+                        VerticalOptions="Center"/>
                 </Border>
 
                 <VerticalStackLayout
                     Grid.Column="1"
                     Margin="15,0,0,0"
                     Spacing="0">
-                    <Label StyleClass="RegularTextStyle" Text="{Binding Id, StringFormat='Transaction #{0}'}" />
-                    <Label StyleClass="SmallTextStyle" Text="{Binding FormattedDate}" />
-                    <Label StyleClass="SmallTextStyle" Text="{Binding Type}" />
+                    <Label StyleClass="RegularTextStyle"
+                            Text="{Binding Id, StringFormat='Transaction #{0}'}"/>
+                    <Label StyleClass="SmallTextStyle"
+                            Text="{Binding FormattedDate}"/>
+                    <Label StyleClass="SmallTextStyle"
+                            Text="{Binding Type}"/>
                 </VerticalStackLayout>
 
                 <Label
                     Grid.Column="2"
                     FontFamily="poppinbold"
                     FontSize="16"
-                    Text="{Binding totalamount, StringFormat='{0:F2} LBP'}"
+                    Text="{Binding totalamount, Converter={StaticResource GlobalCurrencyConverter}}"
                     TextColor="{Binding Type, Converter={StaticResource TransactionColorConverter}}"
-                    VerticalOptions="Center" />
+                    VerticalOptions="Center"/>
             </Grid>
             <Border.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type Pages:HomePage}}, Path=BindingContext.DetailsPopup}" CommandParameter="{Binding .}" />
+                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type Pages:HomePage}}, Path=BindingContext.DetailsPopup}"
+                        CommandParameter="{Binding .}"/>
             </Border.GestureRecognizers>
         </Border>
     </DataTemplate>
     <!--  sell On tab transaction  -->
-    <DataTemplate x:Key="sellOnTabTransactions" x:DataType="Models:Transaction">
-        <Border Margin="0,0,0,5" StyleClass="TransactionCardStyle">
+    <DataTemplate x:Key="sellOnTabTransactions"
+            x:DataType="Models:Transaction">
+        <Border Margin="0,0,0,5"
+                StyleClass="TransactionCardStyle">
             <Grid ColumnDefinitions="Auto,*,Auto">
-                <Border Grid.Column="0" StyleClass="TransactionIconStyle">
+                <Border Grid.Column="0"
+                        StyleClass="TransactionIconStyle">
                     <Label
                         FontSize="16"
                         HorizontalOptions="Center"
                         Text="↗"
                         TextColor="#666666"
-                        VerticalOptions="Center" />
+                        VerticalOptions="Center"/>
                 </Border>
 
                 <VerticalStackLayout
                     Grid.Column="1"
                     Margin="15,0,0,0"
                     Spacing="0">
-                    <Label StyleClass="RegularTextStyle" Text="{Binding Id, StringFormat='Transaction #{0}'}" />
-                    <Label StyleClass="SmallTextStyle" Text="{Binding FormattedDate}" />
-                    <Label StyleClass="SmallTextStyle" Text="{Binding Type}" />
+                    <Label StyleClass="RegularTextStyle"
+                            Text="{Binding Id, StringFormat='Transaction #{0}'}"/>
+                    <Label StyleClass="SmallTextStyle"
+                            Text="{Binding FormattedDate}"/>
+                    <Label StyleClass="SmallTextStyle"
+                            Text="{Binding Type}"/>
                 </VerticalStackLayout>
 
                 <Label
                     Grid.Column="2"
                     FontFamily="poppinbold"
                     FontSize="16"
-                    Text="{Binding totalamount, StringFormat='{0} LBP'}"
+                    Text="{Binding totalamount, Converter={StaticResource GlobalCurrencyConverter}}"
                     TextColor="Gray"
-                    VerticalOptions="Center" />
+                    VerticalOptions="Center"/>
             </Grid>
             <Border.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type Pages:HomePage}}, Path=BindingContext.DetailsPopup}" CommandParameter="{Binding .}" />
+                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type Pages:HomePage}}, Path=BindingContext.DetailsPopup}"
+                        CommandParameter="{Binding .}"/>
             </Border.GestureRecognizers>
         </Border>
     </DataTemplate>
     <!--  sell transactiondetails  -->
     <DataTemplate x:Key="SellTransactionDetails">
         <Border StyleClass="TransactionCardStyle">
-            <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto,Auto">
+            <Grid ColumnDefinitions="Auto,*,Auto"
+                    RowDefinitions="Auto,Auto">
                 <!--  Product Image  -->
                 <Border
                     Grid.RowSpan="2"
@@ -137,7 +159,7 @@
                         Aspect="AspectFill"
                         HorizontalOptions="Center"
                         Source="product.png"
-                        VerticalOptions="Center" />
+                        VerticalOptions="Center"/>
                 </Border>
 
                 <!--  Product Details  -->
@@ -149,8 +171,9 @@
                         FontFamily="poppinbold"
                         FontSize="16"
                         Text="{Binding Name}"
-                        TextColor="Black" />
-                    <Label StyleClass="SmallTextStyle" Text="{Binding TotalPrice, StringFormat='{0} LBP'}" />
+                        TextColor="Black"/>
+                    <Label StyleClass="SmallTextStyle"
+                            Text="{Binding TotalPrice, Converter={StaticResource GlobalCurrencyConverter}}"/>
                 </VerticalStackLayout>
 
                 <!--  Quantity  -->
@@ -159,7 +182,7 @@
                     Grid.Column="1"
                     StyleClass="SmallTextStyle"
                     Text="{Binding Quantity, StringFormat='{0} units'}"
-                    VerticalOptions="End" />
+                    VerticalOptions="End"/>
 
             </Grid>
         </Border>
@@ -167,7 +190,8 @@
     <!--  buy transactiondetails  -->
     <DataTemplate x:Key="BuyTransactionDetails">
         <Border StyleClass="TransactionCardStyle">
-            <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto,Auto">
+            <Grid ColumnDefinitions="Auto,*,Auto"
+                    RowDefinitions="Auto,Auto">
                 <!--  Product Image  -->
                 <Border
                     Grid.RowSpan="2"
@@ -180,7 +204,7 @@
                         Aspect="AspectFill"
                         HorizontalOptions="Center"
                         Source="product.png"
-                        VerticalOptions="Center" />
+                        VerticalOptions="Center"/>
                 </Border>
 
                 <!--  Product Details  -->
@@ -192,8 +216,9 @@
                         FontFamily="poppinbold"
                         FontSize="16"
                         Text="{Binding Name}"
-                        TextColor="Black" />
-                    <Label StyleClass="SmallTextStyle" Text="{Binding TotalCost, StringFormat='{0} LBP'}" />
+                        TextColor="Black"/>
+                    <Label StyleClass="SmallTextStyle"
+                            Text="{Binding TotalCost, Converter={StaticResource GlobalCurrencyConverter}}"/>
                 </VerticalStackLayout>
 
                 <!--  Quantity  -->
@@ -202,7 +227,7 @@
                     Grid.Column="1"
                     StyleClass="SmallTextStyle"
                     Text="{Binding Quantity, StringFormat='{0} units'}"
-                    VerticalOptions="End" />
+                    VerticalOptions="End"/>
 
             </Grid>
         </Border>

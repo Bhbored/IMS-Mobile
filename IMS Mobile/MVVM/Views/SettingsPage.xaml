@@ -75,13 +75,13 @@
                                     x:Name="avatarImage"
                                     Aspect="AspectFill"
                                     HeightRequest="92"
-                                    Source="user.png"
+                                    Source="{Binding Avatar}"
                                     WidthRequest="92"/>
                             </Border>
 
                             <Button
                                 x:Name="changeAvatarButton"
-                                Clicked="OnChangeAvatarClicked"
+                                Command="{Binding ChangeAvatarCommand}"
                                 HorizontalOptions="Center"
                                 StyleClass="ChangeAvatarButtonStyle"
                                 Text="📷 Change Avatar"/>
@@ -146,7 +146,101 @@
                                             <x:String>💶 EUR - Euro</x:String>
                                             <x:String>💷 GBP - British Pound</x:String>
                                             <x:String>💴 JPY - Japanese Yen</x:String>
-                                            <x:String>💸 LBP - Lebanese Pound</x:String>
+                                            <x:String>🇱🇧 LBP - Lebanese Pound</x:String>
+                                            <x:String>🇨🇦 CAD - Canadian Dollar</x:String>
+                                            <x:String>🇦🇺 AUD - Australian Dollar</x:String>
+                                            <x:String>🇨🇭 CHF - Swiss Franc</x:String>
+                                            <x:String>🇨🇳 CNY - Chinese Yuan</x:String>
+                                            <x:String>🇸🇪 SEK - Swedish Krona</x:String>
+                                            <x:String>🇳🇴 NOK - Norwegian Krone</x:String>
+                                            <x:String>🇩🇰 DKK - Danish Krone</x:String>
+                                            <x:String>🇵🇱 PLN - Polish Zloty</x:String>
+                                            <x:String>🇨🇿 CZK - Czech Koruna</x:String>
+                                            <x:String>🇭🇺 HUF - Hungarian Forint</x:String>
+                                            <x:String>🇷🇴 RON - Romanian Leu</x:String>
+                                            <x:String>🇧🇬 BGN - Bulgarian Lev</x:String>
+                                            <x:String>🇭🇷 HRK - Croatian Kuna</x:String>
+                                            <x:String>🇷🇸 RSD - Serbian Dinar</x:String>
+                                            <x:String>🇲🇰 MKD - Macedonian Denar</x:String>
+                                            <x:String>🇧🇦 BAM - Bosnia and Herzegovina Mark</x:String>
+                                            <x:String>🇦🇱 ALL - Albanian Lek</x:String>
+                                            <x:String>🇲🇳 MNT - Mongolian Tugrik</x:String>
+                                            <x:String>🇰🇷 KRW - South Korean Won</x:String>
+                                            <x:String>🇸🇬 SGD - Singapore Dollar</x:String>
+                                            <x:String>🇭🇰 HKD - Hong Kong Dollar</x:String>
+                                            <x:String>🇹🇼 TWD - Taiwan Dollar</x:String>
+                                            <x:String>🇹🇭 THB - Thai Baht</x:String>
+                                            <x:String>🇲🇾 MYR - Malaysian Ringgit</x:String>
+                                            <x:String>🇮🇩 IDR - Indonesian Rupiah</x:String>
+                                            <x:String>🇵🇭 PHP - Philippine Peso</x:String>
+                                            <x:String>🇻🇳 VND - Vietnamese Dong</x:String>
+                                            <x:String>🇮🇳 INR - Indian Rupee</x:String>
+                                            <x:String>🇵🇰 PKR - Pakistani Rupee</x:String>
+                                            <x:String>🇧🇩 BDT - Bangladeshi Taka</x:String>
+                                            <x:String>🇱🇰 LKR - Sri Lankan Rupee</x:String>
+                                            <x:String>🇳🇵 NPR - Nepalese Rupee</x:String>
+                                            <x:String>🇦🇫 AFN - Afghan Afghani</x:String>
+                                            <x:String>🇮🇷 IRR - Iranian Rial</x:String>
+                                            <x:String>🇮🇶 IQD - Iraqi Dinar</x:String>
+                                            <x:String>🇯🇴 JOD - Jordanian Dinar</x:String>
+                                            <x:String>🇰🇼 KWD - Kuwaiti Dinar</x:String>
+                                            <x:String>🇧🇭 BHD - Bahraini Dinar</x:String>
+                                            <x:String>🇶🇦 QAR - Qatari Riyal</x:String>
+                                            <x:String>🇦🇪 AED - UAE Dirham</x:String>
+                                            <x:String>🇴🇲 OMR - Omani Rial</x:String>
+                                            <x:String>🇸🇦 SAR - Saudi Riyal</x:String>
+                                            <x:String>🇾🇪 YER - Yemeni Rial</x:String>
+                                            <x:String>🇪🇬 EGP - Egyptian Pound</x:String>
+                                            <x:String>🇲🇦 MAD - Moroccan Dirham</x:String>
+                                            <x:String>🇹🇳 TND - Tunisian Dinar</x:String>
+                                            <x:String>🇩🇿 DZD - Algerian Dinar</x:String>
+                                            <x:String>🇱🇾 LYD - Libyan Dinar</x:String>
+                                            <x:String>🇸🇩 SDG - Sudanese Pound</x:String>
+                                            <x:String>🇪🇹 ETB - Ethiopian Birr</x:String>
+                                            <x:String>🇰🇪 KES - Kenyan Shilling</x:String>
+                                            <x:String>🇺🇬 UGX - Ugandan Shilling</x:String>
+                                            <x:String>🇹🇿 TZS - Tanzanian Shilling</x:String>
+                                            <x:String>🇿🇦 ZAR - South African Rand</x:String>
+                                            <x:String>🇳🇬 NGN - Nigerian Naira</x:String>
+                                            <x:String>🇬🇭 GHS - Ghanaian Cedi</x:String>
+                                            <x:String>🇸🇳 XOF - West African CFA Franc</x:String>
+                                            <x:String>🇨🇲 XAF - Central African CFA Franc</x:String>
+                                            <x:String>🇧🇷 BRL - Brazilian Real</x:String>
+                                            <x:String>🇦🇷 ARS - Argentine Peso</x:String>
+                                            <x:String>🇨🇱 CLP - Chilean Peso</x:String>
+                                            <x:String>🇨🇴 COP - Colombian Peso</x:String>
+                                            <x:String>🇲🇽 MXN - Mexican Peso</x:String>
+                                            <x:String>🇵🇪 PEN - Peruvian Sol</x:String>
+                                            <x:String>🇺🇾 UYU - Uruguayan Peso</x:String>
+                                            <x:String>🇻🇪 VES - Venezuelan Bolivar</x:String>
+                                            <x:String>🇷🇺 RUB - Russian Ruble</x:String>
+                                            <x:String>🇺🇦 UAH - Ukrainian Hryvnia</x:String>
+                                            <x:String>🇧🇾 BYN - Belarusian Ruble</x:String>
+                                            <x:String>🇰🇿 KZT - Kazakhstani Tenge</x:String>
+                                            <x:String>🇺🇿 UZS - Uzbekistani Som</x:String>
+                                            <x:String>🇰🇬 KGS - Kyrgyzstani Som</x:String>
+                                            <x:String>🇹🇯 TJS - Tajikistani Somoni</x:String>
+                                            <x:String>🇹🇲 TMT - Turkmenistani Manat</x:String>
+                                            <x:String>🇦🇿 AZN - Azerbaijani Manat</x:String>
+                                            <x:String>🇦🇲 AMD - Armenian Dram</x:String>
+                                            <x:String>🇬🇪 GEL - Georgian Lari</x:String>
+                                            <x:String>🇹🇷 TRY - Turkish Lira</x:String>
+                                            <x:String>🇯🇲 JMD - Jamaican Dollar</x:String>
+                                            <x:String>🇧🇧 BBD - Barbadian Dollar</x:String>
+                                            <x:String>🇧🇿 BZD - Belize Dollar</x:String>
+                                            <x:String>🇦🇬 XCD - East Caribbean Dollar</x:String>
+                                            <x:String>🇹🇹 TTD - Trinidad and Tobago Dollar</x:String>
+                                            <x:String>🇬🇾 GYD - Guyanese Dollar</x:String>
+                                            <x:String>🇸🇷 SRD - Surinamese Dollar</x:String>
+                                            <x:String>🇫🇰 FKP - Falkland Islands Pound</x:String>
+                                            <x:String>🇳🇿 NZD - New Zealand Dollar</x:String>
+                                            <x:String>🇫🇯 FJD - Fijian Dollar</x:String>
+                                            <x:String>🇵🇬 PGK - Papua New Guinean Kina</x:String>
+                                            <x:String>🇸🇧 SBD - Solomon Islands Dollar</x:String>
+                                            <x:String>🇻🇺 VUV - Vanuatu Vatu</x:String>
+                                            <x:String>🇼🇸 WST - Samoan Tala</x:String>
+                                            <x:String>🇹🇴 TOP - Tongan Pa'anga</x:String>
+                                            <x:String>🇵🇫 XPF - CFP Franc</x:String>
                                         </x:Array>
                                     </Picker.ItemsSource>
                                 </Picker>

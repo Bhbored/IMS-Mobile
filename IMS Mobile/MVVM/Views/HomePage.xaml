@@ -10,21 +10,24 @@
     x:DataType="ViewModels:HomeVM"
     BackgroundColor="White">
     <ContentPage.Resources>
-        <Converters:DTSelector x:Key="DTSelector" />
+        <Converters:DTSelector x:Key="DTSelector"/>
+        <Converters:GlobalCurrencyConverter x:Key="GlobalCurrencyConverter"/>
     </ContentPage.Resources>
     <Shell.TitleView>
-        <HorizontalStackLayout HorizontalOptions="Start" VerticalOptions="End">
+        <HorizontalStackLayout HorizontalOptions="Start"
+                               VerticalOptions="End">
             <Label
                 FontFamily="poppinbold"
                 FontSize="24"
                 Text="Home"
-                TextColor="Black" />
+                TextColor="Black"/>
         </HorizontalStackLayout>
 
     </Shell.TitleView>
     <Grid RowDefinitions="Auto,*">
         <!--  Main Content  -->
-        <VerticalStackLayout Grid.Row="0" Spacing="0">
+        <VerticalStackLayout Grid.Row="0"
+                             Spacing="0">
 
             <!--  Current Balance Card  -->
             <Border StyleClass="BalanceCardStyle">
@@ -34,18 +37,19 @@
                         FontSize="18"
                         HorizontalOptions="Center"
                         Text="Current Balance"
-                        TextColor="White" />
+                        TextColor="White"/>
                     <Label
                         FontFamily="poppinbold"
                         FontSize="28"
                         HorizontalOptions="Center"
-                        Text="{Binding CashFLow, StringFormat='{0:F2} LBP'}"
-                        TextColor="White" />
+                        Text="{Binding CashFLow, Converter={StaticResource GlobalCurrencyConverter}}"
+                        TextColor="White"/>
                 </VerticalStackLayout>
             </Border>
 
             <!--  Transactions Section  -->
-            <Grid Margin="20,20,20,10" ColumnDefinitions="*,Auto">
+            <Grid Margin="20,20,20,10"
+                  ColumnDefinitions="*,Auto">
                 <!--  Filter Buttons  -->
                 <HorizontalStackLayout
                     Grid.Column="0"
@@ -58,33 +62,34 @@
                         Clicked="Button_Clicked"
                         Command="{Binding AllFilterCommand}"
                         StyleClass="FilterButtonStyle"
-                        Text="All" />
+                        Text="All"/>
                     <Button
                         x:Name="Filter22"
                         AutomationId="filter2"
                         Clicked="Button_Clicked"
                         Command="{Binding SellFilterCommand}"
                         StyleClass="FilterButtonStyle"
-                        Text="Income" />
+                        Text="Income"/>
                     <Button
                         x:Name="Filter33"
                         AutomationId="filter3"
                         Clicked="Button_Clicked"
                         Command="{Binding BuyFilterCommand}"
                         StyleClass="FilterButtonStyle"
-                        Text="Expenses" />
+                        Text="Expenses"/>
                     <ImageButton
                         Margin="20,0,0,5"
                         Aspect="AspectFit"
                         Clicked="Button_Clicked_1"
-                        Source="calender.png" />
+                        Source="calender.png"/>
 
                 </HorizontalStackLayout>
             </Grid>
         </VerticalStackLayout>
 
         <!--  Transaction List  -->
-        <Grid Grid.Row="2" RowDefinitions="*,Auto">
+        <Grid Grid.Row="2"
+              RowDefinitions="*,Auto">
             <RefreshView
                 Grid.Row="0"
                 Margin="20,0,20,10"
@@ -97,7 +102,8 @@
                     SelectionMode="None"
                     VerticalScrollBarVisibility="Always">
                     <CollectionView.ItemsLayout>
-                        <GridItemsLayout Orientation="Vertical" Span="1" />
+                        <GridItemsLayout Orientation="Vertical"
+                                         Span="1"/>
                     </CollectionView.ItemsLayout>
                 </CollectionView>
             </RefreshView>
@@ -118,9 +124,9 @@
                         HorizontalOptions="Center"
                         Text="First Page"
                         TextColor="Black"
-                        VerticalOptions="Center" />
+                        VerticalOptions="Center"/>
                     <Border.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding FirstPage}" />
+                        <TapGestureRecognizer Command="{Binding FirstPage}"/>
                     </Border.GestureRecognizers>
                 </Border>
                 <Button
@@ -130,7 +136,7 @@
                     HeightRequest="30"
                     StyleClass="FilterButtonStyle"
                     Text="&lt;"
-                    WidthRequest="40" />
+                    WidthRequest="40"/>
                 <Border
                     Margin="0"
                     Padding="12,8"
@@ -142,7 +148,7 @@
                         HorizontalOptions="Center"
                         Text="{Binding PageIndex}"
                         TextColor="Black"
-                        VerticalOptions="Center" />
+                        VerticalOptions="Center"/>
                 </Border>
                 <Button
                     Padding="0"
@@ -151,7 +157,7 @@
                     HeightRequest="30"
                     StyleClass="FilterButtonStyle"
                     Text="&gt;"
-                    WidthRequest="40" />
+                    WidthRequest="40"/>
                 <Border
                     Margin="0"
                     Padding="12,8"
@@ -163,9 +169,9 @@
                         HorizontalOptions="Center"
                         Text="Last Page"
                         TextColor="Black"
-                        VerticalOptions="Center" />
+                        VerticalOptions="Center"/>
                     <Border.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding LastPage}" />
+                        <TapGestureRecognizer Command="{Binding LastPage}"/>
                     </Border.GestureRecognizers>
                 </Border>
 

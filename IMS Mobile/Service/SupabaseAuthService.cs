@@ -243,16 +243,29 @@ namespace IMS_Mobile.Service
             return Guid.Empty;
         }
 
-        public string GetUserEmail()
+        public async Task<string> GetUserEmailAsync()
         {
             try
             {
                 var currentUser = _supabase.Auth.CurrentUser;
-                return currentUser?.Email ?? string.Empty;
+                if (currentUser != null && !string.IsNullOrEmpty(currentUser.Email))
+                {
+                    return currentUser.Email;
+                }
+
+                // If CurrentUser is null, try to get user from token
+                var accessToken = await SecureStorage.GetAsync("access_token");
+                if (!string.IsNullOrEmpty(accessToken))
+                {
+                    var user = await _supabase.Auth.GetUser(accessToken);
+                    return user?.Email ?? string.Empty;
+                }
+
+                return string.Empty;
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"GetUserEmail failed: {ex.Message}");
+                Debug.WriteLine($"GetUserEmailAsync failed: {ex.Message}");
                 return string.Empty;
             }
         }

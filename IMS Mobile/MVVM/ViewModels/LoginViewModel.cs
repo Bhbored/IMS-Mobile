@@ -84,6 +84,12 @@ namespace IMS_Mobile.MVVM.ViewModels
                     // Reset HomeVM to initial state for new account
                     App.homeVM?.ResetToInitialState();
 
+                    // Update flyout header with user info
+                    if (Application.Current?.MainPage is AppShell shell)
+                    {
+                        await shell.UpdateFlyoutHeaderAsync();
+                    }
+
                     await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
                 }
                 else

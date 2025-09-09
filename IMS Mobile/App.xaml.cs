@@ -5,6 +5,7 @@ using IMS_Mobile.MVVM.ViewModels;
 using IMS_Mobile.MVVM.Views;
 using IMS_Mobile.Popups;
 using IMS_Mobile.Service;
+using IMS_Mobile.Converters;
 using Microsoft.Maui.Dispatching;
 using Microsoft.Maui.Storage;
 using Supabase.Gotrue;
@@ -24,6 +25,7 @@ namespace IMS_Mobile
         public static BaseRepository<Product>? ProductRepository { get; set; }
         public static BaseRepository<Contact>? ContactRepository { get; set; }
         public static BaseRepository<TransactionProductItem>? TransactionProductItemRepository { get; set; }
+        public static UserPreferencesRepository? UserPreferencesRepository { get; set; }
         public static HomeVM? homeVM { get; set; }
         public static ContactsVM? contactsVM { get; set; }
         public static InventoryVM? inventoryVM { get; set; }
@@ -114,6 +116,12 @@ namespace IMS_Mobile
                     MainThread.BeginInvokeOnMainThread(async () =>
                     {
                         await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
+
+                        // Update flyout header with user info
+                        if (Shell.Current is AppShell shell)
+                        {
+                            await shell.UpdateFlyoutHeaderAsync();
+                        }
                     });
                     return;
                 }
@@ -215,6 +223,13 @@ namespace IMS_Mobile
                 ProductRepository = _serviceProvider.GetService<BaseRepository<Product>>();
                 ContactRepository = _serviceProvider.GetService<BaseRepository<Contact>>();
                 TransactionProductItemRepository = _serviceProvider.GetService<BaseRepository<TransactionProductItem>>();
+                UserPreferencesRepository = _serviceProvider.GetService<UserPreferencesRepository>();
+
+                // Initialize the GlobalCurrencyConverter
+                if (UserPreferencesRepository != null)
+                {
+                    GlobalCurrencyConverter.Initialize(UserPreferencesRepository);
+                }
             }
         }
 

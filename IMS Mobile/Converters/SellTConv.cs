@@ -12,7 +12,10 @@ namespace IMS_Mobile.Converters
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             if (value is double amount)
-                return $"+ {amount} LBP";
+            {
+                var currencySymbol = GlobalCurrencyConverter.GetCurrencySymbol();
+                return $"+ {amount:F2} {currencySymbol}";
+            }
             return null;
         }
 

@@ -15,10 +15,4 @@ public partial class SettingsPage : ContentPage
         BindingContext = _viewModel;
     }
 
-    private void OnChangeAvatarClicked(object sender, EventArgs e)
-    {
-        // TODO: Implement avatar selection from gallery/camera
-        // For now, just set a placeholder path
-        _viewModel.Avatar = "user.png";
-    }
 }
