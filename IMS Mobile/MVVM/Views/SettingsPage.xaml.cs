@@ -12,11 +12,10 @@ public partial class SettingsPage : ContentPage
     {
         // Set default selections
         themePicker.SelectedIndex = 0;
-        languagePicker.SelectedIndex = 0;
         currencyPicker.SelectedIndex = 0;
     }
 
-   
+
 
     private void OnChangeAvatarClicked(object sender, EventArgs e)
     {
@@ -33,10 +32,6 @@ public partial class SettingsPage : ContentPage
         // Handle theme change
     }
 
-    private void OnLanguageChanged(object sender, EventArgs e)
-    {
-        // Handle language change
-    }
 
     private void OnCurrencyChanged(object sender, EventArgs e)
     {

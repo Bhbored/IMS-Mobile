@@ -4,155 +4,175 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     Title="Settings"
-    BackgroundColor="#F5F5F5">
+    BackgroundColor="#F8F9FA">
 
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
+        <!--  Modern Layered Header  -->
+        <Grid Grid.Row="0">
+            <!--  Layer 1 - Back Layer  -->
+            <Border StyleClass="HeaderLayer1Style"/>
 
-    <!--  Scrollable Content  -->
-    <ScrollView Grid.Row="1">
-        <StackLayout Spacing="0">
+            <!--  Layer 2 - Middle Layer  -->
+            <Border StyleClass="HeaderLayer2Style"/>
 
-            <!--  Profile Section  -->
-            <Border Margin="15,20,15,10" StyleClass="SummaryCardStyle">
-                <StackLayout Spacing="15">
+            <!--  Layer 3 - Front Layer with Content  -->
+            <Border StyleClass="HeaderLayer3Style">
+                <StackLayout Spacing="6"
+                             HorizontalOptions="Center">
                     <Label
-                        Margin="0,0,0,10"
-                        StyleClass="SectionTitleStyle"
-                        Text="Profile" />
+                        FontFamily="poppinbold"
+                        FontSize="22"
+                        HorizontalOptions="Center"
+                        Text="⚙️ Settings"
+                        TextColor="White"/>
+                    <Label
+                        FontFamily="poppinregular"
+                        FontSize="13"
+                        HorizontalOptions="Center"
+                        Text="Customize your experience"
+                        TextColor="White"
+                        Opacity="0.9"/>
+                </StackLayout>
+            </Border>
+        </Grid>
 
-                    <!--  Avatar Section  -->
-                    <StackLayout Spacing="10">
-                        <Label StyleClass="RegularTextStyle" Text="Avatar" />
-                        <Border
-                            Padding="2"
-                            Background="White"
-                            HorizontalOptions="Center"
-                            Stroke="LightGray"
-                            StrokeShape="RoundRectangle 40"
-                            StrokeThickness="1">
-                            <Image
-                                x:Name="avatarImage"
-                                Aspect="AspectFill"
-                                HeightRequest="80"
-                                Source="user.png"
-                                WidthRequest="80" />
-                        </Border>
+        <!--  Scrollable Content  -->
+        <ScrollView Grid.Row="1"
+                    Padding="0,20,0,0">
+            <StackLayout Spacing="0">
+
+                <!--  Profile Section  -->
+                <Border StyleClass="SettingsCardStyle">
+                    <StackLayout Spacing="20">
+                        <Label
+                            StyleClass="SectionHeaderStyle"
+                            Text="👤 Profile"/>
+
+                        <!--  Avatar Section with Enhanced Design  -->
+                        <StackLayout Spacing="15"
+                                     HorizontalOptions="Center">
+                            <Label
+                                StyleClass="FieldLabelStyle"
+                                HorizontalOptions="Center"
+                                Text="Profile Picture"/>
+
+                            <Border StyleClass="AvatarBorderStyle">
+                                <Image
+                                    x:Name="avatarImage"
+                                    Aspect="AspectFill"
+                                    HeightRequest="92"
+                                    Source="user.png"
+                                    WidthRequest="92"/>
+                            </Border>
+
+                            <Button
+                                x:Name="changeAvatarButton"
+                                Clicked="OnChangeAvatarClicked"
+                                HorizontalOptions="Center"
+                                StyleClass="ChangeAvatarButtonStyle"
+                                Text="📷 Change Avatar"/>
+                        </StackLayout>
+
+                        <!--  Display Name with Enhanced Input  -->
+                        <StackLayout Spacing="8">
+                            <Label
+                                StyleClass="FieldLabelStyle"
+                                Text="Display Name"/>
+                            <Border StyleClass="EntryContainerStyle">
+                                <Entry
+                                    x:Name="displayNameEntry"
+                                    Placeholder="Enter your full name"
+                                    StyleClass="SettingsEntryStyle"
+                                    TextChanged="OnDisplayNameChanged"/>
+                            </Border>
+                        </StackLayout>
+                    </StackLayout>
+                </Border>
+
+                <!--  Preferences Section  -->
+                <Border StyleClass="SettingsCardStyle">
+                    <StackLayout Spacing="20">
+                        <Label
+                            StyleClass="SectionHeaderStyle"
+                            Text="⚙️ Preferences"/>
+
+                        <!--  Theme Selection with Enhanced Design  -->
+                        <StackLayout Spacing="8">
+                            <Label
+                                StyleClass="FieldLabelStyle"
+                                Text="App Theme"/>
+                            <Border StyleClass="PickerContainerStyle">
+                                <Picker
+                                    x:Name="themePicker"
+                                    SelectedIndexChanged="OnThemeChanged"
+                                    StyleClass="SettingsPickerStyle">
+                                    <Picker.ItemsSource>
+                                        <x:Array Type="{x:Type x:String}">
+                                            <x:String>☀️ Light Theme</x:String>
+                                            <x:String>🌙 Dark Theme</x:String>
+                                        </x:Array>
+                                    </Picker.ItemsSource>
+                                </Picker>
+                            </Border>
+                        </StackLayout>
+
+                        <!--  Currency Selection with Enhanced Design  -->
+                        <StackLayout Spacing="8">
+                            <Label
+                                StyleClass="FieldLabelStyle"
+                                Text="Currency"/>
+                            <Border StyleClass="PickerContainerStyle">
+                                <Picker
+                                    x:Name="currencyPicker"
+                                    SelectedIndexChanged="OnCurrencyChanged"
+                                    StyleClass="SettingsPickerStyle">
+                                    <Picker.ItemsSource>
+                                        <x:Array Type="{x:Type x:String}">
+                                            <x:String>💵 USD - US Dollar</x:String>
+                                            <x:String>💶 EUR - Euro</x:String>
+                                            <x:String>💷 GBP - British Pound</x:String>
+                                            <x:String>💴 JPY - Japanese Yen</x:String>
+                                            <x:String>💸 LBP - Lebanese Pound</x:String>
+                                        </x:Array>
+                                    </Picker.ItemsSource>
+                                </Picker>
+                            </Border>
+                        </StackLayout>
+                    </StackLayout>
+                </Border>
+
+                <!--  Actions Section with Enhanced Buttons  -->
+                <Border StyleClass="SettingsCardStyle">
+                    <StackLayout Spacing="20">
+                        <Label
+                            StyleClass="SectionHeaderStyle"
+                            Text="🔧 Actions"/>
+
+                        <!--  Save Button with Gradient  -->
                         <Button
-                            x:Name="changeAvatarButton"
-                            Margin="0,5,0,10"
-                            Clicked="OnChangeAvatarClicked"
-                            HorizontalOptions="Center"
-                            StyleClass="FilterButtonStyle"
-                            Text="Change Avatar" />
+                            x:Name="saveButton"
+                            Clicked="OnSaveClicked"
+                            StyleClass="SettingsButtonStyle,PrimaryButtonStyle"
+                            Text="💾 Save Settings"/>
+
+                        <!--  Reset Button with Secondary Style  -->
+                        <Button
+                            x:Name="resetButton"
+                            Clicked="OnResetClicked"
+                            StyleClass="SettingsButtonStyle,SecondaryButtonStyle"
+                            Text="🔄 Reset to Defaults"/>
                     </StackLayout>
+                </Border>
 
-                    <!--  Display Name  -->
-                    <StackLayout Spacing="5">
-                        <Label StyleClass="RegularTextStyle" Text="Display Name" />
-                        <Border Padding="15,10" StyleClass="TransactionCardStyle">
-                            <Entry
-                                x:Name="displayNameEntry"
-                                Placeholder="Enter your name"
-                                StyleClass="RegularTextStyle"
-                                TextChanged="OnDisplayNameChanged" />
-                        </Border>
-                    </StackLayout>
-                </StackLayout>
-            </Border>
-
-            <!--  Preferences Section  -->
-            <Border Margin="15,0,15,10" StyleClass="SummaryCardStyle">
-                <StackLayout Spacing="15">
-                    <Label
-                        Margin="0,0,0,10"
-                        StyleClass="SectionTitleStyle"
-                        Text="Preferences" />
-
-                    <!--  Theme Selection  -->
-                    <StackLayout Spacing="5">
-                        <Label StyleClass="RegularTextStyle" Text="Theme" />
-                        <Border Padding="15,10" StyleClass="TransactionCardStyle">
-                            <Picker
-                                x:Name="themePicker"
-                                SelectedIndexChanged="OnThemeChanged"
-                                StyleClass="RegularTextStyle">
-                                <Picker.ItemsSource>
-                                    <x:Array Type="{x:Type x:String}">
-                                        <x:String>Light</x:String>
-                                        <x:String>Dark</x:String>
-                                    </x:Array>
-                                </Picker.ItemsSource>
-                            </Picker>
-                        </Border>
-                    </StackLayout>
-
-                    <!--  Language Selection  -->
-                    <StackLayout Spacing="5">
-                        <Label StyleClass="RegularTextStyle" Text="Language" />
-                        <Border Padding="15,10" StyleClass="TransactionCardStyle">
-                            <Picker
-                                x:Name="languagePicker"
-                                SelectedIndexChanged="OnLanguageChanged"
-                                StyleClass="RegularTextStyle">
-                                <Picker.ItemsSource>
-                                    <x:Array Type="{x:Type x:String}">
-                                        <x:String>English</x:String>
-                                        <x:String>Spanish</x:String>
-                                        <x:String>French</x:String>
-                                        <x:String>German</x:String>
-                                    </x:Array>
-                                </Picker.ItemsSource>
-                            </Picker>
-                        </Border>
-                    </StackLayout>
-
-                    <!--  Currency Selection  -->
-                    <StackLayout Spacing="5">
-                        <Label StyleClass="RegularTextStyle" Text="Currency" />
-                        <Border Padding="15,10" StyleClass="TransactionCardStyle">
-                            <Picker
-                                x:Name="currencyPicker"
-                                SelectedIndexChanged="OnCurrencyChanged"
-                                StyleClass="RegularTextStyle">
-                                <Picker.ItemsSource>
-                                    <x:Array Type="{x:Type x:String}">
-                                        <x:String>USD - US Dollar</x:String>
-                                        <x:String>EUR - Euro</x:String>
-                                        <x:String>GBP - British Pound</x:String>
-                                        <x:String>JPY - Japanese Yen</x:String>
-                                    </x:Array>
-                                </Picker.ItemsSource>
-                            </Picker>
-                        </Border>
-                    </StackLayout>
-                </StackLayout>
-            </Border>
-
-            <!--  Actions Section  -->
-            <Border Margin="15,0,15,20" StyleClass="SummaryCardStyle">
-                <StackLayout Spacing="15">
-                    <Label
-                        Margin="0,0,0,10"
-                        StyleClass="SectionTitleStyle"
-                        Text="Actions" />
-
-                    <!--  Save Button  -->
-                    <Button
-                        x:Name="saveButton"
-                        Margin="0,10"
-                        Clicked="OnSaveClicked"
-                        StyleClass="CashButtonStyle"
-                        Text="Save Settings" />
-
-                    <!--  Reset Button  -->
-                    <Button
-                        x:Name="resetButton"
-                        Margin="0,0,0,10"
-                        Clicked="OnResetClicked"
-                        StyleClass="FilterButtonStyle"
-                        Text="Reset to Defaults" />
-                </StackLayout>
-            </Border>
-        </StackLayout>
-    </ScrollView>
+                <!--  Bottom Spacing  -->
+                <BoxView HeightRequest="30"
+                         Color="Transparent"/>
+            </StackLayout>
+        </ScrollView>
+    </Grid>
 </ContentPage>

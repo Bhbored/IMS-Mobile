@@ -1,463 +1,1089 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <?xaml-comp compile="true" ?>
-<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
     <!--  Typography Styles  -->
-    <Style Class="TitleStyle" TargetType="Label">
-        <Setter Property="FontFamily" Value="poppinbold" />
-        <Setter Property="FontSize" Value="24" />
-        <Setter Property="TextColor" Value="Black" />
-        <Setter Property="HorizontalOptions" Value="Center" />
-        <Setter Property="Margin" Value="0,20,0,0" />
+    <Style Class="TitleStyle"
+           TargetType="Label">
+        <Setter Property="FontFamily"
+                Value="poppinbold"/>
+        <Setter Property="FontSize"
+                Value="24"/>
+        <Setter Property="TextColor"
+                Value="Black"/>
+        <Setter Property="HorizontalOptions"
+                Value="Center"/>
+        <Setter Property="Margin"
+                Value="0,20,0,0"/>
     </Style>
 
-    <Style Class="SectionTitleStyle" TargetType="Label">
-        <Setter Property="FontFamily" Value="poppinbold" />
-        <Setter Property="FontSize" Value="18" />
-        <Setter Property="TextColor" Value="Black" />
-        <Setter Property="Margin" Value="20,20,20,10" />
+    <Style Class="SectionTitleStyle"
+           TargetType="Label">
+        <Setter Property="FontFamily"
+                Value="poppinbold"/>
+        <Setter Property="FontSize"
+                Value="18"/>
+        <Setter Property="TextColor"
+                Value="Black"/>
+        <Setter Property="Margin"
+                Value="20,20,20,10"/>
     </Style>
 
-    <Style Class="RegularTextStyle" TargetType="Label">
-        <Setter Property="FontFamily" Value="poppinregular" />
-        <Setter Property="FontSize" Value="14" />
-        <Setter Property="TextColor" Value="Black" />
+    <Style Class="RegularTextStyle"
+           TargetType="Label">
+        <Setter Property="FontFamily"
+                Value="poppinregular"/>
+        <Setter Property="FontSize"
+                Value="14"/>
+        <Setter Property="TextColor"
+                Value="Black"/>
     </Style>
 
-    <Style Class="SmallTextStyle" TargetType="Label">
-        <Setter Property="FontFamily" Value="poppinregular" />
-        <Setter Property="FontSize" Value="12" />
-        <Setter Property="TextColor" Value="#666666" />
+    <Style Class="SmallTextStyle"
+           TargetType="Label">
+        <Setter Property="FontFamily"
+                Value="poppinregular"/>
+        <Setter Property="FontSize"
+                Value="12"/>
+        <Setter Property="TextColor"
+                Value="#666666"/>
     </Style>
 
     <!--  Card Styles  -->
-    <Style Class="BalanceCardStyle" TargetType="Border">
+    <Style Class="BalanceCardStyle"
+           TargetType="Border">
         <Setter Property="Background">
             <Setter.Value>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                    <GradientStop Offset="0" Color="#4CAF50" />
-                    <GradientStop Offset="1" Color="#E0E0E0" />
+                <LinearGradientBrush StartPoint="0,0"
+                                     EndPoint="1,0">
+                    <GradientStop Offset="0"
+                                  Color="#4CAF50"/>
+                    <GradientStop Offset="1"
+                                  Color="#E0E0E0"/>
                 </LinearGradientBrush>
             </Setter.Value>
         </Setter>
-        <Setter Property="Stroke" Value="Transparent" />
-        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="Stroke"
+                Value="Transparent"/>
+        <Setter Property="StrokeThickness"
+                Value="0"/>
         <Setter Property="StrokeShape">
             <Setter.Value>
-                <RoundRectangle CornerRadius="16" />
+                <RoundRectangle CornerRadius="16"/>
             </Setter.Value>
         </Setter>
-        <Setter Property="Margin" Value="20,10,20,20" />
-        <Setter Property="Padding" Value="20" />
+        <Setter Property="Margin"
+                Value="20,10,20,20"/>
+        <Setter Property="Padding"
+                Value="20"/>
         <Setter Property="Shadow">
             <Setter.Value>
                 <Shadow
                     Brush="#40000000"
                     Radius="8"
-                    Offset="0,4" />
+                    Offset="0,4"/>
             </Setter.Value>
         </Setter>
     </Style>
 
-    <Style Class="TransactionCardStyle" TargetType="Border">
-        <Setter Property="Background" Value="White" />
-        <Setter Property="Stroke" Value="#E0E0E0" />
-        <Setter Property="StrokeThickness" Value="1" />
+    <Style Class="TransactionCardStyle"
+           TargetType="Border">
+        <Setter Property="Background"
+                Value="White"/>
+        <Setter Property="Stroke"
+                Value="#E0E0E0"/>
+        <Setter Property="StrokeThickness"
+                Value="1"/>
         <Setter Property="StrokeShape">
             <Setter.Value>
-                <RoundRectangle CornerRadius="12" />
+                <RoundRectangle CornerRadius="12"/>
             </Setter.Value>
         </Setter>
-        <Setter Property="Margin" Value="20,5,20,5" />
-        <Setter Property="Padding" Value="15" />
+        <Setter Property="Margin"
+                Value="20,5,20,5"/>
+        <Setter Property="Padding"
+                Value="15"/>
         <Setter Property="Shadow">
             <Setter.Value>
                 <Shadow
                     Brush="#20000000"
                     Radius="4"
-                    Offset="0,2" />
+                    Offset="0,2"/>
             </Setter.Value>
         </Setter>
     </Style>
 
     <!--  Modern Gradient Card Styles  -->
-    <Style Class="SalesCardStyle" TargetType="Border">
+    <Style Class="SalesCardStyle"
+           TargetType="Border">
         <Setter Property="Background">
             <Setter.Value>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                    <GradientStop Offset="0" Color="#4CAF50" />
-                    <GradientStop Offset="1" Color="#66BB6A" />
+                <LinearGradientBrush StartPoint="0,0"
+                                     EndPoint="1,1">
+                    <GradientStop Offset="0"
+                                  Color="#4CAF50"/>
+                    <GradientStop Offset="1"
+                                  Color="#66BB6A"/>
                 </LinearGradientBrush>
             </Setter.Value>
         </Setter>
-        <Setter Property="Stroke" Value="Transparent" />
-        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="Stroke"
+                Value="Transparent"/>
+        <Setter Property="StrokeThickness"
+                Value="0"/>
         <Setter Property="StrokeShape">
             <Setter.Value>
-                <RoundRectangle CornerRadius="16" />
+                <RoundRectangle CornerRadius="16"/>
             </Setter.Value>
         </Setter>
-        <Setter Property="Margin" Value="0" />
-        <Setter Property="Padding" Value="20" />
+        <Setter Property="Margin"
+                Value="0"/>
+        <Setter Property="Padding"
+                Value="20"/>
         <Setter Property="Shadow">
             <Setter.Value>
                 <Shadow
                     Brush="#40000000"
                     Radius="8"
-                    Offset="0,4" />
+                    Offset="0,4"/>
             </Setter.Value>
         </Setter>
     </Style>
 
-    <Style Class="InventoryCardStyle" TargetType="Border">
+    <Style Class="InventoryCardStyle"
+           TargetType="Border">
         <Setter Property="Background">
             <Setter.Value>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                    <GradientStop Offset="0" Color="#2196F3" />
-                    <GradientStop Offset="1" Color="#42A5F5" />
+                <LinearGradientBrush StartPoint="0,0"
+                                     EndPoint="1,1">
+                    <GradientStop Offset="0"
+                                  Color="#2196F3"/>
+                    <GradientStop Offset="1"
+                                  Color="#42A5F5"/>
                 </LinearGradientBrush>
             </Setter.Value>
         </Setter>
-        <Setter Property="Stroke" Value="Transparent" />
-        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="Stroke"
+                Value="Transparent"/>
+        <Setter Property="StrokeThickness"
+                Value="0"/>
         <Setter Property="StrokeShape">
             <Setter.Value>
-                <RoundRectangle CornerRadius="16" />
+                <RoundRectangle CornerRadius="16"/>
             </Setter.Value>
         </Setter>
-        <Setter Property="Margin" Value="0" />
-        <Setter Property="Padding" Value="20" />
+        <Setter Property="Margin"
+                Value="0"/>
+        <Setter Property="Padding"
+                Value="20"/>
         <Setter Property="Shadow">
             <Setter.Value>
                 <Shadow
                     Brush="#40000000"
                     Radius="8"
-                    Offset="0,4" />
+                    Offset="0,4"/>
             </Setter.Value>
         </Setter>
     </Style>
 
-    <Style Class="CreditCardStyle" TargetType="Border">
+    <Style Class="CreditCardStyle"
+           TargetType="Border">
         <Setter Property="Background">
             <Setter.Value>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                    <GradientStop Offset="0" Color="#FF9800" />
-                    <GradientStop Offset="1" Color="#FFB74D" />
+                <LinearGradientBrush StartPoint="0,0"
+                                     EndPoint="1,1">
+                    <GradientStop Offset="0"
+                                  Color="#FF9800"/>
+                    <GradientStop Offset="1"
+                                  Color="#FFB74D"/>
                 </LinearGradientBrush>
             </Setter.Value>
         </Setter>
-        <Setter Property="Stroke" Value="Transparent" />
-        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="Stroke"
+                Value="Transparent"/>
+        <Setter Property="StrokeThickness"
+                Value="0"/>
         <Setter Property="StrokeShape">
             <Setter.Value>
-                <RoundRectangle CornerRadius="16" />
+                <RoundRectangle CornerRadius="16"/>
             </Setter.Value>
         </Setter>
-        <Setter Property="Margin" Value="0" />
-        <Setter Property="Padding" Value="20" />
+        <Setter Property="Margin"
+                Value="0"/>
+        <Setter Property="Padding"
+                Value="20"/>
         <Setter Property="Shadow">
             <Setter.Value>
                 <Shadow
                     Brush="#40000000"
                     Radius="8"
-                    Offset="0,4" />
+                    Offset="0,4"/>
             </Setter.Value>
         </Setter>
     </Style>
 
-    <Style Class="ActionCardStyle" TargetType="Border">
+    <Style Class="ActionCardStyle"
+           TargetType="Border">
         <Setter Property="Background">
             <Setter.Value>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                    <GradientStop Offset="0" Color="#9C27B0" />
-                    <GradientStop Offset="1" Color="#BA68C8" />
+                <LinearGradientBrush StartPoint="0,0"
+                                     EndPoint="1,1">
+                    <GradientStop Offset="0"
+                                  Color="#9C27B0"/>
+                    <GradientStop Offset="1"
+                                  Color="#BA68C8"/>
                 </LinearGradientBrush>
             </Setter.Value>
         </Setter>
-        <Setter Property="Stroke" Value="Transparent" />
-        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="Stroke"
+                Value="Transparent"/>
+        <Setter Property="StrokeThickness"
+                Value="0"/>
         <Setter Property="StrokeShape">
             <Setter.Value>
-                <RoundRectangle CornerRadius="16" />
+                <RoundRectangle CornerRadius="16"/>
             </Setter.Value>
         </Setter>
-        <Setter Property="Margin" Value="0" />
-        <Setter Property="Padding" Value="20" />
+        <Setter Property="Margin"
+                Value="0"/>
+        <Setter Property="Padding"
+                Value="20"/>
         <Setter Property="Shadow">
             <Setter.Value>
                 <Shadow
                     Brush="#40000000"
                     Radius="8"
-                    Offset="0,4" />
+                    Offset="0,4"/>
             </Setter.Value>
         </Setter>
     </Style>
 
     <!--  Cash Flow Card Style (Different Color)  -->
-    <Style Class="CashFlowCardStyle" TargetType="Border">
+    <Style Class="CashFlowCardStyle"
+           TargetType="Border">
         <Setter Property="Background">
             <Setter.Value>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                    <GradientStop Offset="0" Color="#FF5722" />
-                    <GradientStop Offset="1" Color="#FF7043" />
+                <LinearGradientBrush StartPoint="0,0"
+                                     EndPoint="1,1">
+                    <GradientStop Offset="0"
+                                  Color="#FF5722"/>
+                    <GradientStop Offset="1"
+                                  Color="#FF7043"/>
                 </LinearGradientBrush>
             </Setter.Value>
         </Setter>
-        <Setter Property="Stroke" Value="Transparent" />
-        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="Stroke"
+                Value="Transparent"/>
+        <Setter Property="StrokeThickness"
+                Value="0"/>
         <Setter Property="StrokeShape">
             <Setter.Value>
-                <RoundRectangle CornerRadius="16" />
+                <RoundRectangle CornerRadius="16"/>
             </Setter.Value>
         </Setter>
-        <Setter Property="Margin" Value="0" />
-        <Setter Property="Padding" Value="20" />
+        <Setter Property="Margin"
+                Value="0"/>
+        <Setter Property="Padding"
+                Value="20"/>
         <Setter Property="Shadow">
             <Setter.Value>
                 <Shadow
                     Brush="#40000000"
                     Radius="8"
-                    Offset="0,4" />
+                    Offset="0,4"/>
             </Setter.Value>
         </Setter>
     </Style>
 
     <!--  Button Styles  -->
-    <Style Class="FilterButtonStyle" TargetType="Button">
-        <Setter Property="FontFamily" Value="poppinregular" />
-        <Setter Property="FontSize" Value="12" />
-        <Setter Property="Padding" Value="16,8" />
-        <Setter Property="Margin" Value="4,0" />
-        <Setter Property="Background" Value="White" />
-        <Setter Property="TextColor" Value="#666666" />
-        <Setter Property="BorderColor" Value="#E0E0E0" />
-        <Setter Property="BorderWidth" Value="1" />
+    <Style Class="FilterButtonStyle"
+           TargetType="Button">
+        <Setter Property="FontFamily"
+                Value="poppinregular"/>
+        <Setter Property="FontSize"
+                Value="12"/>
+        <Setter Property="Padding"
+                Value="16,8"/>
+        <Setter Property="Margin"
+                Value="4,0"/>
+        <Setter Property="Background"
+                Value="White"/>
+        <Setter Property="TextColor"
+                Value="#666666"/>
+        <Setter Property="BorderColor"
+                Value="#E0E0E0"/>
+        <Setter Property="BorderWidth"
+                Value="1"/>
     </Style>
 
-    <Style Class="ActiveFilterButtonStyle" TargetType="Button">
-        <Setter Property="FontFamily" Value="poppinregular" />
-        <Setter Property="FontSize" Value="12" />
-        <Setter Property="Padding" Value="16,8" />
-        <Setter Property="Margin" Value="4,0" />
-        <Setter Property="Background" Value="#F0F0F0" />
-        <Setter Property="TextColor" Value="Black" />
-        <Setter Property="BorderColor" Value="#CCCCCC" />
-        <Setter Property="BorderWidth" Value="1" />
+    <Style Class="ActiveFilterButtonStyle"
+           TargetType="Button">
+        <Setter Property="FontFamily"
+                Value="poppinregular"/>
+        <Setter Property="FontSize"
+                Value="12"/>
+        <Setter Property="Padding"
+                Value="16,8"/>
+        <Setter Property="Margin"
+                Value="4,0"/>
+        <Setter Property="Background"
+                Value="#F0F0F0"/>
+        <Setter Property="TextColor"
+                Value="Black"/>
+        <Setter Property="BorderColor"
+                Value="#CCCCCC"/>
+        <Setter Property="BorderWidth"
+                Value="1"/>
     </Style>
 
     <!--  Icon Styles  -->
-    <Style Class="TransactionIconStyle" TargetType="Border">
-        <Setter Property="Background" Value="#F5F5F5" />
+    <Style Class="TransactionIconStyle"
+           TargetType="Border">
+        <Setter Property="Background"
+                Value="#F5F5F5"/>
         <Setter Property="StrokeShape">
             <Setter.Value>
-                <RoundRectangle CornerRadius="8" />
+                <RoundRectangle CornerRadius="8"/>
             </Setter.Value>
         </Setter>
-        <Setter Property="WidthRequest" Value="40" />
-        <Setter Property="HeightRequest" Value="40" />
-        <Setter Property="HorizontalOptions" Value="Start" />
-        <Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="WidthRequest"
+                Value="40"/>
+        <Setter Property="HeightRequest"
+                Value="40"/>
+        <Setter Property="HorizontalOptions"
+                Value="Start"/>
+        <Setter Property="VerticalOptions"
+                Value="Center"/>
     </Style>
 
     <!--  Navigation Styles  -->
-    <Style Class="NavigationItemStyle" TargetType="Border">
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Stroke" Value="Transparent" />
-        <Setter Property="StrokeThickness" Value="0" />
-        <Setter Property="Padding" Value="6,10" />
-        <Setter Property="Margin" Value="2,0" />
-        <Setter Property="HorizontalOptions" Value="Center" />
-        <Setter Property="VerticalOptions" Value="Center" />
+    <Style Class="NavigationItemStyle"
+           TargetType="Border">
+        <Setter Property="Background"
+                Value="Transparent"/>
+        <Setter Property="Stroke"
+                Value="Transparent"/>
+        <Setter Property="StrokeThickness"
+                Value="0"/>
+        <Setter Property="Padding"
+                Value="6,10"/>
+        <Setter Property="Margin"
+                Value="2,0"/>
+        <Setter Property="HorizontalOptions"
+                Value="Center"/>
+        <Setter Property="VerticalOptions"
+                Value="Center"/>
     </Style>
 
-    <Style Class="ActiveNavigationItemStyle" TargetType="Border">
-        <Setter Property="Background" Value="#F5F5F5" />
-        <Setter Property="Stroke" Value="#CCCCCC" />
-        <Setter Property="StrokeThickness" Value="1" />
+    <Style Class="ActiveNavigationItemStyle"
+           TargetType="Border">
+        <Setter Property="Background"
+                Value="#F5F5F5"/>
+        <Setter Property="Stroke"
+                Value="#CCCCCC"/>
+        <Setter Property="StrokeThickness"
+                Value="1"/>
         <Setter Property="StrokeShape">
             <Setter.Value>
-                <RoundRectangle CornerRadius="8" />
+                <RoundRectangle CornerRadius="8"/>
             </Setter.Value>
         </Setter>
-        <Setter Property="Padding" Value="6,10" />
-        <Setter Property="Margin" Value="2,0" />
-        <Setter Property="HorizontalOptions" Value="Center" />
-        <Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="Padding"
+                Value="6,10"/>
+        <Setter Property="Margin"
+                Value="2,0"/>
+        <Setter Property="HorizontalOptions"
+                Value="Center"/>
+        <Setter Property="VerticalOptions"
+                Value="Center"/>
     </Style>
 
-    <Style Class="NavigationIconStyle" TargetType="Label">
-        <Setter Property="FontSize" Value="20" />
-        <Setter Property="HorizontalOptions" Value="Center" />
-        <Setter Property="Margin" Value="0,0,0,4" />
+    <Style Class="NavigationIconStyle"
+           TargetType="Label">
+        <Setter Property="FontSize"
+                Value="20"/>
+        <Setter Property="HorizontalOptions"
+                Value="Center"/>
+        <Setter Property="Margin"
+                Value="0,0,0,4"/>
     </Style>
 
-    <Style Class="NavigationTextStyle" TargetType="Label">
-        <Setter Property="FontFamily" Value="poppinregular" />
-        <Setter Property="FontSize" Value="10" />
-        <Setter Property="TextColor" Value="#666666" />
-        <Setter Property="HorizontalOptions" Value="Center" />
+    <Style Class="NavigationTextStyle"
+           TargetType="Label">
+        <Setter Property="FontFamily"
+                Value="poppinregular"/>
+        <Setter Property="FontSize"
+                Value="10"/>
+        <Setter Property="TextColor"
+                Value="#666666"/>
+        <Setter Property="HorizontalOptions"
+                Value="Center"/>
     </Style>
 
-    <Style Class="ActiveNavigationTextStyle" TargetType="Label">
-        <Setter Property="FontFamily" Value="poppinbold" />
-        <Setter Property="FontSize" Value="10" />
-        <Setter Property="TextColor" Value="#666666" />
-        <Setter Property="HorizontalOptions" Value="Center" />
+    <Style Class="ActiveNavigationTextStyle"
+           TargetType="Label">
+        <Setter Property="FontFamily"
+                Value="poppinbold"/>
+        <Setter Property="FontSize"
+                Value="10"/>
+        <Setter Property="TextColor"
+                Value="#666666"/>
+        <Setter Property="HorizontalOptions"
+                Value="Center"/>
     </Style>
     <!--  New Product Item Style  -->
-    <Style Class="ProductItemStyle" TargetType="Border">
-        <Setter Property="Background" Value="White" />
-        <Setter Property="Stroke" Value="#E0E0E0" />
-        <Setter Property="StrokeThickness" Value="1" />
+    <Style Class="ProductItemStyle"
+           TargetType="Border">
+        <Setter Property="Background"
+                Value="White"/>
+        <Setter Property="Stroke"
+                Value="#E0E0E0"/>
+        <Setter Property="StrokeThickness"
+                Value="1"/>
         <Setter Property="StrokeShape">
             <Setter.Value>
-                <RoundRectangle CornerRadius="12" />
+                <RoundRectangle CornerRadius="12"/>
             </Setter.Value>
         </Setter>
-        <Setter Property="Margin" Value="15,5" />
-        <Setter Property="Padding" Value="15" />
+        <Setter Property="Margin"
+                Value="15,5"/>
+        <Setter Property="Padding"
+                Value="15"/>
         <Setter Property="Shadow">
             <Setter.Value>
                 <Shadow
                     Brush="#10000000"
                     Radius="2"
-                    Offset="0,1" />
+                    Offset="0,1"/>
             </Setter.Value>
         </Setter>
     </Style>
 
     <!--  New Price Style  -->
-    <Style Class="PriceStyle" TargetType="Label">
-        <Setter Property="FontFamily" Value="poppinbold" />
-        <Setter Property="FontSize" Value="16" />
-        <Setter Property="TextColor" Value="#4CAF50" />
+    <Style Class="PriceStyle"
+           TargetType="Label">
+        <Setter Property="FontFamily"
+                Value="poppinbold"/>
+        <Setter Property="FontSize"
+                Value="16"/>
+        <Setter Property="TextColor"
+                Value="#4CAF50"/>
     </Style>
 
     <!--  New Stock Style  -->
-    <Style Class="StockStyle" TargetType="Label">
-        <Setter Property="FontFamily" Value="poppinregular" />
-        <Setter Property="FontSize" Value="12" />
-        <Setter Property="TextColor" Value="#FF9800" />
+    <Style Class="StockStyle"
+           TargetType="Label">
+        <Setter Property="FontFamily"
+                Value="poppinregular"/>
+        <Setter Property="FontSize"
+                Value="12"/>
+        <Setter Property="TextColor"
+                Value="#FF9800"/>
     </Style>
 
     <!--  Payment Button Styles  -->
-    <Style Class="PaymentButtonStyle" TargetType="Button">
-        <Setter Property="FontFamily" Value="poppinregular" />
-        <Setter Property="FontSize" Value="14" />
-        <Setter Property="Padding" Value="20,12" />
-        <Setter Property="Margin" Value="10,5" />
-        <Setter Property="TextColor" Value="White" />
-        <Setter Property="CornerRadius" Value="10" />
+    <Style Class="PaymentButtonStyle"
+           TargetType="Button">
+        <Setter Property="FontFamily"
+                Value="poppinregular"/>
+        <Setter Property="FontSize"
+                Value="14"/>
+        <Setter Property="Padding"
+                Value="20,12"/>
+        <Setter Property="Margin"
+                Value="10,5"/>
+        <Setter Property="TextColor"
+                Value="White"/>
+        <Setter Property="CornerRadius"
+                Value="10"/>
     </Style>
 
-    <Style Class="CashButtonStyle" TargetType="Button">
-        <Setter Property="Background" Value="#4CAF50" />
-        <Setter Property="FontFamily" Value="poppinregular" />
-        <Setter Property="FontSize" Value="14" />
-        <Setter Property="Padding" Value="20,12" />
-        <Setter Property="Margin" Value="10,5" />
-        <Setter Property="TextColor" Value="White" />
-        <Setter Property="CornerRadius" Value="10" />
+    <Style Class="CashButtonStyle"
+           TargetType="Button">
+        <Setter Property="Background"
+                Value="#4CAF50"/>
+        <Setter Property="FontFamily"
+                Value="poppinregular"/>
+        <Setter Property="FontSize"
+                Value="14"/>
+        <Setter Property="Padding"
+                Value="20,12"/>
+        <Setter Property="Margin"
+                Value="10,5"/>
+        <Setter Property="TextColor"
+                Value="White"/>
+        <Setter Property="CornerRadius"
+                Value="10"/>
     </Style>
 
-    <Style Class="TabButtonStyle" TargetType="Button">
-        <Setter Property="Background" Value="#2196F3" />
-        <Setter Property="FontFamily" Value="poppinregular" />
-        <Setter Property="FontSize" Value="14" />
-        <Setter Property="Padding" Value="20,12" />
-        <Setter Property="Margin" Value="10,5" />
-        <Setter Property="TextColor" Value="White" />
-        <Setter Property="CornerRadius" Value="10" />
+    <Style Class="TabButtonStyle"
+           TargetType="Button">
+        <Setter Property="Background"
+                Value="#2196F3"/>
+        <Setter Property="FontFamily"
+                Value="poppinregular"/>
+        <Setter Property="FontSize"
+                Value="14"/>
+        <Setter Property="Padding"
+                Value="20,12"/>
+        <Setter Property="Margin"
+                Value="10,5"/>
+        <Setter Property="TextColor"
+                Value="White"/>
+        <Setter Property="CornerRadius"
+                Value="10"/>
     </Style>
     <!--  Add to existing styles  -->
-    <Style Class="QuantityButtonStyle" TargetType="Button">
-        <Setter Property="FontFamily" Value="poppinbold" />
-        <Setter Property="FontSize" Value="16" />
-        <Setter Property="TextColor" Value="White" />
-        <Setter Property="Background" Value="#4CAF50" />
-        <Setter Property="WidthRequest" Value="32" />
-        <Setter Property="HeightRequest" Value="32" />
-        <Setter Property="CornerRadius" Value="16" />
-        <Setter Property="Padding" Value="0" />
-        <Setter Property="Margin" Value="2" />
+    <Style Class="QuantityButtonStyle"
+           TargetType="Button">
+        <Setter Property="FontFamily"
+                Value="poppinbold"/>
+        <Setter Property="FontSize"
+                Value="16"/>
+        <Setter Property="TextColor"
+                Value="White"/>
+        <Setter Property="Background"
+                Value="#4CAF50"/>
+        <Setter Property="WidthRequest"
+                Value="32"/>
+        <Setter Property="HeightRequest"
+                Value="32"/>
+        <Setter Property="CornerRadius"
+                Value="16"/>
+        <Setter Property="Padding"
+                Value="0"/>
+        <Setter Property="Margin"
+                Value="2"/>
     </Style>
 
-    <Style Class="QuantityEntryStyle" TargetType="Entry">
-        <Setter Property="FontFamily" Value="poppinbold" />
-        <Setter Property="FontSize" Value="14" />
-        <Setter Property="TextColor" Value="Black" />
-        <Setter Property="BackgroundColor" Value="#F0F8F0" />
-        <Setter Property="HorizontalTextAlignment" Value="Center" />
-        <Setter Property="VerticalTextAlignment" Value="Center" />
-        <Setter Property="WidthRequest" Value="45" />
-        <Setter Property="HeightRequest" Value="32" />
-        <Setter Property="Margin" Value="3,0" />
+    <Style Class="QuantityEntryStyle"
+           TargetType="Entry">
+        <Setter Property="FontFamily"
+                Value="poppinbold"/>
+        <Setter Property="FontSize"
+                Value="14"/>
+        <Setter Property="TextColor"
+                Value="Black"/>
+        <Setter Property="BackgroundColor"
+                Value="#F0F8F0"/>
+        <Setter Property="HorizontalTextAlignment"
+                Value="Center"/>
+        <Setter Property="VerticalTextAlignment"
+                Value="Center"/>
+        <Setter Property="WidthRequest"
+                Value="45"/>
+        <Setter Property="HeightRequest"
+                Value="32"/>
+        <Setter Property="Margin"
+                Value="3,0"/>
     </Style>
 
-    <Style Class="AddToCartButtonStyle" TargetType="Button">
-        <Setter Property="FontFamily" Value="poppinbold" />
-        <Setter Property="FontSize" Value="12" />
-        <Setter Property="TextColor" Value="White" />
-        <Setter Property="Background" Value="#2196F3" />
-        <Setter Property="CornerRadius" Value="16" />
-        <Setter Property="Padding" Value="12,6" />
-        <Setter Property="Margin" Value="5,0" />
+    <Style Class="AddToCartButtonStyle"
+           TargetType="Button">
+        <Setter Property="FontFamily"
+                Value="poppinbold"/>
+        <Setter Property="FontSize"
+                Value="12"/>
+        <Setter Property="TextColor"
+                Value="White"/>
+        <Setter Property="Background"
+                Value="#2196F3"/>
+        <Setter Property="CornerRadius"
+                Value="16"/>
+        <Setter Property="Padding"
+                Value="12,6"/>
+        <Setter Property="Margin"
+                Value="5,0"/>
     </Style>
 
     <!--  Modern Card Style for Summary Items  -->
-    <Style Class="SummaryCardStyle" TargetType="Border">
-        <Setter Property="Background" Value="White" />
-        <Setter Property="Stroke" Value="#E0E0E0" />
-        <Setter Property="StrokeThickness" Value="1" />
+    <Style Class="SummaryCardStyle"
+           TargetType="Border">
+        <Setter Property="Background"
+                Value="White"/>
+        <Setter Property="Stroke"
+                Value="#E0E0E0"/>
+        <Setter Property="StrokeThickness"
+                Value="1"/>
         <Setter Property="StrokeShape">
             <Setter.Value>
-                <RoundRectangle CornerRadius="16" />
+                <RoundRectangle CornerRadius="16"/>
             </Setter.Value>
         </Setter>
-        <Setter Property="Padding" Value="20" />
-        <Setter Property="Margin" Value="0" />
+        <Setter Property="Padding"
+                Value="20"/>
+        <Setter Property="Margin"
+                Value="0"/>
         <Setter Property="Shadow">
             <Setter.Value>
                 <Shadow
                     Brush="#15000000"
                     Radius="6"
-                    Offset="0,2" />
+                    Offset="0,2"/>
             </Setter.Value>
         </Setter>
     </Style>
 
     <!--  Expander Header Style - Modern  -->
-    <Style Class="ExpanderHeaderStyle" TargetType="Border">
-        <Setter Property="Background" Value="White" />
-        <Setter Property="Stroke" Value="#E0E0E0" />
-        <Setter Property="StrokeThickness" Value="1" />
+    <Style Class="ExpanderHeaderStyle"
+           TargetType="Border">
+        <Setter Property="Background"
+                Value="White"/>
+        <Setter Property="Stroke"
+                Value="#E0E0E0"/>
+        <Setter Property="StrokeThickness"
+                Value="1"/>
         <Setter Property="StrokeShape">
             <Setter.Value>
-                <RoundRectangle CornerRadius="12,12,0,0" />
+                <RoundRectangle CornerRadius="12,12,0,0"/>
             </Setter.Value>
         </Setter>
-        <Setter Property="Padding" Value="20" />
-        <Setter Property="Margin" Value="0" />
+        <Setter Property="Padding"
+                Value="20"/>
+        <Setter Property="Margin"
+                Value="0"/>
     </Style>
 
     <!--  Expander Content Style - Modern  -->
-    <Style Class="ExpanderContentStyle" TargetType="Border">
-        <Setter Property="Background" Value="White" />
-        <Setter Property="Stroke" Value="#E0E0E0" />
-        <Setter Property="StrokeThickness" Value="1" />
+    <Style Class="ExpanderContentStyle"
+           TargetType="Border">
+        <Setter Property="Background"
+                Value="White"/>
+        <Setter Property="Stroke"
+                Value="#E0E0E0"/>
+        <Setter Property="StrokeThickness"
+                Value="1"/>
         <Setter Property="StrokeShape">
             <Setter.Value>
-                <RoundRectangle CornerRadius="0,0,12,12" />
+                <RoundRectangle CornerRadius="0,0,12,12"/>
             </Setter.Value>
         </Setter>
-        <Setter Property="Padding" Value="20" />
-        <Setter Property="Margin" Value="0,0,0,15" />
+        <Setter Property="Padding"
+                Value="20"/>
+        <Setter Property="Margin"
+                Value="0,0,0,15"/>
     </Style>
-    <Style Class="ExpanderContainerStyle" TargetType="Border">
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Stroke" Value="Transparent" />
-        <Setter Property="StrokeThickness" Value="0" />
-        <Setter Property="Padding" Value="0" />
-        <Setter Property="Margin" Value="0" />
+    <Style Class="ExpanderContainerStyle"
+           TargetType="Border">
+        <Setter Property="Background"
+                Value="Transparent"/>
+        <Setter Property="Stroke"
+                Value="Transparent"/>
+        <Setter Property="StrokeThickness"
+                Value="0"/>
+        <Setter Property="Padding"
+                Value="0"/>
+        <Setter Property="Margin"
+                Value="0"/>
+    </Style>
+
+    <!--  Settings Page Specific Styles  -->
+    <Style Class="SettingsCardStyle"
+           TargetType="Border">
+        <Setter Property="Background"
+                Value="White"/>
+        <Setter Property="Stroke"
+                Value="#E0E0E0"/>
+        <Setter Property="StrokeThickness"
+                Value="1"/>
+        <Setter Property="StrokeShape">
+            <Setter.Value>
+                <RoundRectangle CornerRadius="20"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Margin"
+                Value="20,10"/>
+        <Setter Property="Padding"
+                Value="25"/>
+        <Setter Property="Shadow">
+            <Setter.Value>
+                <Shadow
+                    Brush="#20000000"
+                    Radius="18"
+                    Offset="0,6"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style Class="AvatarBorderStyle"
+           TargetType="Border">
+        <Setter Property="Background">
+            <Setter.Value>
+                <LinearGradientBrush StartPoint="0,0"
+                                     EndPoint="1,1">
+                    <GradientStop Offset="0"
+                                  Color="#4CAF50"/>
+                    <GradientStop Offset="1"
+                                  Color="#66BB6A"/>
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Stroke"
+                Value="White"/>
+        <Setter Property="StrokeThickness"
+                Value="4"/>
+        <Setter Property="StrokeShape">
+            <Setter.Value>
+                <RoundRectangle CornerRadius="50"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="WidthRequest"
+                Value="100"/>
+        <Setter Property="HeightRequest"
+                Value="100"/>
+        <Setter Property="HorizontalOptions"
+                Value="Center"/>
+        <Setter Property="Shadow">
+            <Setter.Value>
+                <Shadow
+                    Brush="#40000000"
+                    Radius="8"
+                    Offset="0,4"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style Class="SettingsInputStyle"
+           TargetType="Border">
+        <Setter Property="Background"
+                Value="#F8F9FA"/>
+        <Setter Property="Stroke"
+                Value="#E9ECEF"/>
+        <Setter Property="StrokeThickness"
+                Value="1"/>
+        <Setter Property="StrokeShape">
+            <Setter.Value>
+                <RoundRectangle CornerRadius="12"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Padding"
+                Value="18,12"/>
+        <Setter Property="Margin"
+                Value="0,8"/>
+    </Style>
+
+    <Style Class="SettingsPickerStyle"
+           TargetType="Picker">
+        <Setter Property="FontFamily"
+                Value="poppinregular"/>
+        <Setter Property="FontSize"
+                Value="15"/>
+        <Setter Property="TextColor"
+                Value="#2C3E50"/>
+        <Setter Property="BackgroundColor"
+                Value="Transparent"/>
+    </Style>
+
+    <Style Class="SettingsEntryStyle"
+           TargetType="Entry">
+        <Setter Property="FontFamily"
+                Value="poppinregular"/>
+        <Setter Property="FontSize"
+                Value="15"/>
+        <Setter Property="TextColor"
+                Value="#2C3E50"/>
+        <Setter Property="BackgroundColor"
+                Value="Transparent"/>
+        <Setter Property="PlaceholderColor"
+                Value="#95A5A6"/>
+    </Style>
+
+    <Style Class="SettingsButtonStyle"
+           TargetType="Button">
+        <Setter Property="FontFamily"
+                Value="poppinbold"/>
+        <Setter Property="FontSize"
+                Value="16"/>
+        <Setter Property="TextColor"
+                Value="White"/>
+        <Setter Property="CornerRadius"
+                Value="15"/>
+        <Setter Property="Padding"
+                Value="0,15"/>
+        <Setter Property="Margin"
+                Value="0,8"/>
+        <Setter Property="Shadow">
+            <Setter.Value>
+                <Shadow
+                    Brush="#30000000"
+                    Radius="6"
+                    Offset="0,3"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style Class="PrimaryButtonStyle"
+           TargetType="Button">
+        <Setter Property="Background">
+            <Setter.Value>
+                <LinearGradientBrush StartPoint="0,0"
+                                     EndPoint="1,0">
+                    <GradientStop Offset="0"
+                                  Color="#4CAF50"/>
+                    <GradientStop Offset="1"
+                                  Color="#66BB6A"/>
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style Class="SecondaryButtonStyle"
+           TargetType="Button">
+        <Setter Property="Background"
+                Value="White"/>
+        <Setter Property="TextColor"
+                Value="#6C757D"/>
+        <Setter Property="BorderColor"
+                Value="#E9ECEF"/>
+        <Setter Property="BorderWidth"
+                Value="1"/>
+    </Style>
+
+    <Style Class="SectionHeaderStyle"
+           TargetType="Label">
+        <Setter Property="FontFamily"
+                Value="poppinbold"/>
+        <Setter Property="FontSize"
+                Value="20"/>
+        <Setter Property="TextColor"
+                Value="#2C3E50"/>
+        <Setter Property="Margin"
+                Value="0,0,0,20"/>
+    </Style>
+
+    <Style Class="FieldLabelStyle"
+           TargetType="Label">
+        <Setter Property="FontFamily"
+                Value="poppinbold"/>
+        <Setter Property="FontSize"
+                Value="14"/>
+        <Setter Property="TextColor"
+                Value="#495057"/>
+        <Setter Property="Margin"
+                Value="0,0,0,8"/>
+    </Style>
+
+    <Style Class="ChangeAvatarButtonStyle"
+           TargetType="Button">
+        <Setter Property="FontFamily"
+                Value="poppinregular"/>
+        <Setter Property="FontSize"
+                Value="13"/>
+        <Setter Property="TextColor"
+                Value="#4CAF50"/>
+        <Setter Property="Background"
+                Value="Transparent"/>
+        <Setter Property="BorderColor"
+                Value="#4CAF50"/>
+        <Setter Property="BorderWidth"
+                Value="1"/>
+        <Setter Property="CornerRadius"
+                Value="20"/>
+        <Setter Property="Padding"
+                Value="20,8"/>
+        <Setter Property="Margin"
+                Value="0,10,0,0"/>
+    </Style>
+
+    <!--  Modern Layered Header Styles  -->
+    <Style Class="HeaderLayer1Style"
+           TargetType="Border">
+        <Setter Property="Background">
+            <Setter.Value>
+                <LinearGradientBrush StartPoint="0,0"
+                                     EndPoint="1,1">
+                    <GradientStop Offset="0"
+                                  Color="#4CAF50"/>
+                    <GradientStop Offset="1"
+                                  Color="#66BB6A"/>
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Stroke"
+                Value="Transparent"/>
+        <Setter Property="StrokeThickness"
+                Value="0"/>
+        <Setter Property="StrokeShape">
+            <Setter.Value>
+                <RoundRectangle CornerRadius="0,0,60,60"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Margin"
+                Value="0"/>
+        <Setter Property="Padding"
+                Value="0,80,0,50"/>
+        <Setter Property="Shadow">
+            <Setter.Value>
+                <Shadow
+                    Brush="#40000000"
+                    Radius="20"
+                    Offset="0,10"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style Class="HeaderLayer2Style"
+           TargetType="Border">
+        <Setter Property="Background">
+            <Setter.Value>
+                <LinearGradientBrush StartPoint="0,0"
+                                     EndPoint="1,1">
+                    <GradientStop Offset="0"
+                                  Color="#66BB6A"/>
+                    <GradientStop Offset="1"
+                                  Color="#81C784"/>
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Stroke"
+                Value="Transparent"/>
+        <Setter Property="StrokeThickness"
+                Value="0"/>
+        <Setter Property="StrokeShape">
+            <Setter.Value>
+                <RoundRectangle CornerRadius="0,0,50,50"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Margin"
+                Value="0,0,0,-15"/>
+        <Setter Property="Padding"
+                Value="0,70,0,45"/>
+        <Setter Property="Shadow">
+            <Setter.Value>
+                <Shadow
+                    Brush="#30000000"
+                    Radius="18"
+                    Offset="0,8"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style Class="HeaderLayer3Style"
+           TargetType="Border">
+        <Setter Property="Background">
+            <Setter.Value>
+                <LinearGradientBrush StartPoint="0,0"
+                                     EndPoint="1,1">
+                    <GradientStop Offset="0"
+                                  Color="#81C784"/>
+                    <GradientStop Offset="1"
+                                  Color="#A5D6A7"/>
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Stroke"
+                Value="Transparent"/>
+        <Setter Property="StrokeThickness"
+                Value="0"/>
+        <Setter Property="StrokeShape">
+            <Setter.Value>
+                <RoundRectangle CornerRadius="0,0,40,40"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Margin"
+                Value="0,0,0,-10"/>
+        <Setter Property="Padding"
+                Value="0,60,0,35"/>
+        <Setter Property="Shadow">
+            <Setter.Value>
+                <Shadow
+                    Brush="#20000000"
+                    Radius="15"
+                    Offset="0,6"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--  Ultra Modern Picker Container Style  -->
+    <Style Class="PickerContainerStyle"
+           TargetType="Border">
+        <Setter Property="Background">
+            <Setter.Value>
+                <LinearGradientBrush StartPoint="0,0"
+                                     EndPoint="1,1">
+                    <GradientStop Offset="0"
+                                  Color="#FFFFFF"/>
+                    <GradientStop Offset="1"
+                                  Color="#F8F9FA"/>
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Stroke">
+            <Setter.Value>
+                <LinearGradientBrush StartPoint="0,0"
+                                     EndPoint="1,1">
+                    <GradientStop Offset="0"
+                                  Color="#E3F2FD"/>
+                    <GradientStop Offset="1"
+                                  Color="#BBDEFB"/>
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="StrokeThickness"
+                Value="2"/>
+        <Setter Property="StrokeShape">
+            <Setter.Value>
+                <RoundRectangle CornerRadius="35"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Padding"
+                Value="30,22"/>
+        <Setter Property="Margin"
+                Value="0,10"/>
+        <Setter Property="Shadow">
+            <Setter.Value>
+                <Shadow
+                    Brush="#20000000"
+                    Radius="18"
+                    Offset="0,6"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--  Ultra Modern Entry Container Style  -->
+    <Style Class="EntryContainerStyle"
+           TargetType="Border">
+        <Setter Property="Background">
+            <Setter.Value>
+                <LinearGradientBrush StartPoint="0,0"
+                                     EndPoint="1,1">
+                    <GradientStop Offset="0"
+                                  Color="#FFFFFF"/>
+                    <GradientStop Offset="1"
+                                  Color="#F8F9FA"/>
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Stroke">
+            <Setter.Value>
+                <LinearGradientBrush StartPoint="0,0"
+                                     EndPoint="1,1">
+                    <GradientStop Offset="0"
+                                  Color="#E3F2FD"/>
+                    <GradientStop Offset="1"
+                                  Color="#BBDEFB"/>
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="StrokeThickness"
+                Value="2"/>
+        <Setter Property="StrokeShape">
+            <Setter.Value>
+                <RoundRectangle CornerRadius="35"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Padding"
+                Value="30,22"/>
+        <Setter Property="Margin"
+                Value="0,10"/>
+        <Setter Property="Shadow">
+            <Setter.Value>
+                <Shadow
+                    Brush="#20000000"
+                    Radius="18"
+                    Offset="0,6"/>
+            </Setter.Value>
+        </Setter>
     </Style>
 </ResourceDictionary>

@@ -64,7 +64,7 @@ namespace IMS_Mobile
                 AutoConnectRealtime = true
 
             };
-          
+            
             var supabase = new Supabase.Client(supabaseUrl, supabaseKey, options);
             builder.Services.AddSingleton(supabase);
             builder.Services.AddSingleton<SyncService>();
