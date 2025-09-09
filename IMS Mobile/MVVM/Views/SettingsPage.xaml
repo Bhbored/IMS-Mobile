@@ -3,8 +3,17 @@
     x:Class="IMS_Mobile.MVVM.Views.SettingsPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:IMS_Mobile.Converters"
+    xmlns:models="clr-namespace:IMS_Mobile.MVVM.Models"
+    x:DataType="viewmodels:SettingsViewModel"
+    xmlns:viewmodels="clr-namespace:IMS_Mobile.MVVM.ViewModels"
     Title="Settings"
     BackgroundColor="#F8F9FA">
+
+    <ContentPage.Resources>
+        <converters:ThemeConverter x:Key="ThemeConverter"/>
+        <converters:CurrencyConverter x:Key="CurrencyConverter"/>
+    </ContentPage.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -88,7 +97,7 @@
                                     x:Name="displayNameEntry"
                                     Placeholder="Enter your full name"
                                     StyleClass="SettingsEntryStyle"
-                                    TextChanged="OnDisplayNameChanged"/>
+                                    Text="{Binding DisplayName}"/>
                             </Border>
                         </StackLayout>
                     </StackLayout>
@@ -109,8 +118,8 @@
                             <Border StyleClass="PickerContainerStyle">
                                 <Picker
                                     x:Name="themePicker"
-                                    SelectedIndexChanged="OnThemeChanged"
-                                    StyleClass="SettingsPickerStyle">
+                                    StyleClass="SettingsPickerStyle"
+                                    SelectedItem="{Binding SelectedTheme, Converter={StaticResource ThemeConverter}}">
                                     <Picker.ItemsSource>
                                         <x:Array Type="{x:Type x:String}">
                                             <x:String>☀️ Light Theme</x:String>
@@ -129,8 +138,8 @@
                             <Border StyleClass="PickerContainerStyle">
                                 <Picker
                                     x:Name="currencyPicker"
-                                    SelectedIndexChanged="OnCurrencyChanged"
-                                    StyleClass="SettingsPickerStyle">
+                                    StyleClass="SettingsPickerStyle"
+                                    SelectedItem="{Binding SelectedCurrency, Converter={StaticResource CurrencyConverter}}">
                                     <Picker.ItemsSource>
                                         <x:Array Type="{x:Type x:String}">
                                             <x:String>💵 USD - US Dollar</x:String>
@@ -156,14 +165,14 @@
                         <!--  Save Button with Gradient  -->
                         <Button
                             x:Name="saveButton"
-                            Clicked="OnSaveClicked"
+                            Command="{Binding SaveCommand}"
                             StyleClass="SettingsButtonStyle,PrimaryButtonStyle"
                             Text="💾 Save Settings"/>
 
                         <!--  Reset Button with Secondary Style  -->
                         <Button
                             x:Name="resetButton"
-                            Clicked="OnResetClicked"
+                            Command="{Binding ResetCommand}"
                             StyleClass="SettingsButtonStyle,SecondaryButtonStyle"
                             Text="🔄 Reset to Defaults"/>
                     </StackLayout>

@@ -1,50 +1,24 @@
+using IMS_Mobile.MVVM.ViewModels;
+using IMS_Mobile.Service;
+
 namespace IMS_Mobile.MVVM.Views;
 
 public partial class SettingsPage : ContentPage
 {
-    public SettingsPage()
+    private readonly SettingsViewModel _viewModel;
+
+    public SettingsPage(SettingsViewModel viewModel)
     {
         InitializeComponent();
-        SetupPickers();
+        _viewModel = viewModel;
+        _viewModel.SettingsPage = this;
+        BindingContext = _viewModel;
     }
-
-    private void SetupPickers()
-    {
-        // Set default selections
-        themePicker.SelectedIndex = 0;
-        currencyPicker.SelectedIndex = 0;
-    }
-
-
 
     private void OnChangeAvatarClicked(object sender, EventArgs e)
     {
-        // Handle avatar change
-    }
-
-    private void OnDisplayNameChanged(object sender, TextChangedEventArgs e)
-    {
-        // Handle display name change
-    }
-
-    private void OnThemeChanged(object sender, EventArgs e)
-    {
-        // Handle theme change
-    }
-
-
-    private void OnCurrencyChanged(object sender, EventArgs e)
-    {
-        // Handle currency change
-    }
-
-    private void OnSaveClicked(object sender, EventArgs e)
-    {
-        // Handle save
-    }
-
-    private void OnResetClicked(object sender, EventArgs e)
-    {
-        // Handle reset
+        // TODO: Implement avatar selection from gallery/camera
+        // For now, just set a placeholder path
+        _viewModel.Avatar = "user.png";
     }
 }

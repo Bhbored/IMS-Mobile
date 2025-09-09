@@ -41,6 +41,7 @@ namespace IMS_Mobile
             builder.Services.AddSingleton<LoadingPage>();
             builder.Services.AddSingleton<LoginPage>();
             builder.Services.AddSingleton<SignUpPage>();
+            builder.Services.AddTransient<SettingsPage>();
             builder.Services.AddSingleton<LoadingViewModel>();
             builder.Services.AddSingleton<LoginViewModel>();
             builder.Services.AddSingleton<SignUpViewModel>();
@@ -49,11 +50,13 @@ namespace IMS_Mobile
             builder.Services.AddTransient<BaseRepository<Product>>();
             builder.Services.AddTransient<BaseRepository<Contact>>();
             builder.Services.AddTransient<BaseRepository<TransactionProductItem>>();
+            builder.Services.AddTransient<UserPreferencesRepository>();
             //ViewModels
             builder.Services.AddTransient<HomeVM>();
             builder.Services.AddTransient<ContactsVM>();
             builder.Services.AddTransient<InventoryVM>();
             builder.Services.AddTransient<ReportsVM>();
+            builder.Services.AddTransient<SettingsViewModel>();
             builder.Services.AddSingleton<ResetPasswordPage>();
 
             // Configure Supabase
@@ -64,7 +67,7 @@ namespace IMS_Mobile
                 AutoConnectRealtime = true
 
             };
-            
+           
             var supabase = new Supabase.Client(supabaseUrl, supabaseKey, options);
             builder.Services.AddSingleton(supabase);
             builder.Services.AddSingleton<SyncService>();
