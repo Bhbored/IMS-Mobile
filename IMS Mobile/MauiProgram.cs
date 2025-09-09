@@ -33,7 +33,7 @@ namespace IMS_Mobile
                     fonts.AddFont("Poppins-Bold.ttf", "poppinbold");
                     fonts.AddFont("Poppins-Regular.ttf", "poppinregular");
                 });
-          
+
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
@@ -45,26 +45,26 @@ namespace IMS_Mobile
             builder.Services.AddSingleton<LoginViewModel>();
             builder.Services.AddSingleton<SignUpViewModel>();
             // Register the database
-            builder.Services.AddSingleton<BaseRepository<Transaction>>();
-            builder.Services.AddSingleton<BaseRepository<Product>>();
-            builder.Services.AddSingleton<BaseRepository<Contact>>();
-            builder.Services.AddSingleton<BaseRepository<TransactionProductItem>>();
+            builder.Services.AddTransient<BaseRepository<Transaction>>();
+            builder.Services.AddTransient<BaseRepository<Product>>();
+            builder.Services.AddTransient<BaseRepository<Contact>>();
+            builder.Services.AddTransient<BaseRepository<TransactionProductItem>>();
             //ViewModels
-            builder.Services.AddSingleton<HomeVM>();
-            builder.Services.AddSingleton<ContactsVM>();
-            builder.Services.AddSingleton<InventoryVM>();
-            builder.Services.AddSingleton<ReportsVM>();
+            builder.Services.AddTransient<HomeVM>();
+            builder.Services.AddTransient<ContactsVM>();
+            builder.Services.AddTransient<InventoryVM>();
+            builder.Services.AddTransient<ReportsVM>();
             builder.Services.AddSingleton<ResetPasswordPage>();
 
             // Configure Supabase
-           
+
             var options = new SupabaseOptions
             {
                 AutoRefreshToken = true,
                 AutoConnectRealtime = true
 
             };
-
+          
             var supabase = new Supabase.Client(supabaseUrl, supabaseKey, options);
             builder.Services.AddSingleton(supabase);
             builder.Services.AddSingleton<SyncService>();

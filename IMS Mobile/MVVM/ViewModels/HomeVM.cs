@@ -31,19 +31,54 @@ namespace IMS_Mobile.MVVM.ViewModels
         private readonly SupabaseAuthService _authService;
         private readonly SyncService _syncService;
 
-        public static HomeVM? Instance { get; private set; }
         public HomeVM(SupabaseAuthService authService, SyncService syncService)
         {
             _authService = authService;
             _syncService = syncService;
         }
 
+        public void ResetToInitialState()
+        {
+            // Clear all data
+            Transactions.Clear();
+            FilteredTransactions.Clear();
+            _currentFilteredList.Clear();
+
+            // Reset properties to initial values
+            CashFLow = 0;
+            PageIndex = 1;
+            IsRefreshing = false;
+
+            // Notify UI of all changes
+            OnPropertyChanged(nameof(CashFLow));
+            OnPropertyChanged(nameof(Transactions));
+            OnPropertyChanged(nameof(FilteredTransactions));
+            OnPropertyChanged(nameof(PageIndex));
+            OnPropertyChanged(nameof(IsRefreshing));
+        }
+
         #region Properties
-        public HomePage HomePage { get; set; }
+        public HomePage? HomePage { get; set; }
         public bool IsRefreshing { get; set; } = false;
 
-        public ObservableCollection<Transaction> Transactions { get; set; } = new ObservableCollection<Transaction>();
-        public ObservableCollection<Transaction> FilteredTransactions { get; set; } = new ObservableCollection<Transaction>();
+        public ObservableCollection<Transaction> Transactions
+        {
+            get => transactions;
+            set
+            {
+                transactions = value;
+                OnPropertyChanged();
+            }
+        }
+        public ObservableCollection<Transaction> FilteredTransactions
+        {
+            get => filteredTransactions;
+            set
+            {
+                filteredTransactions = value;
+                OnPropertyChanged();
+            }
+        }
         public double CashFLow
         {
             get => cashFLow;
@@ -70,7 +105,8 @@ namespace IMS_Mobile.MVVM.ViewModels
         private int _pageIndex = 1;
         private List<Transaction> _currentFilteredList = new List<Transaction>();
         private double cashFLow;
-
+        private ObservableCollection<Transaction> transactions = new ObservableCollection<Transaction>();
+        private ObservableCollection<Transaction> filteredTransactions = new ObservableCollection<Transaction>();
 
         public void incrementPageIndex()
         {
@@ -110,6 +146,10 @@ namespace IMS_Mobile.MVVM.ViewModels
             {
                 FilteredTransactions.Add(transaction);
             }
+
+            // Notify UI of changes
+            OnPropertyChanged(nameof(FilteredTransactions));
+            OnPropertyChanged(nameof(PageIndex));
         }
 
         public void BackToFirstPage()
@@ -226,6 +266,10 @@ namespace IMS_Mobile.MVVM.ViewModels
                 .ToList();
             PageIndex = 1;
             ApplyPagination();
+
+            // Notify UI of changes
+            OnPropertyChanged(nameof(FilteredTransactions));
+            OnPropertyChanged(nameof(PageIndex));
         }
 
         public ICommand BuyFilterCommand => new Command(() =>
@@ -259,16 +303,34 @@ namespace IMS_Mobile.MVVM.ViewModels
         #region Tasks
         public Task LoadTransactionsAsync()
         {
-            var transactions = App.TransactionRepository.GetItemsWithChildren();
+            // Clear all existing data first
             Transactions.Clear();
             FilteredTransactions.Clear();
+            _currentFilteredList.Clear();
+            CashFLow = 0;
+            PageIndex = 1;
+
+            // Load fresh data from database
+            var transactions = App.TransactionRepository?.GetItemsWithChildren() ?? new List<Transaction>();
+
             foreach (var transaction in transactions)
             {
                 Transactions.Add(transaction);
             }
-            ShowAllTransactions();
+
+            // Calculate cash flow from sell transactions that are paid
             CashFLow = transactions.Where(x => x.Type == "sell" && x.IsPaid == true)
-            .Sum(x => x.totalamount);
+                .Sum(x => x.totalamount);
+
+            // Apply default filter (show all)
+            ShowAllTransactions();
+
+            // Notify UI of all changes
+            OnPropertyChanged(nameof(CashFLow));
+            OnPropertyChanged(nameof(Transactions));
+            OnPropertyChanged(nameof(FilteredTransactions));
+            OnPropertyChanged(nameof(PageIndex));
+
             return Task.CompletedTask;
         }
         public async Task RefreshTransactions()
@@ -309,7 +371,7 @@ namespace IMS_Mobile.MVVM.ViewModels
                     }
                     catch (Exception ex)
                     {
-                        await App.Current.MainPage.DisplayAlert("⚠️ Sync Failed", $"Casue: {ex.Message}", "Ok");
+                        await Application.Current!.Windows[0].Page!.DisplayAlert("⚠️ Sync Failed", $"Cause: {ex.Message}", "Ok");
                     }
                 }
 
@@ -322,8 +384,8 @@ namespace IMS_Mobile.MVVM.ViewModels
         #endregion
 
         #region INotifyPropertyChanged Implementation
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        public new event PropertyChangedEventHandler? PropertyChanged;
+        protected new virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

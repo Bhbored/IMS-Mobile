@@ -14,7 +14,7 @@ public partial class HomePage : ContentPage
     private static readonly IList<string> ActiveFilter = new List<string> { "ActiveFilterButtonStyle" };
     private static readonly IList<string> InActiveFilter = new List<string> { "FilterButtonStyle" };
     public static HomePage? Current { get; private set; }
-   
+
     private bool _isConnected;
     private bool _hasShownOfflineAlert = false;
     public HomePage(HomeVM vm)
@@ -23,19 +23,18 @@ public partial class HomePage : ContentPage
         BindingContext = vm;
         Current = this;
 
+        // Set the HomePage reference in the ViewModel
+        vm.HomePage = this;
     }
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        
-       
+
         if (BindingContext is HomeVM vm)
         {
-            if (vm.FilteredTransactions.Count == 0)
-            {
-                await vm.LoadTransactionsAsync();
-                ResetAllFilters();
-            }
+            // Always reload transactions to ensure fresh data for new accounts
+            await vm.LoadTransactionsAsync();
+            ResetAllFilters();
         }
     }
     protected override async void OnNavigatedTo(NavigatedToEventArgs args)
@@ -44,16 +43,16 @@ public partial class HomePage : ContentPage
 
         _isConnected = NetworkHelper.IsConnected();
 
-        if (!_isConnected && !_hasShownOfflineAlert) 
+        if (!_isConnected && !_hasShownOfflineAlert)
         {
-            _hasShownOfflineAlert = true; 
+            _hasShownOfflineAlert = true;
             await Task.Delay(500);
             try
             {
                 var popup = new OfflineAlertPopup();
                 await this.ShowPopupAsync(popup);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 await this.DisplayAlert("⚠️Offline Mode", "You're offline. Changes will be saved locally and synced when you're back online.", "OK");
             }
@@ -64,6 +63,7 @@ public partial class HomePage : ContentPage
     private void Button_Clicked(object sender, EventArgs e)
     {
         var btn = sender as Button;
+        if (btn == null) return;
 
         ResetAllFilters();
 

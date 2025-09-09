@@ -29,36 +29,30 @@ namespace IMS_Mobile
         public static InventoryVM? inventoryVM { get; set; }
         public static ReportsVM? reportsVM { get; set; }
 
+        private static IServiceProvider? _serviceProvider;
+
         private readonly Supabase.Client _supabaseClient;
         private readonly SyncService _syncService;
-        public static SupabaseAuthService AuthService { get; private set; }
+        public static SupabaseAuthService AuthService { get; private set; } = null!;
         #endregion
 
 
-        public App(BaseRepository<Transaction> _transaction, BaseRepository<Product> _productrepo,
-            BaseRepository<Contact> _contactrepo, BaseRepository<TransactionProductItem> _transactionProductItemRepo
-            , HomeVM _vm, ContactsVM _contactVM, InventoryVM _inventoryVM, ReportsVM _reportsVM,
-            Supabase.Client supabaseClient, SyncService syncService, SupabaseAuthService _authservice)
+        public App(Supabase.Client supabaseClient, SyncService syncService, SupabaseAuthService _authservice, IServiceProvider serviceProvider)
         {
             InitializeComponent();
             SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1JEaF5cXmRCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdmWXlceHRTQ2ZYWUN/XkFWYEk=");
 
-            TransactionRepository = _transaction;
-            ProductRepository = _productrepo;
-            ContactRepository = _contactrepo;
-            TransactionProductItemRepository = _transactionProductItemRepo;
-            homeVM = _vm;
-            contactsVM = _contactVM;
-            inventoryVM = _inventoryVM;
-            reportsVM = _reportsVM;
             _supabaseClient = supabaseClient;
             _syncService = syncService;
             AuthService = _authservice;
+            _serviceProvider = serviceProvider;
+            InitializeRepositories();
         }
 
         #region Window Management
         protected override Window CreateWindow(IActivationState? activationState)
         {
+
             var shell = new AppShell(AuthService, _syncService);
 
             _ = Task.Run(async () =>
@@ -133,7 +127,7 @@ namespace IMS_Mobile
         #endregion
 
         #region Deep Linking
-        protected override async void OnAppLinkRequestReceived(Uri uri)
+        protected override async void OnAppLinkRequestReceived(Uri? uri)
         {
             try
             {
@@ -213,15 +207,40 @@ namespace IMS_Mobile
             await Task.Delay(100);
             TransactionProductItemRepository?.WipeAndResetTo1();
         }
+        private void InitializeRepositories()
+        {
+            if (_serviceProvider != null)
+            {
+                TransactionRepository = _serviceProvider.GetService<BaseRepository<Transaction>>();
+                ProductRepository = _serviceProvider.GetService<BaseRepository<Product>>();
+                ContactRepository = _serviceProvider.GetService<BaseRepository<Contact>>();
+                TransactionProductItemRepository = _serviceProvider.GetService<BaseRepository<TransactionProductItem>>();
+            }
+        }
+
         public static async Task RecreateRepositories()
         {
-            ProductRepository = new BaseRepository<Product>();
-            await Task.Delay(100);
-            TransactionRepository = new BaseRepository<Transaction>();
-            await Task.Delay(100);
-            ContactRepository = new BaseRepository<Contact>();
-            await Task.Delay(100);
-            TransactionProductItemRepository = new BaseRepository<TransactionProductItem>();
+            if (_serviceProvider != null)
+            {
+                ProductRepository = _serviceProvider.GetService<BaseRepository<Product>>();
+                await Task.Delay(100);
+                TransactionRepository = _serviceProvider.GetService<BaseRepository<Transaction>>();
+                await Task.Delay(100);
+                ContactRepository = _serviceProvider.GetService<BaseRepository<Contact>>();
+                await Task.Delay(100);
+                TransactionProductItemRepository = _serviceProvider.GetService<BaseRepository<TransactionProductItem>>();
+            }
+        }
+
+        public static void RecreateViewModels()
+        {
+            if (_serviceProvider != null)
+            {
+                homeVM = _serviceProvider.GetService<HomeVM>();
+                contactsVM = _serviceProvider.GetService<ContactsVM>();
+                inventoryVM = _serviceProvider.GetService<InventoryVM>();
+                reportsVM = _serviceProvider.GetService<ReportsVM>();
+            }
         }
         #endregion
     }

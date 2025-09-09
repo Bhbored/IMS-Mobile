@@ -103,6 +103,7 @@ namespace IMS_Mobile.DB
         {
             try
             {
+                EnsureConnection();
                 int rows = _connection.Insert(item);
                 Debug.WriteLine($"[INSERT] {typeof(T).Name} Id={item.Id} Rows={rows}");
                 return rows;
@@ -436,6 +437,7 @@ namespace IMS_Mobile.DB
         {
             try
             {
+                EnsureConnection();
                 var list = _connection.Table<T>().ToList();
                 Debug.WriteLine($"[SELECT] {list.Count} {typeof(T).Name}(s)");
                 return list;
@@ -466,6 +468,8 @@ namespace IMS_Mobile.DB
         {
             try
             {
+                EnsureConnection();
+
                 if (_connection == null)
                 {
                     Debug.WriteLine($"[ERROR][SELECT-WITH-CHILDREN] Connection is null for {typeof(T).Name}");
@@ -499,7 +503,7 @@ namespace IMS_Mobile.DB
             throw new NotImplementedException();
         }
         #endregion
-        
+
 
     }
 }

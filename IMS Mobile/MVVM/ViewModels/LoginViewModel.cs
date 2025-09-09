@@ -77,6 +77,13 @@ namespace IMS_Mobile.MVVM.ViewModels
                         await _syncService.SyncFromSupabase();
                         await Task.Delay(1000);
                     }
+
+                    // Recreate ViewModels to ensure fresh instances
+                    App.RecreateViewModels();
+
+                    // Reset HomeVM to initial state for new account
+                    App.homeVM?.ResetToInitialState();
+
                     await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
                 }
                 else
@@ -85,7 +92,7 @@ namespace IMS_Mobile.MVVM.ViewModels
                     PasswordError = "Incorrect email or password. Tap 'Forgot Password?' to reset.";
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 ErrorMessage = "Login failed. Please try again.";
             }

@@ -41,7 +41,7 @@ public partial class LogoutConfirmationPopup : Popup
             }
             else
             {
-                await App.Current.MainPage.DisplayAlert("Attention ⚠️", "You're not Connected", "ok");
+                await Application.Current!.MainPage!.DisplayAlert("Attention ⚠️", "You're not Connected", "ok");
                 await CloseAsync();
             }
         }
@@ -68,6 +68,13 @@ public partial class LogoutConfirmationPopup : Popup
         await App.StopConnection();
         await Task.Delay(1000);
         await _authService.SignOutAsync();
+
+        // Clear ViewModels to ensure fresh instances on next login
+        App.homeVM = null;
+        App.contactsVM = null;
+        App.inventoryVM = null;
+        App.reportsVM = null;
+
         await Shell.Current.GoToAsync($"//{nameof(LoginPage)}");
     }
 }

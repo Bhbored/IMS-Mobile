@@ -13,10 +13,7 @@ namespace IMS_Mobile.Service
     public class SyncService
     {
         #region Fields
-        private readonly BaseRepository<Contact> _contactRepository;
-        private readonly BaseRepository<Product> _productRepository;
-        private readonly BaseRepository<Transaction> _transactionRepository;
-        private readonly BaseRepository<TransactionProductItem> _transactionProductItemRepository;
+        // Using App's static repositories to ensure we always have fresh instances
         private readonly Supabase.Client _supabaseClient;
         private readonly SupabaseAuthService _supabaseAuthService;
         private Guid _currentUserId;
@@ -24,18 +21,11 @@ namespace IMS_Mobile.Service
         #endregion
 
         #region Constructor
-        public SyncService(Supabase.Client supabaseClient, SupabaseAuthService supabaseAuthService,
-            BaseRepository<Product> products,
-            BaseRepository<Contact> contacts, BaseRepository<Transaction> transactions,
-            BaseRepository<TransactionProductItem> transactionItems)
+        public SyncService(Supabase.Client supabaseClient, SupabaseAuthService supabaseAuthService)
         {
             _supabaseClient = supabaseClient;
             _supabaseAuthService = supabaseAuthService;
             _currentUserId = _supabaseAuthService.GetUserIdGuid();
-            _contactRepository = contacts;
-            _productRepository = products;
-            _transactionRepository = transactions;
-            _transactionProductItemRepository = transactionItems;
         }
         #endregion
 
@@ -95,22 +85,22 @@ namespace IMS_Mobile.Service
             try
             {
                 await Task.Delay(100);
-                var contacts = _contactRepository.GetItems();
+                var contacts = App.ContactRepository?.GetItems() ?? new List<Contact>();
                 foreach (var contact in contacts)
                 {
-                    _contactRepository.DeleteItem(contact);
+                    App.ContactRepository?.DeleteItem(contact);
                 }
                 await Task.Delay(100);
-                var products = _productRepository.GetItems();
+                var products = App.ProductRepository?.GetItems() ?? new List<Product>();
                 foreach (var product in products)
                 {
-                    _productRepository.DeleteItem(product);
+                    App.ProductRepository?.DeleteItem(product);
                 }
                 await Task.Delay(100);
-                var transactions = _transactionRepository.GetItemsWithChildren();
+                var transactions = App.TransactionRepository?.GetItemsWithChildren() ?? new List<Transaction>();
                 foreach (var transaction in transactions)
                 {
-                    _transactionRepository.DeleteItem(transaction);
+                    App.TransactionRepository?.DeleteItem(transaction);
                 }
 
             }
@@ -155,7 +145,7 @@ namespace IMS_Mobile.Service
         {
             if (_currentUserId == Guid.Empty) return;
 
-            var contacts = _contactRepository.GetItems();
+            var contacts = App.ContactRepository?.GetItems() ?? new List<Contact>();
             foreach (var contact in contacts)
             {
                 try
@@ -188,7 +178,7 @@ namespace IMS_Mobile.Service
         {
             if (_currentUserId == Guid.Empty) return;
 
-            var products = _productRepository.GetItems();
+            var products = App.ProductRepository?.GetItems() ?? new List<Product>();
             foreach (var product in products)
             {
                 try
@@ -221,7 +211,7 @@ namespace IMS_Mobile.Service
         {
             if (_currentUserId == Guid.Empty) return;
 
-            var transactions = _transactionRepository.GetItemsWithChildren();
+            var transactions = App.TransactionRepository?.GetItemsWithChildren() ?? new List<Transaction>();
 
             foreach (var transaction in transactions)
             {
@@ -278,7 +268,7 @@ namespace IMS_Mobile.Service
         {
             if (_currentUserId == Guid.Empty) return;
 
-            var transactionItems = _transactionProductItemRepository.GetItems();
+            var transactionItems = App.TransactionProductItemRepository?.GetItems() ?? new List<TransactionProductItem>();
 
             int insertedCount = 0;
             int updatedCount = 0;
@@ -343,7 +333,7 @@ namespace IMS_Mobile.Service
                     try
                     {
                         var contact = contactDto.ToModel();
-                        _contactRepository.InsertItem(contact);
+                        App.ContactRepository?.InsertItem(contact);
                         Debug.WriteLine($"✅ Inserted contact from Supabase: local_id {contactDto.LocalId}");
                     }
                     catch (Exception ex)
@@ -374,7 +364,7 @@ namespace IMS_Mobile.Service
                     try
                     {
                         var product = productDto.ToModel();
-                        _productRepository.InsertItem(product);
+                        App.ProductRepository?.InsertItem(product);
                         Debug.WriteLine($"✅ Inserted product from Supabase: local_id {productDto.LocalId}");
                     }
                     catch (Exception ex)
@@ -426,7 +416,7 @@ namespace IMS_Mobile.Service
                         }
 
                         // Insert transaction with all its Products
-                        _transactionRepository.InsertItemWithChildren(transaction);
+                        App.TransactionRepository?.InsertItemWithChildren(transaction);
                         Debug.WriteLine($"✅ Inserted transaction with {transaction.Products.Count} products from Supabase: local_id {transactionDto.LocalId}");
                     }
                     catch (Exception ex)
@@ -449,7 +439,7 @@ namespace IMS_Mobile.Service
         {
             if (_currentUserId == Guid.Empty) return;
 
-            var localContacts = _contactRepository.GetItems().ToDictionary(c => c.Id);
+            var localContacts = (App.ContactRepository?.GetItems() ?? new List<Contact>()).ToDictionary(c => c.Id);
             var supabaseContacts = await _supabaseClient
                 .From<ContactDto>()
                 .Where(x => x.UserId == _currentUserId)
@@ -499,7 +489,7 @@ namespace IMS_Mobile.Service
         {
             if (_currentUserId == Guid.Empty) return;
 
-            var localProducts = _productRepository.GetItems().ToDictionary(p => p.Id);
+            var localProducts = (App.ProductRepository?.GetItems() ?? new List<Product>()).ToDictionary(p => p.Id);
             var supabaseProducts = await _supabaseClient
                 .From<ProductDto>()
                 .Where(x => x.UserId == _currentUserId)
@@ -549,7 +539,7 @@ namespace IMS_Mobile.Service
         {
             if (_currentUserId == Guid.Empty) return;
 
-            var localTransactions = _transactionRepository.GetItemsWithChildren().ToDictionary(t => t.Id);
+            var localTransactions = (App.TransactionRepository?.GetItemsWithChildren() ?? new List<Transaction>()).ToDictionary(t => t.Id);
             var supabaseTransactions = await _supabaseClient
                 .From<TransactionDto>()
                 .Where(x => x.UserId == _currentUserId)
@@ -602,7 +592,7 @@ namespace IMS_Mobile.Service
         {
             if (_currentUserId == Guid.Empty) return;
 
-            var localItems = _transactionProductItemRepository.GetItems().ToDictionary(i => i.Id);
+            var localItems = (App.TransactionProductItemRepository?.GetItems() ?? new List<TransactionProductItem>()).ToDictionary(i => i.Id);
             var supabaseItems = await _supabaseClient
                 .From<TransactionProductItemDto>()
                 .Where(x => x.UserId == _currentUserId)
