@@ -8,7 +8,7 @@
     xmlns:inputLayout="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     x:DataType="ViewModel:InventoryVM"
-    Background="White"
+    Background="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource DarkSurface}}"
     CanBeDismissedByTappingOutsideOfPopup="False"
     HeightRequest="650">
 
@@ -21,33 +21,35 @@
                 Grid.Row="0"
                 Margin="0,0,0,20"
                 ColumnDefinitions="*,Auto">
-                <VerticalStackLayout Grid.Column="0" Spacing="4">
+                <VerticalStackLayout Grid.Column="0"
+                                     Spacing="4">
                     <Label
                         FontFamily="poppinbold"
                         FontSize="22"
                         Text="Add New Contact"
-                        TextColor="#1A1A1A" />
+                        TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource DarkOnSurface}}"/>
                     <Label
                         FontFamily="poppinregular"
                         FontSize="14"
                         Text="Enter contact details below"
-                        TextColor="#666666" />
+                        TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource DarkOnSurface}}"/>
                 </VerticalStackLayout>
                 <Label
                     Grid.Column="1"
                     FontSize="20"
                     HorizontalOptions="Center"
                     Text="✕"
-                    TextColor="#999999"
+                    TextColor="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource DarkSurfaceVariant}}"
                     VerticalOptions="Start">
                     <Label.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
                     </Label.GestureRecognizers>
                 </Label>
             </Grid>
 
             <!--  Form Content  -->
-            <VerticalStackLayout Grid.Row="1" Spacing="5">
+            <VerticalStackLayout Grid.Row="1"
+                                 Spacing="5">
 
                 <!--  Contact Name  -->
                 <inputLayout:SfTextInputLayout
@@ -61,8 +63,8 @@
                         FontFamily="poppinregular"
                         FontSize="16"
                         Placeholder="Enter contact name"
-                        TextColor="#333333"
-                        VerticalOptions="Center" />
+                        TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource DarkOnSurface}}"
+                        VerticalOptions="Center"/>
                 </inputLayout:SfTextInputLayout>
 
                 <!--  Phone Number  -->
@@ -77,8 +79,8 @@
                         FontSize="16"
                         Keyboard="Telephone"
                         Placeholder="Enter phone number"
-                        TextColor="#333333"
-                        VerticalOptions="Center" />
+                        TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource DarkOnSurface}}"
+                        VerticalOptions="Center"/>
                 </inputLayout:SfTextInputLayout>
 
                 <!--  Credit Score  -->
@@ -92,8 +94,8 @@
                         FontFamily="poppinregular"
                         FontSize="16"
                         Placeholder="Enter Email"
-                        TextColor="#333333"
-                        VerticalOptions="Center" />
+                        TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource DarkOnSurface}}"
+                        VerticalOptions="Center"/>
                 </inputLayout:SfTextInputLayout>
 
                 <!--  Total Purchases  -->
@@ -107,8 +109,8 @@
                         FontFamily="poppinregular"
                         FontSize="16"
                         Placeholder="Enter Address"
-                        TextColor="#333333"
-                        VerticalOptions="Center" />
+                        TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource DarkOnSurface}}"
+                        VerticalOptions="Center"/>
                 </inputLayout:SfTextInputLayout>
 
             </VerticalStackLayout>
@@ -131,7 +133,7 @@
                     FontSize="15"
                     HeightRequest="52"
                     Text="Cancel"
-                    TextColor="#666666" />
+                    TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource DarkOnSurface}}"/>
 
                 <!--  Add Contact Button  -->
                 <Button
@@ -143,7 +145,7 @@
                     FontSize="15"
                     HeightRequest="52"
                     Text="Add Contact"
-                    TextColor="White" />
+                    TextColor="White"/>
             </Grid>
 
         </Grid>

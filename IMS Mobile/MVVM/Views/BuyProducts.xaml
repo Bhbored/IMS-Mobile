@@ -9,7 +9,7 @@
     xmlns:bottomSheet="clr-namespace:Syncfusion.Maui.Toolkit.BottomSheet;assembly=Syncfusion.Maui.Toolkit"
     xmlns:editors="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
     x:DataType="ViewModels:InventoryVM"
-    BackgroundColor="White"
+    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource DarkBackground}}"
     Shell.NavBarIsVisible="False">
     <ContentPage.Resources>
         <Converters:GlobalCurrencyConverter x:Key="GlobalCurrencyConverter"/>
@@ -62,10 +62,10 @@
                     x:Name="autocomplete"
                     Grid.Column="1"
                     Margin="0,5,0,0"
-                    BackgroundColor="#F0F8F0"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource DarkSurface}}"
                     DisplayMemberPath="Name"
                     EnableAutoSize="True"
-                    HighlightedTextColor="#4CAF50"
+                    HighlightedTextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource ModernGreen}}"
                     HighlightedTextFontAttributes="Bold"
                     HorizontalOptions="Fill"
                     ItemsSource="{Binding Products}"
@@ -91,16 +91,16 @@
             IsRefreshing="{Binding IsRefreshing}"
             RefreshColor="LightGreen">
             <CollectionView ItemsSource="{Binding FilteredProducts}"
-                    SelectionMode="None">
+                            SelectionMode="None">
                 <CollectionView.ItemsLayout>
                     <GridItemsLayout Orientation="Vertical"
-                            Span="1"/>
+                                     Span="1"/>
                 </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="Models:Product">
                         <Border StyleClass="ProductItemStyle">
                             <Grid ColumnDefinitions="Auto,*,Auto,Auto"
-                                    ColumnSpacing="8">
+                                  ColumnSpacing="8">
                                 <!--  Product Image  -->
                                 <Border
                                     Grid.Column="0"
@@ -109,7 +109,7 @@
                                     StrokeShape="RoundRectangle 10"
                                     WidthRequest="60">
                                     <Image Aspect="AspectFit"
-                                            Source="product.png"/>
+                                           Source="product.png"/>
                                 </Border>
 
                                 <!--  Product Info  -->
@@ -158,13 +158,13 @@
             StrokeShape="RoundRectangle 15,15,0,0"
             StrokeThickness="1">
             <Grid ColumnDefinitions="*,Auto"
-                    ColumnSpacing="15">
+                  ColumnSpacing="15">
                 <StackLayout Grid.Column="0"
-                        VerticalOptions="Center">
+                             VerticalOptions="Center">
                     <Label StyleClass="RegularTextStyle"
-                            Text="{Binding CartItemsCount, StringFormat='Cart: {0} items'}"/>
+                           Text="{Binding CartItemsCount, StringFormat='Cart: {0} items'}"/>
                     <Label StyleClass="PriceStyle"
-                            Text="{Binding CartValue, Converter={StaticResource GlobalCurrencyConverter}}"/>
+                           Text="{Binding CartValue, Converter={StaticResource GlobalCurrencyConverter}}"/>
                 </StackLayout>
                 <ImageButton
                     Grid.Column="1"
@@ -180,7 +180,7 @@
             x:Name="bottomSheet"
             Grid.Row="0"
             Grid.RowSpan="4"
-            Background="White"
+            Background="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource DarkSurface}}"
             CollapseOnOverlayTap="False"
             CornerRadius="20,20,0,0"
             EnableSwiping="True"
@@ -191,7 +191,7 @@
                 <VerticalStackLayout>
                     <!--  Header with Title and Close Button  -->
                     <Grid Padding="20,10"
-                            ColumnDefinitions="*,Auto">
+                          ColumnDefinitions="*,Auto">
                         <Label
                             Grid.Column="0"
                             HorizontalOptions="Start"
@@ -234,14 +234,14 @@
                         </CollectionView.EmptyView>
                         <CollectionView.ItemsLayout>
                             <GridItemsLayout Orientation="Vertical"
-                                    Span="1"/>
+                                             Span="1"/>
                         </CollectionView.ItemsLayout>
                         <CollectionView.ItemTemplate>
                             <DataTemplate x:DataType="Models:Product">
                                 <Border Margin="10,5"
                                         StyleClass="ProductItemStyle">
                                     <Grid ColumnDefinitions="Auto,*,Auto,Auto"
-                                            ColumnSpacing="8">
+                                          ColumnSpacing="8">
                                         <!--  Product Image  -->
                                         <Border
                                             Grid.Column="0"
@@ -250,7 +250,7 @@
                                             StrokeShape="RoundRectangle 10"
                                             WidthRequest="60">
                                             <Image Aspect="AspectFit"
-                                                    Source="product.png"/>
+                                                   Source="product.png"/>
                                         </Border>
 
                                         <!--  Product Info  -->
@@ -296,7 +296,7 @@
                                                     VerticalOptions="Center"/>
                                                 <Border.GestureRecognizers>
                                                     <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:InventoryVM}}, Path=DecreaseQuantityCommand}"
-                                                            CommandParameter="{Binding .}"/>
+                                                                          CommandParameter="{Binding .}"/>
                                                 </Border.GestureRecognizers>
                                             </Border>
 
@@ -325,7 +325,7 @@
                                                     VerticalOptions="Center"/>
                                                 <Border.GestureRecognizers>
                                                     <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:InventoryVM}}, Path=IncreaseQuantityBuyCommand}"
-                                                            CommandParameter="{Binding .}"/>
+                                                                          CommandParameter="{Binding .}"/>
                                                 </Border.GestureRecognizers>
                                             </Border>
                                         </StackLayout>
@@ -346,7 +346,7 @@
                                                 VerticalOptions="Center"/>
                                             <Border.GestureRecognizers>
                                                 <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:InventoryVM}}, Path=RemoveFromCartCommand}"
-                                                        CommandParameter="{Binding .}"/>
+                                                                      CommandParameter="{Binding .}"/>
                                             </Border.GestureRecognizers>
                                         </Border>
                                     </Grid>
@@ -364,9 +364,9 @@
                         <Grid ColumnDefinitions="*,Auto">
                             <StackLayout Grid.Column="0">
                                 <Label StyleClass="RegularTextStyle"
-                                        Text="{Binding CartItemsCount, StringFormat='Items: {0}'}"/>
+                                       Text="{Binding CartItemsCount, StringFormat='Items: {0}'}"/>
                                 <Label StyleClass="TotalAmountStyle"
-                                        Text="{Binding CartValue, Converter={StaticResource GlobalCurrencyConverter}}"/>
+                                       Text="{Binding CartValue, Converter={StaticResource GlobalCurrencyConverter}}"/>
                             </StackLayout>
                             <Button
                                 Grid.Column="1"

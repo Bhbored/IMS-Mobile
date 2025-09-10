@@ -13,11 +13,11 @@
             HeightRequest="60"
             IsAnimationPlaying="True"
             Source="loader.gif"
-            WidthRequest="50" />
+            WidthRequest="50"/>
         <Label
             FontSize="16"
             HorizontalOptions="Center"
             Text="Checking authentication..."
-            TextColor="Black" />
+            TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource DarkOnSurface}}"/>
     </VerticalStackLayout>
 </ContentPage>

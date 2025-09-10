@@ -13,8 +13,6 @@ namespace IMS_Mobile.DB
         public UserPreferences GetUserPreferences()
         {
             var preferences = GetItems().FirstOrDefault();
-
-            // If no preferences exist, create default ones
             if (preferences == null)
             {
                 preferences = new UserPreferences

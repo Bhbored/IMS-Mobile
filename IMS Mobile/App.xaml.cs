@@ -15,6 +15,7 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.Maui.Dispatching;
 using static Supabase.Gotrue.Constants;
 using Contact = IMS_Mobile.MVVM.Models.Contact;
+using Theme = IMS_Mobile.MVVM.Models.Theme;
 
 namespace IMS_Mobile
 {
@@ -43,7 +44,6 @@ namespace IMS_Mobile
         {
             InitializeComponent();
             SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1JEaF5cXmRCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdmWXlceHRTQ2ZYWUN/XkFWYEk=");
-
             _supabaseClient = supabaseClient;
             _syncService = syncService;
             AuthService = _authservice;
@@ -113,6 +113,9 @@ namespace IMS_Mobile
 
                     }
 
+                    // Apply saved theme before navigation
+                    _ = ApplySavedTheme();
+
                     MainThread.BeginInvokeOnMainThread(async () =>
                     {
                         await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
@@ -126,11 +129,42 @@ namespace IMS_Mobile
                     return;
                 }
             }
+            _ = ApplySavedTheme();
 
             MainThread.BeginInvokeOnMainThread(async () =>
             {
                 await Shell.Current.GoToAsync($"//{nameof(LoginPage)}");
             });
+        }
+
+        private Task ApplySavedTheme()
+        {
+            try
+            {
+                if (UserPreferencesRepository != null)
+                {
+                    var userPreferences = UserPreferencesRepository.GetUserPreferences();
+                    var theme = userPreferences.Theme;
+
+                    MainThread.BeginInvokeOnMainThread(() =>
+                    {
+                        if (Application.Current != null)
+                        {
+                            Application.Current.UserAppTheme = theme switch
+                            {
+                                Theme.Light => AppTheme.Light,
+                                Theme.Dark => AppTheme.Dark,
+                                _ => AppTheme.Light
+                            };
+                        }
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Failed to apply saved theme: {ex.Message}");
+            }
+            return Task.CompletedTask;
         }
         #endregion
 
@@ -207,13 +241,36 @@ namespace IMS_Mobile
         #region Database Management
         public static async Task StopConnection()
         {
-            ProductRepository?.WipeAndResetTo1();
-            await Task.Delay(100);
-            TransactionRepository?.WipeAndResetTo1();
-            await Task.Delay(100);
-            ContactRepository?.WipeAndResetTo1();
-            await Task.Delay(100);
-            TransactionProductItemRepository?.WipeAndResetTo1();
+            try
+            {
+                Debug.WriteLine("🔄 Starting database cleanup...");
+
+                ProductRepository?.WipeAndResetTo1();
+                await Task.Delay(100);
+                Debug.WriteLine("✅ Products wiped");
+
+                TransactionRepository?.WipeAndResetTo1();
+                await Task.Delay(100);
+                Debug.WriteLine("✅ Transactions wiped");
+
+                ContactRepository?.WipeAndResetTo1();
+                await Task.Delay(100);
+                Debug.WriteLine("✅ Contacts wiped");
+
+                TransactionProductItemRepository?.WipeAndResetTo1();
+                await Task.Delay(100);
+                Debug.WriteLine("✅ TransactionItems wiped");
+
+                UserPreferencesRepository?.WipeAndResetTo1();
+                Debug.WriteLine("✅ UserPreferences wiped");
+
+                Debug.WriteLine("🎉 Database cleanup completed");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"❌ Error during database cleanup: {ex.Message}");
+                throw;
+            }
         }
         private void InitializeRepositories()
         {
@@ -225,11 +282,11 @@ namespace IMS_Mobile
                 TransactionProductItemRepository = _serviceProvider.GetService<BaseRepository<TransactionProductItem>>();
                 UserPreferencesRepository = _serviceProvider.GetService<UserPreferencesRepository>();
 
-                // Initialize the GlobalCurrencyConverter
                 if (UserPreferencesRepository != null)
                 {
                     GlobalCurrencyConverter.Initialize(UserPreferencesRepository);
                 }
+
             }
         }
 
@@ -244,6 +301,8 @@ namespace IMS_Mobile
                 ContactRepository = _serviceProvider.GetService<BaseRepository<Contact>>();
                 await Task.Delay(100);
                 TransactionProductItemRepository = _serviceProvider.GetService<BaseRepository<TransactionProductItem>>();
+                await Task.Delay(100);
+                UserPreferencesRepository = _serviceProvider.GetService<UserPreferencesRepository>();
             }
         }
 

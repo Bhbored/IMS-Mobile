@@ -64,8 +64,13 @@ namespace IMS_Mobile.MVVM.ViewModels
             get => _selectedTheme;
             set
             {
-                _selectedTheme = value;
-                OnPropertyChanged();
+                if (_selectedTheme != value)
+                {
+                    _selectedTheme = value;
+                    OnPropertyChanged();
+                    // Apply theme immediately when changed
+                    ApplyTheme(value);
+                }
             }
         }
 
@@ -160,7 +165,7 @@ namespace IMS_Mobile.MVVM.ViewModels
                 GlobalCurrencyConverter.UpdateCurrency(SelectedCurrency);
 
                 // Update flyout header
-                if (Application.Current?.MainPage is AppShell shell)
+                if (Application.Current?.Windows[0].Page is AppShell shell)
                 {
                     await shell.UpdateFlyoutHeaderAsync();
                 }
@@ -203,7 +208,7 @@ namespace IMS_Mobile.MVVM.ViewModels
             }
         }
 
-        private Task ResetToDefaults()
+        private async Task ResetToDefaults()
         {
             try
             {
@@ -219,7 +224,7 @@ namespace IMS_Mobile.MVVM.ViewModels
 
                 _userPreferencesRepository.SaveUserPreferences(UserPreferences);
 
-                MainThread.BeginInvokeOnMainThread(async () =>
+                await MainThread.InvokeOnMainThreadAsync(async () =>
                 {
                     await Task.Delay(100);
                     var snackbar = Snackbar.Make(
@@ -238,7 +243,7 @@ namespace IMS_Mobile.MVVM.ViewModels
             }
             catch (Exception ex)
             {
-                MainThread.BeginInvokeOnMainThread(async () =>
+                await MainThread.InvokeOnMainThreadAsync(async () =>
                 {
                     await Task.Delay(100);
                     var snackbar = Snackbar.Make(
@@ -255,7 +260,6 @@ namespace IMS_Mobile.MVVM.ViewModels
                     await snackbar.Show();
                 });
             }
-            return Task.CompletedTask;
         }
 
         private async Task ChangeAvatar()
@@ -292,7 +296,7 @@ namespace IMS_Mobile.MVVM.ViewModels
             {
                 Avatar = avatarPath;
 
-                MainThread.BeginInvokeOnMainThread(async () =>
+                await MainThread.InvokeOnMainThreadAsync(async () =>
                 {
                     await Task.Delay(100);
                     var snackbar = Snackbar.Make(
@@ -311,7 +315,7 @@ namespace IMS_Mobile.MVVM.ViewModels
             }
             catch (Exception ex)
             {
-                MainThread.BeginInvokeOnMainThread(async () =>
+                await MainThread.InvokeOnMainThreadAsync(async () =>
                 {
                     await Task.Delay(100);
                     var snackbar = Snackbar.Make(
@@ -341,9 +345,33 @@ namespace IMS_Mobile.MVVM.ViewModels
                     _userPreferencesRepository.SaveUserPreferences(UserPreferences);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // Silently fail - user email sync is not critical
+            }
+        }
+
+        private void ApplyTheme(Theme theme)
+        {
+            try
+            {
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    if (Application.Current != null)
+                    {
+                        Application.Current.UserAppTheme = theme switch
+                        {
+                            Theme.Light => AppTheme.Light,
+                            Theme.Dark => AppTheme.Dark,
+                            _ => AppTheme.Light
+                        };
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                // Log error but don't show to user as it's not critical
+                System.Diagnostics.Debug.WriteLine($"Failed to apply theme: {ex.Message}");
             }
         }
 

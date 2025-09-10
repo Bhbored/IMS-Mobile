@@ -61,20 +61,24 @@ public partial class LogoutConfirmationPopup : Popup
     [RelayCommand]
     public async Task logout()
     {
-
+        // 1. Sync local changes to Supabase first
         await _syncService.SyncToSupabase();
         await Task.Delay(1000);
-        await _syncService.ClearLocalData();
+
+        // 2. Stop connections and wipe all tables (this clears everything)
         await App.StopConnection();
         await Task.Delay(1000);
+
+        // 3. Sign out from auth service
         await _authService.SignOutAsync();
 
-        // Clear ViewModels to ensure fresh instances on next login
+        // 4. Clear ViewModel references
         App.homeVM = null;
         App.contactsVM = null;
         App.inventoryVM = null;
         App.reportsVM = null;
 
+        // 5. Navigate to login
         await Shell.Current.GoToAsync($"//{nameof(LoginPage)}");
     }
 }

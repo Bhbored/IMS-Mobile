@@ -28,7 +28,7 @@
                     HorizontalOptions="Center"
                     Source="wifi_off.png"
                     VerticalOptions="Center"
-                    WidthRequest="30" />
+                    WidthRequest="30"/>
             </Border>
 
             <!--  Title  -->
@@ -37,7 +37,7 @@
                 FontSize="20"
                 HorizontalOptions="Center"
                 Text="⚠️ Offline Mode"
-                TextColor="#333333" />
+                TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource DarkOnSurface}}"/>
 
             <!--  Message  -->
             <Label
@@ -45,7 +45,7 @@
                 HorizontalOptions="Center"
                 HorizontalTextAlignment="Center"
                 Text="You're offline. Changes will be saved locally and synced when you're back online."
-                TextColor="#666666" />
+                TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource DarkOnSurface}}"/>
 
             <!--  OK Button  -->
             <Button
@@ -55,7 +55,7 @@
                 FontFamily="poppinbold"
                 HeightRequest="45"
                 Text="Continue"
-                TextColor="White" />
+                TextColor="White"/>
         </VerticalStackLayout>
     </Border>
 </toolkit:Popup>

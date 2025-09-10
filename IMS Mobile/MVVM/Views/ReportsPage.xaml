@@ -9,7 +9,7 @@
     xmlns:ViewModels="clr-namespace:IMS_Mobile.MVVM.ViewModels"
     xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Expander;assembly=Syncfusion.Maui.Expander"
     x:DataType="ViewModels:ReportsVM"
-    BackgroundColor="#F8F9FA"
+    BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource DarkBackground}}"
     Shell.NavBarIsVisible="False">
     <ContentPage.Resources>
         <Converters:GlobalCurrencyConverter x:Key="GlobalCurrencyConverter"/>
@@ -28,7 +28,7 @@
                 Text="Reports"/>
             <Border
                 Grid.Column="1"
-                Background="#F5F5F5"
+                Background="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource DarkSurface}}"
                 HeightRequest="40"
                 HorizontalOptions="End"
                 StrokeShape="RoundRectangle 8"
@@ -177,7 +177,7 @@
                         Margin="0,10,0,0"
                         StyleClass="SectionTitleStyle"
                         Text="Financial Summary"
-                        TextColor="Black"/>
+                        TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource DarkOnSurface}}"/>
 
                     <!--  Net Profit Calculation with Syncfusion Expander  -->
                     <Border StyleClass="SummaryCardStyle">
@@ -207,12 +207,12 @@
                                                 FontFamily="poppinbold"
                                                 FontSize="16"
                                                 Text="Net Profit"
-                                                TextColor="Black"/>
+                                                TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource DarkOnSurface}}"/>
                                             <Label
                                                 FontFamily="poppinregular"
                                                 FontSize="13"
                                                 Text="Revenue minus expenses"
-                                                TextColor="#666666"/>
+                                                TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource DarkOnSurface}}"/>
                                         </VerticalStackLayout>
                                     </Grid>
                                 </Border>
@@ -225,16 +225,16 @@
                                                 FontFamily="poppinregular"
                                                 FontSize="14"
                                                 Text="Total Sales"
-                                                TextColor="#666666"/>
+                                                TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource DarkOnSurface}}"/>
                                             <Label
                                                 Grid.Column="1"
                                                 FontFamily="poppinbold"
                                                 FontSize="14"
                                                 Text="{Binding CashRegister.TotalSales, Converter={StaticResource GlobalCurrencyConverter}}"
-                                                TextColor="Black"/>
+                                                TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource DarkOnSurface}}"/>
                                         </Grid>
                                         <BoxView
-                                            BackgroundColor="#F0F0F0"
+                                            BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource DarkSurfaceVariant}}"
                                             HeightRequest="1"
                                             HorizontalOptions="Fill"/>
                                         <Grid ColumnDefinitions="*,Auto">
@@ -242,16 +242,16 @@
                                                 FontFamily="poppinregular"
                                                 FontSize="14"
                                                 Text="Total Credit"
-                                                TextColor="#666666"/>
+                                                TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource DarkOnSurface}}"/>
                                             <Label
                                                 Grid.Column="1"
                                                 FontFamily="poppinbold"
                                                 FontSize="14"
                                                 Text="{Binding CashRegister.TotalCredit, Converter={StaticResource GlobalCurrencyConverter}}"
-                                                TextColor="Black"/>
+                                                TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource DarkOnSurface}}"/>
                                         </Grid>
                                         <BoxView
-                                            BackgroundColor="#F0F0F0"
+                                            BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource DarkSurfaceVariant}}"
                                             HeightRequest="1"
                                             HorizontalOptions="Fill"/>
                                         <Grid ColumnDefinitions="*,Auto">
@@ -259,16 +259,16 @@
                                                 FontFamily="poppinregular"
                                                 FontSize="14"
                                                 Text="Total Purchases"
-                                                TextColor="#666666"/>
+                                                TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource DarkOnSurface}}"/>
                                             <Label
                                                 Grid.Column="1"
                                                 FontFamily="poppinbold"
                                                 FontSize="14"
                                                 Text="{Binding CashRegister.TotalPurchases, Converter={StaticResource GlobalCurrencyConverter}}"
-                                                TextColor="Black"/>
+                                                TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource DarkOnSurface}}"/>
                                         </Grid>
                                         <BoxView
-                                            BackgroundColor="#F0F0F0"
+                                            BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource DarkSurfaceVariant}}"
                                             HeightRequest="1"
                                             HorizontalOptions="Fill"/>
                                         <Grid ColumnDefinitions="*,Auto">
@@ -276,13 +276,13 @@
                                                 FontFamily="poppinbold"
                                                 FontSize="16"
                                                 Text="Net Profit"
-                                                TextColor="Black"/>
+                                                TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource DarkOnSurface}}"/>
                                             <Label
                                                 Grid.Column="1"
                                                 FontFamily="poppinbold"
                                                 FontSize="16"
                                                 Text="{Binding CashRegister.NetProfit, Converter={StaticResource GlobalCurrencyConverter}}"
-                                                TextColor="#4CAF50"/>
+                                                TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource ModernGreen}}"/>
                                         </Grid>
                                     </VerticalStackLayout>
                                 </Border>
@@ -318,12 +318,12 @@
                                                 FontFamily="poppinbold"
                                                 FontSize="16"
                                                 Text="Cash Position"
-                                                TextColor="Black"/>
+                                                TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource DarkOnSurface}}"/>
                                             <Label
                                                 FontFamily="poppinregular"
                                                 FontSize="13"
                                                 Text="Available cash balance"
-                                                TextColor="#666666"/>
+                                                TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource DarkOnSurface}}"/>
                                         </VerticalStackLayout>
                                     </Grid>
                                 </Border>
@@ -336,16 +336,16 @@
                                                 FontFamily="poppinregular"
                                                 FontSize="14"
                                                 Text="Total Sales"
-                                                TextColor="#666666"/>
+                                                TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource DarkOnSurface}}"/>
                                             <Label
                                                 Grid.Column="1"
                                                 FontFamily="poppinbold"
                                                 FontSize="14"
                                                 Text="{Binding CashRegister.TotalSales, Converter={StaticResource GlobalCurrencyConverter}}"
-                                                TextColor="Black"/>
+                                                TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource DarkOnSurface}}"/>
                                         </Grid>
                                         <BoxView
-                                            BackgroundColor="#F0F0F0"
+                                            BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource DarkSurfaceVariant}}"
                                             HeightRequest="1"
                                             HorizontalOptions="Fill"/>
                                         <Grid ColumnDefinitions="*,Auto">
@@ -353,16 +353,16 @@
                                                 FontFamily="poppinregular"
                                                 FontSize="14"
                                                 Text="Credit Amount"
-                                                TextColor="#666666"/>
+                                                TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource DarkOnSurface}}"/>
                                             <Label
                                                 Grid.Column="1"
                                                 FontFamily="poppinbold"
                                                 FontSize="14"
                                                 Text="{Binding CashRegister.TotalCredit, Converter={StaticResource GlobalCurrencyConverter}}"
-                                                TextColor="Black"/>
+                                                TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource DarkOnSurface}}"/>
                                         </Grid>
                                         <BoxView
-                                            BackgroundColor="#F0F0F0"
+                                            BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource DarkSurfaceVariant}}"
                                             HeightRequest="1"
                                             HorizontalOptions="Fill"/>
                                         <Grid ColumnDefinitions="*,Auto">
@@ -370,13 +370,13 @@
                                                 FontFamily="poppinbold"
                                                 FontSize="16"
                                                 Text="Available Balance"
-                                                TextColor="Black"/>
+                                                TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource DarkOnSurface}}"/>
                                             <Label
                                                 Grid.Column="1"
                                                 FontFamily="poppinbold"
                                                 FontSize="16"
                                                 Text="{Binding CashRegister.CashFlow, Converter={StaticResource GlobalCurrencyConverter}}"
-                                                TextColor="#2196F3"/>
+                                                TextColor="{AppThemeBinding Light={StaticResource Blue}, Dark={StaticResource DarkInfo}}"/>
                                         </Grid>
                                     </VerticalStackLayout>
                                 </Border>
@@ -410,12 +410,12 @@
                                         FontFamily="poppinbold"
                                         FontSize="16"
                                         Text="Total Purchases"
-                                        TextColor="Black"/>
+                                        TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource DarkOnSurface}}"/>
                                     <Label
                                         FontFamily="poppinregular"
                                         FontSize="13"
                                         Text="Buy amount"
-                                        TextColor="#666666"/>
+                                        TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource DarkOnSurface}}"/>
                                 </VerticalStackLayout>
                                 <Label
                                     Grid.Column="1"
@@ -435,7 +435,7 @@
                         Margin="0,10,0,0"
                         StyleClass="SectionTitleStyle"
                         Text="Quick Actions"
-                        TextColor="Black"/>
+                        TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource DarkOnSurface}}"/>
 
                     <Grid
                         ColumnDefinitions="*,*"

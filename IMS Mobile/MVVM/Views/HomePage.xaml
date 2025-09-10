@@ -8,7 +8,7 @@
     xmlns:Models="clr-namespace:IMS_Mobile.MVVM.Models"
     xmlns:ViewModels="clr-namespace:IMS_Mobile.MVVM.ViewModels"
     x:DataType="ViewModels:HomeVM"
-    BackgroundColor="White">
+    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource DarkBackground}}">
     <ContentPage.Resources>
         <Converters:DTSelector x:Key="DTSelector"/>
         <Converters:GlobalCurrencyConverter x:Key="GlobalCurrencyConverter"/>
@@ -20,7 +20,7 @@
                 FontFamily="poppinbold"
                 FontSize="24"
                 Text="Home"
-                TextColor="Black"/>
+                TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource DarkOnSurface}}"/>
         </HorizontalStackLayout>
 
     </Shell.TitleView>
@@ -123,7 +123,7 @@
                         FontSize="12"
                         HorizontalOptions="Center"
                         Text="First Page"
-                        TextColor="Black"
+                        TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource DarkOnSurface}}"
                         VerticalOptions="Center"/>
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding FirstPage}"/>
@@ -147,7 +147,7 @@
                         FontSize="12"
                         HorizontalOptions="Center"
                         Text="{Binding PageIndex}"
-                        TextColor="Black"
+                        TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource DarkOnSurface}}"
                         VerticalOptions="Center"/>
                 </Border>
                 <Button
@@ -168,7 +168,7 @@
                         FontSize="12"
                         HorizontalOptions="Center"
                         Text="Last Page"
-                        TextColor="Black"
+                        TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource DarkOnSurface}}"
                         VerticalOptions="Center"/>
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding LastPage}"/>
