@@ -25,10 +25,23 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">15.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+		<AndroidSigningKeyStore>IMSMobile.keystore</AndroidSigningKeyStore>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-android|AnyCPU'">
 		<AndroidPackageFormat>apk</AndroidPackageFormat>
+		<AndroidKeyStore>True</AndroidKeyStore>
+		<AndroidSigningKeyStore>C:\Keystores\IMSMobile.keystore</AndroidSigningKeyStore>
+		<AndroidSigningStorePass>Bh71048125</AndroidSigningStorePass>
+		<AndroidSigningKeyAlias>imsmobile</AndroidSigningKeyAlias>
+		<AndroidSigningKeyPass>Bh71048125</AndroidSigningKeyPass>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-android|AnyCPU'">
+	  <AndroidKeyStore>True</AndroidKeyStore>
+	  <AndroidSigningStorePass>Bh71048125</AndroidSigningStorePass>
+	  <AndroidSigningKeyAlias>imsmobile</AndroidSigningKeyAlias>
+	  <AndroidSigningKeyPass>Bh71048125</AndroidSigningKeyPass>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -59,11 +72,11 @@
 		<PackageReference Include="PropertyChanged.Fody" Version="4.1.0" />
 		<PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
 		<PackageReference Include="SQLiteNetExtensions" Version="2.1.0" />
-		<PackageReference Include="SQLitePCLRaw.provider.dynamic_cdecl" Version="3.0.1" />
+		<PackageReference Include="SQLitePCLRaw.provider.dynamic_cdecl" Version="3.0.2" />
 		<PackageReference Include="Supabase" Version="1.1.1" />
-		<PackageReference Include="Syncfusion.Maui.Core" Version="30.2.7" />
-		<PackageReference Include="Syncfusion.Maui.Expander" Version="30.2.7" />
-		<PackageReference Include="Syncfusion.Maui.Inputs" Version="30.2.7" />
+		<PackageReference Include="Syncfusion.Maui.Core" Version="31.1.19" />
+		<PackageReference Include="Syncfusion.Maui.Expander" Version="31.1.19" />
+		<PackageReference Include="Syncfusion.Maui.Inputs" Version="31.1.19" />
 		<PackageReference Include="Syncfusion.Maui.Toolkit" Version="1.0.6" />
 		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.14.0" />
 	</ItemGroup>
