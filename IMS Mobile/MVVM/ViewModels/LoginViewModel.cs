@@ -78,7 +78,6 @@ namespace IMS_Mobile.MVVM.ViewModels
                         await Task.Delay(1000);
                     }
 
-                    // Recreate ViewModels to ensure fresh instances
                     App.RecreateViewModels();
 
                     // Reset HomeVM to initial state for new account
@@ -141,5 +140,54 @@ namespace IMS_Mobile.MVVM.ViewModels
                 IsBusy = false;
             }
         }
+        #region Google OAuth Login
+        [RelayCommand]
+        private async Task LoginWithGoogleAsync()
+        {
+            if (IsBusy) return;
+            IsBusy = true;
+            ErrorMessage = string.Empty;
+            EmailError = string.Empty;
+            PasswordError = string.Empty;
+            try
+            {
+                var redirectUri = "imsmobile://login-callback";
+                var result = await _authService.SignInWithGoogleAsync(redirectUri);
+                if (result.Session != null)
+                {
+                    if (!_authService.IsOfflineSessionActive && NetworkHelper.IsConnected() == true)
+                    {
+                        LoginPage.Current?.CloseKeybord();
+                        await App.RecreateRepositories();
+                        await Task.Delay(100);
+                        await _syncService.ClearLocalData();
+                        await Task.Delay(1000);
+                        await _syncService.SyncFromSupabase();
+                        await Task.Delay(1000);
+                    }
+                    App.RecreateViewModels();
+                    App.homeVM?.ResetToInitialState();
+                    if (Application.Current?.MainPage is AppShell shell)
+                    {
+                        await shell.UpdateFlyoutHeaderAsync();
+                    }
+                    await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
+                }
+                else
+                {
+                    ErrorMessage = string.IsNullOrEmpty(result.Error) ? "Login failed. Please try again." : result.Error;
+                }
+            }
+            catch
+            {
+                ErrorMessage = "Login failed. Please try again.";
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+        #endregion
+
     }
 }

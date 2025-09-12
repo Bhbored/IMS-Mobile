@@ -113,5 +113,42 @@ namespace IMS_Mobile.MVVM.ViewModels
                 IsBusy = false;
             }
         }
+        #region Google OAuth Sign Up
+        [RelayCommand]
+        private async Task RegisterWithGoogleAsync()
+        {
+            if (IsBusy) return;
+            IsBusy = true;
+            ErrorMessage = string.Empty;
+            EmailError = string.Empty;
+            PasswordError = string.Empty;
+            ConfirmPasswordError = string.Empty;
+            try
+            {
+                var redirectUri = "imsmobile://login-callback";
+                var result = await _authService.SignInWithGoogleAsync(redirectUri);
+                if (result.Session != null)
+                {
+                    await Shell.Current.DisplayAlert("Success", "Account created successfully!", "OK");
+                    await Task.Delay(100);
+                    await App.RecreateRepositories();
+                    await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
+                }
+                else
+                {
+                    ErrorMessage = string.IsNullOrEmpty(result.Error) ? "Registration failed. Please try again." : result.Error;
+                }
+            }
+            catch
+            {
+                ErrorMessage = "Registration failed. Please try again.";
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+        #endregion
+
     }
 }

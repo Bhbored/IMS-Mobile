@@ -339,6 +339,44 @@ namespace IMS_Mobile.Service
         }
         #endregion
 
+        #region Google OAuth
+        public async Task<(UserSession? Session, string? Error)> SignInWithGoogleAsync(string redirectUri)
+        {
+            try
+            {
+                var state = await _supabase.Auth.SignIn(Supabase.Gotrue.Constants.Provider.Google, new Supabase.Gotrue.SignInOptions
+                {
+                    FlowType = Supabase.Gotrue.Constants.OAuthFlowType.PKCE,
+                    RedirectTo = redirectUri
+                });
+
+                var result = await Microsoft.Maui.Authentication.WebAuthenticator.Default.AuthenticateAsync(state.Uri, new Uri(redirectUri));
+                string code = null;
+                if (result != null && result.Properties != null && result.Properties.TryGetValue("code", out var c)) code = c;
+                if (string.IsNullOrEmpty(code)) return (null, "No auth code");
+
+                var session = await _supabase.Auth.ExchangeCodeForSession(state.PKCEVerifier, code);
+                if (session != null && !string.IsNullOrEmpty(session.AccessToken))
+                {
+                    await SecureStorage.SetAsync("access_token", session.AccessToken);
+                    if (!string.IsNullOrEmpty(session.RefreshToken)) await SecureStorage.SetAsync("refresh_token", session.RefreshToken);
+
+                    var jwt = new System.IdentityModel.Tokens.Jwt.JwtSecurityToken(session.AccessToken);
+                    _currentSession = new UserSession { AccessToken = session.AccessToken, RefreshToken = session.RefreshToken, ExpiresAt = jwt.ValidTo };
+                    _isOfflineSessionActive = false;
+                    LoggedIn?.Invoke(GetUserId());
+                    return (_currentSession, null);
+                }
+                return (null, "Session not created");
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Google sign-in failed: {ex.Message}");
+                return (null, ex.Message);
+            }
+        }
+        #endregion
+
         #region Events
         public event Action<string>? LoggedIn;
         public event Action? LoggedOut;

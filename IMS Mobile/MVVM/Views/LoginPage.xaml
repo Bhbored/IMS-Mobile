@@ -5,9 +5,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:Converters="clr-namespace:IMS_Mobile.Converters"
     xmlns:inputLayout="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
-    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource DarkBackground}}">
+    BackgroundColor="{AppThemeBinding Light={StaticResource White},
+                                      Dark={StaticResource DarkBackground}}">
     <ContentPage.Resources>
-        <Converters:StringToBoolConverter x:Key="StringToBoolConverter"/>
+        <Converters:StringToBoolConverter x:Key="StringToBoolConverter" />
     </ContentPage.Resources>
     <ScrollView>
         <VerticalStackLayout
@@ -20,12 +21,13 @@
                 <Label
                     HorizontalOptions="Center"
                     StyleClass="TitleStyle"
-                    Text="Welcome Back"/>
+                    Text="Welcome Back" />
                 <Label
                     HorizontalOptions="Center"
                     StyleClass="RegularTextStyle"
                     Text="Sign in to continue"
-                    TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource DarkOnSurface}}"/>
+                    TextColor="{AppThemeBinding Light={StaticResource Gray500},
+                                                Dark={StaticResource DarkOnSurface}}" />
             </VerticalStackLayout>
 
             <!--  Login Form  -->
@@ -44,15 +46,16 @@
                         Keyboard="Email"
                         Placeholder="Enter your email"
                         Text="{Binding Email}"
-                        TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource DarkOnSurface}}"
-                        VerticalOptions="Center"/>
+                        TextColor="{AppThemeBinding Light={StaticResource Gray900},
+                                                    Dark={StaticResource DarkOnSurface}}"
+                        VerticalOptions="Center" />
                 </inputLayout:SfTextInputLayout>
                 <Label
                     FontFamily="poppinregular"
                     FontSize="12"
                     IsVisible="{Binding EmailError, Converter={StaticResource StringToBoolConverter}}"
                     Text="{Binding EmailError, StringFormat='! {0}'}"
-                    TextColor="Red"/>
+                    TextColor="Red" />
 
                 <!--  Password Input  -->
                 <inputLayout:SfTextInputLayout
@@ -69,15 +72,16 @@
                         Keyboard="Password"
                         Placeholder="Enter your password"
                         Text="{Binding Password}"
-                        TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource DarkOnSurface}}"
-                        VerticalOptions="Center"/>
+                        TextColor="{AppThemeBinding Light={StaticResource Gray900},
+                                                    Dark={StaticResource DarkOnSurface}}"
+                        VerticalOptions="Center" />
                 </inputLayout:SfTextInputLayout>
                 <Label
                     FontFamily="poppinregular"
                     FontSize="12"
                     IsVisible="{Binding PasswordError, Converter={StaticResource StringToBoolConverter}}"
                     Text="{Binding PasswordError, StringFormat='! {0}'}"
-                    TextColor="Red"/>
+                    TextColor="Red" />
 
                 <!--  Forgot Password  -->
                 <Label
@@ -85,9 +89,10 @@
                     HorizontalOptions="End"
                     StyleClass="SmallTextStyle"
                     Text="Forgot Password?"
-                    TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource ModernGreen}}">
+                    TextColor="{AppThemeBinding Light={StaticResource Primary},
+                                                Dark={StaticResource ModernGreen}}">
                     <Label.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding ForgotPasswordCommand}"/>
+                        <TapGestureRecognizer Command="{Binding ForgotPasswordCommand}" />
                     </Label.GestureRecognizers>
                 </Label>
                 <!--  Loading Indicator  -->
@@ -96,7 +101,7 @@
                     IsAnimationPlaying="True"
                     IsVisible="{Binding IsBusy}"
                     Source="loader.gif"
-                    WidthRequest="100"/>
+                    WidthRequest="100" />
             </VerticalStackLayout>
             <!--  Login Button  -->
             <Button
@@ -107,36 +112,36 @@
                 FontSize="16"
                 HeightRequest="55"
                 Text="Sign In"
-                TextColor="White"/>
+                TextColor="White" />
 
             <!--  Divider with OR  -->
-            <Grid Margin="0,10"
-                  ColumnDefinitions="*,Auto,*">
+            <Grid Margin="0,10" ColumnDefinitions="*,Auto,*">
                 <BoxView
                     Grid.Column="0"
                     HeightRequest="1"
                     VerticalOptions="Center"
-                    Color="#E0E0E0"/>
+                    Color="#E0E0E0" />
                 <Label
                     Grid.Column="1"
                     Margin="15,0"
                     StyleClass="SmallTextStyle"
-                    Text="OR"/>
+                    Text="OR" />
                 <BoxView
                     Grid.Column="2"
                     HeightRequest="1"
                     VerticalOptions="Center"
-                    Color="#E0E0E0"/>
+                    Color="#E0E0E0" />
             </Grid>
 
             <!--  Google Sign In Button  -->
             <Border
-                BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource DarkSurface}}"
+                BackgroundColor="{AppThemeBinding Light={StaticResource White},
+                                                  Dark={StaticResource DarkSurface}}"
                 HeightRequest="55"
                 Stroke="#E0E0E0"
                 StrokeShape="RoundRectangle 12">
                 <Border.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding GoogleSignInCommand}"/>
+                    <TapGestureRecognizer Command="{Binding LoginWithGoogleCommand}" />
                 </Border.GestureRecognizers>
                 <HorizontalStackLayout
                     HorizontalOptions="Center"
@@ -145,13 +150,14 @@
                     <Image
                         HeightRequest="24"
                         Source="google.png"
-                        WidthRequest="24"/>
+                        WidthRequest="24" />
                     <Label
                         FontFamily="poppinregular"
                         FontSize="16"
                         Text="Sign in with Google"
-                        TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource DarkOnSurface}}"
-                        VerticalOptions="Center"/>
+                        TextColor="{AppThemeBinding Light={StaticResource Black},
+                                                    Dark={StaticResource DarkOnSurface}}"
+                        VerticalOptions="Center" />
                 </HorizontalStackLayout>
             </Border>
 
@@ -163,13 +169,15 @@
                 <Label
                     StyleClass="RegularTextStyle"
                     Text="Don't have an account?"
-                    TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource DarkOnSurface}}"/>
+                    TextColor="{AppThemeBinding Light={StaticResource Gray500},
+                                                Dark={StaticResource DarkOnSurface}}" />
                 <Label
                     StyleClass="RegularTextStyle"
                     Text="Sign Up"
-                    TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource ModernGreen}}">
+                    TextColor="{AppThemeBinding Light={StaticResource Primary},
+                                                Dark={StaticResource ModernGreen}}">
                     <Label.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding SignUpCommand}"/>
+                        <TapGestureRecognizer Command="{Binding SignUpCommand}" />
                     </Label.GestureRecognizers>
                 </Label>
             </HorizontalStackLayout>
@@ -179,7 +187,7 @@
                 HorizontalOptions="Center"
                 IsVisible="{Binding ErrorMessage, Converter={StaticResource StringToBoolConverter}}"
                 Text="{Binding ErrorMessage}"
-                TextColor="Red"/>
+                TextColor="Red" />
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
