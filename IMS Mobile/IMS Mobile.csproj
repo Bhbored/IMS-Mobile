@@ -25,23 +25,16 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">15.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
-		<AndroidSigningKeyStore>IMSMobile.keystore</AndroidSigningKeyStore>
+		<AndroidSigningKeyStore>IMSMobile_NewKey.keystore</AndroidSigningKeyStore>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-android|AnyCPU'">
 		<AndroidPackageFormat>apk</AndroidPackageFormat>
 		<AndroidKeyStore>True</AndroidKeyStore>
-		<AndroidSigningKeyStore>C:\Keystores\IMSMobile.keystore</AndroidSigningKeyStore>
+		<AndroidSigningKeyStore>C:\Keystores\IMSMobile_NewKey.keystore</AndroidSigningKeyStore>
 		<AndroidSigningStorePass>Bh71048125</AndroidSigningStorePass>
-		<AndroidSigningKeyAlias>imsmobile</AndroidSigningKeyAlias>
+		<AndroidSigningKeyAlias>imsmobilekey</AndroidSigningKeyAlias>
 		<AndroidSigningKeyPass>Bh71048125</AndroidSigningKeyPass>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-android|AnyCPU'">
-	  <AndroidKeyStore>True</AndroidKeyStore>
-	  <AndroidSigningStorePass>Bh71048125</AndroidSigningStorePass>
-	  <AndroidSigningKeyAlias>imsmobile</AndroidSigningKeyAlias>
-	  <AndroidSigningKeyPass>Bh71048125</AndroidSigningKeyPass>
 	</PropertyGroup>
 
 	<ItemGroup>
