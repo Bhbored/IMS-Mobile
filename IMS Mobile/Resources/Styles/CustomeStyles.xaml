@@ -27,7 +27,7 @@
     <Style Class="SmallTextStyle" TargetType="Label">
         <Setter Property="FontFamily" Value="poppinregular" />
         <Setter Property="FontSize" Value="12" />
-        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource DarkSurfaceVariant}}" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource DarkOnSurface}}" />
     </Style>
 
     <!--  Card Styles  -->
@@ -229,7 +229,7 @@
         <Setter Property="Padding" Value="16,8" />
         <Setter Property="Margin" Value="4,0" />
         <Setter Property="Background" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource DarkSurface}}" />
-        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource DarkSurfaceVariant}}" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource DarkOnBackground}}" />
         <Setter Property="BorderColor" Value="#E0E0E0" />
         <Setter Property="BorderWidth" Value="1" />
     </Style>
@@ -240,7 +240,7 @@
         <Setter Property="Padding" Value="16,8" />
         <Setter Property="Margin" Value="4,0" />
         <Setter Property="Background" Value="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource DarkSurfaceVariant}}" />
-        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource DarkOnSurface}}" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource ModernGreen}}" />
         <Setter Property="BorderColor" Value="#CCCCCC" />
         <Setter Property="BorderWidth" Value="1" />
     </Style>
@@ -528,14 +528,14 @@
     <Style Class="SettingsPickerStyle" TargetType="Picker">
         <Setter Property="FontFamily" Value="poppinregular" />
         <Setter Property="FontSize" Value="15" />
-        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource DarkOnSurface}}" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource DarkBackground}}" />
         <Setter Property="BackgroundColor" Value="Transparent" />
     </Style>
 
     <Style Class="SettingsEntryStyle" TargetType="Entry">
         <Setter Property="FontFamily" Value="poppinregular" />
         <Setter Property="FontSize" Value="15" />
-        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource DarkOnSurface}}" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource DarkBackground}}" />
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="PlaceholderColor" Value="#95A5A6" />
     </Style>

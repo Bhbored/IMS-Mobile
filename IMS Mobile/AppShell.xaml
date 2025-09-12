@@ -4,18 +4,18 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:views="clr-namespace:IMS_Mobile.MVVM.Views"
-    FlyoutBackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource DarkSurface}}"
+    FlyoutBackgroundColor="{AppThemeBinding Light={StaticResource White},
+    Dark={StaticResource Gray400}}"
     Shell.FlyoutBehavior="Flyout">
 
     <!--  Flyout Header  -->
     <Shell.FlyoutHeader>
-        <Grid BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource DarkSurface}}"
-              HeightRequest="180">
+        <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="20"/>
-                <RowDefinition Height="100"/>
-                <RowDefinition Height="30"/>
-                <RowDefinition Height="30"/>
+                <RowDefinition Height="20" />
+                <RowDefinition Height="100" />
+                <RowDefinition Height="30" />
+                <RowDefinition Height="30" />
             </Grid.RowDefinitions>
 
             <!--  Avatar  -->
@@ -33,7 +33,7 @@
                     Aspect="AspectFill"
                     HeightRequest="80"
                     Source="user.png"
-                    WidthRequest="80"/>
+                    WidthRequest="80" />
             </Border>
 
             <!--  Display Name  -->
@@ -46,7 +46,8 @@
                 HorizontalOptions="Center"
                 HorizontalTextAlignment="Center"
                 Text="User Name"
-                TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource DarkOnSurface}}"/>
+                TextColor="{AppThemeBinding Light={StaticResource Black},
+                Dark={StaticResource DarkOnSurface}}" />
 
             <!--  User Email/Role  -->
             <Label
@@ -57,7 +58,8 @@
                 HorizontalOptions="Center"
                 HorizontalTextAlignment="Center"
                 Text="user@example.com"
-                TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource DarkSurfaceVariant}}"/>
+                TextColor="{AppThemeBinding Light={StaticResource Gray500},
+                Dark={StaticResource DarkSurfaceVariant}}" />
         </Grid>
     </Shell.FlyoutHeader>
 
@@ -66,99 +68,87 @@
         ContentTemplate="{DataTemplate views:LoadingPage}"
         Route="LoadingPage"
         Shell.FlyoutBehavior="Disabled"
-        Shell.FlyoutItemIsVisible="False"/>
+        Shell.FlyoutItemIsVisible="False" />
 
     <ShellContent
         ContentTemplate="{DataTemplate views:LoginPage}"
         Route="LoginPage"
         Shell.FlyoutBehavior="Disabled"
-        Shell.FlyoutItemIsVisible="False"/>
+        Shell.FlyoutItemIsVisible="False" />
 
     <ShellContent
         ContentTemplate="{DataTemplate views:SignUpPage}"
         Route="SignUpPage"
         Shell.FlyoutBehavior="Disabled"
-        Shell.FlyoutItemIsVisible="False"/>
+        Shell.FlyoutItemIsVisible="False" />
 
     <!--  Main App Content with Flyout  -->
-    <FlyoutItem Title="Dashboard"
-                Icon="home.png">
+    <FlyoutItem Title="Dashboard" Icon="home.png">
         <ShellContent
             Title="Home"
             ContentTemplate="{DataTemplate views:HomePage}"
             Icon="home.png"
-            Route="HomePage"/>
+            Route="HomePage" />
         <ShellContent
             Title="Contacts"
             ContentTemplate="{DataTemplate views:ContactsPage}"
             Icon="contact.png"
-            Route="ContactsPage"/>
+            Route="ContactsPage" />
         <ShellContent
             Title="Inventory"
             ContentTemplate="{DataTemplate views:InventoryPage}"
             Icon="products.png"
-            Route="InventoryPage"/>
+            Route="InventoryPage" />
         <ShellContent
             Title="Reports"
             ContentTemplate="{DataTemplate views:ReportsPage}"
             Icon="reports.png"
-            Route="ReportsPage"/>
+            Route="ReportsPage" />
         <ShellContent
             Title="Sell Products"
             ContentTemplate="{DataTemplate views:SellProducts}"
             Icon="sell.png"
-            Route="SellProducts"/>
+            Route="SellProducts" />
         <ShellContent
             Title="Restock"
             ContentTemplate="{DataTemplate views:BuyProducts}"
             Icon="buy.png"
-            Route="BuyProducts"/>
+            Route="BuyProducts" />
     </FlyoutItem>
 
-    <FlyoutItem Title="About Us"
-                Icon="about.png">
-        <ShellContent ContentTemplate="{DataTemplate views:AboutUsPage}"
-                      Route="AboutUsPage"/>
+    <FlyoutItem Title="About Us" Icon="about.png">
+        <ShellContent ContentTemplate="{DataTemplate views:AboutUsPage}" Route="AboutUsPage" />
     </FlyoutItem>
 
-    <FlyoutItem Title="Contact Us"
-                Icon="contact.png">
-        <ShellContent ContentTemplate="{DataTemplate views:ContactUsPage}"
-                      Route="ContactUsPage"/>
+    <FlyoutItem Title="Contact Us" Icon="contact.png">
+        <ShellContent ContentTemplate="{DataTemplate views:ContactUsPage}" Route="ContactUsPage" />
     </FlyoutItem>
 
-    <FlyoutItem Title="Settings"
-                Icon="settings.png">
-        <ShellContent ContentTemplate="{DataTemplate views:SettingsPage}"
-                      Route="SettingsPage"/>
+    <FlyoutItem Title="Settings" Icon="settings.png">
+        <ShellContent ContentTemplate="{DataTemplate views:SettingsPage}" Route="SettingsPage" />
     </FlyoutItem>
 
     <!--  Separator  -->
-    <MenuItem IsEnabled="False"
-              Text="--------------------------------------------"/>
+    <MenuItem IsEnabled="False" Text="--------------------------------------------" />
 
     <!--  Logout Button at Bottom  -->
     <MenuItem
         Clicked="MenuItem_Clicked"
         IconImageSource="logout.png"
-        Text="Logout"/>
+        Text="Logout" />
 
     <!--  Tab Bar Styling  -->
     <Shell.TabBarForegroundColor>
-        <AppThemeBinding Light="{StaticResource ModernAccent}"
-                Dark="{StaticResource ModernGreen}"/>
+        <AppThemeBinding Dark="{StaticResource ModernGreen}" Light="{StaticResource ModernAccent}" />
     </Shell.TabBarForegroundColor>
     <Shell.TabBarTitleColor>
-        <AppThemeBinding Light="{StaticResource ModernAccent}"
-                Dark="{StaticResource ModernGreen}"/>
+        <AppThemeBinding Dark="{StaticResource ModernGreen}" Light="{StaticResource ModernAccent}" />
     </Shell.TabBarTitleColor>
     <Shell.TabBarBackgroundColor>
-        <AppThemeBinding Light="{StaticResource White}"
-                         Dark="{StaticResource DarkSurface}"/>
+        <AppThemeBinding Dark="{StaticResource DarkSurface}" Light="{StaticResource White}" />
     </Shell.TabBarBackgroundColor>
     <Shell.TabBarUnselectedColor>
-        <AppThemeBinding Light="{StaticResource Gray500}"
-                         Dark="{StaticResource DarkOnSurface}"/>
+        <AppThemeBinding Dark="{StaticResource DarkOnSurface}" Light="{StaticResource Gray500}" />
     </Shell.TabBarUnselectedColor>
 
 </Shell>

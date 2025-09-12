@@ -8,7 +8,7 @@
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     Margin="0"
     Padding="0"
-    BackgroundColor="White"
+    BackgroundColor="Gray"
     CanBeDismissedByTappingOutsideOfPopup="True"
     HeightRequest="600">
     <toolkit:Popup.Resources>
@@ -37,7 +37,8 @@
                 FontSize="20"
                 HeightRequest="40"
                 Text="✕"
-                TextColor="Gray"
+                TextColor="{AppThemeBinding Light={StaticResource Gray100},
+                                            Dark={StaticResource WhiteBrush}}"
                 VerticalOptions="Start"
                 WidthRequest="40" />
         </Grid>
@@ -81,7 +82,7 @@
         <Border
             Grid.Row="3"
             Padding="16,12"
-            BackgroundColor="#F8F9FA"
+            BackgroundColor="Gray"
             StrokeShape="RoundRectangle 8"
             StrokeThickness="0">
             <HorizontalStackLayout HorizontalOptions="Center" Spacing="8">

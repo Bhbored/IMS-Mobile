@@ -8,26 +8,26 @@
     xmlns:Models="clr-namespace:IMS_Mobile.MVVM.Models"
     xmlns:ViewModels="clr-namespace:IMS_Mobile.MVVM.ViewModels"
     x:DataType="ViewModels:HomeVM"
-    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource DarkBackground}}">
+    BackgroundColor="{AppThemeBinding Light={StaticResource White},
+    Dark={StaticResource DarkBackground}}">
     <ContentPage.Resources>
-        <Converters:DTSelector x:Key="DTSelector"/>
-        <Converters:GlobalCurrencyConverter x:Key="GlobalCurrencyConverter"/>
+        <Converters:DTSelector x:Key="DTSelector" />
+        <Converters:GlobalCurrencyConverter x:Key="GlobalCurrencyConverter" />
     </ContentPage.Resources>
     <Shell.TitleView>
-        <HorizontalStackLayout HorizontalOptions="Start"
-                               VerticalOptions="End">
+        <HorizontalStackLayout HorizontalOptions="Start" VerticalOptions="End">
             <Label
                 FontFamily="poppinbold"
                 FontSize="24"
                 Text="Home"
-                TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource DarkOnSurface}}"/>
+                TextColor="{AppThemeBinding Light={StaticResource Black},
+                Dark={StaticResource DarkOnSurface}}" />
         </HorizontalStackLayout>
 
     </Shell.TitleView>
     <Grid RowDefinitions="Auto,*">
         <!--  Main Content  -->
-        <VerticalStackLayout Grid.Row="0"
-                             Spacing="0">
+        <VerticalStackLayout Grid.Row="0" Spacing="0">
 
             <!--  Current Balance Card  -->
             <Border StyleClass="BalanceCardStyle">
@@ -37,19 +37,18 @@
                         FontSize="18"
                         HorizontalOptions="Center"
                         Text="Current Balance"
-                        TextColor="White"/>
+                        TextColor="White" />
                     <Label
                         FontFamily="poppinbold"
                         FontSize="28"
                         HorizontalOptions="Center"
                         Text="{Binding CashFLow, Converter={StaticResource GlobalCurrencyConverter}}"
-                        TextColor="White"/>
+                        TextColor="White" />
                 </VerticalStackLayout>
             </Border>
 
             <!--  Transactions Section  -->
-            <Grid Margin="20,20,20,10"
-                  ColumnDefinitions="*,Auto">
+            <Grid Margin="20,20,20,10" ColumnDefinitions="*,Auto">
                 <!--  Filter Buttons  -->
                 <HorizontalStackLayout
                     Grid.Column="0"
@@ -62,34 +61,34 @@
                         Clicked="Button_Clicked"
                         Command="{Binding AllFilterCommand}"
                         StyleClass="FilterButtonStyle"
-                        Text="All"/>
+                        Text="All" />
                     <Button
                         x:Name="Filter22"
                         AutomationId="filter2"
                         Clicked="Button_Clicked"
                         Command="{Binding SellFilterCommand}"
                         StyleClass="FilterButtonStyle"
-                        Text="Income"/>
+                        Text="Income" />
                     <Button
                         x:Name="Filter33"
                         AutomationId="filter3"
                         Clicked="Button_Clicked"
                         Command="{Binding BuyFilterCommand}"
                         StyleClass="FilterButtonStyle"
-                        Text="Expenses"/>
+                        Text="Expenses" />
                     <ImageButton
                         Margin="20,0,0,5"
                         Aspect="AspectFit"
+                        Background="{AppThemeBinding Dark={StaticResource Gray100}}"
                         Clicked="Button_Clicked_1"
-                        Source="calender.png"/>
+                        Source="calender.png" />
 
                 </HorizontalStackLayout>
             </Grid>
         </VerticalStackLayout>
 
         <!--  Transaction List  -->
-        <Grid Grid.Row="2"
-              RowDefinitions="*,Auto">
+        <Grid Grid.Row="2" RowDefinitions="*,Auto">
             <RefreshView
                 Grid.Row="0"
                 Margin="20,0,20,10"
@@ -102,8 +101,7 @@
                     SelectionMode="None"
                     VerticalScrollBarVisibility="Always">
                     <CollectionView.ItemsLayout>
-                        <GridItemsLayout Orientation="Vertical"
-                                         Span="1"/>
+                        <GridItemsLayout Orientation="Vertical" Span="1" />
                     </CollectionView.ItemsLayout>
                 </CollectionView>
             </RefreshView>
@@ -123,10 +121,11 @@
                         FontSize="12"
                         HorizontalOptions="Center"
                         Text="First Page"
-                        TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource DarkOnSurface}}"
-                        VerticalOptions="Center"/>
+                        TextColor="{AppThemeBinding Light={StaticResource Black},
+                        Dark={StaticResource DarkOnSurface}}"
+                        VerticalOptions="Center" />
                     <Border.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding FirstPage}"/>
+                        <TapGestureRecognizer Command="{Binding FirstPage}" />
                     </Border.GestureRecognizers>
                 </Border>
                 <Button
@@ -136,7 +135,7 @@
                     HeightRequest="30"
                     StyleClass="FilterButtonStyle"
                     Text="&lt;"
-                    WidthRequest="40"/>
+                    WidthRequest="40" />
                 <Border
                     Margin="0"
                     Padding="12,8"
@@ -147,8 +146,9 @@
                         FontSize="12"
                         HorizontalOptions="Center"
                         Text="{Binding PageIndex}"
-                        TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource DarkOnSurface}}"
-                        VerticalOptions="Center"/>
+                        TextColor="{AppThemeBinding Light={StaticResource Black},
+                        Dark={StaticResource DarkOnSurface}}"
+                        VerticalOptions="Center" />
                 </Border>
                 <Button
                     Padding="0"
@@ -157,7 +157,7 @@
                     HeightRequest="30"
                     StyleClass="FilterButtonStyle"
                     Text="&gt;"
-                    WidthRequest="40"/>
+                    WidthRequest="40" />
                 <Border
                     Margin="0"
                     Padding="12,8"
@@ -168,10 +168,11 @@
                         FontSize="12"
                         HorizontalOptions="Center"
                         Text="Last Page"
-                        TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource DarkOnSurface}}"
-                        VerticalOptions="Center"/>
+                        TextColor="{AppThemeBinding Light={StaticResource Black},
+                        Dark={StaticResource DarkOnSurface}}"
+                        VerticalOptions="Center" />
                     <Border.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding LastPage}"/>
+                        <TapGestureRecognizer Command="{Binding LastPage}" />
                     </Border.GestureRecognizers>
                 </Border>
 
