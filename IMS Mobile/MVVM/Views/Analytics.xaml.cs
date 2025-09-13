@@ -20,7 +20,6 @@ public partial class Analytics : ContentPage
 				await MainThread.InvokeOnMainThreadAsync(async () =>
 				{
 					await viewModel.RefreshDataAsync();
-					viewModel.LoadPyramidChartData();
 				});
 			});
 		}

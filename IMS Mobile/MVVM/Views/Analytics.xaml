@@ -145,7 +145,7 @@
             <tabView:SfTabItem
                 Header="Top Sellers"
                 ImagePosition="Left"
-                ImageSource="cashflow.png"
+                ImageSource="topseller.png"
                 ImageTextSpacing="10"
                 TextColor="{AppThemeBinding Dark={StaticResource White}}">
                 <Grid RowDefinitions="Auto,*">

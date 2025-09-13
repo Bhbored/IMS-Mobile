@@ -62,8 +62,6 @@ namespace IMS_Mobile
             builder.Services.AddTransient<SettingsViewModel>();
             builder.Services.AddSingleton<ResetPasswordPage>();
 
-            // Configure Supabase
-
             var options = new SupabaseOptions
             {
                 AutoRefreshToken = true,

@@ -17,6 +17,7 @@ namespace IMS_Mobile.MVVM.ViewModels
     [AddINotifyPropertyChangedInterface]
     public class AnalyticsVM : INotifyPropertyChanged
     {
+        #region Properties
         public ObservableCollection<Transaction> CashFlowTransactions
         {
             get => cashFlowTransactions;
@@ -26,12 +27,53 @@ namespace IMS_Mobile.MVVM.ViewModels
                 OnPropertyChanged();
             }
         }
+        public ObservableCollection<Product> Products
+        {
+            get => products;
+            set
+            {
+                products = value;
+                OnPropertyChanged();
+            }
+        }
+        public ObservableCollection<TransactionProductItem> TransactionItems
+        {
+            get => transactionItems;
+            set
+            {
+                transactionItems = value;
+                OnPropertyChanged();
+            }
+        }
+        public ObservableCollection<object> TopSellingProducts
+        {
+            get => topSellingProducts;
+            set
+            {
+                topSellingProducts = value;
+                OnPropertyChanged();
+            }
+        }
+        public int PageIndex
+        {
+            get => pageIndex;
+            set
+            {
+                pageIndex = value;
+                OnPropertyChanged();
+            }
+        }
+        #endregion
+
+        #region Fields
         private List<Transaction> _allCashFlowTransactions = new List<Transaction>();
-
         private ObservableCollection<Transaction> cashFlowTransactions = new ObservableCollection<Transaction>();
+        private ObservableCollection<Product> products = new ObservableCollection<Product>();
+        private ObservableCollection<TransactionProductItem> transactionItems = new ObservableCollection<TransactionProductItem>();
+        private ObservableCollection<object> topSellingProducts = new ObservableCollection<object>();
+        private int pageIndex = 1;
 
-        public int PageIndex { get; set; } = 1;
-
+        #endregion    
 
         #region Pagination Logic
 
@@ -126,67 +168,29 @@ namespace IMS_Mobile.MVVM.ViewModels
                 .OrderByDescending(t => t.CreatedDate)
                 .ToList();
             ApplyPagination();
+            Products.Clear();
+            TransactionItems.Clear();
+            var dbProducts = App.ProductRepository?.GetItems() ?? new List<Product>();
+            await Task.Delay(100);
+            foreach (var item in dbProducts)
+            {
+                Products.Add(item);
+            }
+            var dbTransactionItems = App.TransactionProductItemRepository!
+                .GetItems()
+                .Where(x => x.Cost == 0)
+                .ToList();
+            foreach (var item in dbTransactionItems)
+            {
+                TransactionItems.Add(item);
+
+            }
+            OnPropertyChanged(nameof(Products));
+            OnPropertyChanged(nameof(TransactionItems));
+            CalculateTopSellingProducts();
         }
 
         #region Pyramid Chart Data
-
-        public ObservableCollection<Product> Products { get; set; } = new ObservableCollection<Product>();
-        public ObservableCollection<TransactionProductItem> TransactionItems { get; set; } = new ObservableCollection<TransactionProductItem>();
-        public ObservableCollection<object> TopSellingProducts { get; set; } = new ObservableCollection<object>();
-
-        private void LoadMockProducts()
-        {
-            var random = new Random();
-            var productNames = new[]
-            {
-                "iPhone 15 Pro", "Samsung Galaxy S24", "MacBook Pro M3", "Dell XPS 13", "iPad Air",
-                "Surface Pro 9", "AirPods Pro", "Sony WH-1000XM5", "Nintendo Switch", "PlayStation 5",
-                "Xbox Series X", "Apple Watch Ultra", "Samsung Galaxy Watch", "Fitbit Versa", "Garmin Fenix",
-                "Canon EOS R5", "Sony A7 IV", "Nikon Z9", "GoPro Hero 12", "DJI Mini 4 Pro"
-            };
-
-            Products.Clear();
-
-            for (int i = 0; i < 20; i++)
-            {
-                var product = new Product
-                {
-                    Id = i + 1,
-                    Name = productNames[i],
-                    Price = random.Next(50, 2000),
-                    Cost = random.Next(30, 1500),
-                    stock = random.Next(0, 100),
-                    CreatedDate = DateTime.Now.AddDays(-random.Next(0, 365))
-                };
-
-                Products.Add(product);
-            }
-        }
-
-        private void LoadMockTransactionItems()
-        {
-            var random = new Random();
-            TransactionItems.Clear();
-
-            for (int i = 0; i < 100; i++)
-            {
-                var productId = random.Next(1, 21);
-                var quantity = random.Next(1, 10);
-                var product = Products.FirstOrDefault(p => p.Id == productId);
-
-                var transactionItem = new TransactionProductItem
-                {
-                    Id = i + 1,
-                    Name = product?.Name ?? $"Product {productId}",
-                    Price = product?.Price ?? random.Next(50, 2000),
-                    Cost = product?.Cost ?? random.Next(30, 1500),
-                    Quantity = quantity,
-                    TransactionId = random.Next(1, 50)
-                };
-
-                TransactionItems.Add(transactionItem);
-            }
-        }
 
         private void CalculateTopSellingProducts()
         {
@@ -213,13 +217,6 @@ namespace IMS_Mobile.MVVM.ViewModels
                     Revenue = product.TotalRevenue
                 });
             }
-        }
-
-        public void LoadPyramidChartData()
-        {
-            LoadMockProducts();
-            LoadMockTransactionItems();
-            CalculateTopSellingProducts();
         }
 
         #endregion
