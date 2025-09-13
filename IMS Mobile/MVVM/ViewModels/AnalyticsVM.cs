@@ -63,6 +63,15 @@ namespace IMS_Mobile.MVVM.ViewModels
                 OnPropertyChanged();
             }
         }
+        public ObservableCollection<Transaction> DailySalesData
+        {
+            get => dailySalesData;
+            set
+            {
+                dailySalesData = value;
+                OnPropertyChanged();
+            }
+        }
         #endregion
 
         #region Fields
@@ -72,8 +81,9 @@ namespace IMS_Mobile.MVVM.ViewModels
         private ObservableCollection<TransactionProductItem> transactionItems = new ObservableCollection<TransactionProductItem>();
         private ObservableCollection<object> topSellingProducts = new ObservableCollection<object>();
         private int pageIndex = 1;
+        private ObservableCollection<Transaction> dailySalesData = new ObservableCollection<Transaction>();
 
-        #endregion    
+        #endregion
 
         #region Pagination Logic
 
@@ -188,9 +198,9 @@ namespace IMS_Mobile.MVVM.ViewModels
             OnPropertyChanged(nameof(Products));
             OnPropertyChanged(nameof(TransactionItems));
             CalculateTopSellingProducts();
+            LoadSalesData();
         }
 
-        #region Pyramid Chart Data
 
         private void CalculateTopSellingProducts()
         {
@@ -205,9 +215,7 @@ namespace IMS_Mobile.MVVM.ViewModels
                 .OrderByDescending(x => x.TotalQuantity)
                 .Take(8)
                 .ToList();
-
             TopSellingProducts.Clear();
-
             foreach (var product in topProducts)
             {
                 TopSellingProducts.Add(new
@@ -219,7 +227,20 @@ namespace IMS_Mobile.MVVM.ViewModels
             }
         }
 
-        #endregion
+        private void LoadSalesData()
+        {
+            DailySalesData.Clear();
+            var thirtyDaysAgo = DateTime.Now.AddDays(-30);
+            var selltransactions = CashFlowTransactions
+                .Where(t => t.Type == "sell" && t.CreatedDate >= thirtyDaysAgo)
+                .OrderBy(t => t.CreatedDate)
+                .ToList();
+            foreach (var transaction in selltransactions)
+            {
+                DailySalesData.Add(transaction);
+            }
+            OnPropertyChanged(nameof(DailySalesData));
+        }
 
 
 

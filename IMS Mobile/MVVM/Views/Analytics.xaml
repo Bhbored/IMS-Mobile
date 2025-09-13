@@ -183,11 +183,64 @@
                     </chart:SfPyramidChart>
                 </Grid>
             </tabView:SfTabItem>
-            <tabView:SfTabItem Header="Tab 3">
-                <Label
-                    HorizontalOptions="Center"
-                    Text="Tab 3 - Coming Soon"
-                    VerticalOptions="Center" />
+            <tabView:SfTabItem
+                Header="Daily Sales"
+                ImagePosition="Left"
+                ImageSource="dailysales.png"
+                ImageTextSpacing="10"
+                TextColor="{AppThemeBinding Dark={StaticResource White}}">
+                <Grid RowDefinitions="Auto,*">
+                    <Label
+                        Grid.Row="0"
+                        Margin="0,10,0,0"
+                        FontFamily="poppinbold"
+                        FontSize="18"
+                        HorizontalOptions="Center"
+                        Text="Daily Sales Trend"
+                        TextColor="{AppThemeBinding Light={StaticResource Black},
+                        Dark={StaticResource DarkOnSurface}}" />
+
+                    <chart:SfCartesianChart
+                        Grid.Row="1"
+                        Margin="10"
+                        BackgroundColor="{AppThemeBinding Dark={StaticResource Gray100},
+                        Light=Transparent}">
+
+                        <chart:SfCartesianChart.Title>
+                            <Label
+                                HorizontalOptions="Center"
+                                Text="Sales Over Time"
+                                TextColor="{AppThemeBinding Light={StaticResource Black},
+                                Dark={StaticResource Black}}" />
+                        </chart:SfCartesianChart.Title>
+
+                        <chart:SfCartesianChart.XAxes>
+                            <chart:DateTimeAxis Interval="5" IntervalType="Days">
+                                <chart:DateTimeAxis.LabelStyle>
+                                    <chart:ChartAxisLabelStyle TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource Black}}" />
+                                </chart:DateTimeAxis.LabelStyle>
+                            </chart:DateTimeAxis>
+                        </chart:SfCartesianChart.XAxes>
+
+                        <chart:SfCartesianChart.YAxes>
+                            <chart:NumericalAxis>
+                                <chart:NumericalAxis.LabelStyle>
+                                    <chart:ChartAxisLabelStyle TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource Black}}" />
+                                </chart:NumericalAxis.LabelStyle>
+                            </chart:NumericalAxis>
+                        </chart:SfCartesianChart.YAxes>
+
+                        <chart:LineSeries
+                            ItemsSource="{Binding DailySalesData}"
+                            ShowDataLabels="True"
+                            XBindingPath="CreatedDate"
+                            YBindingPath="totalamount">
+                            <chart:LineSeries.DataLabelSettings>
+                                <chart:CartesianDataLabelSettings />
+                            </chart:LineSeries.DataLabelSettings>
+                        </chart:LineSeries>
+                    </chart:SfCartesianChart>
+                </Grid>
             </tabView:SfTabItem>
         </tabView:SfTabView.Items>
     </tabView:SfTabView>
