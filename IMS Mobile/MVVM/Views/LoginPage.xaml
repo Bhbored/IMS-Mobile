@@ -6,7 +6,7 @@
     xmlns:Converters="clr-namespace:IMS_Mobile.Converters"
     xmlns:inputLayout="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
     BackgroundColor="{AppThemeBinding Light={StaticResource White},
-    Dark={StaticResource DarkBackground}}">
+                                      Dark={StaticResource DarkBackground}}">
     <ContentPage.Resources>
         <Converters:StringToBoolConverter x:Key="StringToBoolConverter" />
     </ContentPage.Resources>
@@ -27,7 +27,7 @@
                     StyleClass="RegularTextStyle"
                     Text="Sign in to continue"
                     TextColor="{AppThemeBinding Light={StaticResource Gray500},
-                    Dark={StaticResource DarkOnSurface}}" />
+                                                Dark={StaticResource DarkOnSurface}}" />
             </VerticalStackLayout>
 
             <!--  Login Form  -->
@@ -47,7 +47,7 @@
                         Placeholder="Enter your email"
                         Text="{Binding Email}"
                         TextColor="{AppThemeBinding Light={StaticResource Gray900},
-                        Dark={StaticResource DarkOnSurface}}"
+                                                    Dark={StaticResource DarkOnSurface}}"
                         VerticalOptions="Center" />
                 </inputLayout:SfTextInputLayout>
                 <Label
@@ -73,7 +73,7 @@
                         Placeholder="Enter your password"
                         Text="{Binding Password}"
                         TextColor="{AppThemeBinding Light={StaticResource Gray900},
-                        Dark={StaticResource DarkOnSurface}}"
+                                                    Dark={StaticResource DarkOnSurface}}"
                         VerticalOptions="Center" />
                 </inputLayout:SfTextInputLayout>
                 <Label
@@ -90,7 +90,7 @@
                     StyleClass="SmallTextStyle"
                     Text="Forgot Password?"
                     TextColor="{AppThemeBinding Light={StaticResource ModernGreen},
-                    Dark={StaticResource ModernGreen}}">
+                                                Dark={StaticResource ModernGreen}}">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding ForgotPasswordCommand}" />
                     </Label.GestureRecognizers>
@@ -136,7 +136,7 @@
             <!--  Google Sign In Button  -->
             <Border
                 BackgroundColor="{AppThemeBinding Light={StaticResource White},
-                Dark={StaticResource DarkSurface}}"
+                                                  Dark={StaticResource DarkSurface}}"
                 HeightRequest="55"
                 Stroke="#E0E0E0"
                 StrokeShape="RoundRectangle 12">
@@ -156,7 +156,7 @@
                         FontSize="16"
                         Text="Sign in with Google"
                         TextColor="{AppThemeBinding Light={StaticResource Black},
-                        Dark={StaticResource DarkOnSurface}}"
+                                                    Dark={StaticResource DarkOnSurface}}"
                         VerticalOptions="Center" />
                 </HorizontalStackLayout>
             </Border>
@@ -170,12 +170,12 @@
                     StyleClass="RegularTextStyle"
                     Text="Don't have an account?"
                     TextColor="{AppThemeBinding Light={StaticResource Gray500},
-                    Dark={StaticResource DarkOnSurface}}" />
+                                                Dark={StaticResource DarkOnSurface}}" />
                 <Label
                     StyleClass="RegularTextStyle"
                     Text="Sign Up"
                     TextColor="{AppThemeBinding Light={StaticResource ModernGreen},
-                    Dark={StaticResource ModernGreen}}">
+                                                Dark={StaticResource ModernGreen}}">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding SignUpCommand}" />
                     </Label.GestureRecognizers>

@@ -4,7 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     BackgroundColor="{AppThemeBinding Light={StaticResource Gray100},
-    Dark={StaticResource DarkBackground}}">
+                                      Dark={StaticResource DarkBackground}}">
     <ScrollView>
         <StackLayout Spacing="0">
 
@@ -22,12 +22,12 @@
                         StyleClass="RegularTextStyle"
                         Text="We'd love to hear from you"
                         TextColor="{AppThemeBinding Light={StaticResource Gray500},
-                        Dark={StaticResource DarkOnSurface}}" />
+                                                    Dark={StaticResource DarkOnSurface}}" />
 
                     <BoxView
                         Margin="0,10"
                         BackgroundColor="{AppThemeBinding Light={StaticResource Gray200},
-                        Dark={StaticResource DarkSurfaceVariant}}"
+                                                          Dark={StaticResource DarkSurfaceVariant}}"
                         HeightRequest="1" />
 
                     <Label
@@ -67,7 +67,7 @@
                                     StyleClass="RegularTextStyle"
                                     Text="bhboredbusiness@gmail.com"
                                     TextColor="{AppThemeBinding Light={StaticResource Gray500},
-                                    Dark={StaticResource DarkOnSurface}}" />
+                                                                Dark={StaticResource DarkOnSurface}}" />
                             </StackLayout>
                         </StackLayout>
                     </Border>

@@ -10,7 +10,7 @@
     xmlns:editors="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
     x:DataType="ViewModels:InventoryVM"
     BackgroundColor="{AppThemeBinding Light={StaticResource White},
-    Dark={StaticResource DarkBackground}}"
+                                      Dark={StaticResource DarkBackground}}"
     Shell.NavBarIsVisible="False">
 
     <ContentPage.Resources>
@@ -45,13 +45,13 @@
                             FontSize="16"
                             Text="{Binding Name}"
                             TextColor="{AppThemeBinding Light={StaticResource Black},
-                            Dark={StaticResource DarkOnSurface}}" />
+                                                        Dark={StaticResource DarkOnSurface}}" />
                         <Label
                             FontFamily="poppinregular"
                             FontSize="14"
                             Text="{Binding Converter={StaticResource PriceCostConverter}}"
                             TextColor="{AppThemeBinding Light={StaticResource Gray500},
-                            Dark={StaticResource DarkOnSurface}}" />
+                                                        Dark={StaticResource DarkOnSurface}}" />
                     </VerticalStackLayout>
 
                     <!--  Stock Count  -->
@@ -62,7 +62,7 @@
                         FontSize="14"
                         Text="{Binding stock, StringFormat='{0} units'}"
                         TextColor="{AppThemeBinding Light={StaticResource Gray500},
-                        Dark={StaticResource DarkOnSurface}}"
+                                                    Dark={StaticResource DarkOnSurface}}"
                         VerticalOptions="End" />
 
                     <!--  Edit Icon  -->
@@ -163,7 +163,7 @@
                     DisplayMemberPath="Name"
                     EnableAutoSize="True"
                     HighlightedTextColor="{AppThemeBinding Light={StaticResource Primary},
-                    Dark={StaticResource ModernGreen}}"
+                                                           Dark={StaticResource ModernGreen}}"
                     HighlightedTextFontAttributes="Bold"
                     HorizontalOptions="Fill"
                     ItemsSource="{Binding Products}"
@@ -202,7 +202,7 @@
                             HeightRequest="200"
                             IsAnimationPlaying="True"
                             IsVisible="{AppThemeBinding Light=True,
-                            Dark=False}"
+                                                        Dark=False}"
                             Source="emptyproduct.gif"
                             WidthRequest="200" />
                         <Label

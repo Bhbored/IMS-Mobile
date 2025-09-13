@@ -10,7 +10,7 @@
     xmlns:editors="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
     x:DataType="ViewModels:ContactsVM"
     BackgroundColor="{AppThemeBinding Light={StaticResource White},
-    Dark={StaticResource DarkBackground}}"
+                                      Dark={StaticResource DarkBackground}}"
     Shell.NavBarIsVisible="False">
 
     <ContentPage.Resources>
@@ -28,7 +28,7 @@
                         Grid.Column="0"
                         Margin="0,0,12,0"
                         Background="{AppThemeBinding Light={StaticResource Gray100},
-                        Dark={StaticResource DarkSurface}}"
+                                                     Dark={StaticResource DarkSurface}}"
                         HeightRequest="60"
                         StrokeShape="RoundRectangle 30"
                         WidthRequest="60">
@@ -38,7 +38,7 @@
                             HorizontalOptions="Center"
                             Text="{Binding Name, Converter={StaticResource InitialsConverter}}"
                             TextColor="{AppThemeBinding Light={StaticResource Gray500},
-                            Dark={StaticResource DarkOnSurface}}"
+                                                        Dark={StaticResource DarkOnSurface}}"
                             VerticalOptions="Center" />
                     </Border>
 
@@ -52,13 +52,13 @@
                             FontSize="16"
                             Text="{Binding Name}"
                             TextColor="{AppThemeBinding Light={StaticResource Black},
-                            Dark={StaticResource DarkOnSurface}}" />
+                                                        Dark={StaticResource DarkOnSurface}}" />
                         <Label
                             FontFamily="poppinregular"
                             FontSize="14"
                             Text="{Binding Converter={StaticResource ContactInfoConverter}}"
                             TextColor="{AppThemeBinding Light={StaticResource Gray500},
-                            Dark={StaticResource DarkOnSurface}}" />
+                                                        Dark={StaticResource DarkOnSurface}}" />
                     </VerticalStackLayout>
 
                     <!--  Credit Score Indicator  -->
@@ -141,7 +141,7 @@
             <Border
                 Grid.Column="1"
                 Background="{AppThemeBinding Light={StaticResource Gray100},
-                Dark={StaticResource DarkSurface}}"
+                                             Dark={StaticResource DarkSurface}}"
                 HeightRequest="40"
                 HorizontalOptions="End"
                 StrokeShape="RoundRectangle 8"
@@ -218,7 +218,7 @@
                             HeightRequest="200"
                             IsAnimationPlaying="True"
                             IsVisible="{AppThemeBinding Light=True,
-                            Dark=False}"
+                                                        Dark=False}"
                             Source="emptycontact.gif"
                             WidthRequest="200" />
                         <Label

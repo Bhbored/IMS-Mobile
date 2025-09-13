@@ -9,7 +9,7 @@
     xmlns:ViewModels="clr-namespace:IMS_Mobile.MVVM.ViewModels"
     x:DataType="ViewModels:HomeVM"
     BackgroundColor="{AppThemeBinding Light={StaticResource White},
-    Dark={StaticResource DarkBackground}}">
+                                      Dark={StaticResource DarkBackground}}">
     <ContentPage.Resources>
         <Converters:DTSelector x:Key="DTSelector" />
         <Converters:GlobalCurrencyConverter x:Key="GlobalCurrencyConverter" />
@@ -21,7 +21,7 @@
                 FontSize="24"
                 Text="Home"
                 TextColor="{AppThemeBinding Light={StaticResource Black},
-                Dark={StaticResource DarkOnSurface}}" />
+                                            Dark={StaticResource DarkOnSurface}}" />
         </HorizontalStackLayout>
 
     </Shell.TitleView>
@@ -107,7 +107,7 @@
                                 HeightRequest="200"
                                 IsAnimationPlaying="True"
                                 IsVisible="{AppThemeBinding Light=True,
-                                Dark=False}"
+                                                            Dark=False}"
                                 Source="emptytransaction.gif"
                                 WidthRequest="200" />
                             <Label
@@ -141,7 +141,7 @@
                         HorizontalOptions="Center"
                         Text="First Page"
                         TextColor="{AppThemeBinding Light={StaticResource Black},
-                        Dark={StaticResource DarkOnSurface}}"
+                                                    Dark={StaticResource DarkOnSurface}}"
                         VerticalOptions="Center" />
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding FirstPage}" />
@@ -166,7 +166,7 @@
                         HorizontalOptions="Center"
                         Text="{Binding PageIndex}"
                         TextColor="{AppThemeBinding Light={StaticResource Black},
-                        Dark={StaticResource DarkOnSurface}}"
+                                                    Dark={StaticResource DarkOnSurface}}"
                         VerticalOptions="Center" />
                 </Border>
                 <Button
@@ -188,7 +188,7 @@
                         HorizontalOptions="Center"
                         Text="Last Page"
                         TextColor="{AppThemeBinding Light={StaticResource Black},
-                        Dark={StaticResource DarkOnSurface}}"
+                                                    Dark={StaticResource DarkOnSurface}}"
                         VerticalOptions="Center" />
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding LastPage}" />

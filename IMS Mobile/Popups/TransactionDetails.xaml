@@ -9,7 +9,7 @@
     Margin="0"
     Padding="0"
     BackgroundColor="{AppThemeBinding Light={StaticResource White},
-    Dark={StaticResource Gray400}}"
+                                      Dark={StaticResource Gray400}}"
     CanBeDismissedByTappingOutsideOfPopup="True"
     HeightRequest="600">
     <toolkit:Popup.Resources>
@@ -39,7 +39,7 @@
                 HeightRequest="40"
                 Text="✕"
                 TextColor="{AppThemeBinding Light={StaticResource Gray100},
-                Dark={StaticResource WhiteBrush}}"
+                                            Dark={StaticResource WhiteBrush}}"
                 VerticalOptions="Start"
                 WidthRequest="40" />
         </Grid>
@@ -84,7 +84,7 @@
             Grid.Row="3"
             Padding="16,12"
             BackgroundColor="{AppThemeBinding Light={StaticResource White},
-            Dark={StaticResource Gray400}}"
+                                              Dark={StaticResource Gray400}}"
             StrokeShape="RoundRectangle 8"
             StrokeThickness="0">
             <HorizontalStackLayout HorizontalOptions="Center" Spacing="8">

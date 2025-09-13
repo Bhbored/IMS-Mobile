@@ -9,7 +9,7 @@
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     x:DataType="ViewModel:InventoryVM"
     Background="{AppThemeBinding Light={StaticResource White},
-    Dark={StaticResource DarkSurface}}"
+                                 Dark={StaticResource DarkSurface}}"
     CanBeDismissedByTappingOutsideOfPopup="False"
     HeightRequest="650">
 
@@ -28,13 +28,13 @@
                         FontSize="22"
                         Text="Add New Contact"
                         TextColor="{AppThemeBinding Light={StaticResource Gray900},
-                        Dark={StaticResource DarkOnSurface}}" />
+                                                    Dark={StaticResource DarkOnSurface}}" />
                     <Label
                         FontFamily="poppinregular"
                         FontSize="14"
                         Text="Enter contact details below"
                         TextColor="{AppThemeBinding Light={StaticResource Gray500},
-                        Dark={StaticResource DarkOnSurface}}" />
+                                                    Dark={StaticResource DarkOnSurface}}" />
                 </VerticalStackLayout>
                 <Label
                     Grid.Column="1"
@@ -42,7 +42,7 @@
                     HorizontalOptions="Center"
                     Text="✕"
                     TextColor="{AppThemeBinding Light={StaticResource Gray400},
-                    Dark={StaticResource DarkSurfaceVariant}}"
+                                                Dark={StaticResource DarkSurfaceVariant}}"
                     VerticalOptions="Start">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
@@ -66,7 +66,7 @@
                         FontSize="16"
                         Placeholder="Enter contact name"
                         TextColor="{AppThemeBinding Light={StaticResource Gray900},
-                        Dark={StaticResource DarkOnSurface}}"
+                                                    Dark={StaticResource DarkOnSurface}}"
                         VerticalOptions="Center" />
                 </inputLayout:SfTextInputLayout>
 
@@ -83,7 +83,7 @@
                         Keyboard="Telephone"
                         Placeholder="Enter phone number"
                         TextColor="{AppThemeBinding Light={StaticResource Gray900},
-                        Dark={StaticResource DarkOnSurface}}"
+                                                    Dark={StaticResource DarkOnSurface}}"
                         VerticalOptions="Center" />
                 </inputLayout:SfTextInputLayout>
 
@@ -99,7 +99,7 @@
                         FontSize="16"
                         Placeholder="Enter Email"
                         TextColor="{AppThemeBinding Light={StaticResource Gray900},
-                        Dark={StaticResource DarkOnSurface}}"
+                                                    Dark={StaticResource DarkOnSurface}}"
                         VerticalOptions="Center" />
                 </inputLayout:SfTextInputLayout>
 
@@ -114,7 +114,7 @@
                         FontSize="16"
                         Placeholder="Enter Address"
                         TextColor="{AppThemeBinding Light={StaticResource Gray900},
-                        Dark={StaticResource White}}"
+                                                    Dark={StaticResource White}}"
                         VerticalOptions="Center" />
                 </inputLayout:SfTextInputLayout>
 
@@ -139,7 +139,7 @@
                     HeightRequest="52"
                     Text="Cancel"
                     TextColor="{AppThemeBinding Light={StaticResource Gray500},
-                    Dark={StaticResource Black}}" />
+                                                Dark={StaticResource Black}}" />
 
                 <!--  Add Contact Button  -->
                 <Button
