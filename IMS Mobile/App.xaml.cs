@@ -74,7 +74,6 @@ namespace IMS_Mobile
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"App startup error: {ex.Message}");
                 MainThread.BeginInvokeOnMainThread(async () =>
                 {
                     await Shell.Current.GoToAsync($"//{nameof(LoginPage)}");
@@ -243,32 +242,19 @@ namespace IMS_Mobile
         {
             try
             {
-                Debug.WriteLine("🔄 Starting database cleanup...");
-
                 ProductRepository?.WipeAndResetTo1();
                 await Task.Delay(100);
-                Debug.WriteLine("✅ Products wiped");
-
                 TransactionRepository?.WipeAndResetTo1();
                 await Task.Delay(100);
-                Debug.WriteLine("✅ Transactions wiped");
-
                 ContactRepository?.WipeAndResetTo1();
                 await Task.Delay(100);
-                Debug.WriteLine("✅ Contacts wiped");
-
                 TransactionProductItemRepository?.WipeAndResetTo1();
                 await Task.Delay(100);
-                Debug.WriteLine("✅ TransactionItems wiped");
-
                 UserPreferencesRepository?.WipeAndResetTo1();
-                Debug.WriteLine("✅ UserPreferences wiped");
-
-                Debug.WriteLine("🎉 Database cleanup completed");
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"❌ Error during database cleanup: {ex.Message}");
+                await Shell.Current.DisplayAlert("Error", $"Failed to wipe database: {ex.Message}", "OK");
                 throw;
             }
         }

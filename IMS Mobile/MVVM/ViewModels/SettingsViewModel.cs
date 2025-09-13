@@ -10,6 +10,7 @@ using IMS_Mobile.Service;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Extensions;
+using System.Threading.Tasks;
 
 namespace IMS_Mobile.MVVM.ViewModels
 {
@@ -351,28 +352,20 @@ namespace IMS_Mobile.MVVM.ViewModels
             }
         }
 
-        private void ApplyTheme(Theme theme)
+        private async Task ApplyTheme(Theme theme)
         {
-            try
+            MainThread.BeginInvokeOnMainThread(() =>
             {
-                MainThread.BeginInvokeOnMainThread(() =>
+                if (Application.Current != null)
                 {
-                    if (Application.Current != null)
+                    Application.Current.UserAppTheme = theme switch
                     {
-                        Application.Current.UserAppTheme = theme switch
-                        {
-                            Theme.Light => AppTheme.Light,
-                            Theme.Dark => AppTheme.Dark,
-                            _ => AppTheme.Light
-                        };
-                    }
-                });
-            }
-            catch (Exception ex)
-            {
-                // Log error but don't show to user as it's not critical
-                System.Diagnostics.Debug.WriteLine($"Failed to apply theme: {ex.Message}");
-            }
+                        Theme.Light => AppTheme.Light,
+                        Theme.Dark => AppTheme.Dark,
+                        _ => AppTheme.Light
+                    };
+                }
+            });
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

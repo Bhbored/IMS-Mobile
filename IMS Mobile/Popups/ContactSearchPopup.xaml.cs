@@ -27,7 +27,7 @@ public partial class ContactSearchPopup : Popup, INotifyPropertyChanged
         InitializeComponent();
         BindingContext = this;
         FillContacts();
-        inventoryVM  = VM;
+        inventoryVM = VM;
     }
 
     private Contact _selectedContact;
@@ -48,7 +48,7 @@ public partial class ContactSearchPopup : Popup, INotifyPropertyChanged
     public bool IsContactSelected => SelectedContact != null;
     public bool IsContactNotSelected => SelectedContact == null;
 
-    
+
     public ObservableCollection<Contact> Contacts { get; set; } = new ObservableCollection<Contact>();
 
     private void autocomplete_SelectionChanged(object sender, Syncfusion.Maui.Inputs.SelectionChangedEventArgs e)
@@ -81,7 +81,7 @@ public partial class ContactSearchPopup : Popup, INotifyPropertyChanged
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"Error loading contacts: {ex.Message}");
+            Shell.Current.DisplayAlert("Error", $"Failed to load contacts: {ex.Message}", "OK");
         }
     }
 

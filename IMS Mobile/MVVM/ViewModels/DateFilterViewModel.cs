@@ -86,14 +86,7 @@ namespace IMS_Mobile.MVVM.ViewModels
 
         private async Task ShowToast(string message)
         {
-            try
-            {
-                await Toast.Make(message, duration: ToastDuration.Short).Show();
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Toast error: {ex.Message}");
-            }
+            await Toast.Make(message, duration: ToastDuration.Short).Show();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

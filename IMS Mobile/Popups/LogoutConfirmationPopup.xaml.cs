@@ -47,7 +47,7 @@ public partial class LogoutConfirmationPopup : Popup
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"Failed becasue {ex.Message}");
+           await Shell.Current.DisplayAlert("Error", $"Logout failed: {ex.Message}", "OK");
 
         }
         finally

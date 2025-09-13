@@ -33,7 +33,6 @@ namespace IMS_Mobile.Service
             }
         }
 
-        // Listen for connectivity changes
         public static void StartMonitoring(Action<bool> onConnectivityChanged)
         {
             Connectivity.Current.ConnectivityChanged += (sender, e) =>

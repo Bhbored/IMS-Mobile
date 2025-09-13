@@ -31,7 +31,6 @@ public partial class ContactUsPage : ContentPage
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"Error opening email client: {ex}");
             await DisplayAlert("Error", "Could not open email client. Please check your device settings.", "OK");
         }
     }
