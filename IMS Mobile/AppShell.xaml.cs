@@ -24,6 +24,7 @@ namespace IMS_Mobile
             Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
             Routing.RegisterRoute(nameof(SignUpPage), typeof(SignUpPage));
             Routing.RegisterRoute(nameof(ResetPasswordPage), typeof(ResetPasswordPage));
+            Routing.RegisterRoute(nameof(Analytics), typeof(Analytics));
             _authService = authService;
             _syncService = syncService;
         }

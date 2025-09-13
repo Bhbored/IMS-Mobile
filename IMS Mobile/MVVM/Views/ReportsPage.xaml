@@ -489,10 +489,24 @@
                                     Text="View Analytics"
                                     TextColor="White" />
                             </VerticalStackLayout>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding NavigateToAnalyticsCommand}" />
+                            </Border.GestureRecognizers>
                         </Border>
                     </Grid>
                 </VerticalStackLayout>
             </VerticalStackLayout>
         </ScrollView>
+
+        <Image
+            Grid.Row="0"
+            Grid.RowSpan="2"
+            Aspect="AspectFill"
+            Background="Transparent"
+            HorizontalOptions="Center"
+            IsAnimationPlaying="True"
+            IsVisible="{Binding Animation}"
+            Source="emptyinventory.gif"
+            VerticalOptions="Center" />
     </Grid>
 </ContentPage>

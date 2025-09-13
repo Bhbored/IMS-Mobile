@@ -12,6 +12,7 @@
     <Converters:SellTConv x:Key="SellingConverter" />
     <Converters:TransactionColorConv x:Key="TransactionColorConverter" />
     <Converters:GlobalCurrencyConverter x:Key="GlobalCurrencyConverter" />
+    <Converters:AnalyticsDTSelector x:Key="AnalyticsDTSelector" />
 
     <!--  buy  transaction  -->
     <DataTemplate x:Key="buyTransactions" x:DataType="Models:Transaction">
@@ -207,6 +208,192 @@
                     Text="{Binding Quantity, StringFormat='{0} units'}"
                     VerticalOptions="End" />
 
+            </Grid>
+        </Border>
+    </DataTemplate>
+
+    <!--  Analytics Buy Transaction Template  -->
+    <DataTemplate x:Key="AnalyticsBuyTransaction" x:DataType="Models:Transaction">
+        <Border
+            Margin="0,0,0,8"
+            Padding="16"
+            Background="{AppThemeBinding Light={StaticResource White},
+                                         Dark={StaticResource DarkSurface}}"
+            Shadow="Shadow Brush=#20000000 Radius=4 Offset=0,2"
+            Stroke="{AppThemeBinding Light={StaticResource Gray200},
+                                     Dark={StaticResource DarkSurfaceVariant}}"
+            StrokeShape="RoundRectangle 12"
+            StrokeThickness="1">
+            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                <Border
+                    Grid.Column="0"
+                    Background="#FFEBEE"
+                    HeightRequest="40"
+                    HorizontalOptions="Center"
+                    StrokeShape="RoundRectangle 8"
+                    VerticalOptions="Center"
+                    WidthRequest="40">
+                    <Label
+                        FontSize="18"
+                        HorizontalOptions="Center"
+                        Text="📥"
+                        VerticalOptions="Center" />
+                </Border>
+
+                <VerticalStackLayout
+                    Grid.Column="1"
+                    Spacing="2"
+                    VerticalOptions="Center">
+                    <Label
+                        FontFamily="poppinbold"
+                        FontSize="14"
+                        Text="{Binding Id, StringFormat='Transaction #{0}'}"
+                        TextColor="{AppThemeBinding Light={StaticResource Black},
+                                                    Dark={StaticResource DarkOnSurface}}" />
+                    <Label
+                        FontFamily="poppinregular"
+                        FontSize="12"
+                        Text="{Binding FormattedDate}"
+                        TextColor="{AppThemeBinding Light={StaticResource Gray500},
+                                                    Dark={StaticResource DarkOnSurface}}" />
+                    <Label
+                        FontFamily="poppinregular"
+                        FontSize="11"
+                        Text="Purchase"
+                        TextColor="#F44336" />
+                </VerticalStackLayout>
+
+                <Label
+                    Grid.Column="2"
+                    FontFamily="poppinbold"
+                    FontSize="16"
+                    Text="{Binding totalamount, Converter={StaticResource GlobalCurrencyConverter}}"
+                    TextColor="#F44336"
+                    VerticalOptions="Center" />
+            </Grid>
+        </Border>
+    </DataTemplate>
+
+    <!--  Analytics Sell Transaction Template  -->
+    <DataTemplate x:Key="AnalyticsSellTransaction" x:DataType="Models:Transaction">
+        <Border
+            Margin="0,0,0,8"
+            Padding="16"
+            Background="{AppThemeBinding Light={StaticResource White},
+                                         Dark={StaticResource DarkSurface}}"
+            Shadow="Shadow Brush=#20000000 Radius=4 Offset=0,2"
+            Stroke="{AppThemeBinding Light={StaticResource Gray200},
+                                     Dark={StaticResource DarkSurfaceVariant}}"
+            StrokeShape="RoundRectangle 12"
+            StrokeThickness="1">
+            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                <Border
+                    Grid.Column="0"
+                    Background="#E8F5E9"
+                    HeightRequest="40"
+                    HorizontalOptions="Center"
+                    StrokeShape="RoundRectangle 8"
+                    VerticalOptions="Center"
+                    WidthRequest="40">
+                    <Label
+                        FontSize="18"
+                        HorizontalOptions="Center"
+                        Text="📤"
+                        VerticalOptions="Center" />
+                </Border>
+
+                <VerticalStackLayout
+                    Grid.Column="1"
+                    Spacing="2"
+                    VerticalOptions="Center">
+                    <Label
+                        FontFamily="poppinbold"
+                        FontSize="14"
+                        Text="{Binding Id, StringFormat='Transaction #{0}'}"
+                        TextColor="{AppThemeBinding Light={StaticResource Black},
+                                                    Dark={StaticResource DarkOnSurface}}" />
+                    <Label
+                        FontFamily="poppinregular"
+                        FontSize="12"
+                        Text="{Binding FormattedDate}"
+                        TextColor="{AppThemeBinding Light={StaticResource Gray500},
+                                                    Dark={StaticResource DarkOnSurface}}" />
+                    <Label
+                        FontFamily="poppinregular"
+                        FontSize="11"
+                        Text="Sale (Paid)"
+                        TextColor="#4CAF50" />
+                </VerticalStackLayout>
+
+                <Label
+                    Grid.Column="2"
+                    FontFamily="poppinbold"
+                    FontSize="16"
+                    Text="{Binding totalamount, Converter={StaticResource GlobalCurrencyConverter}}"
+                    TextColor="#4CAF50"
+                    VerticalOptions="Center" />
+            </Grid>
+        </Border>
+    </DataTemplate>
+
+    <!--  Analytics Sell On Tab Transaction Template  -->
+    <DataTemplate x:Key="AnalyticsSellOnTabTransaction" x:DataType="Models:Transaction">
+        <Border
+            Margin="0,0,0,8"
+            Padding="16"
+            Background="{AppThemeBinding Light={StaticResource White},
+                                         Dark={StaticResource DarkSurface}}"
+            Shadow="Shadow Brush=#20000000 Radius=4 Offset=0,2"
+            Stroke="{AppThemeBinding Light={StaticResource Gray200},
+                                     Dark={StaticResource DarkSurfaceVariant}}"
+            StrokeShape="RoundRectangle 12"
+            StrokeThickness="1">
+            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                <Border
+                    Grid.Column="0"
+                    Background="#F5F5F5"
+                    HeightRequest="40"
+                    HorizontalOptions="Center"
+                    StrokeShape="RoundRectangle 8"
+                    VerticalOptions="Center"
+                    WidthRequest="40">
+                    <Label
+                        FontSize="18"
+                        HorizontalOptions="Center"
+                        Text="📋"
+                        VerticalOptions="Center" />
+                </Border>
+
+                <VerticalStackLayout
+                    Grid.Column="1"
+                    Spacing="2"
+                    VerticalOptions="Center">
+                    <Label
+                        FontFamily="poppinbold"
+                        FontSize="14"
+                        Text="{Binding Id, StringFormat='Transaction #{0}'}"
+                        TextColor="{AppThemeBinding Light={StaticResource Black},
+                                                    Dark={StaticResource DarkOnSurface}}" />
+                    <Label
+                        FontFamily="poppinregular"
+                        FontSize="12"
+                        Text="{Binding FormattedDate}"
+                        TextColor="{AppThemeBinding Light={StaticResource Gray500},
+                                                    Dark={StaticResource DarkOnSurface}}" />
+                    <Label
+                        FontFamily="poppinregular"
+                        FontSize="11"
+                        Text="Sale (On Credit)"
+                        TextColor="#9E9E9E" />
+                </VerticalStackLayout>
+
+                <Label
+                    Grid.Column="2"
+                    FontFamily="poppinbold"
+                    FontSize="16"
+                    Text="{Binding totalamount, Converter={StaticResource GlobalCurrencyConverter}}"
+                    TextColor="#9E9E9E"
+                    VerticalOptions="Center" />
             </Grid>
         </Border>
     </DataTemplate>

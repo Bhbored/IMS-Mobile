@@ -42,6 +42,7 @@ namespace IMS_Mobile
             builder.Services.AddSingleton<LoginPage>();
             builder.Services.AddSingleton<SignUpPage>();
             builder.Services.AddTransient<SettingsPage>();
+            builder.Services.AddTransient<Analytics>();
             builder.Services.AddSingleton<LoadingViewModel>();
             builder.Services.AddSingleton<LoginViewModel>();
             builder.Services.AddSingleton<SignUpViewModel>();
@@ -53,9 +54,11 @@ namespace IMS_Mobile
             builder.Services.AddTransient<UserPreferencesRepository>();
             //ViewModels
             builder.Services.AddTransient<HomeVM>();
+            builder.Services.AddTransient<AnalyticsVM>();
             builder.Services.AddTransient<ContactsVM>();
             builder.Services.AddTransient<InventoryVM>();
             builder.Services.AddTransient<ReportsVM>();
+            builder.Services.AddTransient<AnalyticsVM>();
             builder.Services.AddTransient<SettingsViewModel>();
             builder.Services.AddSingleton<ResetPasswordPage>();
 

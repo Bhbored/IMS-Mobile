@@ -78,6 +78,7 @@
 		<PackageReference Include="Syncfusion.Maui.Core" Version="31.1.19" />
 		<PackageReference Include="Syncfusion.Maui.Expander" Version="31.1.19" />
 		<PackageReference Include="Syncfusion.Maui.Inputs" Version="31.1.19" />
+		<PackageReference Include="Syncfusion.Maui.TabView" Version="31.1.19" />
 		<PackageReference Include="Syncfusion.Maui.Toolkit" Version="1.0.6" />
 		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.14.0" />
 	</ItemGroup>
@@ -87,6 +88,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="MVVM\Views\AboutUsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="MVVM\Views\Analytics.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="MVVM\Views\BuyProducts.xaml">
@@ -170,6 +174,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="MVVM\Views\Analytics.xaml.cs">
+	    <DependentUpon>Analytics.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="MVVM\Views\ContactsPage.xaml.cs">
 	    <DependentUpon>ContactsPage.xaml</DependentUpon>
 	  </Compile>

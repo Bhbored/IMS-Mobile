@@ -1,3 +1,4 @@
+using IMS_Mobile.MVVM.Views;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,10 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
+using System.Windows.Input;
 using cashRegister = IMS_Mobile.MVVM.Models.cashRegister;
+using Transaction = IMS_Mobile.MVVM.Models.Transaction;
 
 namespace IMS_Mobile.MVVM.ViewModels
 {
@@ -15,7 +19,7 @@ namespace IMS_Mobile.MVVM.ViewModels
     public class ReportsVM : INotifyPropertyChanged
     {
         private cashRegister cashRegister = new cashRegister();
-
+        public bool Animation { get; set; } = false;
 
         #region fields
         #endregion
@@ -73,7 +77,13 @@ namespace IMS_Mobile.MVVM.ViewModels
         #endregion
 
         #region Tasks
-
+        public async Task ViewAnalytics()
+        {
+            Animation = true;
+            await Shell.Current.GoToAsync(nameof(Analytics),true);
+            Animation = false;
+        }
+        public ICommand NavigateToAnalyticsCommand => new Command(async () => await ViewAnalytics());
         #endregion
 
         #region INotifyPropertyChanged Implementation
@@ -83,5 +93,6 @@ namespace IMS_Mobile.MVVM.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
+
     }
 }

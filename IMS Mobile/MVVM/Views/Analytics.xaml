@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="IMS_Mobile.MVVM.Views.Analytics"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:Converters="clr-namespace:IMS_Mobile.Converters"
+    xmlns:ViewModels="clr-namespace:IMS_Mobile.MVVM.ViewModels"
+    xmlns:tabView="clr-namespace:Syncfusion.Maui.TabView;assembly=Syncfusion.Maui.TabView"
+    x:DataType="ViewModels:AnalyticsVM"
+    BackgroundColor="{AppThemeBinding Light={StaticResource White},
+    Dark={StaticResource DarkBackground}}"
+    Shell.NavBarIsVisible="True">
+
+    <Shell.TitleView>
+        <HorizontalStackLayout Spacing="15" VerticalOptions="Center">
+            <Border
+                Background="{AppThemeBinding Light={StaticResource Gray100},
+                Dark={StaticResource DarkSurface}}"
+                HeightRequest="40"
+                HorizontalOptions="End"
+                StrokeShape="RoundRectangle 8"
+                VerticalOptions="Center"
+                WidthRequest="40">
+                <Label
+                    FontSize="20"
+                    HorizontalOptions="Center"
+                    Text="📊"
+                    VerticalOptions="Center" />
+            </Border>
+            <Label
+                FontFamily="poppinbold"
+                FontSize="24"
+                HorizontalOptions="Center"
+                Text="Analytics"
+                TextColor="{AppThemeBinding Light={StaticResource Black},
+                Dark={StaticResource DarkOnSurface}}"
+                VerticalOptions="Center" />
+
+        </HorizontalStackLayout>
+    </Shell.TitleView>
+    <ContentPage.Resources>
+        <Converters:AnalyticsDTSelector
+            x:Key="AnalyticsDTSelector"
+            BuyTransactionTemplate="{StaticResource AnalyticsBuyTransaction}"
+            SellOnTabTransactionTemplate="{StaticResource AnalyticsSellOnTabTransaction}"
+            SellTransactionTemplate="{StaticResource AnalyticsSellTransaction}" />
+    </ContentPage.Resources>
+
+    <tabView:SfTabView
+        Margin="20,0,20,20"
+        BackgroundColor="Transparent"
+        EnableSwiping="True"
+        IndicatorBackground="LightGreen"
+        IndicatorStrokeThickness="5">
+        <tabView:SfTabView.Items>
+            <tabView:SfTabItem
+                Header="Cash Flow"
+                ImagePosition="Left"
+                ImageSource="cashflow.png"
+                ImageTextSpacing="10"
+                TextColor="{AppThemeBinding Dark={StaticResource White}}">
+                <Grid RowDefinitions="*,Auto">
+                    <CollectionView
+                        Grid.Row="0"
+                        Margin="0,10,0,0"
+                        BackgroundColor="Transparent"
+                        ItemTemplate="{StaticResource AnalyticsDTSelector}"
+                        ItemsSource="{Binding CashFlowTransactions}"
+                        SelectionMode="None" />
+
+                    <!--  Pagination Controls  -->
+                    <HorizontalStackLayout
+                        Grid.Row="1"
+                        Margin="0,0,0,10"
+                        HorizontalOptions="Center"
+                        Spacing="10">
+                        <Border
+                            Margin="0"
+                            Padding="12,8"
+                            StrokeShape="RoundRectangle 5"
+                            StyleClass="ActiveFilterButtonStyle">
+                            <Label
+                                FontFamily="poppinbold"
+                                FontSize="12"
+                                HorizontalOptions="Center"
+                                Text="First Page"
+                                TextColor="{AppThemeBinding Light={StaticResource Black},
+                                Dark={StaticResource DarkOnSurface}}"
+                                VerticalOptions="Center" />
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding FirstPage}" />
+                            </Border.GestureRecognizers>
+                        </Border>
+                        <Button
+                            Padding="0"
+                            Command="{Binding PreviousPage}"
+                            FontAttributes="Bold"
+                            HeightRequest="30"
+                            StyleClass="FilterButtonStyle"
+                            Text="&lt;"
+                            WidthRequest="40" />
+                        <Border
+                            Margin="0"
+                            Padding="12,8"
+                            StrokeShape="RoundRectangle 5"
+                            StyleClass="ActiveFilterButtonStyle">
+                            <Label
+                                FontFamily="poppinbold"
+                                FontSize="12"
+                                HorizontalOptions="Center"
+                                Text="{Binding PageIndex}"
+                                TextColor="{AppThemeBinding Light={StaticResource Black},
+                                Dark={StaticResource DarkOnSurface}}"
+                                VerticalOptions="Center" />
+                        </Border>
+                        <Button
+                            Padding="0"
+                            Command="{Binding NextPage}"
+                            FontAttributes="Bold"
+                            HeightRequest="30"
+                            StyleClass="FilterButtonStyle"
+                            Text="&gt;"
+                            WidthRequest="40" />
+                        <Border
+                            Margin="0"
+                            Padding="12,8"
+                            StrokeShape="RoundRectangle 5"
+                            StyleClass="ActiveFilterButtonStyle">
+                            <Label
+                                FontFamily="poppinbold"
+                                FontSize="12"
+                                HorizontalOptions="Center"
+                                Text="Last Page"
+                                TextColor="{AppThemeBinding Light={StaticResource Black},
+                                Dark={StaticResource DarkOnSurface}}"
+                                VerticalOptions="Center" />
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding LastPage}" />
+                            </Border.GestureRecognizers>
+                        </Border>
+                    </HorizontalStackLayout>
+                </Grid>
+            </tabView:SfTabItem>
+            <tabView:SfTabItem Header="Tab 2">
+                <Label
+                    HorizontalOptions="Center"
+                    Text="Tab 2 - Coming Soon"
+                    VerticalOptions="Center" />
+            </tabView:SfTabItem>
+            <tabView:SfTabItem Header="Tab 3">
+                <Label
+                    HorizontalOptions="Center"
+                    Text="Tab 3 - Coming Soon"
+                    VerticalOptions="Center" />
+            </tabView:SfTabItem>
+        </tabView:SfTabView.Items>
+    </tabView:SfTabView>
+</ContentPage>
