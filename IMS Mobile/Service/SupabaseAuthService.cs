@@ -253,7 +253,6 @@ namespace IMS_Mobile.Service
                     return currentUser.Email;
                 }
 
-                // If CurrentUser is null, try to get user from token
                 var accessToken = await SecureStorage.GetAsync("access_token");
                 if (!string.IsNullOrEmpty(accessToken))
                 {
@@ -290,7 +289,7 @@ namespace IMS_Mobile.Service
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Password reset failed: {ex}");
+                Debug.WriteLine($"Password reset failed: {ex}");
                 return (false, ex.Message);
             }
         }
@@ -344,13 +343,13 @@ namespace IMS_Mobile.Service
         {
             try
             {
-                var state = await _supabase.Auth.SignIn(Supabase.Gotrue.Constants.Provider.Google, new Supabase.Gotrue.SignInOptions
+                var state = await _supabase.Auth.SignIn(Constants.Provider.Google, new SignInOptions
                 {
-                    FlowType = Supabase.Gotrue.Constants.OAuthFlowType.PKCE,
+                    FlowType = Constants.OAuthFlowType.PKCE,
                     RedirectTo = redirectUri
                 });
 
-                var result = await Microsoft.Maui.Authentication.WebAuthenticator.Default.AuthenticateAsync(state.Uri, new Uri(redirectUri));
+                var result = await WebAuthenticator.Default.AuthenticateAsync(state.Uri, new Uri(redirectUri));
                 string code = null;
                 if (result != null && result.Properties != null && result.Properties.TryGetValue("code", out var c)) code = c;
                 if (string.IsNullOrEmpty(code)) return (null, "No auth code");
@@ -361,7 +360,7 @@ namespace IMS_Mobile.Service
                     await SecureStorage.SetAsync("access_token", session.AccessToken);
                     if (!string.IsNullOrEmpty(session.RefreshToken)) await SecureStorage.SetAsync("refresh_token", session.RefreshToken);
 
-                    var jwt = new System.IdentityModel.Tokens.Jwt.JwtSecurityToken(session.AccessToken);
+                    var jwt = new JwtSecurityToken(session.AccessToken);
                     _currentSession = new UserSession { AccessToken = session.AccessToken, RefreshToken = session.RefreshToken, ExpiresAt = jwt.ValidTo };
                     _isOfflineSessionActive = false;
                     LoggedIn?.Invoke(GetUserId());
@@ -371,7 +370,7 @@ namespace IMS_Mobile.Service
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Google sign-in failed: {ex.Message}");
+                Debug.WriteLine($"Google sign-in failed: {ex.Message}");
                 return (null, ex.Message);
             }
         }

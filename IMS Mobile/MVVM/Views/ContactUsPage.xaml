@@ -3,54 +3,52 @@
     x:Class="IMS_Mobile.MVVM.Views.ContactUsPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    Title="ContactUsPage"
-    BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource DarkBackground}}">
+    BackgroundColor="{AppThemeBinding Light={StaticResource Gray100},
+    Dark={StaticResource DarkBackground}}">
     <ScrollView>
         <StackLayout Spacing="0">
 
             <!--  Header Section  -->
-            <Border Margin="15,20,15,10"
-                    StyleClass="SummaryCardStyle">
+            <Border Margin="15,20,15,10" StyleClass="SummaryCardStyle">
                 <StackLayout Spacing="15">
                     <Label
                         Margin="0,10,0,5"
                         HorizontalOptions="Center"
                         StyleClass="TitleStyle"
-                        Text="Get In Touch"/>
+                        Text="Get In Touch" />
 
                     <Label
                         HorizontalOptions="Center"
                         StyleClass="RegularTextStyle"
                         Text="We'd love to hear from you"
-                        TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource DarkOnSurface}}"/>
+                        TextColor="{AppThemeBinding Light={StaticResource Gray500},
+                        Dark={StaticResource DarkOnSurface}}" />
 
                     <BoxView
                         Margin="0,10"
-                        BackgroundColor="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource DarkSurfaceVariant}}"
-                        HeightRequest="1"/>
+                        BackgroundColor="{AppThemeBinding Light={StaticResource Gray200},
+                        Dark={StaticResource DarkSurfaceVariant}}"
+                        HeightRequest="1" />
 
                     <Label
                         Margin="0,10"
                         HorizontalTextAlignment="Center"
                         StyleClass="RegularTextStyle"
-                        Text="Have questions or want to work with us? Reach out using the information below or send us a message."/>
+                        Text="Have questions or want to work with us? Reach out using the information below or send us a message." />
                 </StackLayout>
             </Border>
 
             <!--  Contact Information  -->
-            <Border Margin="15,0,15,10"
-                    StyleClass="SummaryCardStyle">
+            <Border Margin="15,0,15,10" StyleClass="SummaryCardStyle">
                 <StackLayout Spacing="20">
                     <Label
                         Margin="0,0,0,10"
                         StyleClass="SectionTitleStyle"
-                        Text="Contact Information"/>
+                        Text="Contact Information" />
 
                     <!--  Email  -->
-                    <Border Padding="15"
-                            StyleClass="TransactionCardStyle">
-                        <StackLayout Orientation="Horizontal"
-                                     Spacing="15">
+                    <Border Padding="15" StyleClass="TransactionCardStyle">
+                        <StackLayout Orientation="Horizontal" Spacing="15">
                             <Border
                                 Padding="10"
                                 Background="#F0F8F0"
@@ -58,74 +56,18 @@
                                 <Image
                                     HeightRequest="24"
                                     Source="email.png"
-                                    WidthRequest="24"/>
+                                    WidthRequest="24" />
                             </Border>
-                            <StackLayout Spacing="2"
-                                         VerticalOptions="Center">
+                            <StackLayout Spacing="2" VerticalOptions="Center">
                                 <Label
                                     FontAttributes="Bold"
                                     StyleClass="RegularTextStyle"
-                                    Text="Email"/>
+                                    Text="Email" />
                                 <Label
                                     StyleClass="RegularTextStyle"
                                     Text="bhboredbusiness@gmail.com"
-                                    TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource DarkOnSurface}}"/>
-                            </StackLayout>
-                        </StackLayout>
-                    </Border>
-
-                    <!--  Phone  -->
-                    <Border Padding="15"
-                            StyleClass="TransactionCardStyle">
-                        <StackLayout Orientation="Horizontal"
-                                     Spacing="15">
-                            <Border
-                                Padding="10"
-                                Background="#F0F8F0"
-                                StyleClass="TransactionIconStyle">
-                                <Image
-                                    HeightRequest="24"
-                                    Source="phone.png"
-                                    WidthRequest="24"/>
-                            </Border>
-                            <StackLayout Spacing="2"
-                                         VerticalOptions="Center">
-                                <Label
-                                    FontAttributes="Bold"
-                                    StyleClass="RegularTextStyle"
-                                    Text="Phone"/>
-                                <Label
-                                    StyleClass="RegularTextStyle"
-                                    Text="+1 (555) 123-4567"
-                                    TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource DarkOnSurface}}"/>
-                            </StackLayout>
-                        </StackLayout>
-                    </Border>
-
-                    <!--  Location  -->
-                    <Border Padding="15"
-                            StyleClass="TransactionCardStyle">
-                        <StackLayout Orientation="Horizontal"
-                                     Spacing="15">
-                            <Border
-                                Padding="10"
-                                Background="#F0F8F0"
-                                StyleClass="TransactionIconStyle">
-                                <Image
-                                    HeightRequest="24"
-                                    Source="location.png"
-                                    WidthRequest="24"/>
-                            </Border>
-                            <StackLayout Spacing="2"
-                                         VerticalOptions="Center">
-                                <Label
-                                    FontAttributes="Bold"
-                                    StyleClass="RegularTextStyle"
-                                    Text="Location"/>
-                                <Label
-                                    StyleClass="RegularTextStyle"
-                                    Text="San Francisco, CA"
-                                    TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource DarkOnSurface}}"/>
+                                    TextColor="{AppThemeBinding Light={StaticResource Gray500},
+                                    Dark={StaticResource DarkOnSurface}}" />
                             </StackLayout>
                         </StackLayout>
                     </Border>
@@ -133,100 +75,70 @@
             </Border>
 
             <!--  Send Message Form  -->
-            <Border Margin="15,0,15,10"
-                    StyleClass="SummaryCardStyle">
+            <Border Margin="15,0,15,10" StyleClass="SummaryCardStyle">
                 <StackLayout Spacing="15">
                     <Label
                         Margin="0,0,0,10"
                         StyleClass="SectionTitleStyle"
-                        Text="Send us a Message"/>
+                        Text="Send us a Message" />
 
                     <!--  Name  -->
                     <StackLayout Spacing="5">
-                        <Label StyleClass="RegularTextStyle"
-                               Text="Your Name"/>
-                        <Border Padding="15,10"
-                                StyleClass="TransactionCardStyle">
-                            <Entry Placeholder="Enter your name"
-                                   StyleClass="RegularTextStyle"/>
+                        <Label StyleClass="RegularTextStyle" Text="Your Name" />
+                        <Border Padding="15,10" StyleClass="TransactionCardStyle">
+                            <!--  Add x:Name  -->
+                            <Entry
+                                x:Name="NameEntry"
+                                Placeholder="Enter your name"
+                                StyleClass="RegularTextStyle" />
                         </Border>
                     </StackLayout>
 
                     <!--  Email  -->
                     <StackLayout Spacing="5">
-                        <Label StyleClass="RegularTextStyle"
-                               Text="Email Address"/>
-                        <Border Padding="15,10"
-                                StyleClass="TransactionCardStyle">
+                        <Label StyleClass="RegularTextStyle" Text="Email Address" />
+                        <Border Padding="15,10" StyleClass="TransactionCardStyle">
+                            <!--  Add x:Name  -->
                             <Entry
+                                x:Name="EmailEntry"
                                 Keyboard="Email"
                                 Placeholder="Enter your email"
-                                StyleClass="RegularTextStyle"/>
+                                StyleClass="RegularTextStyle" />
                         </Border>
                     </StackLayout>
 
                     <!--  Subject  -->
                     <StackLayout Spacing="5">
-                        <Label StyleClass="RegularTextStyle"
-                               Text="Subject"/>
-                        <Border Padding="15,10"
-                                StyleClass="TransactionCardStyle">
-                            <Entry Placeholder="Enter subject"
-                                   StyleClass="RegularTextStyle"/>
+                        <Label StyleClass="RegularTextStyle" Text="Subject" />
+                        <Border Padding="15,10" StyleClass="TransactionCardStyle">
+                            <!--  Add x:Name  -->
+                            <Entry
+                                x:Name="SubjectEntry"
+                                Placeholder="Enter subject"
+                                StyleClass="RegularTextStyle" />
                         </Border>
                     </StackLayout>
 
                     <!--  Message  -->
                     <StackLayout Spacing="5">
-                        <Label StyleClass="RegularTextStyle"
-                               Text="Message"/>
-                        <Border Padding="15,10"
-                                StyleClass="TransactionCardStyle">
+                        <Label StyleClass="RegularTextStyle" Text="Message" />
+                        <Border Padding="15,10" StyleClass="TransactionCardStyle">
+                            <!--  Add x:Name  -->
                             <Editor
+                                x:Name="MessageEditor"
                                 HeightRequest="120"
                                 Placeholder="Enter your message"
-                                StyleClass="RegularTextStyle"/>
+                                StyleClass="RegularTextStyle" />
                         </Border>
                     </StackLayout>
 
                     <!--  Send Button  -->
                     <Button
+                        x:Name="SendMessageButton"
                         Margin="0,10,0,5"
+                        Clicked="SendMessageButton_Clicked"
                         StyleClass="CashButtonStyle"
-                        Text="Send Message"/>
-                </StackLayout>
-            </Border>
-
-            <!--  Social Media  -->
-            <Border Margin="15,0,15,20"
-                    StyleClass="SummaryCardStyle">
-                <StackLayout Spacing="15">
-                    <Label
-                        Margin="0,0,0,10"
-                        StyleClass="SectionTitleStyle"
-                        Text="Follow Us"/>
-
-                    <StackLayout
-                        HorizontalOptions="Center"
-                        Orientation="Horizontal"
-                        Spacing="25">
-                        <Image
-                            HeightRequest="30"
-                            Source="facebook.png"
-                            WidthRequest="30"/>
-                        <Image
-                            HeightRequest="30"
-                            Source="twitter.png"
-                            WidthRequest="30"/>
-                        <Image
-                            HeightRequest="30"
-                            Source="linkedin.png"
-                            WidthRequest="30"/>
-                        <Image
-                            HeightRequest="30"
-                            Source="instagram.png"
-                            WidthRequest="30"/>
-                    </StackLayout>
+                        Text="Send Message" />
                 </StackLayout>
             </Border>
         </StackLayout>

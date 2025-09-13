@@ -100,6 +100,25 @@
                     ItemsSource="{Binding FilteredTransactions}"
                     SelectionMode="None"
                     VerticalScrollBarVisibility="Always">
+                    <CollectionView.EmptyView>
+                        <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                            <Image
+                                Aspect="AspectFit"
+                                HeightRequest="200"
+                                IsAnimationPlaying="True"
+                                IsVisible="{AppThemeBinding Light=True,
+                                Dark=False}"
+                                Source="emptytransaction.gif"
+                                WidthRequest="200" />
+                            <Label
+                                Margin="0,20,0,0"
+                                FontFamily="poppinbold"
+                                FontSize="18"
+                                HorizontalOptions="Center"
+                                Text="No transactions yet"
+                                VerticalOptions="Center" />
+                        </StackLayout>
+                    </CollectionView.EmptyView>
                     <CollectionView.ItemsLayout>
                         <GridItemsLayout Orientation="Vertical" Span="1" />
                     </CollectionView.ItemsLayout>

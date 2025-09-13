@@ -150,7 +150,8 @@
                         FontFamily="poppinbold"
                         FontSize="16"
                         Text="{Binding Name}"
-                        TextColor="Black" />
+                        TextColor="{AppThemeBinding Light={StaticResource Black},
+                        Dark={StaticResource White}}" />
                     <Label StyleClass="SmallTextStyle" Text="{Binding TotalPrice, Converter={StaticResource GlobalCurrencyConverter}}" />
                 </VerticalStackLayout>
 
@@ -193,7 +194,8 @@
                         FontFamily="poppinbold"
                         FontSize="16"
                         Text="{Binding Name}"
-                        TextColor="Black" />
+                        TextColor="{AppThemeBinding Light={StaticResource Black},
+                        Dark={StaticResource White}}" />
                     <Label StyleClass="SmallTextStyle" Text="{Binding TotalCost, Converter={StaticResource GlobalCurrencyConverter}}" />
                 </VerticalStackLayout>
 

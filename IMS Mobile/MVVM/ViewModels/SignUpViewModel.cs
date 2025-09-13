@@ -113,6 +113,12 @@ namespace IMS_Mobile.MVVM.ViewModels
                 IsBusy = false;
             }
         }
+
+        [RelayCommand]
+        private async Task SignInAsync()
+        {
+            await Shell.Current.GoToAsync($"//{nameof(LoginPage)}");
+        }
         #region Google OAuth Sign Up
         [RelayCommand]
         private async Task RegisterWithGoogleAsync()
