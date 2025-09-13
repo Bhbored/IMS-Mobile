@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:Converters="clr-namespace:IMS_Mobile.Converters"
     xmlns:ViewModels="clr-namespace:IMS_Mobile.MVVM.ViewModels"
+    xmlns:chart="clr-namespace:Syncfusion.Maui.Charts;assembly=Syncfusion.Maui.Charts"
     xmlns:tabView="clr-namespace:Syncfusion.Maui.TabView;assembly=Syncfusion.Maui.TabView"
     x:DataType="ViewModels:AnalyticsVM"
     BackgroundColor="{AppThemeBinding Light={StaticResource White},
@@ -141,11 +142,46 @@
                     </HorizontalStackLayout>
                 </Grid>
             </tabView:SfTabItem>
-            <tabView:SfTabItem Header="Tab 2">
-                <Label
-                    HorizontalOptions="Center"
-                    Text="Tab 2 - Coming Soon"
-                    VerticalOptions="Center" />
+            <tabView:SfTabItem
+                Header="Top Sellers"
+                ImagePosition="Left"
+                ImageSource="cashflow.png"
+                ImageTextSpacing="10"
+                TextColor="{AppThemeBinding Dark={StaticResource White}}">
+                <Grid RowDefinitions="Auto,*">
+                    <Label
+                        Grid.Row="0"
+                        Margin="0,10,0,0"
+                        FontFamily="poppinbold"
+                        FontSize="18"
+                        HorizontalOptions="Center"
+                        Text="Top Selling Products"
+                        TextColor="{AppThemeBinding Light={StaticResource Black},
+                        Dark={StaticResource DarkOnSurface}}" />
+
+                    <chart:SfPyramidChart
+                        Grid.Row="1"
+                        Margin="10"
+                        BackgroundColor="{AppThemeBinding Dark={StaticResource Gray100},
+                        Light=Transparent}"
+                        ItemsSource="{Binding TopSellingProducts}"
+                        ShowDataLabels="True"
+                        XBindingPath="Name"
+                        YBindingPath="Value">
+
+                        <chart:SfPyramidChart.Title>
+                            <Label
+                                HorizontalOptions="Center"
+                                Text="Sales Distribution"
+                                TextColor="{AppThemeBinding Light={StaticResource Black},
+                                Dark={StaticResource Black}}" />
+                        </chart:SfPyramidChart.Title>
+
+                        <chart:SfPyramidChart.Legend>
+                            <chart:ChartLegend />
+                        </chart:SfPyramidChart.Legend>
+                    </chart:SfPyramidChart>
+                </Grid>
             </tabView:SfTabItem>
             <tabView:SfTabItem Header="Tab 3">
                 <Label
