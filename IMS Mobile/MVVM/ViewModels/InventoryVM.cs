@@ -815,7 +815,7 @@ namespace IMS_Mobile.MVVM.ViewModels
                 {
                     try
                     {
-                        await _syncService.ManualSyncToSupabase();
+                        _= _syncService.ManualSyncToSupabase();
                         MainThread.BeginInvokeOnMainThread(async () =>
                         {
                             await Task.Delay(100);

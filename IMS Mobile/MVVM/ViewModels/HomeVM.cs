@@ -303,14 +303,12 @@ namespace IMS_Mobile.MVVM.ViewModels
         #region Tasks
         public Task LoadTransactionsAsync()
         {
-            // Clear all existing data first
             Transactions.Clear();
             FilteredTransactions.Clear();
             _currentFilteredList.Clear();
             CashFLow = 0;
             PageIndex = 1;
 
-            // Load fresh data from database
             var transactions = App.TransactionRepository?.GetItemsWithChildren() ?? new List<Transaction>();
 
             foreach (var transaction in transactions)
@@ -318,14 +316,11 @@ namespace IMS_Mobile.MVVM.ViewModels
                 Transactions.Add(transaction);
             }
 
-            // Calculate cash flow from sell transactions that are paid
             CashFLow = transactions.Where(x => x.Type == "sell" && x.IsPaid == true)
                 .Sum(x => x.totalamount);
 
-            // Apply default filter (show all)
             ShowAllTransactions();
 
-            // Notify UI of all changes
             OnPropertyChanged(nameof(CashFLow));
             OnPropertyChanged(nameof(Transactions));
             OnPropertyChanged(nameof(FilteredTransactions));
@@ -350,7 +345,7 @@ namespace IMS_Mobile.MVVM.ViewModels
                 {
                     try
                     {
-                        await _syncService.ManualSyncToSupabase();
+                       _= _syncService.ManualSyncToSupabase();
                         MainThread.BeginInvokeOnMainThread(async () =>
                         {
                             await Task.Delay(100);

@@ -80,7 +80,7 @@
                 IsVisible="{Binding IsNotLoading}"
                 Text="Cancel"
                 TextColor="{AppThemeBinding Light={StaticResource DarkBackground},
-                Dark={StaticResource WhiteBrush}}" />
+                Dark={StaticResource White}}" />
 
             <Button
                 Grid.Column="2"
@@ -92,8 +92,8 @@
                 HeightRequest="45"
                 IsVisible="{Binding IsNotLoading}"
                 Text="Logout"
-                TextColor="{AppThemeBinding Light={StaticResource WhiteBrush},
-                Dark={StaticResource WhiteBrush}}" />
+                TextColor="{AppThemeBinding Light={StaticResource White},
+                Dark={StaticResource White}}" />
         </Grid>
     </VerticalStackLayout>
 </toolkit:Popup>

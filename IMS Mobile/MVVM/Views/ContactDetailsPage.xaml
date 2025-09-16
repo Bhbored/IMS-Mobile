@@ -7,7 +7,7 @@
     xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Expander;assembly=Syncfusion.Maui.Expander"
     Title="Contact Details"
     BackgroundColor="{AppThemeBinding Light={StaticResource White},
-    Dark={StaticResource DarkBackground}}">
+                                      Dark={StaticResource DarkBackground}}">
     <ContentPage.Resources>
         <Converters:StringNotNullOrEmptyConverter x:Key="StringNotNullOrEmptyConverter" />
     </ContentPage.Resources>
@@ -19,14 +19,14 @@
                 Margin="0,0,0,-20"
                 Padding="0,40,0,30"
                 Background="{AppThemeBinding Light={StaticResource DarkWarning},
-                Dark={StaticResource DarkSurface}}"
+                                             Dark={StaticResource DarkSurface}}"
                 Stroke="Transparent"
                 StrokeShape="RoundRectangle 0,0,30,30">
                 <StackLayout Spacing="20">
                     <Frame
                         Padding="0"
                         BackgroundColor="{AppThemeBinding Light={StaticResource White},
-                        Dark={StaticResource DarkSurfaceVariant}}"
+                                                          Dark={StaticResource DarkSurfaceVariant}}"
                         BorderColor="Transparent"
                         CornerRadius="45"
                         HasShadow="True"
@@ -48,7 +48,7 @@
                             HorizontalOptions="Center"
                             Text="{Binding Contact.Name}"
                             TextColor="{AppThemeBinding Light={StaticResource Gray900},
-                            Dark={StaticResource DarkOnSurface}}" />
+                                                        Dark={StaticResource DarkOnSurface}}" />
 
                         <BoxView
                             Margin="60,10"
@@ -64,14 +64,14 @@
                                     FontSize="18"
                                     Text="📞"
                                     TextColor="{AppThemeBinding Light={StaticResource Gray500},
-                                    Dark={StaticResource DarkOnSurface}}" />
+                                                                Dark={StaticResource DarkOnSurface}}" />
                                 <Label
                                     FontFamily="poppinregular"
                                     FontSize="15"
                                     LineBreakMode="WordWrap"
                                     Text="{Binding Contact.PhoneNumber}"
                                     TextColor="{AppThemeBinding Light={StaticResource Gray500},
-                                    Dark={StaticResource DarkOnSurface}}" />
+                                                                Dark={StaticResource DarkOnSurface}}" />
                             </StackLayout>
 
                             <StackLayout
@@ -83,14 +83,14 @@
                                     FontSize="18"
                                     Text="✉️"
                                     TextColor="{AppThemeBinding Light={StaticResource Gray500},
-                                    Dark={StaticResource DarkOnSurface}}" />
+                                                                Dark={StaticResource DarkOnSurface}}" />
                                 <Label
                                     FontFamily="poppinregular"
                                     FontSize="15"
                                     LineBreakMode="WordWrap"
                                     Text="{Binding Contact.Email}"
                                     TextColor="{AppThemeBinding Light={StaticResource Gray500},
-                                    Dark={StaticResource DarkOnSurface}}" />
+                                                                Dark={StaticResource DarkOnSurface}}" />
                             </StackLayout>
 
                             <StackLayout
@@ -102,14 +102,14 @@
                                     FontSize="18"
                                     Text="📍"
                                     TextColor="{AppThemeBinding Light={StaticResource Gray500},
-                                    Dark={StaticResource DarkOnSurface}}" />
+                                                                Dark={StaticResource DarkOnSurface}}" />
                                 <Label
                                     FontFamily="poppinregular"
                                     FontSize="15"
                                     LineBreakMode="WordWrap"
                                     Text="{Binding Contact.Address}"
                                     TextColor="{AppThemeBinding Light={StaticResource Gray500},
-                                    Dark={StaticResource DarkOnSurface}}" />
+                                                                Dark={StaticResource DarkOnSurface}}" />
                             </StackLayout>
                         </StackLayout>
                     </StackLayout>
@@ -123,7 +123,7 @@
                 <Border
                     Padding="25"
                     Background="{AppThemeBinding Light={StaticResource White},
-                    Dark={StaticResource DarkSurface}}"
+                                                 Dark={StaticResource DarkSurface}}"
                     Stroke="Transparent"
                     StrokeShape="RoundRectangle 20">
                     <Border.Shadow>
@@ -146,7 +146,7 @@
                                 FontSize="15"
                                 Text="Credit Score"
                                 TextColor="{AppThemeBinding Light={StaticResource Gray500},
-                                Dark={StaticResource DarkOnSurface}}" />
+                                                            Dark={StaticResource DarkOnSurface}}" />
                         </StackLayout>
 
                         <Label
@@ -163,7 +163,7 @@
                             Grid.RowSpan="3"
                             Grid.Column="1"
                             BackgroundColor="{AppThemeBinding Light={StaticResource DarkWarning},
-                            Dark={StaticResource DarkSurfaceVariant}}"
+                                                              Dark={StaticResource DarkSurfaceVariant}}"
                             Clicked="Button_Clicked"
                             CornerRadius="25"
                             FontFamily="poppinbold"
@@ -171,7 +171,7 @@
                             HeightRequest="40"
                             Text="Reduce"
                             TextColor="{AppThemeBinding Light={StaticResource White},
-                            Dark={StaticResource DarkWarning}}"
+                                                        Dark={StaticResource DarkWarning}}"
                             VerticalOptions="Center"
                             WidthRequest="100" />
                     </Grid>
@@ -181,7 +181,7 @@
                 <Border
                     Padding="25"
                     Background="{AppThemeBinding Light={StaticResource White},
-                    Dark={StaticResource DarkSurface}}"
+                                                 Dark={StaticResource DarkSurface}}"
                     Stroke="Transparent"
                     StrokeShape="RoundRectangle 20">
                     <Border.Shadow>
@@ -201,7 +201,7 @@
                                 FontSize="15"
                                 Text="Total Purchases"
                                 TextColor="{AppThemeBinding Light={StaticResource Gray500},
-                                Dark={StaticResource DarkOnSurface}}" />
+                                                            Dark={StaticResource DarkOnSurface}}" />
                         </StackLayout>
 
                         <Label
@@ -211,7 +211,7 @@
                             FontSize="32"
                             Text="{Binding Contact.TotalPurchases, Converter={StaticResource GlobalCurrencyConverter}}"
                             TextColor="{AppThemeBinding Light={StaticResource Primary},
-                            Dark={StaticResource ModernGreen}}"
+                                                        Dark={StaticResource ModernGreen}}"
                             VerticalOptions="Center" />
 
                         <Frame
@@ -220,7 +220,7 @@
                             Grid.Column="1"
                             Padding="0"
                             BackgroundColor="{AppThemeBinding Light={StaticResource Gray100},
-                            Dark={StaticResource Gray950}}"
+                                                              Dark={StaticResource Gray950}}"
                             CornerRadius="15"
                             HeightRequest="50"
                             IsClippedToBounds="True"
@@ -240,7 +240,7 @@
             <StackLayout
                 Padding="0,20,0,0"
                 BackgroundColor="{AppThemeBinding Light={StaticResource White},
-                Dark={StaticResource DarkBackground}}"
+                                                  Dark={StaticResource DarkBackground}}"
                 Spacing="0">
                 <StackLayout
                     Padding="25,0,25,20"
@@ -252,14 +252,14 @@
                         FontSize="20"
                         Text="Recent Transactions"
                         TextColor="{AppThemeBinding Light={StaticResource Gray900},
-                        Dark={StaticResource DarkOnSurface}}" />
+                                                    Dark={StaticResource DarkOnSurface}}" />
                     <Label
                         FontFamily="poppinregular"
                         FontSize="16"
                         LineBreakMode="WordWrap"
                         Text="{Binding Transactions.Count}"
                         TextColor="{AppThemeBinding Light={StaticResource Gray400},
-                        Dark={StaticResource White}}"
+                                                    Dark={StaticResource White}}"
                         VerticalOptions="Center" />
                 </StackLayout>
 
@@ -291,7 +291,7 @@
                                             Grid.Column="0"
                                             Padding="0"
                                             BackgroundColor="{AppThemeBinding Light={StaticResource Gray100},
-                                            Dark={StaticResource DarkSurfaceVariant}}"
+                                                                              Dark={StaticResource DarkSurfaceVariant}}"
                                             CornerRadius="12"
                                             HeightRequest="45"
                                             IsClippedToBounds="True"
@@ -310,14 +310,14 @@
                                                 LineBreakMode="WordWrap"
                                                 Text="Sale Transaction"
                                                 TextColor="{AppThemeBinding Light={StaticResource Gray900},
-                                                Dark=Black}" />
+                                                                            Dark=Black}" />
                                             <Label
                                                 FontFamily="poppinregular"
                                                 FontSize="13"
                                                 LineBreakMode="WordWrap"
                                                 Text="{Binding HumanDate}"
                                                 TextColor="{AppThemeBinding Light={StaticResource Gray400},
-                                                Dark={StaticResource DarkSurfaceVariant}}" />
+                                                                            Dark={StaticResource DarkSurfaceVariant}}" />
                                         </StackLayout>
 
                                         <StackLayout
@@ -332,7 +332,7 @@
                                                 LineBreakMode="WordWrap"
                                                 Text="{Binding totalamount, Converter={StaticResource GlobalCurrencyConverter}}"
                                                 TextColor="{AppThemeBinding Light={StaticResource Primary},
-                                                Dark={StaticResource ModernGreen}}" />
+                                                                            Dark={StaticResource ModernGreen}}" />
                                             <Label
                                                 Padding="8,4"
                                                 BackgroundColor="{Binding IsPaid, Converter={StaticResource PaidStatusToBadgeColorConverter}}"
@@ -361,7 +361,7 @@
                                                     LineBreakMode="WordWrap"
                                                     Text="{Binding Products.Count, StringFormat='{0} Products'}"
                                                     TextColor="{AppThemeBinding Light={StaticResource Gray500},
-                                                    Dark={StaticResource DarkOnSurface}}"
+                                                                                Dark={StaticResource DarkOnSurface}}"
                                                     VerticalOptions="Center" />
                                                 <Label
                                                     FontFamily="poppinregular"
@@ -369,7 +369,7 @@
                                                     LineBreakMode="WordWrap"
                                                     Text=" Tap to expand"
                                                     TextColor="{AppThemeBinding Light={StaticResource Gray400},
-                                                    Dark={StaticResource DarkSurfaceVariant}}"
+                                                                                Dark={StaticResource DarkSurfaceVariant}}"
                                                     VerticalOptions="Center" />
                                             </StackLayout>
                                         </syncfusion:SfExpander.Header>
@@ -390,7 +390,7 @@
                                                                     Grid.Column="0"
                                                                     Padding="0"
                                                                     BackgroundColor="{AppThemeBinding Light={StaticResource Gray100},
-                                                                    Dark={StaticResource DarkSurfaceVariant}}"
+                                                                                                      Dark={StaticResource DarkSurfaceVariant}}"
                                                                     CornerRadius="8"
                                                                     HeightRequest="32"
                                                                     IsClippedToBounds="True"
@@ -409,7 +409,7 @@
                                                                         LineBreakMode="WordWrap"
                                                                         Text="{Binding Name}"
                                                                         TextColor="{AppThemeBinding Light={StaticResource Gray700},
-                                                                        Dark=Black}" />
+                                                                                                    Dark=Black}" />
                                                                     <Grid ColumnDefinitions="Auto,Auto,*" ColumnSpacing="20">
                                                                         <StackLayout
                                                                             Grid.Column="0"
@@ -420,13 +420,13 @@
                                                                                 FontSize="12"
                                                                                 Text="Qty:"
                                                                                 TextColor="{AppThemeBinding Light={StaticResource Gray400},
-                                                                                Dark={StaticResource DarkSurfaceVariant}}" />
+                                                                                                            Dark={StaticResource DarkSurfaceVariant}}" />
                                                                             <Label
                                                                                 FontFamily="poppinbold"
                                                                                 FontSize="12"
                                                                                 Text="{Binding Quantity}"
                                                                                 TextColor="{AppThemeBinding Light={StaticResource Gray500},
-                                                                                Dark=Black}" />
+                                                                                                            Dark=Black}" />
                                                                         </StackLayout>
                                                                         <Label
                                                                             Grid.Column="1"
@@ -434,7 +434,7 @@
                                                                             FontSize="13"
                                                                             Text="{Binding Price, Converter={StaticResource GlobalCurrencyConverter}}"
                                                                             TextColor="{AppThemeBinding Light={StaticResource Primary},
-                                                                            Dark={StaticResource ModernGreen}}" />
+                                                                                                        Dark={StaticResource ModernGreen}}" />
                                                                     </Grid>
                                                                 </StackLayout>
                                                             </Grid>
@@ -453,7 +453,7 @@
                             <Frame
                                 Padding="0"
                                 BackgroundColor="{AppThemeBinding Light={StaticResource Gray100},
-                                Dark={StaticResource DarkSurfaceVariant}}"
+                                                                  Dark={StaticResource DarkSurfaceVariant}}"
                                 BorderColor="Transparent"
                                 CornerRadius="30"
                                 HeightRequest="70"
@@ -474,7 +474,7 @@
                                 LineBreakMode="WordWrap"
                                 Text="No transactions yet"
                                 TextColor="{AppThemeBinding Light={StaticResource Gray500},
-                                Dark={StaticResource DarkOnSurface}}" />
+                                                            Dark={StaticResource DarkOnSurface}}" />
                             <Label
                                 FontFamily="poppinregular"
                                 FontSize="14"
@@ -483,7 +483,7 @@
                                 LineBreakMode="WordWrap"
                                 Text="This contact hasn't made any purchases"
                                 TextColor="{AppThemeBinding Light={StaticResource Gray400},
-                                Dark={StaticResource DarkSurfaceVariant}}" />
+                                                            Dark={StaticResource DarkSurfaceVariant}}" />
                         </StackLayout>
                     </CollectionView.EmptyView>
                 </CollectionView>

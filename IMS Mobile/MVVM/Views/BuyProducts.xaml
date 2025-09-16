@@ -153,7 +153,7 @@
         <Border
             Grid.Row="3"
             Padding="20,15"
-            Background="{AppThemeBinding Light={StaticResource WhiteBrush},
+            Background="{AppThemeBinding Light={StaticResource White},
             Dark={StaticResource Gray400}}"
             Stroke="#E0E0E0"
             StrokeShape="RoundRectangle 15,15,0,0"

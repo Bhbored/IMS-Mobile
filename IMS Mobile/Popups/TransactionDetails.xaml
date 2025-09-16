@@ -39,7 +39,7 @@
                 HeightRequest="40"
                 Text="✕"
                 TextColor="{AppThemeBinding Light={StaticResource Gray100},
-                                            Dark={StaticResource WhiteBrush}}"
+                                            Dark={StaticResource White}}"
                 VerticalOptions="Start"
                 WidthRequest="40" />
         </Grid>

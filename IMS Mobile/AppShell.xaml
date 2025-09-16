@@ -5,7 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:views="clr-namespace:IMS_Mobile.MVVM.Views"
     FlyoutBackgroundColor="{AppThemeBinding Light={StaticResource White},
-    Dark={StaticResource Gray400}}"
+                                            Dark={StaticResource Gray400}}"
     Shell.FlyoutBehavior="Flyout">
 
     <!--  Flyout Header  -->
@@ -47,7 +47,7 @@
                 HorizontalTextAlignment="Center"
                 Text="User Name"
                 TextColor="{AppThemeBinding Light={StaticResource Black},
-                Dark={StaticResource DarkOnSurface}}" />
+                                            Dark={StaticResource DarkOnSurface}}" />
 
             <!--  User Email/Role  -->
             <Label
@@ -59,7 +59,7 @@
                 HorizontalTextAlignment="Center"
                 Text="user@example.com"
                 TextColor="{AppThemeBinding Light={StaticResource Gray500},
-                Dark={StaticResource DarkSurfaceVariant}}" />
+                                            Dark={StaticResource DarkSurfaceVariant}}" />
         </Grid>
     </Shell.FlyoutHeader>
 
