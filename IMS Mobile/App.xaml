@@ -12,9 +12,15 @@
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
                 <ResourceDictionary Source="Resources/Styles/CustomeStyles.xaml" />
                 <ResourceDictionary Source="Resources/Styles/DataTemplates.xaml" />
-                <ResourceDictionary Source="/Resources/Styles/GlobalStyles.xaml" />
+                <ResourceDictionary Source="Resources/Styles/GlobalStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <converters:StringNotNullOrEmptyConverter x:Key="StringToBoolConverter" />
+            <converters:PaidStatusToColorConverter x:Key="PaidStatusToColorConverter" />
+            <converters:PaidStatusToBorderColorConverter x:Key="PaidStatusToBorderColorConverter" />
+            <converters:PaidStatusToBadgeColorConverter x:Key="PaidStatusToBadgeColorConverter" />
+            <converters:HasItemsConverter x:Key="HasItemsConverter" />
+            <converters:GlobalCurrencyConverter x:Key="GlobalCurrencyConverter" />
+            <converters:IsEmptyConverter x:Key="IsEmptyConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

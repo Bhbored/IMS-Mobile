@@ -9,14 +9,14 @@
     xmlns:tabView="clr-namespace:Syncfusion.Maui.TabView;assembly=Syncfusion.Maui.TabView"
     x:DataType="ViewModels:AnalyticsVM"
     BackgroundColor="{AppThemeBinding Light={StaticResource White},
-    Dark={StaticResource DarkBackground}}"
+                                      Dark={StaticResource DarkBackground}}"
     Shell.NavBarIsVisible="True">
 
     <Shell.TitleView>
         <HorizontalStackLayout Spacing="15" VerticalOptions="Center">
             <Border
                 Background="{AppThemeBinding Light={StaticResource Gray100},
-                Dark={StaticResource DarkSurface}}"
+                                             Dark={StaticResource DarkSurface}}"
                 HeightRequest="40"
                 HorizontalOptions="End"
                 StrokeShape="RoundRectangle 8"
@@ -34,7 +34,7 @@
                 HorizontalOptions="Center"
                 Text="Analytics"
                 TextColor="{AppThemeBinding Light={StaticResource Black},
-                Dark={StaticResource DarkOnSurface}}"
+                                            Dark={StaticResource DarkOnSurface}}"
                 VerticalOptions="Center" />
 
         </HorizontalStackLayout>
@@ -86,7 +86,7 @@
                                 HorizontalOptions="Center"
                                 Text="First Page"
                                 TextColor="{AppThemeBinding Light={StaticResource Black},
-                                Dark={StaticResource DarkOnSurface}}"
+                                                            Dark={StaticResource DarkOnSurface}}"
                                 VerticalOptions="Center" />
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding FirstPage}" />
@@ -111,7 +111,7 @@
                                 HorizontalOptions="Center"
                                 Text="{Binding PageIndex}"
                                 TextColor="{AppThemeBinding Light={StaticResource Black},
-                                Dark={StaticResource DarkOnSurface}}"
+                                                            Dark={StaticResource DarkOnSurface}}"
                                 VerticalOptions="Center" />
                         </Border>
                         <Button
@@ -133,7 +133,7 @@
                                 HorizontalOptions="Center"
                                 Text="Last Page"
                                 TextColor="{AppThemeBinding Light={StaticResource Black},
-                                Dark={StaticResource DarkOnSurface}}"
+                                                            Dark={StaticResource DarkOnSurface}}"
                                 VerticalOptions="Center" />
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding LastPage}" />
@@ -157,13 +157,13 @@
                         HorizontalOptions="Center"
                         Text="Top Selling Products"
                         TextColor="{AppThemeBinding Light={StaticResource Black},
-                        Dark={StaticResource DarkOnSurface}}" />
+                                                    Dark={StaticResource DarkOnSurface}}" />
 
                     <chart:SfPyramidChart
                         Grid.Row="1"
                         Margin="10"
                         BackgroundColor="{AppThemeBinding Dark={StaticResource Gray100},
-                        Light=Transparent}"
+                                                          Light=Transparent}"
                         ItemsSource="{Binding TopSellingProducts}"
                         ShowDataLabels="True"
                         XBindingPath="Name"
@@ -174,7 +174,7 @@
                                 HorizontalOptions="Center"
                                 Text="Sales Distribution"
                                 TextColor="{AppThemeBinding Light={StaticResource Black},
-                                Dark={StaticResource Black}}" />
+                                                            Dark={StaticResource Black}}" />
                         </chart:SfPyramidChart.Title>
 
                         <chart:SfPyramidChart.Legend>
@@ -198,20 +198,20 @@
                         HorizontalOptions="Center"
                         Text="Daily Sales Trend"
                         TextColor="{AppThemeBinding Light={StaticResource Black},
-                        Dark={StaticResource DarkOnSurface}}" />
+                                                    Dark={StaticResource DarkOnSurface}}" />
 
                     <chart:SfCartesianChart
                         Grid.Row="1"
                         Margin="10"
                         BackgroundColor="{AppThemeBinding Dark={StaticResource Gray100},
-                        Light=Transparent}">
+                                                          Light=Transparent}">
 
                         <chart:SfCartesianChart.Title>
                             <Label
                                 HorizontalOptions="Center"
                                 Text="Sales Over Time"
                                 TextColor="{AppThemeBinding Light={StaticResource Black},
-                                Dark={StaticResource Black}}" />
+                                                            Dark={StaticResource Black}}" />
                         </chart:SfCartesianChart.Title>
 
                         <chart:SfCartesianChart.XAxes>

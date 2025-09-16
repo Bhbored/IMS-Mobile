@@ -6,16 +6,10 @@
     xmlns:Converters="clr-namespace:IMS_Mobile.Converters"
     xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Expander;assembly=Syncfusion.Maui.Expander"
     Title="Contact Details"
-    BackgroundColor="{AppThemeBinding Light={StaticResource WhiteBrush},
+    BackgroundColor="{AppThemeBinding Light={StaticResource White},
     Dark={StaticResource DarkBackground}}">
     <ContentPage.Resources>
         <Converters:StringNotNullOrEmptyConverter x:Key="StringNotNullOrEmptyConverter" />
-        <Converters:PaidStatusToBadgeColorConverter x:Key="PaidStatusToBadgeColorConverter" />
-        <Converters:PaidStatusToColorConverter x:Key="PaidStatusToColorConverter" />
-        <Converters:PaidStatusToBorderColorConverter x:Key="PaidStatusToBorderColorConverter" />
-        <Converters:HasItemsConverter x:Key="HasItemsConverter" />
-        <Converters:GlobalCurrencyConverter x:Key="GlobalCurrencyConverter" />
-        <Converters:IsEmptyConverter x:Key="IsEmptyConverter" />
     </ContentPage.Resources>
     <ScrollView>
         <StackLayout Spacing="0">
@@ -226,7 +220,7 @@
                             Grid.Column="1"
                             Padding="0"
                             BackgroundColor="{AppThemeBinding Light={StaticResource Gray100},
-                            Dark={StaticResource DarkSurfaceVariant}}"
+                            Dark={StaticResource Gray950}}"
                             CornerRadius="15"
                             HeightRequest="50"
                             IsClippedToBounds="True"
@@ -265,7 +259,7 @@
                         LineBreakMode="WordWrap"
                         Text="{Binding Transactions.Count}"
                         TextColor="{AppThemeBinding Light={StaticResource Gray400},
-                        Dark={StaticResource WhiteBrush}}"
+                        Dark={StaticResource White}}"
                         VerticalOptions="Center" />
                 </StackLayout>
 
@@ -316,7 +310,7 @@
                                                 LineBreakMode="WordWrap"
                                                 Text="Sale Transaction"
                                                 TextColor="{AppThemeBinding Light={StaticResource Gray900},
-                                                Dark={StaticResource DarkOnSurface}}" />
+                                                Dark=Black}" />
                                             <Label
                                                 FontFamily="poppinregular"
                                                 FontSize="13"
@@ -415,7 +409,7 @@
                                                                         LineBreakMode="WordWrap"
                                                                         Text="{Binding Name}"
                                                                         TextColor="{AppThemeBinding Light={StaticResource Gray700},
-                                                                        Dark={StaticResource DarkOnSurface}}" />
+                                                                        Dark=Black}" />
                                                                     <Grid ColumnDefinitions="Auto,Auto,*" ColumnSpacing="20">
                                                                         <StackLayout
                                                                             Grid.Column="0"
@@ -432,7 +426,7 @@
                                                                                 FontSize="12"
                                                                                 Text="{Binding Quantity}"
                                                                                 TextColor="{AppThemeBinding Light={StaticResource Gray500},
-                                                                                Dark={StaticResource DarkOnSurface}}" />
+                                                                                Dark=Black}" />
                                                                         </StackLayout>
                                                                         <Label
                                                                             Grid.Column="1"

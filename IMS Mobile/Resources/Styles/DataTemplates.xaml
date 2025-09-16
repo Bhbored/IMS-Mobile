@@ -220,11 +220,16 @@
             Padding="16"
             Background="{AppThemeBinding Light={StaticResource White},
                                          Dark={StaticResource DarkSurface}}"
-            Shadow="Shadow Brush=#20000000 Radius=4 Offset=0,2"
             Stroke="{AppThemeBinding Light={StaticResource Gray200},
                                      Dark={StaticResource DarkSurfaceVariant}}"
             StrokeShape="RoundRectangle 12"
             StrokeThickness="1">
+            <Border.Shadow>
+                <Shadow
+                    Brush="#20000000"
+                    Radius="4"
+                    Offset="0,2" />
+            </Border.Shadow>
             <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
                 <Border
                     Grid.Column="0"
@@ -282,11 +287,16 @@
             Padding="16"
             Background="{AppThemeBinding Light={StaticResource White},
                                          Dark={StaticResource DarkSurface}}"
-            Shadow="Shadow Brush=#20000000 Radius=4 Offset=0,2"
             Stroke="{AppThemeBinding Light={StaticResource Gray200},
                                      Dark={StaticResource DarkSurfaceVariant}}"
             StrokeShape="RoundRectangle 12"
             StrokeThickness="1">
+            <Border.Shadow>
+                <Shadow
+                    Brush="#20000000"
+                    Radius="4"
+                    Offset="0,2" />
+            </Border.Shadow>
             <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
                 <Border
                     Grid.Column="0"
@@ -344,11 +354,16 @@
             Padding="16"
             Background="{AppThemeBinding Light={StaticResource White},
                                          Dark={StaticResource DarkSurface}}"
-            Shadow="Shadow Brush=#20000000 Radius=4 Offset=0,2"
             Stroke="{AppThemeBinding Light={StaticResource Gray200},
                                      Dark={StaticResource DarkSurfaceVariant}}"
             StrokeShape="RoundRectangle 12"
             StrokeThickness="1">
+            <Border.Shadow>
+                <Shadow
+                    Brush="#20000000"
+                    Radius="4"
+                    Offset="0,2" />
+            </Border.Shadow>
             <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
                 <Border
                     Grid.Column="0"

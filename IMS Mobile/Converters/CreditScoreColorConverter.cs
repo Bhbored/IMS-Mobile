@@ -1,4 +1,5 @@
 using System.Globalization;
+using Microsoft.Maui.Graphics;
 
 namespace IMS_Mobile.Converters
 {
@@ -8,14 +9,14 @@ namespace IMS_Mobile.Converters
         {
             if (value is double creditScore)
             {
-                if (creditScore >= 1000)
-                    return Colors.LightGreen; // Green for excellent
-                else if (creditScore >= 2000)
-                    return Colors.Orange; // Orange for good
+                if (creditScore >= 4000)
+                    return Colors.Red; // Red for poor
                 else if (creditScore >= 3000)
                     return Colors.Yellow; // Yellow for fair
-                else if(creditScore >=4000)
-                    return Colors.Red; // Red for poor
+                else if (creditScore >= 2000)
+                    return Colors.Orange; // Orange for good
+                else if (creditScore >= 1000)
+                    return Colors.LightGreen; // Green for excellent
             }
             return Colors.Gray; // Gray default
         }

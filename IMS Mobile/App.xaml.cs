@@ -43,7 +43,6 @@ namespace IMS_Mobile
         public App(Supabase.Client supabaseClient, SyncService syncService, SupabaseAuthService _authservice, IServiceProvider serviceProvider)
         {
             InitializeComponent();
-            SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1JFaF5cXGRCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdmWXZfcnRTRGBYUUN/V0ZWYEg=");
             _supabaseClient = supabaseClient;
             _syncService = syncService;
             AuthService = _authservice;

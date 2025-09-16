@@ -8,7 +8,8 @@
     xmlns:inputLayout="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     x:DataType="ViewModel:InventoryVM"
-    Background="White"
+    Background="{AppThemeBinding Light={StaticResource White},
+                                 Dark={StaticResource DarkSurface}}"
     CanBeDismissedByTappingOutsideOfPopup="False"
     HeightRequest="600">
     <ScrollView VerticalScrollBarVisibility="Never">
@@ -22,9 +23,10 @@
                     Grid.Column="0"
                     FontFamily="poppinbold"
                     FontSize="20"
-                    Text="Add New Product"
-                    TextColor="Black"
-                    VerticalOptions="Center" />
+                    Text="Edit Product"
+                    TextColor="{AppThemeBinding Light={StaticResource Gray900},
+                                                Dark={StaticResource DarkOnSurface}}"
+                    VerticalOptions="Center"/>
             </Grid>
             <!--  Form Content  -->
             <VerticalStackLayout Grid.Row="1">
@@ -41,8 +43,9 @@
                             FontFamily="poppinregular"
                             FontSize="14"
                             Placeholder="Enter product name"
-                            TextColor="Black"
-                            VerticalOptions="Center" />
+                            TextColor="{AppThemeBinding Light={StaticResource Gray900},
+                                                        Dark={StaticResource DarkOnSurface}}"
+                            VerticalOptions="Center"/>
                     </inputLayout:SfTextInputLayout>
                 </VerticalStackLayout>
                 <!--  Price  -->
@@ -59,8 +62,9 @@
                             FontSize="14"
                             Keyboard="Numeric"
                             Placeholder="Enter price"
-                            TextColor="Black"
-                            VerticalOptions="Center" />
+                            TextColor="{AppThemeBinding Light={StaticResource Gray900},
+                                                        Dark={StaticResource DarkOnSurface}}"
+                            VerticalOptions="Center"/>
                     </inputLayout:SfTextInputLayout>
 
                 </VerticalStackLayout>
@@ -79,8 +83,9 @@
                             FontSize="14"
                             Keyboard="Numeric"
                             Placeholder="Enter cost"
-                            TextColor="Black"
-                            VerticalOptions="Center" />
+                            TextColor="{AppThemeBinding Light={StaticResource Gray900},
+                                                        Dark={StaticResource DarkOnSurface}}"
+                            VerticalOptions="Center"/>
                     </inputLayout:SfTextInputLayout>
                 </VerticalStackLayout>
 
@@ -98,8 +103,9 @@
                             FontSize="14"
                             Keyboard="Numeric"
                             Placeholder="Enter stock quantity"
-                            TextColor="Black"
-                            VerticalOptions="Center" />
+                            TextColor="{AppThemeBinding Light={StaticResource Gray900},
+                                                        Dark={StaticResource DarkOnSurface}}"
+                            VerticalOptions="Center"/>
                     </inputLayout:SfTextInputLayout>
                 </VerticalStackLayout>
             </VerticalStackLayout>
@@ -117,15 +123,16 @@
                     HeightRequest="50"
                     StrokeShape="RoundRectangle 8">
                     <Border.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="CancelButton_Clicked" />
+                        <TapGestureRecognizer Tapped="CancelButton_Clicked"/>
                     </Border.GestureRecognizers>
                     <Label
                         FontFamily="poppinregular"
                         FontSize="13"
                         HorizontalOptions="Center"
                         Text="Cancel"
-                        TextColor="#666666"
-                        VerticalOptions="Center" />
+                        TextColor="{AppThemeBinding Light={StaticResource Gray500},
+                                                    Dark={StaticResource Black}}"
+                        VerticalOptions="Center"/>
                 </Border>
                 <Border
                     Grid.Column="1"
@@ -134,7 +141,7 @@
                     HeightRequest="50"
                     StrokeShape="RoundRectangle 5">
                     <Border.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="EditProductButton_Clicked" />
+                        <TapGestureRecognizer Tapped="EditProductButton_Clicked"/>
                     </Border.GestureRecognizers>
                     <Label
                         FontFamily="poppinregular"
@@ -142,7 +149,7 @@
                         HorizontalOptions="Center"
                         Text="Edit"
                         TextColor="White"
-                        VerticalOptions="Center" />
+                        VerticalOptions="Center"/>
                 </Border>
             </Grid>
 

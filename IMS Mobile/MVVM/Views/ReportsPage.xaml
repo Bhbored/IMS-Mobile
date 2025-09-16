@@ -473,6 +473,9 @@
                                     Text="Generate Report"
                                     TextColor="White" />
                             </VerticalStackLayout>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding NavigateToReportsCommand}" />
+                            </Border.GestureRecognizers>
                         </Border>
 
                         <Border Grid.Column="1" StyleClass="ActionCardStyle">

@@ -301,6 +301,7 @@
                                                 StyleClass="QuantityEntryStyle"
                                                 Text="{Binding Quantity}"
                                                 TextChanged="Entry_TextChanged"
+                                                TextColor="{AppThemeBinding Dark=Black}"
                                                 WidthRequest="40" />
 
                                             <!--  Increase Button  -->

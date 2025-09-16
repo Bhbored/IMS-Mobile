@@ -80,10 +80,17 @@ namespace IMS_Mobile.MVVM.ViewModels
         public async Task ViewAnalytics()
         {
             Animation = true;
-            await Shell.Current.GoToAsync(nameof(Analytics),true);
+            await Shell.Current.GoToAsync(nameof(Analytics), true);
+            Animation = false;
+        }
+        public async Task ViewReports()
+        {
+            Animation = true;
+            await Shell.Current.GoToAsync(nameof(GeneratedReport), true);
             Animation = false;
         }
         public ICommand NavigateToAnalyticsCommand => new Command(async () => await ViewAnalytics());
+        public ICommand NavigateToReportsCommand => new Command(async () => await ViewReports());
         #endregion
 
         #region INotifyPropertyChanged Implementation
