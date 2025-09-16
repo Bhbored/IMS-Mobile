@@ -1,133 +1,111 @@
-# IMS-Mobile
+# 📱 NovaIMS (IMS‑Mobile)
 
-> Mobile client for IMS services — streamlining access to IMS data on the go.
-
----
-
-## Table of Contents
-
-- [Features](#features)  
-- [Getting Started](#getting-started)  
-  - [Prerequisites](#prerequisites)  
-  - [Installation](#installation)  
-  - [Running the App](#running-the-app)  
-- [Configuration](#configuration)  
-- [Architecture & Technologies](#architecture--technologies)  
-- [Roadmap](#roadmap)  
-- [Contributing](#contributing)  
-- [License](#license)  
-- [Contact](#contact)
+A modern mobile client for Inventory Management, built with **.NET MAUI** and backed by **Supabase**. NovaIMS provides powerful inventory tools, analytics, and reporting capabilities while maintaining a clean mobile‑friendly interface.
 
 ---
 
-## Features
+## ✨ Features
 
-- **Real-time IMS Status** — View up-to-date IMS monitoring data.  
-- **Offline Support** — Seamless access with locally cached data when disconnected.  
-- **Notifications & Alerts** — Receive updates or system event alerts.  
-- **Intuitive UI** — Mobile-ready interface with responsive navigation.  
+### 🔑 Core
 
-*(Customize these based on your app’s actual functionality.)*
+* 👤 **User Authentication** (Login / Logout with Supabase Auth)
+* 📊 **Dashboard Overview** with KPIs & quick actions
+* 📦 **Inventory Management**: Add / Edit / Delete / View items
+* 🔍 **Search & Filtering** across items
+* 🔄 **Transaction Recording** (Sales, Purchases, Stock updates)
+* 📱 **Responsive UI** with bottom navigation
+* 📴 **Offline Support** with SQLite caching
+* 🔗 **Sync with Supabase** backend when online
+* 🛠 **MVVM Architecture** with data binding
+* 🎨 **Static resources & themes** for consistent design
+
+### 📑 Advanced
+
+* 📈 **Analytics** with charts and metrics
+* 🧾 **Reports** for stock and transactions
+* 📤 **Export Reports as PDF** (locally and shareable)
+* 🌐 **Supabase Backend Integration** (Database + Auth + API)
+* ⚠️ **Error Handling & Validation**
+
+### 🚀 Planned
+
+* 🔔 Push Notifications (via Supabase Functions / FCM)
+* 🎨 Dark Mode & custom theming
+* 🌍 Localization (multi‑language support)
+* 📊 Advanced reporting (CSV, XLSX)
+* 💰 Monetization (Ads: Banner / Interstitial)
 
 ---
 
-## Getting Started
+## 🛠 Tech Stack
+
+* **Framework**: .NET MAUI (C# + XAML)
+* **Architecture**: MVVM (CommunityToolkit.MVVM)
+* **Backend**: Supabase (Auth + Database)
+* **Local Storage**: SQLite (offline support)
+* **UI**: XAML layouts, styles, resources
+* **Exporting**: Report generation to PDF
+
+---
+
+## ⚡ Getting Started
 
 ### Prerequisites
 
-- Development platform: Android / iOS / cross-platform (.NET MAUI, Xamarin, etc.)  
-- Tools: Visual Studio or Rider with mobile development workloads  
-- SDKs: Android SDK for Android, Xcode for iOS (if targeting both)  
+* Visual Studio with .NET MAUI workload
+* .NET 6/7 SDK
+* Android SDK (and Xcode for iOS)
 
-### Installation
+### Setup
 
 ```bash
 git clone https://github.com/Bhbored/IMS-Mobile.git
 cd IMS-Mobile
-Restore dependencies:
-
-With .NET CLI:
-
 dotnet restore
+```
 
+### Run
 
-Or open the solution in your IDE (e.g. IMS Mobile.sln) and let it resolve packages.
+```bash
+# Android
+dotnet build -t:Run -f net7.0-android
 
-Running the App
-Android
-dotnet build -t:Run -f net6.0-android
+# iOS
+dotnet build -t:Run -f net7.0-ios
+```
 
+### Configuration
 
-or deploy via IDE to device/emulator.
+* Update Supabase project URL and API key in config/service files.
+* Do not commit secrets to GitHub (use environment variables).
 
-iOS
-dotnet build -t:Run -f net6.0-ios
+---
 
+## 📈 Roadmap
 
-(Adjust commands for your specific framework: Xamarin, MAUI, etc.)
+1. Push notifications (real‑time IMS updates)
+2. Dark mode + theme customization
+3. Localization (multi‑language)
+4. CSV/XLSX report exports
+5. Ads integration (monetization)
 
-Configuration
+---
 
-Configure your IMS backend connection using environment variables or a config file, e.g., appsettings.json:
+## 🤝 Contributing
 
-{
-  "IMSApiUrl": "https://your-ims-api.endpoint",
-  "ApiKey": "YOUR_API_KEY_HERE"
-}
-
-
-Important: Don’t commit sensitive credentials. Use secure environment variables or secret management tools in production.
-
-Architecture & Technologies
-
-Platform: C# with .NET MAUI / Xamarin or native tooling
-
-Pattern: MVVM architecture with XAML-based views
-
-Networking: HttpClient using async/await
-
-Local Storage: SQLite, Realm, or Secure Storage for offline caching
-
-Notifications: Local or push via platform services (e.g. FCM)
-
-(Edit to reflect your actual stack and libraries.)
-
-Roadmap
-
- Secure user authentication with token handling
-
- Add push notifications for IMS events
-
- Theme support (Dark Mode)
-
- Localization (multi-language support)
-
- UI/UX improvements and performance tuning
-
-Contributing
-
-Contributions are warmly welcome! To get started:
-
-Fork the repository
-
-Create a branch:
-
-git checkout -b feature/your-feature-name
-
-
-Make your changes and commit:
-
-git commit -m "Add: [brief description]"
-
-
-Push and open a Pull Request.
-
-Contact
-
-Author: Bhbored
-
-GitHub: @Bhbored
+1. Fork the repo
+2. Create a feature branch (`feature/your-feature`)
+3. Commit changes with clear messages
+4. Open a Pull Request
 
 ---
 
 
+## 👨‍💻 Author
+
+* Developer: **Bhbored**
+* GitHub: [@Bhbored](https://github.com/Bhbored)
+
+---
+
+🚀 *NovaIMS: Smart inventory management on the go.*
