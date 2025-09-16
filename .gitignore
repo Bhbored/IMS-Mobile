@@ -363,3 +363,6 @@ MigrationBackup/
 FodyWeavers.xsd
 /IMS Mobile/README_PASSWORD_RESET.md
 /IMS Mobile/IMSMobile_NewKey.keystore
+/IMS Mobile/IMS Mobile.csproj.Backup.tmp
+/IMS Mobile/IMSMobile_NewKey.keystore
+/IMS Mobile/IMSMobile_NewKey.keystore
