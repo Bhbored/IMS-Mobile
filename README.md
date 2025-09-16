@@ -1,133 +1,74 @@
-# IMS-Mobile
+# NovaIMS (IMS‑Mobile)
 
-> Mobile client for IMS services — streamlining access to IMS data on the go.
-
----
-
-## Table of Contents
-
-- [Features](#features)  
-- [Getting Started](#getting-started)  
-  - [Prerequisites](#prerequisites)  
-  - [Installation](#installation)  
-  - [Running the App](#running-the-app)  
-- [Configuration](#configuration)  
-- [Architecture & Technologies](#architecture--technologies)  
-- [Roadmap](#roadmap)  
-- [Contributing](#contributing)  
-- [License](#license)  
-- [Contact](#contact)
+A lightweight mobile client for an Inventory Management System — designed for quick lookups, offline edits, and smooth inventory workflows on the go.
 
 ---
 
 ## Features
 
-- **Real-time IMS Status** — View up-to-date IMS monitoring data.  
-- **Offline Support** — Seamless access with locally cached data when disconnected.  
-- **Notifications & Alerts** — Receive updates or system event alerts.  
-- **Intuitive UI** — Mobile-ready interface with responsive navigation.  
+**Core (Completed)**
 
-*(Customize these based on your app’s actual functionality.)*
+* ✅ User authentication (Login / Logout)
+* ✅ Dashboard overview (high‑level KPIs and quick actions)
+* ✅ Inventory listing with search and pagination
+* ✅ Add / Edit / Delete inventory items
+* ✅ Transaction recording (sales / stock changes)
+* ✅ Offline caching (view & edit while offline; sync when online)
+* ✅ Manual and automatic sync with backend when connectivity returns
+* ✅ Reports page with stock and transaction summaries
+* ✅ Responsive mobile UI with tab/bottom navigation
+* ✅ Static resources & centralized styles (themes)
+* ✅ Basic validation and error handling
+* ✅ Signed Android build (.aab) produced for testing
+
+**Planned / Optional**
+
+* 🔲 Push notifications / real‑time alerts
+* 🔲 Ads / monetization (banner / interstitial) — planned for later
+* 🔲 Dark mode and additional theming options
+* 🔲 Localization (multi‑language support)
+* 🔲 Advanced reporting and export (CSV, PDF)
+* 🔲 Analytics / user behavior tracking
 
 ---
 
-## Getting Started
+## Other stuff (important notes)
+
+* **Project name:** NovaIMS (use this name in store listing and screenshots)
+* **Architecture:** MVVM (Models, Views, ViewModels) using .NET MAUI / XAML
+* **Local storage:** SQLite or equivalent for offline support
+* **Networking:** HTTP(s) client to communicate with IMS backend API
+* **App signing:** You already have a signed AAB for testing; keep the keystore and passwords backed up securely.
+* **Resources:** Fix any missing StaticResource references before producing release builds — missing resources can break XAML at runtime.
+* **Permissions:** Review AndroidManifest for only the permissions actually needed to avoid Play Store policy issues.
+
+---
+
+## Getting started (developer)
 
 ### Prerequisites
 
-- Development platform: Android / iOS / cross-platform (.NET MAUI, Xamarin, etc.)  
-- Tools: Visual Studio or Rider with mobile development workloads  
-- SDKs: Android SDK for Android, Xcode for iOS (if targeting both)  
+* Visual Studio (Windows or Mac) with .NET MAUI mobile workload
+* .NET SDK matching the project (check `global.json` or project targets)
+* Android SDK (and Xcode if targeting iOS)
 
-### Installation
+### Build & run (example)
 
 ```bash
-git clone https://github.com/Bhbored/IMS-Mobile.git
-cd IMS-Mobile
-Restore dependencies:
-
-With .NET CLI:
-
+# restore
 dotnet restore
+# build for android
+dotnet build -f net6.0-android -c Release
+# run on device/emulator (or use Visual Studio)
+```
 
-
-Or open the solution in your IDE (e.g. IMS Mobile.sln) and let it resolve packages.
-
-Running the App
-Android
-dotnet build -t:Run -f net6.0-android
-
-
-or deploy via IDE to device/emulator.
-
-iOS
-dotnet build -t:Run -f net6.0-ios
-
-
-(Adjust commands for your specific framework: Xamarin, MAUI, etc.)
-
-Configuration
-
-Configure your IMS backend connection using environment variables or a config file, e.g., appsettings.json:
-
-{
-  "IMSApiUrl": "https://your-ims-api.endpoint",
-  "ApiKey": "YOUR_API_KEY_HERE"
-}
-
-
-Important: Don’t commit sensitive credentials. Use secure environment variables or secret management tools in production.
-
-Architecture & Technologies
-
-Platform: C# with .NET MAUI / Xamarin or native tooling
-
-Pattern: MVVM architecture with XAML-based views
-
-Networking: HttpClient using async/await
-
-Local Storage: SQLite, Realm, or Secure Storage for offline caching
-
-Notifications: Local or push via platform services (e.g. FCM)
-
-(Edit to reflect your actual stack and libraries.)
-
-Roadmap
-
- Secure user authentication with token handling
-
- Add push notifications for IMS events
-
- Theme support (Dark Mode)
-
- Localization (multi-language support)
-
- UI/UX improvements and performance tuning
-
-Contributing
-
-Contributions are warmly welcome! To get started:
-
-Fork the repository
-
-Create a branch:
-
-git checkout -b feature/your-feature-name
-
-
-Make your changes and commit:
-
-git commit -m "Add: [brief description]"
-
-
-Push and open a Pull Request.
-
-Contact
-
-Author: Bhbored
-
-GitHub: @Bhbored
 
 ---
 
+## Contact
+
+* GitHub: `@Bhbored`
+* Project: NovaIMS
+
+---
 
