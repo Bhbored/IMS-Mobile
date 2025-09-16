@@ -21,30 +21,15 @@ A lightweight mobile client for an Inventory Management System — designed for 
 * ✅ Basic validation and error handling
 * ✅ Signed Android build (.aab) produced for testing
 
-**Planned / Optional**
+**Planned**
 
 * 🔲 Push notifications / real‑time alerts
-* 🔲 Ads / monetization (banner / interstitial) — planned for later
-* 🔲 Dark mode and additional theming options
 * 🔲 Localization (multi‑language support)
-* 🔲 Advanced reporting and export (CSV, PDF)
-* 🔲 Analytics / user behavior tracking
 
 ---
 
-## Other stuff (important notes)
 
-* **Project name:** NovaIMS (use this name in store listing and screenshots)
-* **Architecture:** MVVM (Models, Views, ViewModels) using .NET MAUI / XAML
-* **Local storage:** SQLite or equivalent for offline support
-* **Networking:** HTTP(s) client to communicate with IMS backend API
-* **App signing:** You already have a signed AAB for testing; keep the keystore and passwords backed up securely.
-* **Resources:** Fix any missing StaticResource references before producing release builds — missing resources can break XAML at runtime.
-* **Permissions:** Review AndroidManifest for only the permissions actually needed to avoid Play Store policy issues.
-
----
-
-## Getting started (developer)
+## Getting started 
 
 ### Prerequisites
 
