@@ -3,6 +3,25 @@
 A modern mobile client for Inventory Management, built with **.NET MAUI** and backed by **Supabase**. NovaIMS provides powerful inventory tools, analytics, and reporting capabilities while maintaining a clean mobile‑friendly interface.
 
 ---
+## 📸 Screenshots
+
+<img width="1080" height="2400" alt="Screenshot_1758035863" src="https://github.com/user-attachments/assets/0b27f336-b8b0-4afc-9d76-c2314d755409" />
+<img width="1080" height="2400" alt="Screenshot_1758035890" src="https://github.com/user-attachments/assets/8b2e2b52-215e-493c-ba63-bc4116c7ec94" />
+<img width="1080" height="2400" alt="Screenshot_1758035894" src="https://github.com/user-attachments/assets/74f5e0d0-10de-4e5a-a2dd-9dfe2f02558f" />
+<img width="1080" height="2400" alt="Screenshot_1758035968" src="https://github.com/user-attachments/assets/f5b3b384-0a20-40d0-ade6-14d0d4872b3c" />
+<img width="1080" height="2400" alt="Screenshot_1758035973" src="https://github.com/user-attachments/assets/2f638665-4c1b-4b9a-84ca-0a63453903e9" />
+<img width="1080" height="2400" alt="Screenshot_1758035981" src="https://github.com/user-attachments/assets/1dbebb36-1cc5-4544-8a6b-a41e5e572a42" />
+<img width="1080" height="2400" alt="Screenshot_1758035985" src="https://github.com/user-attachments/assets/eadc79ae-63ca-495a-8d35-a6eab0fb8a60" />
+<img width="1080" height="2400" alt="Screenshot_1758035990" src="https://github.com/user-attachments/assets/ae77d557-1e43-4a0b-81c1-7b5dff22db02" />
+<img width="1080" height="2400" alt="Screenshot_1758035996" src="https://github.com/user-attachments/assets/fc1843a7-af61-4473-a5e6-651d6f092317" />
+<img width="1080" height="2400" alt="Screenshot_1758036002" src="https://github.com/user-attachments/assets/b3b57273-5686-4984-b6d7-6b0cda82fdde" />
+<img width="1080" height="2400" alt="Screenshot_1758036004" src="https://github.com/user-attachments/assets/386ac27d-42d6-4dad-a0b8-bfcfe47d3b8c" />
+<img width="1080" height="2400" alt="Screenshot_1758036006" src="https://github.com/user-attachments/assets/5c3644be-96e3-4b04-82d1-9fff083c9512" />
+<img width="1080" height="2400" alt="Screenshot_1758036011" src="https://github.com/user-attachments/assets/d9990413-190a-4f9a-b152-4ec2335b88af" />
+<img width="1080" height="2400" alt="Screenshot_1758036016" src="https://github.com/user-attachments/assets/2bcca720-14c5-4706-ac75-668282fba011" />
+<img width="1080" height="2400" alt="Screenshot_1758036026" src="https://github.com/user-attachments/assets/4e3c1aeb-13d8-4fda-b17a-c6950d925cb9" />
+<img width="1080" height="2400" alt="Screenshot_1758036054" src="https://github.com/user-attachments/assets/113ad106-cc68-49b1-a51f-908c84074777" />
+<img width="1080" height="2400" alt="Screenshot_1758036033" src="https://github.com/user-attachments/assets/dbbe15c8-d548-42ce-8927-021c7adc0f86" />
 
 ## ✨ Features
 
