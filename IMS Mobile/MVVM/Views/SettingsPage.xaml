@@ -9,62 +9,66 @@
     Title="Settings"
     x:DataType="viewmodels:SettingsViewModel"
     BackgroundColor="{AppThemeBinding Light={StaticResource Gray100},
-                                      Dark={StaticResource DarkBackground}}">
+    Dark={StaticResource DarkBackground}}">
 
     <ContentPage.Resources>
-        <converters:ThemeConverter x:Key="ThemeConverter" />
-        <converters:CurrencyConverter x:Key="CurrencyConverter" />
+        <converters:ThemeConverter x:Key="ThemeConverter"/>
+        <converters:CurrencyConverter x:Key="CurrencyConverter"/>
     </ContentPage.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <!--  Modern Layered Header  -->
         <Grid Grid.Row="0">
             <!--  Layer 1 - Back Layer  -->
-            <Border StyleClass="HeaderLayer1Style" />
+            <Border StyleClass="HeaderLayer1Style"/>
 
             <!--  Layer 2 - Middle Layer  -->
-            <Border StyleClass="HeaderLayer2Style" />
+            <Border StyleClass="HeaderLayer2Style"/>
 
             <!--  Layer 3 - Front Layer with Content  -->
             <Border StyleClass="HeaderLayer3Style">
-                <StackLayout HorizontalOptions="Center" Spacing="6">
+                <StackLayout HorizontalOptions="Center"
+                             Spacing="6">
                     <Label
                         FontFamily="poppinbold"
                         FontSize="22"
                         HorizontalOptions="Center"
                         Text="⚙️ Settings"
-                        TextColor="White" />
+                        TextColor="White"/>
                     <Label
                         FontFamily="poppinregular"
                         FontSize="13"
                         HorizontalOptions="Center"
                         Opacity="0.9"
                         Text="Customize your experience"
-                        TextColor="White" />
+                        TextColor="White"/>
                 </StackLayout>
             </Border>
         </Grid>
 
         <!--  Scrollable Content  -->
-        <ScrollView Grid.Row="1" Padding="0,20,0,0">
+        <ScrollView Grid.Row="1"
+                    Padding="0,20,0,0">
             <StackLayout Spacing="0">
 
                 <!--  Profile Section  -->
                 <Border StyleClass="SettingsCardStyle">
                     <StackLayout Spacing="20">
-                        <Label StyleClass="SectionHeaderStyle" Text="👤 Profile" />
+                        <Label StyleClass="SectionHeaderStyle"
+                               Text="👤 Profile"/>
 
                         <!--  Avatar Section with Enhanced Design  -->
-                        <StackLayout HorizontalOptions="Center" Spacing="15">
+                        <StackLayout HorizontalOptions="Center"
+                                     Spacing="15">
                             <Label
                                 HorizontalOptions="Center"
                                 StyleClass="FieldLabelStyle"
-                                Text="Profile Picture" />
+                                Text="Profile Picture"/>
 
                             <Border StyleClass="AvatarBorderStyle">
                                 <Image
@@ -72,7 +76,7 @@
                                     Aspect="AspectFill"
                                     HeightRequest="92"
                                     Source="{Binding Avatar}"
-                                    WidthRequest="92" />
+                                    WidthRequest="92"/>
                             </Border>
 
                             <Button
@@ -80,18 +84,19 @@
                                 Command="{Binding ChangeAvatarCommand}"
                                 HorizontalOptions="Center"
                                 StyleClass="ChangeAvatarButtonStyle"
-                                Text="📷 Change Avatar" />
+                                Text="📷 Change Avatar"/>
                         </StackLayout>
 
                         <!--  Display Name with Enhanced Input  -->
                         <StackLayout Spacing="8">
-                            <Label StyleClass="FieldLabelStyle" Text="Display Name" />
+                            <Label StyleClass="FieldLabelStyle"
+                                   Text="Display Name"/>
                             <Border StyleClass="EntryContainerStyle">
                                 <Entry
                                     x:Name="displayNameEntry"
                                     Placeholder="Enter your full name"
                                     StyleClass="SettingsEntryStyle"
-                                    Text="{Binding DisplayName}" />
+                                    Text="{Binding DisplayName}"/>
                             </Border>
                         </StackLayout>
                     </StackLayout>
@@ -100,11 +105,13 @@
                 <!--  Preferences Section  -->
                 <Border StyleClass="SettingsCardStyle">
                     <StackLayout Spacing="20">
-                        <Label StyleClass="SectionHeaderStyle" Text="⚙️ Preferences" />
+                        <Label StyleClass="SectionHeaderStyle"
+                               Text="⚙️ Preferences"/>
 
                         <!--  Theme Selection with Enhanced Design  -->
                         <StackLayout Spacing="8">
-                            <Label StyleClass="FieldLabelStyle" Text="App Theme" />
+                            <Label StyleClass="FieldLabelStyle"
+                                   Text="App Theme"/>
                             <Border StyleClass="PickerContainerStyle">
                                 <Picker
                                     x:Name="themePicker"
@@ -122,7 +129,8 @@
 
                         <!--  Currency Selection with Enhanced Design  -->
                         <StackLayout Spacing="8">
-                            <Label StyleClass="FieldLabelStyle" Text="Currency" />
+                            <Label StyleClass="FieldLabelStyle"
+                                   Text="Currency"/>
                             <Border StyleClass="PickerContainerStyle">
                                 <Picker
                                     x:Name="currencyPicker"
@@ -240,26 +248,36 @@
                 <!--  Actions Section with Enhanced Buttons  -->
                 <Border StyleClass="SettingsCardStyle">
                     <StackLayout Spacing="20">
-                        <Label StyleClass="SectionHeaderStyle" Text="🔧 Actions" />
+                        <Label StyleClass="SectionHeaderStyle"
+                               Text="🔧 Actions"/>
 
                         <!--  Save Button with Gradient  -->
                         <Button
                             x:Name="saveButton"
                             Command="{Binding SaveCommand}"
                             StyleClass="SettingsButtonStyle,PrimaryButtonStyle"
-                            Text="💾 Save Settings" />
+                            Text="💾 Save Settings"/>
 
                         <!--  Reset Button with Secondary Style  -->
                         <Button
                             x:Name="resetButton"
                             Command="{Binding ResetCommand}"
                             StyleClass="SettingsButtonStyle,SecondaryButtonStyle"
-                            Text="🔄 Reset to Defaults" />
+                            Text="🔄 Reset to Defaults"/>
+
+                        <!--  Delete Data Button with Warning Style  -->
+                        <Button
+                            x:Name="deleteDataButton"
+                            Background="#F44336"
+                            Command="{Binding DeleteUserDataCommand}"
+                            StyleClass="SettingsButtonStyle"
+                            Text="🗑️ Delete All My Data"/>
                     </StackLayout>
                 </Border>
 
                 <!--  Bottom Spacing  -->
-                <BoxView HeightRequest="30" Color="Transparent" />
+                <BoxView HeightRequest="30"
+                         Color="Transparent"/>
             </StackLayout>
         </ScrollView>
     </Grid>

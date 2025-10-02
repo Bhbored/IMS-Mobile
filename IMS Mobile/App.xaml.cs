@@ -43,6 +43,7 @@ namespace IMS_Mobile
         public App(Supabase.Client supabaseClient, SyncService syncService, SupabaseAuthService _authservice, IServiceProvider serviceProvider)
         {
             InitializeComponent();
+            SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1JFaF5cXGRCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdmWXZfcnRTRGBYUUN/V0ZWYEg=");
             _supabaseClient = supabaseClient;
             _syncService = syncService;
             AuthService = _authservice;
@@ -82,57 +83,7 @@ namespace IMS_Mobile
 
         private async Task HandleAuthAndNavigation()
         {
-            var accessToken = await SecureStorage.GetAsync("access_token");
-            var refreshToken = await SecureStorage.GetAsync("refresh_token");
-
-            if (!string.IsNullOrEmpty(accessToken) && !string.IsNullOrEmpty(refreshToken))
-            {
-                var jwtToken = new JwtSecurityToken(accessToken);
-                bool isTokenValid = DateTime.UtcNow < jwtToken.ValidTo;
-
-                if (isTokenValid)
-                {
-                    bool isOnline = NetworkHelper.IsConnected();
-
-                    if (isOnline)
-                    {
-                        try
-                        {
-                            await AuthService.InitializeAsync();
-                        }
-                        catch (Exception ex)
-                        {
-                            Debug.WriteLine($"AuthService init failed: {ex.Message}");
-                        }
-                    }
-                    else
-                    {
-                        AuthService.HydrateOfflineSession(accessToken, refreshToken);
-
-                    }
-
-                    // Apply saved theme before navigation
-                    _ = ApplySavedTheme();
-
-                    MainThread.BeginInvokeOnMainThread(async () =>
-                    {
-                        await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
-
-                        // Update flyout header with user info
-                        if (Shell.Current is AppShell shell)
-                        {
-                            await shell.UpdateFlyoutHeaderAsync();
-                        }
-                    });
-                    return;
-                }
-            }
             _ = ApplySavedTheme();
-
-            MainThread.BeginInvokeOnMainThread(async () =>
-            {
-                await Shell.Current.GoToAsync($"//{nameof(LoginPage)}");
-            });
         }
 
         private Task ApplySavedTheme()
@@ -194,8 +145,6 @@ namespace IMS_Mobile
                         else
                         {
                             var sb = auth.GetClient();
-
-                            // No IsInitialized property needed — just initialize.
                             await sb.InitializeAsync();
 
                             var session = await sb.Auth.VerifyOTP(email, token, EmailOtpType.Recovery);

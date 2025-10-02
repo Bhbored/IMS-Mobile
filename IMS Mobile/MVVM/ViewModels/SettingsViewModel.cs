@@ -18,6 +18,7 @@ namespace IMS_Mobile.MVVM.ViewModels
     {
         private readonly UserPreferencesRepository _userPreferencesRepository;
         private readonly SupabaseAuthService _authService;
+        private readonly SyncService _syncService;
 
         private UserPreferences _userPreferences = null!;
         private string _displayName = string.Empty;
@@ -27,10 +28,11 @@ namespace IMS_Mobile.MVVM.ViewModels
 
         public SettingsPage? SettingsPage { get; set; }
 
-        public SettingsViewModel(UserPreferencesRepository userPreferencesRepository, SupabaseAuthService authService)
+        public SettingsViewModel(UserPreferencesRepository userPreferencesRepository, SupabaseAuthService authService, SyncService syncService)
         {
             _userPreferencesRepository = userPreferencesRepository;
             _authService = authService;
+            _syncService = syncService;
 
             LoadUserPreferences();
 
@@ -38,6 +40,7 @@ namespace IMS_Mobile.MVVM.ViewModels
             ResetCommand = new Command(async () => await ResetToDefaults());
             ChangeAvatarCommand = new Command(async () => await ChangeAvatar());
             SelectAvatarCommand = new Command<string>(async (avatarPath) => await SelectAvatar(avatarPath));
+            DeleteUserDataCommand = new Command(async () => await DeleteUserData());
         }
 
         public UserPreferences UserPreferences
@@ -69,8 +72,7 @@ namespace IMS_Mobile.MVVM.ViewModels
                 {
                     _selectedTheme = value;
                     OnPropertyChanged();
-                    // Apply theme immediately when changed
-                    ApplyTheme(value);
+                    _ = ApplyTheme(value);
                 }
             }
         }
@@ -99,6 +101,7 @@ namespace IMS_Mobile.MVVM.ViewModels
         public ICommand ResetCommand { get; }
         public ICommand ChangeAvatarCommand { get; }
         public ICommand SelectAvatarCommand { get; }
+        public ICommand DeleteUserDataCommand { get; }
 
         public List<string> AvatarOptions { get; } = new List<string>
         {
@@ -124,7 +127,6 @@ namespace IMS_Mobile.MVVM.ViewModels
                 SelectedCurrency = UserPreferences.Currency;
                 Avatar = UserPreferences.Avatar;
 
-                // Sync user email from Supabase if not already set
                 if (string.IsNullOrEmpty(UserPreferences.UserEmail))
                 {
                     await SyncUserEmailFromSupabase();
@@ -159,13 +161,8 @@ namespace IMS_Mobile.MVVM.ViewModels
                 UserPreferences.Theme = SelectedTheme;
                 UserPreferences.Currency = SelectedCurrency;
                 UserPreferences.Avatar = Avatar;
-
                 _userPreferencesRepository.SaveUserPreferences(UserPreferences);
-
-                // Update the global currency converter
                 GlobalCurrencyConverter.UpdateCurrency(SelectedCurrency);
-
-                // Update flyout header
                 if (Application.Current?.Windows[0].Page is AppShell shell)
                 {
                     await shell.UpdateFlyoutHeaderAsync();
@@ -348,11 +345,10 @@ namespace IMS_Mobile.MVVM.ViewModels
             }
             catch (Exception)
             {
-                // Silently fail - user email sync is not critical
             }
         }
 
-        private async Task ApplyTheme(Theme theme)
+        private Task ApplyTheme(Theme theme)
         {
             MainThread.BeginInvokeOnMainThread(() =>
             {
@@ -366,6 +362,85 @@ namespace IMS_Mobile.MVVM.ViewModels
                     };
                 }
             });
+            return Task.CompletedTask;
+        }
+
+        private async Task DeleteUserData()
+        {
+            try
+            {
+                bool confirmed = await Application.Current!.Windows[0].Page!.DisplayAlert(
+                    "Delete All Data",
+                    "Are you sure you want to delete all your data? This action cannot be undone.\n\nThis will delete:\n• All contacts\n• All products\n• All transactions\n• All transaction history\n\nYour account will remain active, but all data will be permanently removed.",
+                    "Delete All Data",
+                    "Cancel");
+
+                if (!confirmed)
+                    return;
+
+                bool finalConfirmed = await Application.Current.Windows[0].Page!.DisplayAlert(
+                    "Final Confirmation",
+                    "This is your final warning. All your data will be permanently deleted and cannot be recovered. Are you absolutely sure?",
+                    "Yes, Delete Everything",
+                    "Cancel");
+
+                if (!finalConfirmed)
+                    return;
+
+                var loadingSnackbar = Snackbar.Make(
+                    message: "Deleting all data...",
+                    duration: TimeSpan.FromSeconds(10),
+                    visualOptions: new SnackbarOptions
+                    {
+                        BackgroundColor = Colors.Orange,
+                        TextColor = Colors.White,
+                        CornerRadius = 10,
+                    },
+                    anchor: SettingsPage
+                );
+                await loadingSnackbar.Show();
+
+                await _syncService.ClearLocalData();
+                await _syncService.ManualSyncToSupabase();
+
+                _ = loadingSnackbar.Dismiss();
+
+                DisplayName = "";
+                SelectedTheme = Theme.Light;
+                SelectedCurrency = Currency.USD;
+                Avatar = "";
+
+                var successSnackbar = Snackbar.Make(
+                    message: "All data has been successfully deleted!",
+                    duration: TimeSpan.FromSeconds(3),
+                    visualOptions: new SnackbarOptions
+                    {
+                        BackgroundColor = Colors.Green,
+                        TextColor = Colors.White,
+                        CornerRadius = 10,
+                    },
+                    anchor: SettingsPage
+                );
+                await successSnackbar.Show();
+            }
+            catch (Exception ex)
+            {
+                await MainThread.InvokeOnMainThreadAsync(async () =>
+                {
+                    var errorSnackbar = Snackbar.Make(
+                        message: $"An error occurred: {ex.Message}",
+                        duration: TimeSpan.FromSeconds(3),
+                        visualOptions: new SnackbarOptions
+                        {
+                            BackgroundColor = Colors.Red,
+                            TextColor = Colors.White,
+                            CornerRadius = 10,
+                        },
+                        anchor: SettingsPage
+                    );
+                    await errorSnackbar.Show();
+                });
+            }
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

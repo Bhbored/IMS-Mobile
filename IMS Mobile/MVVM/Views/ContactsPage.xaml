@@ -150,11 +150,8 @@
                 <Label
                     FontSize="20"
                     HorizontalOptions="Center"
-                    Text="+"
+                    Text="🛂"
                     VerticalOptions="Center" />
-                <Border.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding AddContactCommand}" />
-                </Border.GestureRecognizers>
             </Border>
         </Grid>
 
@@ -245,5 +242,48 @@
             IsVisible="{Binding Animation}"
             Source="emptyinventory.gif"
             VerticalOptions="Center" />
+
+        <!--  Floating Action Button - Add Contact  -->
+        <Border
+            Grid.Row="0"
+            Grid.RowSpan="3"
+            Margin="0,0,20,30"
+            Background="{AppThemeBinding Light={StaticResource ModernAccent},
+                                         Dark={StaticResource Gray300}}"
+            HeightRequest="60"
+            HorizontalOptions="End"
+            StrokeShape="RoundRectangle 20"
+            VerticalOptions="End"
+            WidthRequest="150">
+            <Border.Shadow>
+                <Shadow
+                    Brush="#40000000"
+                    Radius="8"
+                    Offset="0,4" />
+            </Border.Shadow>
+            <HorizontalStackLayout
+                HorizontalOptions="Center"
+                Spacing="2"
+                VerticalOptions="Center">
+                <Label
+                    Margin="0,0,5,5"
+                    FontSize="20"
+                    HorizontalOptions="Start"
+                    Text="➕"
+                    TextColor="White"
+                    VerticalOptions="Center" />
+                <Label
+                    FontFamily="poppinbold"
+                    FontSize="15"
+                    HorizontalOptions="Center"
+                    Text="Add Contact"
+                    TextColor="White"
+                    VerticalOptions="Center" />
+            </HorizontalStackLayout>
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding AddContactCommand}" />
+            </Border.GestureRecognizers>
+        </Border>
+
     </Grid>
 </ContentPage>

@@ -24,7 +24,7 @@ namespace IMS_Mobile.Service
 
         #region Public Properties
         public Supabase.Client GetClient() => _supabase;
-        public bool IsUserAuthenticated => _currentSession != null && !_currentSession.IsExpired;
+        public bool IsUserAuthenticated => _currentSession != null && (!_currentSession.IsExpired || _isOfflineSessionActive);
         public bool IsOfflineSessionActive => _isOfflineSessionActive;
         #endregion
 
@@ -166,28 +166,85 @@ namespace IMS_Mobile.Service
             try
             {
                 var accessToken = await SecureStorage.GetAsync("access_token");
-                if (string.IsNullOrEmpty(accessToken))
+                var refreshToken = await SecureStorage.GetAsync("refresh_token");
+
+                if (string.IsNullOrEmpty(accessToken) || string.IsNullOrEmpty(refreshToken))
                     return false;
 
                 if (!NetworkHelper.IsConnected())
                     return false;
 
-                using (var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10)))
+                if (_currentSession != null && !_currentSession.IsExpired)
+                {
+                    using (var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10)))
+                    {
+                        try
+                        {
+                            var user = await _supabase.Auth.GetUser(accessToken);
+                            return user != null;
+                        }
+                        catch (OperationCanceledException)
+                        {
+                            return false;
+                        }
+                    }
+                }
+
+                return await RefreshTokenAsync();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Session validation failed: {ex.Message}");
+                return false;
+            }
+        }
+
+        public async Task<bool> RefreshTokenAsync()
+        {
+            try
+            {
+                var refreshToken = await SecureStorage.GetAsync("refresh_token");
+                if (string.IsNullOrEmpty(refreshToken))
+                    return false;
+
+                if (!NetworkHelper.IsConnected())
+                    return false;
+
+                await _supabase.Auth.SetSession(_currentSession?.AccessToken ?? string.Empty, refreshToken);
+
+                using (var cts = new CancellationTokenSource(TimeSpan.FromSeconds(15)))
                 {
                     try
                     {
-                        var user = await _supabase.Auth.GetUser(accessToken);
-                        return user != null;
+                        var session = await _supabase.Auth.RefreshSession();
+                        if (session != null && !string.IsNullOrEmpty(session.AccessToken))
+                        {
+                            var jwtToken = new JwtSecurityToken(session.AccessToken);
+                            _currentSession = new UserSession
+                            {
+                                AccessToken = session.AccessToken,
+                                RefreshToken = session.RefreshToken ?? refreshToken,
+                                ExpiresAt = jwtToken.ValidTo
+                            };
+
+                            await SecureStorage.SetAsync("access_token", session.AccessToken);
+                            if (!string.IsNullOrEmpty(session.RefreshToken))
+                                await SecureStorage.SetAsync("refresh_token", session.RefreshToken);
+
+                            _isOfflineSessionActive = false;
+                            return true;
+                        }
                     }
                     catch (OperationCanceledException)
                     {
                         return false;
                     }
                 }
+                return false;
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Session validation failed: {ex.Message}");
+                Debug.WriteLine($"Token refresh failed: {ex.Message}");
                 return false;
             }
         }
