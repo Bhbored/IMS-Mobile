@@ -16,10 +16,11 @@
         <Converters:GlobalCurrencyConverter x:Key="GlobalCurrencyConverter" />
     </ContentPage.Resources>
 
-    <Grid RowDefinitions="Auto,*">
+    <Grid RowDefinitions="Auto,Auto,*">
+        <Controls:AdBanner />
         <!--  Header  -->
         <Grid
-            Grid.Row="0"
+            Grid.Row="1"
             Margin="20,0,20,10"
             ColumnDefinitions="*,Auto">
             <Label
@@ -45,7 +46,7 @@
         </Grid>
 
         <!--  Content  -->
-        <ScrollView Grid.Row="1">
+        <ScrollView Grid.Row="2">
             <VerticalStackLayout Padding="20,0,20,20" Spacing="20">
 
                 <!--  Summary Cards Grid  -->
@@ -503,7 +504,7 @@
 
         <Image
             Grid.Row="0"
-            Grid.RowSpan="2"
+            Grid.RowSpan="3"
             Aspect="AspectFill"
             Background="Transparent"
             HorizontalOptions="Center"

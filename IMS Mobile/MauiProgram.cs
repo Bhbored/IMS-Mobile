@@ -6,6 +6,8 @@ using IMS_Mobile.MVVM.ViewModels;
 using IMS_Mobile.MVVM.Views;
 using IMS_Mobile.Service;
 using Microsoft.Extensions.Logging;
+using Plugin.AdMob;
+using Plugin.AdMob.Configuration;
 using Supabase;
 using Syncfusion.Maui.Core.Hosting;
 using Syncfusion.Maui.Toolkit.Hosting;
@@ -37,6 +39,9 @@ namespace IMS_Mobile
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
+            //ads 
+            builder.UseAdMob();
+            AdConfig.UseTestAdUnitIds = true;   
             builder.Services.AddSingleton<SupabaseAuthService>();
             builder.Services.AddSingleton<LoadingPage>();
             builder.Services.AddSingleton<LoginPage>();
@@ -70,8 +75,7 @@ namespace IMS_Mobile
                 AutoConnectRealtime = true
 
             };
-            var supabaseUrl = "https://leuyksaxpnppatlpitav.supabase.co";
-            var supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxldXlrc2F4cG5wcGF0bHBpdGF2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYwNDkyMzcsImV4cCI6MjA3MTYyNTIzN30.98ho7Ne_WOj_ihRcIyQDsDp_lzQzRVGFajLh5r7W8pc";
+        
             var supabase = new Supabase.Client(supabaseUrl, supabaseKey, options);
             builder.Services.AddSingleton(supabase);
             builder.Services.AddSingleton<SyncService>();

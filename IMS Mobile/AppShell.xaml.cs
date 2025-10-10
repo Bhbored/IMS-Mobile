@@ -27,7 +27,7 @@ namespace IMS_Mobile
             Routing.RegisterRoute(nameof(Analytics), typeof(Analytics));
             Routing.RegisterRoute(nameof(GeneratedReport), typeof(GeneratedReport));
             _authService = authService;
-            _syncService = syncService;
+            _syncService = syncService;      
         }
 
         protected override async void OnAppearing()

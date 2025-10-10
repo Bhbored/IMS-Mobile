@@ -3,6 +3,7 @@
     x:Class="IMS_Mobile.MVVM.Views.BuyProducts"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:Controls="clr-namespace:IMS_Mobile.Controls"
     xmlns:Converters="clr-namespace:IMS_Mobile.Converters"
     xmlns:Models="clr-namespace:IMS_Mobile.MVVM.Models"
     xmlns:ViewModels="clr-namespace:IMS_Mobile.MVVM.ViewModels"
@@ -16,11 +17,11 @@
         <Converters:GlobalCurrencyConverter x:Key="GlobalCurrencyConverter" />
     </ContentPage.Resources>
 
-    <Grid RowDefinitions="Auto,Auto,*,Auto">
-
+    <Grid RowDefinitions="Auto,Auto,Auto,*,Auto">
+        <Controls:AdBanner />
         <!--  Header (Row 0) - Updated for Buying  -->
         <Grid
-            Grid.Row="0"
+            Grid.Row="1"
             Margin="20,0,20,10"
             ColumnDefinitions="*,Auto">
             <Label
@@ -46,7 +47,7 @@
 
         <!--  Search Bar (Row 1) - Updated for Buying  -->
         <Border
-            Grid.Row="1"
+            Grid.Row="2"
             Margin="20,10,20,20"
             Padding="16,12"
             Background="#F0F8F0"
@@ -90,7 +91,7 @@
 
         <!--  Product Collection (Row 2)  -->
         <RefreshView
-            Grid.Row="2"
+            Grid.Row="3"
             Command="{Binding RefresCartItems}"
             IsRefreshing="{Binding IsRefreshing}"
             RefreshColor="LightGreen">
@@ -151,7 +152,7 @@
 
         <!--  Cart Summary (Row 3) - Footer  -->
         <Border
-            Grid.Row="3"
+            Grid.Row="4"
             Padding="20,15"
             Background="{AppThemeBinding Light={StaticResource White},
             Dark={StaticResource Gray400}}"
@@ -176,7 +177,7 @@
         <bottomSheet:SfBottomSheet
             x:Name="bottomSheet"
             Grid.Row="0"
-            Grid.RowSpan="4"
+            Grid.RowSpan="5"
             Background="{AppThemeBinding Light={StaticResource White},
             Dark={StaticResource DarkSurface}}"
             CollapseOnOverlayTap="False"

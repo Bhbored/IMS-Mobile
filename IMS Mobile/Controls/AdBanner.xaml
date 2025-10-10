@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="IMS_Mobile.Controls.AdBanner"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:admob="clr-namespace:Plugin.AdMob;assembly=Plugin.AdMob">
+
+    <!--  Only show on Android  -->
+    <ContentView.IsVisible>
+        <OnPlatform x:TypeArguments="x:Boolean">
+            <On Platform="Android" Value="True" />
+            <On Platform="iOS, MacCatalyst, WinUI" Value="False" />
+        </OnPlatform>
+    </ContentView.IsVisible>
+
+    <!--  Banner only, fixed SmartBanner size  -->
+    <admob:BannerAd
+        x:Name="Banner"
+        AdSize="SmartBanner"
+        HorizontalOptions="Fill"
+        IsVisible="{Binding IsVisibleOnLoad}"
+        VerticalOptions="End" />
+</ContentView>
