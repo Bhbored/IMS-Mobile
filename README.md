@@ -109,7 +109,8 @@ dotnet build -t:Run -f net7.0-ios
 ---
 ## 📸 Screenshots
 
-| :---: | :---: | :---: | :---: |
+|                                                                                                                    |                                                                                                                    |                                                                                                                    |
+| :----------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------: |
 | ![](https://github.com/user-attachments/assets/0b27f336-b8b0-4afc-9d76-c2314d755409) | ![](https://github.com/user-attachments/assets/8b2e2b52-215e-493c-ba63-bc4116c7ec94) | ![](https://github.com/user-attachments/assets/74f5e0d0-10de-4e5a-a2dd-9dfe2f02558f) | ![](https://github.com/user-attachments/assets/f5b3b384-0a20-40d0-ade6-14d0d4872b3c) |
 | ![](https://github.com/user-attachments/assets/2f638665-4c1b-4b9a-84ca-0a63453903e9) | ![](https://github.com/user-attachments/assets/1dbebb36-1cc5-4544-8a6b-a41e5e572a42) | ![](https://github.com/user-attachments/assets/eadc79ae-63ca-495a-8d35-a6eab0fb8a60) | ![](https://github.com/user-attachments/assets/ae77d557-1e43-4a0b-81c1-7b5dff22db02) |
 | ![](https://github.com/user-attachments/assets/fc1843a7-af61-4473-a5e6-651d6f092317) | ![](https://github.com/user-attachments/assets/b3b57273-5686-4984-b6d7-6b0cda82fdde) | ![](https://github.com/user-attachments/assets/386ac27d-42d6-4dad-a0b8-bfcfe47d3b8c) | ![](https://github.com/user-attachments/assets/5c3644be-96e3-4b04-82d1-9fff083c9512) |
