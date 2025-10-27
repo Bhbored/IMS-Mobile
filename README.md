@@ -64,7 +64,7 @@ A modern mobile client for Inventory Management, built with **.NET MAUI** and ba
 ### Prerequisites
 
 * Visual Studio with .NET MAUI workload
-* .NET 6/7 SDK
+* .NET 8/9 SDK
 * Android SDK (and Xcode for iOS)
 
 ### Setup
@@ -79,10 +79,10 @@ dotnet restore
 
 ```bash
 # Android
-dotnet build -t:Run -f net7.0-android
+dotnet build -t:Run -f net9.0-android
 
 # iOS
-dotnet build -t:Run -f net7.0-ios
+dotnet build -t:Run -f net9.0-ios
 ```
 
 ### Configuration
