@@ -4,6 +4,17 @@ A modern mobile client for Inventory Management, built with **.NET MAUI** and ba
 
 ---
 
+## 📸 Screenshots
+
+|                                                                                                                    |                                                                                                                    |                                                                                                                    |                                                                                                                    |
+| :----------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------: |
+| ![1](https://github.com/user-attachments/assets/0b27f336-b8b0-4afc-9d76-c2314d755409) | ![2](https://github.com/user-attachments/assets/8b2e2b52-215e-493c-ba63-bc4116c7ec94) | ![3](https://github.com/user-attachments/assets/74f5e0d0-10de-4e5a-a2dd-9dfe2f02558f) | ![4](https://github.com/user-attachments/assets/f5b3b384-0a20-40d0-ade6-14d0d4872b3c) |
+| ![5](https://github.com/user-attachments/assets/1dbebb36-1cc5-4544-8a6b-a41e5e572a42) | ![6](https://github.com/user-attachments/assets/eadc79ae-63ca-495a-8d35-a6eab0fb8a60) | ![7](https://github.com/user-attachments/assets/ae77d557-1e43-4a0b-81c1-7b5dff22db02) | ![8](https://github.com/user-attachments/assets/2f638665-4c1b-4b9a-84ca-0a63453903e9) |
+| ![9](https://github.com/user-attachments/assets/fc1843a7-af61-4473-a5e6-651d6f092317) | ![10](https://github.com/user-attachments/assets/b3b57273-5686-4984-b6d7-6b0cda82fdde) | ![11](https://github.com/user-attachments/assets/386ac27d-42d6-4dad-a0b8-bfcfe47d3b8c) | ![12](https://github.com/user-attachments/assets/5c3644be-96e3-4b04-82d1-9fff083c9512) |
+| ![13](https://github.com/user-attachments/assets/d9990413-190a-4f9a-b152-4ec2335b88af) | ![14](https://github.com/user-attachments/assets/2bcca720-14c5-4706-ac75-668282fba011) | ![15](https://github.com/user-attachments/assets/4e3c1aeb-13d8-4fda-b17a-c6950d925cb9) | ![16](https://github.com/user-attachments/assets/113ad106-cc68-49b1-a51f-908c84074777) |
+
+
+🚀 *NovaIMS: Smart inventory management on the go.*
 ## ✨ Features
 
 ### 🔑 Core
@@ -107,16 +118,4 @@ dotnet build -t:Run -f net7.0-ios
 * GitHub: [@Bhbored](https://github.com/Bhbored)
 
 ---
-## 📸 Screenshots
 
-|                                                                                                                    |                                                                                                                    |                                                                                                                    |                                                                                                                    |
-| :----------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------: |
-| ![1](https://github.com/user-attachments/assets/0b27f336-b8b0-4afc-9d76-c2314d755409) | ![2](https://github.com/user-attachments/assets/8b2e2b52-215e-493c-ba63-bc4116c7ec94) | ![3](https://github.com/user-attachments/assets/74f5e0d0-10de-4e5a-a2dd-9dfe2f02558f) | ![4[](https://github.com/user-attachments/assets/f5b3b384-0a20-40d0-ade6-14d0d4872b3c)](https://github.com/user-attachments/assets/2f638665-4c1b-4b9a-84ca-0a63453903e9) |
-| ![5](https://github.com/user-attachments/assets/1dbebb36-1cc5-4544-8a6b-a41e5e572a42) | ![6](https://github.com/user-attachments/assets/eadc79ae-63ca-495a-8d35-a6eab0fb8a60) |![7](https://github.com/user-attachments/assets/ae77d557-1e43-4a0b-81c1-7b5dff22db02) 
-
-| ![9](https://github.com/user-attachments/assets/fc1843a7-af61-4473-a5e6-651d6f092317) | ![9](https://github.com/user-attachments/assets/b3b57273-5686-4984-b6d7-6b0cda82fdde) | ![10](https://github.com/user-attachments/assets/386ac27d-42d6-4dad-a0b8-bfcfe47d3b8c) | ![11](https://github.com/user-attachments/assets/5c3644be-96e3-4b04-82d1-9fff083c9512) |
-| ![12](https://github.com/user-attachments/assets/d9990413-190a-4f9a-b152-4ec2335b88af) | ![13](https://github.com/user-attachments/assets/2bcca720-14c5-4706-ac75-668282fba011) | ![14](https://github.com/user-attachments/assets/4e3c1aeb-13d8-4fda-b17a-c6950d925cb9) | ![15](https://github.com/user-attachments/assets/113ad106-cc68-49b1-a51f-908c84074777) |
-| ![16](https://github.com/user-attachments/assets/dbbe15c8-d548-42ce-8927-021c7adc0f86) |  |  |  |
-
-
-🚀 *NovaIMS: Smart inventory management on the go.*
